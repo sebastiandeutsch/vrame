@@ -1,0 +1,67 @@
+<% form_for [:admin, category] do |f| %>
+
+	<fieldset>
+		<ul>
+			<li style="border-bottom: 0">
+				<%= f.text_field :title, :placeholder => 'Titel', :class => 'big' %> <em><%= f.error_message_on :title %></em>
+			</li>
+			
+			<li class="last">
+		        <%= render :partial => 'admin/shared/slug_field', :locals => { :sluggable => category } %>
+		    </li>
+		</ul>
+	</fieldset>
+	
+	<fieldset>
+	    <h3>Zuordnung</h3>
+	    
+	    <%= f.label :parent_id, 'Gehört zu ', :style => 'display: inline'%>
+		<%= tree_select(:category, :parent_id, Category.roots, :id, :title, :include_blank => true) %>
+		
+	</fieldset>
+	
+	<fieldset>
+		<h3>Dokument-Template</h3>
+		<ol id="schema">
+			<% category.schema.each_with_index do |item, index| %>
+				<li>
+				    <input name="schema[][uid]" type="hidden" value="<%= h(item['uid']) %>">
+					<input name="schema[][name]" type="text" value="<%= h(item['name']) %>" />&nbsp;
+					<select name="schema[][type]">
+						<%= options_for_select(["String", "Text", "Datetime", "Bool", "File", "Collection"], item['type']) %>
+					</select>&nbsp;
+					
+					<input name="schema[][required]" type="checkbox" value="1" <% if item['required'] %>checked="checked"<% end %> /> benötigt?&nbsp;
+					
+					<a href="#" class="smaller remove button invert">Entfernen</a>
+				</li>
+			<% end %>
+		</ol>
+		<div><a id="add-schema-item" href="#" class="button invert">Feld hinzufügen</a></div>
+	</fieldset>
+
+
+	<ul>
+		<li class="last">
+			<%= f.submit 'Speichern' %> oder <%= link_to '&laquo; zurück', admin_categories_path %>
+		</li>
+	</ul>
+	
+<% end %>
+
+<ul style="display: none">
+	<li id="schema-item-prototype">
+		<input  name="schema[][name]" type="text" placeholder="Name" />&nbsp;
+		<select name="schema[][type]">
+			<%= options_for_select(["String", "Text", "Datetime", "Bool", "File", "Collection"], "String") %>
+		</select>&nbsp;
+		
+		<input name="schema[][required]" type="hidden" value="0" /> 
+		<input name="schema[][required]" type="checkbox" value="1" /> benötigt?&nbsp;
+		
+		<a href="#" class="smaller remove button invert">Entfernen</a>
+	</li>
+	<li id="key-value-prototype">
+		<%= render :partial => 'admin/shared/key_value_item', :locals => { :class_name => 'category' } %>
+	</li>
+</ul>

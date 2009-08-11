@@ -1,0 +1,15 @@
+<% form_for [:admin, language] do |f| %>
+	<ul>
+		<li>
+			<%= f.label :name, "Name:" %>
+			<%= f.text_field :name %> <em><%= f.error_message_on :name %></em>
+		</li>
+		<li>
+			<%= f.label :iso3_code, "ISO3 Code:" %>
+			<%= f.text_field :iso3_code %> <em><%= f.error_message_on :iso3_code %></em>
+		</li>
+		<li class="last">
+			<%= f.submit 'Speichern' %> oder <%= link_to '&raquo; zurück', admin_languages_path %>
+		</li>
+	</ul>
+<% end %>

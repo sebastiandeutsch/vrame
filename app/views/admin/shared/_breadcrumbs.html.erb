@@ -1,0 +1,5 @@
+<div class="breadcrumbs">
+    <%- for breadcrumb in breadcrumbs -%>
+    <%= link_to breadcrumb[:title], breadcrumb[:url] %> &raquo;
+    <%- end -%>
+</div>

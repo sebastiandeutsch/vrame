@@ -1,0 +1,41 @@
+<div class="subnavigation clearfix">
+	<h2>Alle Sprachen</h2>
+	<div class="functions">
+		<%= link_to "&raquo; Neue Sprache", new_admin_language_path %>
+	</div>
+</div>
+
+<div class="table-container">
+	<table class="list">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Name</th>
+				<th>ISO3 Code</th>
+				<th>Funktionen</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% for language in @languages do %>
+				<tr class="<%= cycle("even", "odd") -%>">
+					<td>
+						<%=h language.id %>
+					</td>
+					<td>
+						<%=h language.name %>
+					</td>
+					<td>
+						<%=h language.iso3_code %>
+					</td>
+					<td>
+						<span class="options">
+							<%= link_to "Edit", edit_admin_language_path(language.id) %>
+							<%= link_to "Delete", [:admin, language], :method => :delete, :confirm => 'Wirklich löschen?' %>
+						</span>
+					</td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+</div>
+<%= render :partial => 'admin/shared/pagination', :locals => { :paginatable => @languages } %>

@@ -1,0 +1,41 @@
+<div class="subnavigation clearfix">
+	<h2>Alle Dokumente</h2>
+	<div class="functions">
+		<%= link_to "&raquo; Neues Dokument", new_admin_document_path %>
+	</div>
+</div>
+
+<div class="table-container">
+	<table class="list">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Titel</th>
+				<th>Slug</th>
+				<th>Funktionen</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% for document in @documents do %>
+				<tr class="<%= cycle("even", "odd") -%>">
+					<td>
+						<%=h document.id %>
+					</td>
+					<td>
+						<%=h document.title %>
+					</td>
+					<td>
+						<%=h document.slug %>
+					</td>
+					<td>
+						<span class="options">
+							<%= link_to "Edit", edit_admin_document_path(document.id) %>
+							<%= link_to "Delete", [:admin, document], :method => :delete, :confirm => 'Wirklich löschen?' %>
+						</span>
+					</td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+</div>
+<%= render :partial => 'admin/shared/pagination', :locals => { :paginatable => @documents } %>

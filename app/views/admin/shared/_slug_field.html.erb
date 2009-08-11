@@ -1,0 +1,3 @@
+<a href="#" class="smaller button invert tooltip" title="Aus dem aktuellen Titel wird <em>automatisch</em> ein Slug (»sprechender« Kurzname für Adresszeile) generiert. Bei Änderung des Titels bleiben bereits vorhandene Permalinks intakt.">Permalink?</a>
+
+<%- if controller.action_name == "edit" -%><%= url_for(sluggable) %><%- end -%>
