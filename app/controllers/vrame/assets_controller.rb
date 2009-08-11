@@ -1,4 +1,4 @@
-class Admin::AssetsController < Admin::AdminController
+class Vrame::AssetsController < Vrame::VrameController
   skip_before_filter :verify_authenticity_token, :only => :create
   skip_before_filter :require_user, :only => :create
   

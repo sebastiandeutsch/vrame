@@ -1,4 +1,4 @@
-class Admin::DocumentsController < Admin::AdminController  
+class Vrame::DocumentsController < Vrame::VrameController
   def index
     per_page = params[:per_page] || 50
     
@@ -9,8 +9,8 @@ class Admin::DocumentsController < Admin::AdminController
     @category = Category.find(params[:category_id])
     @document = @category.documents.build
     
-    @breadcrumbs = [{ :title => 'Kategorien', :url => admin_categories_path}]
-    (@category.ancestors << @category).each { |a| @breadcrumbs << { :title => a.title, :url => admin_category_path(a) } }
+    @breadcrumbs = [{ :title => 'Kategorien', :url => vrame_categories_path}]
+    (@category.ancestors << @category).each { |a| @breadcrumbs << { :title => a.title, :url => vrame_category_path(a) } }
   end
   
   def create
@@ -19,10 +19,10 @@ class Admin::DocumentsController < Admin::AdminController
 
     if @document.save
       flash[:success] = 'Dokument angelegt'
-      redirect_to admin_categories_path
+      redirect_to vrame_categories_path
     else
       flash[:error] = 'Dokument konnte nicht angelegt werden'
-      redirect_to admin_categories_path
+      redirect_to vrame_categories_path
     end
   end
   
@@ -37,7 +37,7 @@ class Admin::DocumentsController < Admin::AdminController
     
     if @document.update_attributes(params[:document])
       flash[:success] = 'Dokument aktualisiert'
-      redirect_to admin_categories_path
+      redirect_to vrame_categories_path
     else
       flash[:error] = 'Es ist ein Fehler aufgetreten'
       render :action => :edit

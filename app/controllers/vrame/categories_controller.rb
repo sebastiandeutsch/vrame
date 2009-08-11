@@ -1,4 +1,4 @@
-class Admin::CategoriesController < Admin::AdminController
+class Vrame::CategoriesController < Vrame::VrameController
   def index
     per_page = params[:per_page] || 50
     
@@ -15,8 +15,8 @@ class Admin::CategoriesController < Admin::AdminController
     @category = Category.find(params[:id])
     @categories = @category.children.paginate :page => params[:page], :per_page => per_page
     
-    @breadcrumbs = [{ :title => 'Kategorien', :url => admin_categories_path}]
-    @category.ancestors.each { |a| @breadcrumbs << { :title => a.title, :url => admin_category_path(a) } }
+    @breadcrumbs = [{ :title => 'Kategorien', :url => vrame_categories_path}]
+    @category.ancestors.each { |a| @breadcrumbs << { :title => a.title, :url => vrame_category_path(a) } }
   end
   
   def new

@@ -1,20 +1,20 @@
 ActionController::Routing::Routes.draw do |map|
-  map.namespace(:admin) do |admin|
-    # Admin index
-    admin.root :controller => 'categories', :action => 'index'
+  map.namespace(:vrame) do |vrame|
+    # VRAME index
+    vrame.root :controller => 'categories', :action => 'index'
     
     # CRUD
-    admin.resources :languages
-    admin.resources :categories, :has_many => [:documents]
-    admin.resources :documents
+    vrame.resources :languages
+    vrame.resources :categories, :has_many => [:documents]
+    vrame.resources :documents
     
-    #admin.connect 'categories/:url', :controller => 'categories', :action => :index
+    #vrame.connect 'categories/:url', :controller => 'categories', :action => :index
     
     # Assets CRUD
-    admin.resources :assets
-    #admin.resources :collections, :has_many => [:assets]
+    vrame.resources :assets
+    #vrame.resources :collections, :has_many => [:assets]
     
-    admin.select_language '/select_language/:id',  :controller => 'admin', :action => 'select_language'
+    vrame.select_language '/select_language/:id',  :controller => 'vrame', :action => 'select_language'
   end
 
   map.resources :categories, :has_many => [:documents]

@@ -1,1 +1,4 @@
 # Vrame
+module Vrame
+  
+end

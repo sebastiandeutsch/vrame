@@ -1,5 +1,5 @@
-class Admin::AdminController < ApplicationController
-  layout "admin_application"
+class Vrame::VrameController < ApplicationController
+  layout 'vrame'
   
   before_filter :require_user
   before_filter :choose_language, :except => :select_language

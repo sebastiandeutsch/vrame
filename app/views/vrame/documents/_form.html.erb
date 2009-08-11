@@ -1,4 +1,4 @@
-<% form_for [:admin, category, document] do |f| %>
+<% form_for [:vrame, category, document] do |f| %>
 	<%= f.hidden_field :category_id, :value => category.id %>
 	
 	<fieldset>
@@ -8,7 +8,7 @@
 			</li>
 			
 			<li class="last">
-		        <%= render :partial => 'admin/shared/slug_field', :locals => { :sluggable => document } %>
+		        <%= render :partial => 'vrame/shared/slug_field', :locals => { :sluggable => document } %>
 		    </li>
 		</ul>
 	</fieldset>
@@ -58,7 +58,7 @@
                     				</p>
                     				<p class="controls">
                     				    <%= link_to 'Edit',                            nil, :class => 'smaller edit button invert' %>
-                    				    <%= link_to 'Löschen', "/admin/assets/#{asset.id}", :class => 'smaller delete button invert' %>
+                    				    <%= link_to 'Löschen', "/vrame/assets/#{asset.id}", :class => 'smaller delete button invert' %>
                     				</p>
                     			</li>
                     		    <% end %>
@@ -68,7 +68,7 @@
                     		<script type="text/javascript">
                     		new CollectionUpload({
                     			buttonId       : 'upload-button-<%= uid %>',
-                    			uploadUrl      : '/admin/assets',
+                    			uploadUrl      : '/vrame/assets',
                     			uploadToken    : '<%= escape_javascript current_user.single_access_token %>',
                                 uploadQueue    : 'upload-queue-<%= uid %>',
                                 idInput        : '.collection_id-<%= uid %>',
@@ -127,7 +127,7 @@
 	
 	<ul>
 		<li class="last">
-			<%= f.submit 'Speichern' %> oder <%= link_to '&laquo; zurück', admin_categories_path %>
+			<%= f.submit 'Speichern' %> oder <%= link_to '&laquo; zurück', vrame_categories_path %>
 		</li>
 	</ul>
 	

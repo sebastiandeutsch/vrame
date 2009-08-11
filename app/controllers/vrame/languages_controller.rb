@@ -1,4 +1,4 @@
-class Admin::LanguagesController < Admin::AdminController  
+class Vrame::LanguagesController < Vrame::VrameController
   def index
     per_page = params[:per_page] || 50
     

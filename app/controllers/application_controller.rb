@@ -4,9 +4,8 @@
 class ApplicationController < ActionController::Base
   include NineAuthEngine::Authentication
   
-  helper :all # include all helpers, all the time
-  protect_from_forgery # See ActionController::RequestForgeryProtection for details
+  helper :all
+  protect_from_forgery
 
-  # Scrub sensitive parameters from your log
-  # filter_parameter_logging :password
+  filter_parameter_logging :password, :user_credentials
 end
