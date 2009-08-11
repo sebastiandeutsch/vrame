@@ -1,0 +1,63 @@
+/* Upload Button Placeholder */
+
+#upload-button {
+	width: 70px;
+	height: 32px;
+}
+
+/* Flash Upload Queue */
+
+#upload-queue {
+	margin: 10px 0;
+	width: 50%;
+	max-height: 200px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+#upload-queue li {
+	margin-bottom: 0;
+}
+
+.progressWrapper {
+}
+
+.progressContainer {
+	border-bottom: 1px dotted #e0e0e0;
+	margin-bottom: 0;
+	overflow: hidden;
+}
+
+.progressName {
+	display: block;
+	float: left;
+	padding-left: 10px;
+	line-height: 1.6;
+}
+
+.progressStatus {
+	display: block;
+	float: right;
+	padding-right: 10px;
+	line-height: 1.6;
+}
+
+.progressBar {
+	width: 0;
+	height: 20px;
+	margin-bottom: 0;
+}
+
+.progressUploading .progressBar {
+	background-color: #ccf;
+}
+
+.progressComplete .progressBar {
+	width: 100%;
+	background-color: #e6ffe6;
+}
+
+.progressBar .progressError {
+	width: 100%;
+	background-color: #fdd;
+}

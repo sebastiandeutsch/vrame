@@ -1,0 +1,77 @@
+/**
+ * Stylesheet for the RichTextEditor
+ *
+ * @section		screen
+ * @author		Sebastian Deutsch
+ * @version		1.0
+ * @copyright	9elements.com
+ * @media		screen
+ *
+ */
+
+/** 
+ * @section Admin Rich-Text-Editor
+ *
+ * Definitions for HTML entities
+ */
+ 
+html, body {
+	margin: 0;
+	padding: 0;
+	border-style: none;
+	
+	font-family:Arial,Helvetica,sans-serif;
+	font-size: 14px;
+	line-height: 1.4;
+	
+	color: black;
+	background-color: white;
+}
+
+body {
+	padding: 10px;
+}
+
+.frameBody
+{
+	
+}
+
+.frameBody p
+{
+	border:1px #ddd solid;
+	padding:2px;
+}
+
+.rte-zone
+{
+	width:650px;
+	margin:0;
+	padding:0;
+	height:260px;
+	border:1px #999 solid;
+    clear:both;
+}
+
+.rte-half
+{
+	margin:0;
+	padding:0;
+	width:500px;
+	height:160px;
+	border:1px #999 solid;
+	clear:both;
+}
+
+.rte-toolbar{ overflow:hidden; }
+
+.rte-toolbar a, .rte-toolbar a img {
+	border:0;
+	margin-right:0 !important;
+}
+
+.rte-toolbar p {
+	float:left;
+	margin:0;
+	padding-right:5px;
+}

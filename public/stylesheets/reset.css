@@ -1,0 +1,99 @@
+/**
+  * Careful Reset
+  *
+  * @copyright       
+  * @author          Mathias Schäfer <mathias.schaefer@9elements.com>
+  * @version         1
+  *
+  * @revision        $Revision$
+  * @lastmodified    $Date$
+  */
+
+/**
+  * @section Block Elements: Reset margin, padding and border
+  *
+  * 
+  * @see     
+  */
+
+html, body,
+h1, h2, h3, h4, h5, h6,
+div,
+p,
+blockquote,
+pre,
+dl, dt, dd,
+ol, ul, li,
+form, fieldset,
+table, caption, tbody, tfoot, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0 none;
+}
+
+/**
+  * @section Reset Headline Font
+  *
+  * 
+  * @see     
+  */
+
+h1, h2, h3, h4, h5, h6 {
+	font-weight: normal;
+	font-size: 100%;
+}
+
+/**
+  * @section Lists
+  *
+  * No list numbering and item markers
+  * @see     
+  */
+
+ol, ul {
+	list-style-type: none;
+}
+
+/**
+  * @section Tables
+  *
+  * Collapse borders and reset table headers
+  * @see     
+  */
+
+
+table {
+	border-collapse: collapse;
+}
+
+caption, th, td {
+	text-align: left;
+	font-weight: normal;
+}
+
+/**
+  * @section Quotes
+  *
+  * No quoting marks
+  * @see     
+  */
+
+
+blockquote:before, blockquote:after, q:before, q:after {
+	content: "";
+}
+
+blockquote, q {
+	quotes: "" "";
+}
+
+/**
+  * @section Images
+  *
+  * Suppress border
+  * @see     
+  */
+
+a img {
+	border: 0 none;
+}
