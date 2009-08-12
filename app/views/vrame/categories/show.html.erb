@@ -26,83 +26,20 @@
 			</tr>
 		</thead>
 		<tbody>
+		    <%- if defined? @category -%>
+		    <%= render :partial => 'document', :collection => @category.documents %>
+		    <%- end -%>
+		    
 			<% for category in @categories do %>
-				<tr class="category even">
-					<td><img src="/vrame/images/admin/folder.png" alt="Category" /></td>
-					<td class="title">
-						<%=h category.title %>
-					</td>
-					<td class="slug">
-						<%=h category.to_param %>
-					</td>
-					<td class="options">
-						<%= link_to "Bearbeiten", edit_vrame_category_path(category), :class => 'edit' %>
-						<%= link_to "Löschen", [:vrame, category], :method => :delete, :confirm => 'Wirklich löschen?', :class => 'delete' %>
-						<%= link_to "Dokument hinzufügen", new_vrame_category_document_path(category), :class => 'add' %>
-					</td>
-					<td class="order">
-						<a href="/vrame/categories/order_up/<%= category.to_param %>"><img src="/vrame/images/admin/arrow_up.png" border="0" alt="Weiter nach oben" /></a>
-						<a href="/vrame/categories/order_down/<%= category.to_param %>"><img src="/vrame/images/admin/arrow_down.png" border="0" alt="Weiter nach unten" /></a>
-					</td>
-				</tr>
-				<% for document in category.documents do %>
-					<tr class="document odd">
-						<td><img src="/vrame/images/admin/page.png" alt="Document" /></td>
-						<td class="title">
-							<img src="/vrame/images/admin/child.png" alt="" /> <%=h document.title %>
-						</td>
-						<td class="slug">
-							<%=h document.to_param %>
-						</td>
-						<td class="options"
-							<%= link_to "Bearbeiten", edit_vrame_document_path(document), :class => 'edit' %>
-							<%= link_to "Löschen", [:vrame, document], :method => :delete, :confirm => 'Wirklich löschen?', :class => 'delete' %>
-						</td>
-						<td class="order">
-							<a href="/vrame/documents/order_up/<%= document.to_param %>"><img src="/vrame/images/admin/arrow_up.png" border="0" alt="Weiter nach oben" /></a>
-							<a href="/vrame/documents/order_down/<%= document.to_param %>"><img src="/vrame/images/admin/arrow_down.png" border="0" alt="Weiter nach unten" /></a>
-						</td>
-					</tr>
-				<% end %>
+			
+                <%= render :partial => 'category', :object     => category %>
+                <%= render :partial => 'document', :collection => category.documents, :locals => { :indent => 0, :child => true } %>
+                
 				<% for child in category.children do %>
-					<tr class="category child even">
-						<td><img src="/vrame/images/admin/folder.png" alt="Category" /></td>
-						<td class="title">
-							<img src="/vrame/images/admin/child.png" alt="" /> <%=h child.title %>
-						</td>
-						<td class="slug">
-							<%=h child.to_param %>
-						</td>
-						<td class="options">
-							<%= link_to "Bearbeiten", edit_vrame_category_path(child), :class => 'edit' %>
-							<%= link_to "Löschen", [:vrame, child], :method => :delete, :confirm => 'Wirklich löschen?', :class => 'delete' %>
-							<%= link_to "Dokument hinzufügen", new_vrame_category_document_path(child), :class => 'add' %>
-						</td>
-						<td class="order">
-							<a href="/vrame/categories/order_up/<%= child.to_param %>"><img src="/vrame/images/admin/arrow_up.png" border="0" alt="Weiter nach oben" /></a>
-							<a href="/vrame/categories/order_down/<%= child.to_param %>"><img src="/vrame/images/admin/arrow_down.png" border="0" alt="Weiter nach unten" /></a>
-						</td>
-					</tr>
-					<% for document in child.documents do %>
-						<tr class="document odd">
-							<td><img src="/vrame/images/admin/page.png" alt="Document" /></td>
-							<td class="title">
-								&nbsp;&nbsp;&nbsp;<img src="/vrame/images/admin/child.png" alt="" /> <%=h document.title %>
-							</td>
-							<td class="slug">
-								<%=h document.to_param %>
-							</td>
-							<td class="options">
-								<%= link_to "Bearbeiten", edit_vrame_document_path(document), :class => 'edit' %>
-								<%= link_to "Löschen", [:vrame, document], :method => :delete, :confirm => 'Wirklich löschen?', :class => 'delete' %>
-							</td>
-							<td class="order">
-								<a href="/vrame/documents/order_up/<%= document.to_param %>"><img src="/vrame/images/admin/arrow_up.png" border="0" alt="Weiter nach oben" /></a>
-								<a href="/vrame/documents/order_down/<%= document.to_param %>"><img src="/vrame/images/admin/arrow_down.png" border="0" alt="Weiter nach unten" /></a>
-							</td>
-						</tr>
-					<% end %>
+					<%= render :partial => 'category', :object     => child,           :locals => { :indent => 0, :child => true } %>
+					<%= render :partial => 'document', :collection => child.documents, :locals => { :indent => 2, :child => true } %>	
 				<% end %>
+				
 			<% end %>
 		</tbody>
 	</table>

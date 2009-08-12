@@ -1,0 +1,19 @@
+<tr class="document odd">
+	<td><img src="/vrame/images/admin/page.png" alt="Document" /></td>
+	<td class="title">
+		<%= '&nbsp;' * indent if defined? indent %>
+		<%- if defined? child and child == true -%><img src="/vrame/images/admin/child.png" alt="" /><%- end -%>
+		<%=h document.title %>
+	</td>
+	<td class="slug">
+		<%=h document.to_param %>
+	</td>
+	<td class="options">
+		<%= link_to "Bearbeiten", edit_vrame_document_path(document), :class => 'edit' %>
+		<%= link_to "Löschen", [:vrame, document], :method => :delete, :confirm => 'Wirklich löschen?', :class => 'delete' %>
+	</td>
+	<td class="order">
+		<a href="/vrame/documents/order_up/<%= document.to_param %>"><img src="/vrame/images/admin/arrow_up.png" border="0" alt="Weiter nach oben" /></a>
+		<a href="/vrame/documents/order_down/<%= document.to_param %>"><img src="/vrame/images/admin/arrow_down.png" border="0" alt="Weiter nach unten" /></a>
+	</td>
+</tr>

@@ -24,8 +24,8 @@ class Category < ActiveRecord::Base
     :before_serialize => lambda { |v|
       v.map { |i|
         # Create new UID if nonexistent
-        # @TODO move to a static model function
-        # @TODO find a better unique hash algo
+        # @TODO move to a static model function (will be part of JsonSchema)
+        # @TODO find a better unique hash algo  (will be an auto incrementing primary key ---> JsonSchema will handle this)
         i.merge({'uid' => i['uid'].nil? || i['uid'].empty? ? rand(36**32).to_s(36) : i['uid']})
       }
     }

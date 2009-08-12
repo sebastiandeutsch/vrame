@@ -1,0 +1,20 @@
+<tr class="category even">
+	<td><img src="/vrame/images/admin/folder.png" alt="Category" /></td>
+	<td class="title">
+		<%= '&nbsp;' * indent if defined? indent %>
+		<%- if defined? child and child == true -%><img src="/vrame/images/admin/child.png" alt="" /><%- end -%>
+		<%=h category.title %>
+	</td>
+	<td class="slug">
+		<%=h category.to_param %>
+	</td>
+	<td class="options">
+		<%= link_to "Bearbeiten", edit_vrame_category_path(category), :class => 'edit' %>
+		<%= link_to "Löschen", [:vrame, category], :method => :delete, :confirm => 'Wirklich löschen?', :class => 'delete' %>
+		<%= link_to "Dokument hinzufügen", new_vrame_category_document_path(category), :class => 'add' %>
+	</td>
+	<td class="order">
+		<a href="/vrame/categories/order_up/<%= category.to_param %>"><img src="/vrame/images/admin/arrow_up.png" border="0" alt="Weiter nach oben" /></a>
+		<a href="/vrame/categories/order_down/<%= category.to_param %>"><img src="/vrame/images/admin/arrow_down.png" border="0" alt="Weiter nach unten" /></a>
+	</td>
+</tr>
