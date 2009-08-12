@@ -3,7 +3,7 @@
 	<td class="title">
 		<%= '&nbsp;' * indent if defined? indent %>
 		<%- if defined? child and child == true -%><img src="/vrame/images/admin/child.png" alt="" /><%- end -%>
-		<%=h category.title %>
+		<%= link_to h(category.title), [:vrame, category] %>
 	</td>
 	<td class="slug">
 		<%=h category.to_param %>

@@ -351,6 +351,10 @@ table.list .options .add {
 	background-image: url(/vrame/images/admin/add.png)
 }
 
+td.title a {
+    color: #000;
+    text-decoration: none;
+}
 
 .pagination-container {
 	width:100%;
