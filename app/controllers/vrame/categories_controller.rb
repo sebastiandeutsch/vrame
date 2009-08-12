@@ -47,6 +47,9 @@ class Vrame::CategoriesController < Vrame::VrameController
   end  
   
   def create
+    # Hash mapping workaround
+    params[:category][:schema] = params[:schema]
+    
     @category = Category.new(params[:category])
     if @category.save
       flash[:success] = 'Kategorie angelegt'
