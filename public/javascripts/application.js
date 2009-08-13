@@ -13,8 +13,8 @@ jQuery(function() {
 	jQuery("#add-key-value").populateRow("#key-value-prototype", "#keys-values");
 	
 	jQuery(".rte-zone").rte({
-		media_url : "/images/rte/",
-		content_css_url: "/stylesheets/admin/rte.css"
+		media_url : "/vrame/images/rte/",
+		content_css_url: "/vrame/stylesheets/rte.css"
 	});
 	
     if (jQuery(".datepicker").size() > 0)
