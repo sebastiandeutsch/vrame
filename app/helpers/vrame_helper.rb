@@ -42,8 +42,7 @@ module ActionView
   end
 end
 
-# Methods added to this helper will be available to all templates in the application.
-module ApplicationHelper
+module VrameHelper
   def tree_ul(acts_as_tree_set, init=true, &block)
     if acts_as_tree_set.size > 0
       ret = '<ul>'
