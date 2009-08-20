@@ -23,7 +23,7 @@ namespace :vrame do
   task :sync => :environment do
     require 'fileutils'
     
-    vrame_assets = File.join(RAILS_ROOT, 'vendor', 'plugins', 'vrame', 'public')
+    vrame_assets = File.join(RAILS_ROOT, 'vendor', 'plugins', 'vrame', 'public', 'vrame')
     sync_target  = File.join(RAILS_ROOT, 'public', 'vrame')
 
     # Delete the sync target if it already exists 
