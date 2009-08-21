@@ -207,7 +207,7 @@ h2 {
 
 /* Everything else is theming */
 
-#nav { background-color: #2b2b2b; margin-top: 1px; height: 24px; width: 180px; -webkit-border-radius: 4px;  }
+#nav { width: 200px; height: 24px; background-color: #2b2b2b; margin-top: 1px; -webkit-border-radius: 4px;  }
 #nav *:hover { background-color: none; }
 #nav a { color: white; font-size: 12px; padding: 6px 16px; line-height: 1; text-decoration: none; }
 #nav ul a { padding: 8px 16px; }
