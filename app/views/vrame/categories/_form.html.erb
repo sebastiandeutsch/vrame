@@ -7,15 +7,15 @@
 			</li>
 			
 			<li class="last">
-		        <%= render :partial => 'vrame/shared/slug_field', :locals => { :sluggable => category } %>
-		    </li>
+				<%= render :partial => 'vrame/shared/slug_field', :locals => { :sluggable => category } %>
+			</li>
 		</ul>
 	</fieldset>
 	
 	<fieldset>
-	    <h3>Zuordnung</h3>
-	    
-	    <%= f.label :parent_id, 'Gehört zu ', :style => 'display: inline'%>
+		<h3>Zuordnung</h3>
+		
+		<%= f.label :parent_id, 'Gehört zu ', :style => 'display: inline'%>
 		<%= tree_select(:category, :parent_id, Category.roots, :id, :title, :include_blank => true) %>
 		
 	</fieldset>
@@ -23,24 +23,81 @@
 	<fieldset>
 		<h3>Dokument-Template</h3>
 		<ol id="schema">
-			<% category.schema.each_with_index do |item, index| %>
-				<li>
-				    <input name="schema[][uid]" type="hidden" value="<%= h(item['uid']) %>">
-					<input name="schema[][name]" type="text" value="<%= h(item['name']) %>" />&nbsp;
-					<select name="schema[][type]">
-						<%= options_for_select(["String", "Text", "Datetime", "Bool", "File", "Collection"], item['type']) %>
-					</select>&nbsp;
-					
-					<input name="schema[][required]" type="checkbox" value="1" <% if item['required'] %>checked="checked"<% end %> /> benötigt?&nbsp;
-					
-					<a href="#" class="smaller remove button invert">Entfernen</a>
-				</li>
+			<% if category.schema %>
+				<% category.schema.each_with_index do |item, index| %>
+					<li>
+						<input name="schema[][uid]" type="hidden" value="<%= h(item['uid']) %>">
+						<input name="schema[][name]" type="text" value="<%= h(item['name']) %>" />&nbsp;
+						<select name="schema[][type]">
+							<%= options_for_select(["String", "Text", "Datetime", "Bool", "File", "Collection"], item['type']) %>
+						</select>&nbsp;
+						
+						<input name="schema[][required]" type="checkbox" value="1" <% if item['required'] %>checked="checked"<% end %> /> benötigt?&nbsp;
+						
+						<a href="#" class="smaller remove button invert">Entfernen</a>
+					</li>
+				<% end %>
 			<% end %>
 		</ol>
 		<div><a id="add-schema-item" href="#" class="button invert">Feld hinzufügen</a></div>
 	</fieldset>
-
-
+	
+	<fieldset>
+		<h3>Meta-Informationen</h3>
+		<ol id="keys-values">
+			<% category.meta.each_with_index do |item, index| %>
+				<li>
+					<%= render :partial => 'admin/shared/key_value_item', :locals => { :class_name => 'category', :key => item.key, :value => item.value } %>
+				</li>
+			<% end %>
+		</ol>
+		<div><a id="add-key-value" href="#" class="button invert">Schlüssel-Wert-Paar hinzufügen</a></div>
+	</fieldset>
+	
+	<fieldset>
+		<h3>Meta-Tags</h3>
+		<ul id="meta-tags">
+			<li>
+				<%= f.label :meta_title, "Browser-Titel:" %>
+				<%= f.text_field :meta_title %> <em><%= f.error_message_on :meta_title %></em>
+			</li>
+			<li>
+				<%= f.label :meta_keywords, "Meta-Keywords:" %>
+				<%= f.text_field :meta_keywords %> <em><%= f.error_message_on :meta_keywords %></em>
+			</li>
+			<li class="last">
+				<%= f.label :meta_description, "Meta-Description:" %>
+				<%= f.text_field :meta_description %> <em><%= f.error_message_on :meta_description %></em>
+			</li>
+		</ul>
+	</fieldset>
+	
+	<fieldset>
+		<h3>Systeminformationen</h3>
+		<ul id="system-information">
+			<li>
+				<%= f.label :template, "Template:" %>
+				<%= f.text_field :template %> <em><%= f.error_message_on :template %></em>
+			</li>
+			<li>
+				<%= f.label :url, "Frontend-URL:" %>
+				<%= f.text_field :url %> <em><%= f.error_message_on :url %></em>
+			</li>
+			<li>
+				<%= f.label :backend_url, "Backend-URL:" %>
+				<%= f.text_field :backend_url %> <em><%= f.error_message_on :backend_url %></em>
+			</li>
+			<li>
+				<%= f.label :language_id, "Sprache:" %>
+				<%= collection_select :category, :language_id, Language.all, :id, :name %>
+			</li>
+			<li class="last">
+				<%= f.label :short_navigation, "Zeige in Schnell-Navigation:" %>
+				<%= f.check_box :short_navigation %>
+			</li>
+		</ul>
+	</fieldset>
+	
 	<ul>
 		<li class="last">
 			<%= f.submit 'Speichern' %> oder <%= link_to '&laquo; zurück', vrame_categories_path %>

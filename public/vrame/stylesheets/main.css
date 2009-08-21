@@ -192,10 +192,11 @@ h2 {
 /* Basic code - don't modify */
  
 #nav { display: block; position: relative; }
-#nav li { display: block; position: relative; float: none; }
+#nav li { display: block; position: relative; float: left; }
 #nav a { display: block; }
 #nav ul { display: none; position: absolute; left: 0; }
 * html #nav ul { line-height: 0; } /* IE6 "fix" */
+#nav ul li { float: none; }
 #nav ul a { zoom: 1; } /* IE6/7 fix */
 #nav ul ul { top: 0; }
 

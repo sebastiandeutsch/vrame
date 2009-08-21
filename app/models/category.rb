@@ -18,6 +18,7 @@ class Category < ActiveRecord::Base
       {:conditions => ["parent_id IS NULL"]}
     end
   }
+  named_scope :short_navigation, :conditions => { :short_navigation => 1 }
   
   has_json_object :schema,
     :default => [],
@@ -27,7 +28,7 @@ class Category < ActiveRecord::Base
         # @TODO move to a static model function (will be part of JsonSchema)
         # @TODO find a better unique hash algo  (will be an auto incrementing primary key ---> JsonSchema will handle this)
         i.merge({'uid' => i['uid'].nil? || i['uid'].empty? ? rand(36**32).to_s(36) : i['uid']})
-      }
+      } unless v.nil?
     }
   
   has_json_object :meta
