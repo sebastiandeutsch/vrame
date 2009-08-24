@@ -2,7 +2,7 @@ class Category < ActiveRecord::Base
   has_many :documents, :order => "order_index"
   
   has_friendly_id :title, :use_slug => true, :strip_diacritics => true
-   
+  
   belongs_to :user
   
   acts_as_tree :order => "order_index"
