@@ -7,6 +7,7 @@ class Vrame::DocumentsController < Vrame::VrameController
   
   def new
     @category = Category.find(params[:category_id])
+      
     @document = @category.documents.build
     
     @breadcrumbs = [{ :title => 'Kategorien', :url => vrame_categories_path}]
@@ -15,6 +16,7 @@ class Vrame::DocumentsController < Vrame::VrameController
   
   def create
     @category = Category.find(params[:category_id])
+    
     @document = @category.documents.build(params[:document])
 
     if @document.save
@@ -28,6 +30,8 @@ class Vrame::DocumentsController < Vrame::VrameController
   
   def edit
     @document = Document.find(params[:id])
+    @category = @document.category
+    
     @collections = Hash.new # { |hash, key| hash[key] = @document.collections.build }
     @document.collections.each { |c| @collections[c.id] = c }
   end
