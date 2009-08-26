@@ -9,11 +9,11 @@
 		<%=h category.to_param %>
 	</td>
 	<td class="options">
-		<%= link_to "Einträge ansehen", category.backend_url_path if category.backend_url %>
+		<%= link_to "Einträge ansehen", category.backend_url_path if category.backend_url != "" %>
 		<%= link_to "Bearbeiten", edit_vrame_category_path(category), :class => 'edit' %>
 		<%= link_to "Löschen", [:vrame, category], :method => :delete, :confirm => 'Wirklich löschen?', :class => 'delete' %>
 		<%= link_to "Dokument hinzufügen",
-			category.backend_url ? category.backend_url_path + '/new' : new_vrame_category_document_path(category),
+			category.backend_url != "" ? category.backend_url_path + '/new' : new_vrame_category_document_path(category),
 			:class => 'add' %>
 	</td>
 	<td class="order">

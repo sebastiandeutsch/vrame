@@ -46,11 +46,11 @@
 		<h3>Meta-Informationen</h3>
 		<ol id="keys-values">
 			<% if category.meta %>
-			<% category.meta.each_with_index do |item, index| %>
-				<li>
-					<%= render :partial => 'admin/shared/key_value_item', :locals => { :class_name => 'category', :key => item.key, :value => item.value } %>
-				</li>
-			<% end %>
+				<% category.meta.each_with_index do |item, index| %>
+					<li>
+						<%= render :partial => 'admin/shared/key_value_item', :locals => { :class_name => 'category', :key => item.key, :value => item.value } %>
+					</li>
+				<% end %>
 			<% end %>
 		</ol>
 		<div><a id="add-key-value" href="#" class="button invert">Schlüssel-Wert-Paar hinzufügen</a></div>
