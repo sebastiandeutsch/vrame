@@ -14,7 +14,7 @@
 					<ul id="short-navigation">
 					<% short_navigation = Category.short_navigation %>
 					<% short_navigation.each do |category| %>
-						<li><%= link_to category.title, category.backend_url ? "#{category.backend_url}/edit/#{category.id}" : edit_vrame_category_path(category) %></li>
+						<li><%= link_to category.title, category.backend_url ? category.backend_url_path : edit_vrame_category_path(category) %></li>
 					<% end %>
 					</ul>
 				</li>

@@ -40,4 +40,8 @@ class Category < ActiveRecord::Base
       Category.find(:all, :conditions => ['id != ?', id])
     end
   end
+  
+  def backend_url_path
+    '/vrame/' + backend_url
+  end
 end
