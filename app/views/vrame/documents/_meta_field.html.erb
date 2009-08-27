@@ -1,0 +1,69 @@
+<% name = item['name'] %>
+<% type = item['type'] %>
+<% uid = item['uid'] %>
+<% value = document.meta.nil? ? nil : document.meta[uid] %>
+
+<li class="clearfix">
+
+<% if type == "String" %>
+	
+	<label for="document[meta[<%= uid %>]]"><%= h name %></label>
+	
+	<div class="input-container">
+		<input name="document[meta[<%= uid %>]]" type="text" value="<%= h value %>" />
+	</div>
+	
+<% elsif type == "Text" %>
+	
+	<label for="document[meta[<%= uid %>]]"><%= h name %></label>
+	
+	<div class="input-container">
+		<textarea name="document[meta[<%= uid %>]]" id="document-meta-<%= uid %>" class="rte-zone"><%= value %></textarea>
+	</div>
+	
+<% elsif type == "Datetime" %>
+	
+	<label for="document[meta[<%= uid %>]]"><%= h name %></label>
+	
+	<div class="input-container">
+		<input id="document_meta_<%= uid %>" class="datepicker" name="document[meta[<%= uid %>]]" type="text" value="<%= value %>" />
+	</div>
+	
+<% elsif type == "Collection" %>
+	
+	<label for="document[meta[<%= uid %>]]"><%= name %></label>
+	
+	<div
+		class="input-container collection-upload"
+		data-upload-token="<%=h current_user.single_access_token %>"
+		data-collection-id="<%= value.try(:id) %>"
+	>
+		
+		<input type="hidden" name="document[collection_ids][]" class="collection-id" value="<%= h value.try(:id) %>" />
+		<input type="hidden" name="document[meta[<%= uid %>]]" class="collection-id" value="<%= h value.try(:id) %>" />
+		
+		<p class="upload-button" id="upload-button-<%= uid %>">Bitte aktivieren Sie Flash für den Datei-Upload</p>
+		
+		<ol class="upload-queue"></ol>
+		
+		<ol class="collection-items">
+		<% if value %>
+			<% for image in value.images %>
+			<li>
+				<p class="image-wrapper" fullurl="<%= h(image.file.url(:full)) %>" title="<%=h image.title %>">
+					<img src="<%= h(image.file.url(:thumbnail)) %>" alt="" />
+				</p>
+				<p class="controls">
+					<%= link_to 'Edit',                            nil, :class => 'smaller edit button invert' %>
+					<%= link_to 'Löschen', "/vrame/assets/#{image.id}", :class => 'smaller delete button invert' %>
+				</p>
+			</li>
+			<% end %>
+		<% end %>
+		</ol>
+		
+	</div><!-- /.input-container -->
+	
+<% end %>
+
+</li>

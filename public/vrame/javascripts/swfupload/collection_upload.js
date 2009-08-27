@@ -1,6 +1,23 @@
+jQuery(function () {
+	jQuery(".collection-upload").each(function () {
+		var c = $(this),
+			o = {
+				uploadUrl         : '/vrame/assets',
+				collectionId      : c.attr('data-collection-id'),
+				uploadToken       : c.attr('data-upload-token'),
+				buttonId          : c.find('.upload-button').attr('id'),
+				uploadQueue       : c.find('.upload-queue'),
+				collectionIdInput : c.find('.collection-id'),
+				collectionItems   : c.find('.collection-items'),
+				submitButton      : jQuery('#document_submit'),
+			};
+		new CollectionUpload(o);
+	});
+});
+
 function CollectionUpload (o) {
 	var handlers = this.handlers;
-	CollectionUpload.swfupload = new SWFUpload({
+	new SWFUpload({
 	
 		// Flash Movie
 		flash_url: '/vrame/javascripts/swfupload/swfupload.swf',
@@ -25,13 +42,7 @@ function CollectionUpload (o) {
 			user_credentials: o.uploadToken
 		},
 
-		custom_settings : {
-			progressTarget : document.getElementById(o.uploadQueue),
-		    submitButton : document.getElementById(o.submitButton),
-			idInput : jQuery(o.idInput),
-			finishedTarget : document.getElementById(o.finishedTarget),
-			collectionId : o.collectionId
-		},
+		custom_settings : o,
 
 		file_queued_handler : handlers.fileQueued,
 		file_queue_error_handler : handlers.fileQueueError,
@@ -51,12 +62,9 @@ CollectionUpload.prototype = {
 	handlers : {
 		
 		fileQueued : function (file) {
-			var settings = this.customSettings;
-			
-			settings.progressTarget.style.display = "block";
-            // settings.submitButton.disabled = true;
-			
-			var progress = new FileProgress(file, settings.progressTarget);
+			var uploadQueue = this.customSettings.uploadQueue;
+			uploadQueue.show();
+			new FileProgress(file, uploadQueue);
 		},
 		
 		fileQueueError: function (file, errorCode, message) {
@@ -66,7 +74,7 @@ CollectionUpload.prototype = {
 				return;
 			}
 			
-			var progress = new FileProgress(file, this.customSettings.progressTarget);
+			var progress = new FileProgress(file, this.customSettings.uploadQueue);
 			
 			switch (errorCode) {
 			
@@ -98,50 +106,54 @@ CollectionUpload.prototype = {
 		fileDialogComplete: function (numFilesSelected, numFilesQueued) {
 			if (numFilesSelected > 0) {
 				/* Start the upload immediately */
-                this.startUpload();
+				this.startUpload();
 			}
 		},
 
 		uploadStart: function (file) {
-		    var collection_id = this.customSettings.collectionId;
-		    
-		    if (collection_id != '')
-		        this.addPostParam('collection_id', collection_id);
-		    
-			var progress = new FileProgress(file, this.customSettings.progressTarget);
+			var settings = this.customSettings,
+				collection_id = settings.collectionId;
+			if (collection_id != '') {
+				this.addPostParam('collection_id', collection_id);
+			}
+			
+			var progress = new FileProgress(file, settings.uploadQueue);
 			progress.setProgress();
-			/* No file validation, accept all */
+			
+			/* No file validation, accept all files */
 			return true;
 		},
 
 		uploadProgress: function (file, bytesLoaded, bytesTotal) {
-			var percent = Math.ceil((bytesLoaded / bytesTotal) * 100);
-			var progress = new FileProgress(file, this.customSettings.progressTarget);
+			var percent = Math.ceil((bytesLoaded / bytesTotal) * 100),
+				progress = new FileProgress(file, this.customSettings.uploadQueue);
 			progress.setProgress(percent);
 		},
 
 		uploadSuccess: function (file, serverResponse) {
-		    var settings = this.customSettings;
-		    
-			var progress = new FileProgress(file, settings.progressTarget);
+			var settings = this.customSettings,
+				progress = new FileProgress(file, settings.uploadQueue),
+				responseO,
+				url;
 			progress.setComplete();
 			
 			// Evaluate JSON
-			var responseO = eval("(" + serverResponse + ")"),
-				url = responseO.url;
-
+			responseO = eval("(" + serverResponse + ")");
+			url = responseO.url;
+			
 			settings.collectionId = responseO.collection_id;
-				
-			settings.idInput.val(settings.collectionId);
-						
+			settings.collectionIdInput.val(settings.collectionId);
+			
 			window.setTimeout(loadImage, 2000);
 			
 			function imageLoadSuccess () {
-				jQuery(settings.finishedTarget).append("<li><p class='image-wrapper'><img src='" + url + "' alt=''></p></li>");
+				settings.collectionItems.append("<li><p class='image-wrapper'><img src='" + url + "' alt=''></p></li>");
 			}
+			
 			function imageLoadError () {
 				loadImage();
 			}
+			
 			function loadImage () {
 				var image = new Image;
 				image.onload = imageLoadSuccess;
@@ -149,9 +161,9 @@ CollectionUpload.prototype = {
 				image.src = url;
 			}
 		},
-
+		
 		uploadError: function (file, errorCode, message) {
-			var progress = new FileProgress(file, this.customSettings.progressTarget);
+			var progress = new FileProgress(file, this.customSettings.uploadQueue);
 			
 			switch (errorCode) {
 			case SWFUpload.UPLOAD_ERROR.HTTP_ERROR:
@@ -196,7 +208,7 @@ CollectionUpload.prototype = {
 				/* Continue with queue */
 				this.startUpload();
 			} else {
-                // this.customSettings.submitButton.disabled = false;
+				// this.customSettings.submitButton.attr("disabled", false);
 			}
 		}
 	
@@ -204,51 +216,42 @@ CollectionUpload.prototype = {
 
 }; /* end CollectionUpload prototype */
 
-function FileProgress (file, targetElement) {
+function FileProgress (file, target) {
 
 	var id = file.id,
 		instances = FileProgress.instances = FileProgress.instances || {},
-		instance;
+		instance,
+		jQuery = window.jQuery,
+		wrapper,
+		progressElement,
+		progressText,
+		progressBar,
+		progressStatus;
 	
 	instance = instances[id];
 	if (instance) {
 		return instance;
 	}
-	instances[id] = instance = this;
+	 instance = instances[id] = this;
 	
 	instance.id = id;
 	instance.height = 0;
 	
-	var wrapper = document.createElement("li");
-	instance.wrapper = wrapper;
-	wrapper.className = "progressWrapper";
-	wrapper.id = id;
-
-	progressElement = document.createElement("div");
-	instance.progressElement = progressElement;
-	progressElement.className = "progressContainer";
+	wrapper = jQuery("<li>").addClass("progressWrapper").attr("id", id);
+	progressElement = jQuery("<li>").addClass("progressContainer");
+	progressText = jQuery("<span>").addClass("progressName").append(file.name);
+	progressBar = jQuery("<div>").addClass("progressBar");
+	progressStatus = jQuery("<span>").addClass("progressStatus");
 	
-	var progressText = document.createElement("span");
+	progressElement.append(progressText).append(progressStatus).append(progressBar);
+	wrapper.append(progressElement);
+	target.append(wrapper);
+	
+	instance.wrapper = wrapper;
+	instance.progressElement = progressElement;
 	instance.progressText = progressText;
-	progressText.className = "progressName";
-	progressText.appendChild(document.createTextNode(file.name));
-
-	var progressBar = document.createElement("div");
 	instance.progressBar = progressBar;
-	progressBar.className = "progressBar";
-
-	var progressStatus = document.createElement("span");
 	instance.progressStatus = progressStatus;
-	progressStatus.className = "progressStatus";
-
-	//progressElement.appendChild(progressCancel);
-	progressElement.appendChild(progressText);
-	progressElement.appendChild(progressStatus);
-	progressElement.appendChild(progressBar);
-
-	wrapper.appendChild(progressElement);
-
-	targetElement.appendChild(wrapper);
 	
 	instance.height = wrapper.offsetHeight;
 	instance.setStatus(Math.floor(file.size / 1024) + "kb");
@@ -257,29 +260,29 @@ function FileProgress (file, targetElement) {
 FileProgress.prototype = {
 
 	setProgress : function (percentage) {
-		this.progressElement.className = "progressContainer progressUploading";
+		this.progressElement.attr("className", "progressContainer progressUploading");
 		this.setStatus("Uploading...");
-		this.progressBar.style.width = percentage + "%";
+		this.progressBar.width(percentage + "%");
 	},
 
 	setComplete : function () {
-		this.progressElement.className = "progressContainer progressComplete";
+		this.progressElement.attr("className", "progressContainer progressComplete");
 		this.setStatus("Finished");
-		this.progressBar.style.width = "";
+		this.progressBar.css("width", "");
 		this.disappear(750);
 	},
 
 	setError : function (errorMessage) {
-		this.progressElement.className = "progressContainer progressError";
+		this.progressElement.attr("className", "progressContainer progressError");
 		this.setStatus(errorMessage || "Error");
-		this.progressBar.style.width = "";
+		this.progressBar.css("width", "");
 		this.disappear(5000);
 	},
 
 	setCancelled : function () {
-		this.progressElement.className = "progressContainer progressCancelled";
+		this.progressElement.attr("className", "progressContainer progressCancelled");
 		this.setStatus(errorMessage || "Cancelled");
-		this.fileProgressBar.style.width = "";
+		this.progressBar.css("width", "");
 		this.disappear(2000);
 	},
 
@@ -295,7 +298,7 @@ FileProgress.prototype = {
 				self.disappear();
 			}, delay);
 		} else {
-			jQuery(this.wrapper).fadeOut();
+			this.wrapper.fadeOut();
 		}
 	}
 };
