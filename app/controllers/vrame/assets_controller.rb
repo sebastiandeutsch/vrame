@@ -3,36 +3,48 @@ class Vrame::AssetsController < Vrame::VrameController
   skip_before_filter :require_user, :only => :create
   
   def create
-    # Find collection by collection_id or create new one
-    @collection = Collection.find_or_create_by_id(params[:collection_id]) do |collection|
-      collection.user_id = current_user.id
-      collection.title = 'Kein Titel'
+    
+    # TODO: or Image.create
+    @asset = Asset.create(:user => @current_user, :file => params[:Filedata])
+    
+    @response = {
+        :id  => @asset.id,
+        :url => @asset.file.url(:thumbnail)
+    }
+    
+    if params[:create_collection]
+      # The asset is part of a collection
+      
+      # Find collection by collection_id or create new one
+      @collection = Collection.find_or_create_by_id(params[:collection_id]) do |collection|
+        collection.user_id = current_user.id
+        collection.document_id = params[:document_id]
+      end
+    
+      # Add asset to collection
+      @collection.assets << @asset
+    
+      # Add collection id to the response
+      @response[:collection_id] = @collection.id
     end
     
-    # Add image to collection
-    @image = @collection.images.create(:user => @current_user, :file => params[:Filedata])
-    
-    render :json => {
-        :collection_id => @collection.id,
-        :id  => @image.id,
-        :url => @image.file.url(:thumbnail)
-    }
+    render :json => @response
   end
   
   def destroy
-    Image.destroy(params[:id])
+    Asset.destroy(params[:id])
     redirect_to :back
   end
   
   def edit 
-    @image = Image.find(params[:id])
+    @asset = Asset.find(params[:id])
   end
   
   def update
-    @image = Image.find(params[:id])
-    params[:image][:user_id] = @current_user.id
-    if @image.update_attributes(params[:image])
-      flash[:success] = 'Bild aktualisiert'
+    @asset = Asset.find(params[:id])
+    params[:asset][:user_id] = @current_user.id
+    if @asset.update_attributes(params[:asset])
+      flash[:success] = 'Datei aktualisiert'
       redirect :back
     else
       flash[:error] = 'Es ist ein Fehler aufgetreten'
@@ -45,5 +57,7 @@ class Vrame::AssetsController < Vrame::VrameController
   end
   
   private
-    def single_access_allowed?; action_name == 'create'; end
+    def single_access_allowed?
+      action_name == 'create'
+    end
 end

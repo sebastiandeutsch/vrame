@@ -28,8 +28,6 @@ class Vrame::DocumentsController < Vrame::VrameController
   
   def edit
     @document = Document.find(params[:id])
-    @collections = Hash.new # { |hash, key| hash[key] = @document.collections.build }
-    @document.collections.each { |c| @collections[c.id] = c }
   end
   
   def update
@@ -41,7 +39,7 @@ class Vrame::DocumentsController < Vrame::VrameController
     else
       flash[:error] = 'Es ist ein Fehler aufgetreten'
       render :action => :edit
-    end    
+    end
   end
   
   def destroy

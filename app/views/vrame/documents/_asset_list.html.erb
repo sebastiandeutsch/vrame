@@ -1,0 +1,21 @@
+<ol class="asset-list">
+<% for asset in assets %>
+	<li>
+		<p><%=h asset.inspect %></p>
+		<p><%=h asset.file.inspect %></p>
+		
+		<% if asset.file.type == 'Image' %>
+			<p class="image-wrapper" fullurl="<%= h(image.file.url(:full)) %>" title="<%=h image.title %>">
+				<img src="<%= h(image.file.url(:thumbnail)) %>" alt="" />
+			</p>
+		<% else %>
+			<p><% asset.file.file_name %></p>
+		<% end %>
+		
+		<p class="controls">
+			<%= link_to 'Edit',                            nil, :class => 'smaller edit button invert' %>
+			<%= link_to 'Löschen', "/vrame/assets/#{image.id}", :class => 'smaller delete button invert' %>
+		</p>
+	</li>
+<% end %>
+</ol>

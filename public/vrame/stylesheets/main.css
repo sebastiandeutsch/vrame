@@ -489,16 +489,16 @@ button:hover {
 }
 
 /** 
- * @section Image Collection Lists
+ * @section Image Lists
  *
  *
  */
 
-.collection-items {
+.asset-list {
 	overflow: hidden;
 }
 
-.collection-items li {
+.asset-list li {
 	float: left;
 	position: relative;
 	
@@ -512,7 +512,7 @@ button:hover {
 	min-height: 165px;
 }
 
-.collection-items .image-wrapper {
+.asset-list .image-wrapper {
 	display: table-cell;
 	
 	width: 100px;
@@ -524,20 +524,20 @@ button:hover {
 	cursor: pointer;
 }
 
-.collection-items .controls {
+.asset-list .controls {
 	padding-top: 5px;
 	clear: both;
 }
 
-.collection-items .edit {
+.asset-list .edit {
 	float: left;
 }
 
-.collection-items .delete {
+.asset-list .delete {
 	float: right;
 }
 
-.collection-items img {
+.asset-list img {
 	display: block;
 	margin: auto;
 }
