@@ -25,7 +25,7 @@ jQuery(function () {
 			submitButton				: jQuery('#document_submit'),
 			
 			/* Image list HTML element (jQuery collection) */
-			imageList					: c.find('.image-list'),
+			assetList					: c.find('.asset-list'),
 			
 			/* Form field(s) for the new asset id (jQuery collection) */
 			assetIdInput				: c.find('.asset-id'),
@@ -65,7 +65,7 @@ function Upload (o) {
 		file_size_limit : 20 * 1024,
 		file_types : '*.jpg;*.png,*.swf;*.flv',
 		file_types_description : 'JPG, PNG, SWF, FLV',
-		file_upload_limit : 0,
+		file_upload_limit : o.type == 'File' ? 1 : 0,
 
 		// Authentication
 		post_params : {
@@ -161,25 +161,26 @@ Upload.prototype = {
 			
 			var settings = this.customSettings,
 				progress = new FileProgress(file, settings.queue),
-				responseO,
+				response,
 				collectionId,
 				imageLoadInterval,
-				imageLoadAttempts,
-				url;
+				imageLoadAttempts;
 			
 			progress.setComplete();
 			
 			console.log('uploadSuccess serverResponse', serverResponse);
 			
 			/* Evaluate JSON response */
-			responseO = eval("(" + serverResponse + ")");
+			response = eval("(" + serverResponse + ")");
 			
 			/* Update asset id form field (if any) */
-			settings.assetIdInput.val(responseO.id);
+			settings.assetIdInput.val(response.id);
 			
-			collectionId = responseO.collection_id;
-			console.log('collectionId:', collectionId);
+			/* Handler collection id */
+			collectionId = response.collection_id;
 			if (collectionId) {
+				console.log('collectionId:', collectionId);
+				
 				/* Update collection id form field (if any) */
 				settings.collectionIdInput.val(collectionId);
 				
@@ -189,34 +190,13 @@ Upload.prototype = {
 			}
 			
 			/* Image thumbnail loading */
-			// TODO: only load when asset is an image
-			
-			imageLoadInterval = window.setTimeout(loadImage, 1000);
-			imageLoadAttempts = 0;
-			url = responseO.url;
-			
-			function loadImage () {
-				console.log('loadImage', url, imageLoadAttempts);
-				var image = new Image;
-				image.onload = imageLoadSuccess;
-				//image.onerror = imageLoadError;
-				image.src = url;
-				imageLoadAttempts++;
-				if (imageLoadAttempts >= 10) {
-					clearInterval(imageLoadInterval);
-				}
-			}
-			function imageLoadSuccess () {
-				console.log('imageLoadSuccess', url);
-				clearInterval(imageLoadInterval);
-				settings.uploadedList.append("<li><p class='image-wrapper'><img src='" + url + "' alt=''></p></li>");
+			if (response.is_image) {
+				new ThumbnailLoader(response.url, settings.assetList);
+			} else {
+				/* Append file name directly */
+				settings.assetList.append("<li><p>" + response.url + "</p></li>");
 			}
 			
-			/*
-			function imageLoadError () {
-				loadImage();
-			}
-			*/
 		},
 		
 		uploadError : function (file, errorCode, message) {
@@ -280,6 +260,31 @@ Upload.prototype = {
 	} /* end handlers */
 
 }; /* end CollectionUpload prototype */
+
+function ThumbnailLoader (url, targetElement) {
+	console.log('ThumbnailLoader', url, targetElement);
+	
+	var loadAttempts = 0,
+		loadInterval = window.setTimeout(loadImage, 1000);
+		
+	function loadImage () {
+		console.log('ThumbnailLoader.loadImage attempt:', loadAttempts);
+		var image = new Image;
+		image.onload = imageLoadSuccess;
+		//image.onerror = imageLoadError;
+		image.src = url;
+		loadAttempts++;
+		if (loadAttempts >= 10) {
+			clearInterval(loadInterval);
+		}
+	}
+	
+	function imageLoadSuccess () {
+		console.log('ThumbnailLoader.imageLoadSuccess', url);
+		clearInterval(loadInterval);
+		targetElement.append("<li><p class='image-wrapper'><img src='" + url + "' alt=''></p></li>");
+	}
+}
 
 function FileProgress (file, target) {
 

@@ -100,11 +100,9 @@ jQuery(function () {
 			authenticity_token: '<%= form_authenticity_token %>'
 		}
 		
-		jQuery.post(url, params,
-			function (data, textStatus) {
-				image.fadeOut();
-			}
-		);
+		jQuery.post(url, params, function (data, textStatus) {
+			image.hide();
+		});
 		
 		return false;
 	});
