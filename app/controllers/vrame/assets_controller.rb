@@ -7,19 +7,17 @@ class Vrame::AssetsController < Vrame::VrameController
   def create
     
     @file = params[:Filedata]
-    logger.info "\nXXX @file.original_filename #{@file.original_filename}\n\n"
+    # Is the file an image?
     if Paperclip::Attachment.is_image?(@file.original_filename)
-      @asset = Image.create(:user => @current_user, :file => @file)
-      logger.info "\nXXX It's an Image!\n"
-      # Ugly hack.
-      @asset.type = 'Image'
+    attributes =  { :user => @current_user, :file => @file }
+      @asset = Image.create attributes
       @response = {
         :id  => @asset.id,
-        :is_image => true,
-        :url => @asset.file.url(:thumbnail)
+        :url => @asset.file.url(:thumbnail),
+        :is_image => true
       }
     else
-      @asset = Asset.create(:user => @current_user, :file => @file)
+      @asset = Asset.create attributes
       @response = {
         :id  => @asset.id,
         :url => @asset.file.original_filename
@@ -43,7 +41,6 @@ class Vrame::AssetsController < Vrame::VrameController
       @response.merge! :collection_id => @collection.id
     end
     
-    logger.info "\nXXX Response: #{@response.inspect}\n"
     render :json => @response
   end
   

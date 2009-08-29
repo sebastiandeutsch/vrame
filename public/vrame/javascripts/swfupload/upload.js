@@ -168,7 +168,7 @@ Upload.prototype = {
 			
 			progress.setComplete();
 			
-			console.log('uploadSuccess serverResponse', serverResponse);
+			console.log('serverResponse', serverResponse);
 			
 			/* Evaluate JSON response */
 			response = eval("(" + serverResponse + ")");
@@ -200,8 +200,6 @@ Upload.prototype = {
 		},
 		
 		uploadError : function (file, errorCode, message) {
-			console.log('uploadError');
-			
 			var progress = new FileProgress(file, this.customSettings.queue);
 			
 			switch (errorCode) {
@@ -244,6 +242,7 @@ Upload.prototype = {
 					
 			} /* End switch */
 			
+			console.log('uploadError', errorMessage, message);
 			progress.setError(errorMessage);
 			this.debug("Error " + errorCode + ": " + errorMessage + ", File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
 		},
@@ -288,6 +287,10 @@ function ThumbnailLoader (url, targetElement) {
 
 function FileProgress (file, target) {
 
+	if (!file) {
+		return;
+	}
+	
 	var id = file.id,
 		instances = FileProgress.instances = FileProgress.instances || {},
 		instance,

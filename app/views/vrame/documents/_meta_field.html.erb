@@ -45,10 +45,7 @@
 		
 		<ol class="upload-queue"></ol>
 		
-		<% if value %>
-			<p><%=h value.inspect %></p>
-			<%= render :partial => 'asset_list', :locals => { :assets => [ value ] } %>
-		<% end %>
+		<%= render :partial => 'asset_list', :locals => { :assets => value ? [ value ] : [] } %>
 		
 	</div><!-- /.input-container -->
 	
@@ -70,10 +67,7 @@
 		
 		<ol class="upload-queue"></ol>
 		
-		<% if value %>
-			<p><%=h value.inspect %></p>
-			<%= render :partial => 'asset_list', :locals => { :assets => value.assets } %>
-		<% end %>
+		<%= render :partial => 'asset_list', :locals => { :assets => value ? value.assets : [] } %>
 		
 	</div><!-- /.input-container -->
 	

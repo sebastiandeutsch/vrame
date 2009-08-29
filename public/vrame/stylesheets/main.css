@@ -542,7 +542,7 @@ button:hover {
 	margin: auto;
 }
 
-#collection-item-fullview {
+#asset-fullview {
 	position: absolute;
 	top: 0;
 	left: -9999px;
