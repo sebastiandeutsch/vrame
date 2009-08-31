@@ -72,15 +72,15 @@ class Vrame::CategoriesController < Vrame::VrameController
   
   def order_up
     @category = Category.find(params[:id])
-    @category_top = Category.with_parent(@category).order_before(@category.order_index)[0]
+    @category_top = Category.with_parent(@category).order_before(@category.position)[0]
     
-    category_order_index = @category.order_index
-    category_top_order_index = @category_top.order_index
+    category_position = @category.position
+    category_top_position = @category_top.position
     
-    @category.order_index = category_top_order_index
+    @category.position = category_top_position
     @category.save
     
-    @category_top.order_index = category_order_index
+    @category_top.position = category_position
     @category_top.save
     
     redirect_to :back
@@ -88,15 +88,15 @@ class Vrame::CategoriesController < Vrame::VrameController
   
   def order_down
     @category = Category.find(params[:id])
-    @category_after = Category.with_parent(@category).order_after(@category.order_index)[0]
+    @category_after = Category.with_parent(@category).order_after(@category.position)[0]
     
-    category_order_index = @category.order_index
-    category_after_order_index = @category_after.order_index
+    category_position = @category.position
+    category_after_position = @category_after.position
     
-    @category.order_index = category_after_order_index
+    @category.position = category_after_position
     @category.save
     
-    @category_after.order_index = category_order_index
+    @category_after.position = category_position
     @category_after.save
     
     redirect_to :back

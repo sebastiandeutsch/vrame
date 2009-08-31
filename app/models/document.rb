@@ -26,8 +26,8 @@ class Document < ActiveRecord::Base
   belongs_to :category
   belongs_to :user
   
-  named_scope :order_before, lambda {|order_index| {:conditions => ["order_index < ?", order_index], :limit => 1, :order => "order_index DESC"}}
-  named_scope :order_after, lambda {|order_index| {:conditions => ["order_index > ?", order_index], :limit => 1, :order => "order_index ASC"}}
+  named_scope :order_before, lambda {|position| {:conditions => ["position < ?", position], :limit => 1, :order => "position DESC"}}
+  named_scope :order_after, lambda {|position| {:conditions => ["position > ?", position], :limit => 1, :order => "position ASC"}}
   named_scope :with_parent, lambda {|category| 
     if category.category_id != nil 
       {:conditions => ["category_id = ?", category.category_id ]}

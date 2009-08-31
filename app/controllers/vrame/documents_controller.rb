@@ -60,15 +60,15 @@ class Vrame::DocumentsController < Vrame::VrameController
   
   def order_up
     @document = Document.find(params[:id])
-    @document_top = Document.with_parent(@document).order_before(@document.order_index)[0]
+    @document_top = Document.with_parent(@document).order_before(@document.position)[0]
     
-    document_order_index = @document.order_index
-    document_top_order_index = @document_top.order_index
+    document_position = @document.position
+    document_top_position = @document_top.position
     
-    @document.order_index = document_top_order_index
+    @document.position = document_top_position
     @document.save
     
-    @document_top.order_index = document_order_index
+    @document_top.position = document_position
     @document_top.save
     
     redirect_to :back
@@ -76,15 +76,15 @@ class Vrame::DocumentsController < Vrame::VrameController
   
   def order_down
     @document = Document.find(params[:id])
-    @document_after = Document.with_parent(@document).order_after(@document.order_index)[0]
+    @document_after = Document.with_parent(@document).order_after(@document.position)[0]
     
-    document_order_index = @document.order_index
-    document_after_order_index = @document_after.order_index
+    document_position = @document.position
+    document_after_position = @document_after.position
     
-    @document.order_index = document_after_order_index
+    @document.position = document_after_position
     @document.save
     
-    @document_after.order_index = document_order_index
+    @document_after.position = document_position
     @document_after.save
     
     redirect_to :back

@@ -19,21 +19,30 @@ namespace :vrame do
 
   end
   
-  desc "Synchronize VRAME's assets with the root application's"
+  desc "Synchronize VRAME's assets and migrations with the root application's"
   task :sync => :environment do
     require 'fileutils'
     
+    # Assets
     vrame_assets = File.join(RAILS_ROOT, 'vendor', 'plugins', 'vrame', 'public', 'vrame')
-    sync_target  = File.join(RAILS_ROOT, 'public', 'vrame')
+    public_sync_target = File.join(RAILS_ROOT, 'public', 'vrame')
+    
+    # Migrations
+    vrame_migrations = File.join(RAILS_ROOT, 'vendor', 'plugins', 'vrame', 'db', 'migrate', '.')
+    migrations_sync_target = File.join(RAILS_ROOT, 'db', 'migrate')
 
-    # Delete the sync target if it already exists 
-    if File.directory?(sync_target)
+    # Delete the public sync target if it already exists 
+    if File.directory?(public_sync_target)
       puts "Removing existing public/vrame"
-      FileUtils.rm_r(sync_target, :force => true)
+      FileUtils.rm_r(public_sync_target, :force => true)
     end
     
-    # Copy vrame assets to sync target
+    # Copy vrame assets to public sync target
     puts "Copying plugin assets to public/vrame"
-    FileUtils.cp_r(vrame_assets, sync_target)
+    FileUtils.cp_r(vrame_assets, public_sync_target)
+    
+    # Copy DB migrations
+    puts "Copying migrations to db/migrate"
+    FileUtils.cp_r(vrame_migrations, migrations_sync_target)
   end
 end

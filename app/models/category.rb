@@ -1,16 +1,16 @@
 class Category < ActiveRecord::Base
-  has_many :documents, :order => "order_index"
+  has_many :documents, :order => "position"
   
   has_friendly_id :title, :use_slug => true, :strip_diacritics => true
   
   belongs_to :user
   
-  acts_as_tree :order => "order_index"
+  acts_as_tree :order => "position"
   
   validates_presence_of :title
   
-  named_scope :order_before, lambda {|order_index| { :conditions => ["order_index < ?", order_index], :limit => 1, :order => "order_index DESC" }}
-  named_scope :order_after, lambda {|order_index| { :conditions => ["order_index > ?", order_index], :limit => 1, :order => "order_index ASC" }}
+  named_scope :order_before, lambda {|position| { :conditions => ["position < ?", position], :limit => 1, :order => "position DESC" }}
+  named_scope :order_after, lambda {|position| { :conditions => ["position > ?", position], :limit => 1, :order => "position ASC" }}
   named_scope :with_parent, lambda {|parent|
     if parent.parent_id != nil 
       {:conditions => ["parent_id = ?", parent.parent_id ]}
