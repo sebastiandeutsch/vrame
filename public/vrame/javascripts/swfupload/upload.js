@@ -45,7 +45,7 @@ jQuery(function () {
 function Upload (o) {
 	var handlers = this.handlers;
 	
-	console.log('CollectionUpload', o);
+	//console.log('CollectionUpload', o);
 	
 	new SWFUpload({
 	
@@ -87,7 +87,7 @@ function Upload (o) {
 		upload_complete_handler			: handlers.uploadComplete,
 		queue_complete_handler			: handlers.queueComplete
 
-		,debug : true
+		//,debug : true
 	});
 }
 
@@ -157,7 +157,7 @@ Upload.prototype = {
 		},
 
 		uploadSuccess : function (file, serverResponse) {
-			console.log('uploadSuccess', file);
+			//console.log('uploadSuccess', file);
 			
 			var settings = this.customSettings,
 				progress = new FileProgress(file, settings.queue),
@@ -168,7 +168,7 @@ Upload.prototype = {
 			
 			progress.setComplete();
 			
-			console.log('serverResponse', serverResponse);
+			//console.log('serverResponse', serverResponse);
 			
 			/* Evaluate JSON response */
 			response = eval("(" + serverResponse + ")");
@@ -179,7 +179,7 @@ Upload.prototype = {
 			/* Handler collection id */
 			collectionId = response.collection_id;
 			if (collectionId) {
-				console.log('collectionId:', collectionId);
+				//console.log('collectionId:', collectionId);
 				
 				/* Update collection id form field (if any) */
 				settings.collectionIdInput.val(collectionId);
@@ -242,7 +242,7 @@ Upload.prototype = {
 					
 			} /* End switch */
 			
-			console.log('uploadError', errorMessage, message);
+			//console.log('uploadError', errorMessage, message);
 			progress.setError(errorMessage);
 			this.debug("Error " + errorCode + ": " + errorMessage + ", File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
 		},
@@ -261,13 +261,13 @@ Upload.prototype = {
 }; /* end CollectionUpload prototype */
 
 function ThumbnailLoader (url, targetElement) {
-	console.log('ThumbnailLoader', url, targetElement);
+	//console.log('ThumbnailLoader', url, targetElement);
 	
 	var loadAttempts = 0,
 		loadInterval = window.setTimeout(loadImage, 1000);
 		
 	function loadImage () {
-		console.log('ThumbnailLoader.loadImage attempt:', loadAttempts);
+		//console.log('ThumbnailLoader.loadImage attempt:', loadAttempts);
 		var image = new Image;
 		image.onload = imageLoadSuccess;
 		//image.onerror = imageLoadError;
@@ -279,9 +279,9 @@ function ThumbnailLoader (url, targetElement) {
 	}
 	
 	function imageLoadSuccess () {
-		console.log('ThumbnailLoader.imageLoadSuccess', url);
+		//console.log('ThumbnailLoader.imageLoadSuccess', url);
 		clearInterval(loadInterval);
-		targetElement.append("<li><p class='image-wrapper'><img src='" + url + "' alt=''></p></li>");
+		targetElement.prepend("<li><p class='image-wrapper'><img src='" + url + "' alt=''></p></li>");
 	}
 }
 
