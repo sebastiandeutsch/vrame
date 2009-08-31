@@ -8,8 +8,8 @@
 			</li>
 			
 			<li class="last">
-		        <%= render :partial => 'vrame/shared/slug_field', :locals => { :sluggable => document } %>
-		    </li>
+				<%= render :partial => 'vrame/shared/slug_field', :locals => { :sluggable => document } %>
+			</li>
 		</ul>
 	</fieldset>
 	
@@ -17,69 +17,8 @@
 		<fieldset>
 			<h3>Meta-Informationen</h3>
 			<ol id="keys-values">
-				<% category.schema.each_with_index do |item, index| %>
-					<% name = item['name'] %>
-					<% type = item['type'] %>
-					<% uid = item['uid'] %>
-					<% value = document.meta.nil? ? nil : document.meta[uid] %>
-					<li class="clearfix">
-					<%# TODO/FIXME: Refactor into partials %>
-					<% if type == "String" %>
-						<label for="document[meta[<%= uid %>]]"><%= h name %></label>
-						<div class="input-container">
-							<input name="document[meta[<%= uid %>]]" type="text" value="<%= h value %>" />
-						</div>
-					<% end %>
-					<% if type == "Text" %>
-						<label for="document[meta[<%= uid %>]]"><%= h name %></label>
-						<div class="input-container">
-							<textarea name="document[meta[<%= uid %>]]" id="document-meta-<%= uid %>" class="rte-zone"><%= value %></textarea>
-						</div>
-					<% end %>
-					<% if type == "Datetime" %>
-						<label for="document[meta[<%= uid %>]]"><%= h name %></label>
-						<div class="input-container">
-							<input id="document_meta_<%= uid %>" class="datepicker" name="document[meta[<%= uid %>]]" type="text" value="<%= value %>" />
-						</div>
-					<% end %>
-					<% if type == "Collection" %>
-						<input name="document[collection_ids][]" type="hidden" class="collection_id-<%= uid %>" value="<%= h value.try(:id) %>" />
-						<input name="document[meta[<%= uid %>]]" type="hidden" class="collection_id-<%= uid %>" value="<%= h value.try(:id) %>" />
-						<label for="document[meta[<%= uid %>]]"><%= name %></label>
-						<div class="input-container">
-							<p id="upload-button-<%= uid %>">Bitte aktivieren Sie Flash für den Datei-Upload</p>
-							<ol id="upload-queue-<%= uid %>"></ol>
-							<ol id="finished-target-<%= uid %>" class="gallery-items">
-							<% if value %>
-								<% for asset in value.images %>
-								<li>
-									<p class="image-wrapper" fullurl="<%= h(asset.file.url(:full)) %>" title="<%=h asset.title %>">
-										<img src="<%= h(asset.file.url(:thumbnail)) %>" alt="" />
-									</p>
-									<p class="controls">
-										<%= link_to 'Edit',                            nil, :class => 'smaller edit button invert' %>
-										<%= link_to 'Löschen', "/vrame/assets/#{asset.id}", :class => 'smaller delete button invert' %>
-									</p>
-								</li>
-								<% end %>
-							<% end %>
-							</ol>
-							<%# TODO/FIXME: Make unobtrusive %>
-							<script type="text/javascript">
-							new CollectionUpload({
-								buttonId       : 'upload-button-<%= uid %>',
-								uploadUrl      : '/vrame/assets',
-								uploadToken    : '<%= escape_javascript current_user.single_access_token %>',
-								uploadQueue    : 'upload-queue-<%= uid %>',
-								idInput        : '.collection_id-<%= uid %>',
-								submitButton   : 'document_submit',
-								finishedTarget : 'finished-target-<%= uid %>',
-								collectionId   : '<%= value.try(:id) %>'
-							});
-							</script>
-						</div>
-					<% end %>
-					</li>
+				<% category.schema.each do |item| %>
+					<%= render :partial => 'meta_field', :locals => { :document => document, :item => item } %>
 				<% end %>
 			</ol>
 		</fieldset>
@@ -132,42 +71,3 @@
 	</ul>
 	
 <% end %>
-
-<ul style="display: none">
-    <li id="image-prototype">
-		<p class="image-wrapper" fullurl="" title="">
-		    <img src="" alt="" />
-		</p>
-		<p class="controls">
-		    <%= link_to 'Edit',    '', :class => 'smaller edit button invert' %>
-		    <%= link_to 'Löschen', '', :class => 'smaller delete button invert' %>
-		</p>
-	</li>
-</ul>
-
-<%# TODO/FIXME: Make unobtrusive %>
-<script type="text/javascript">
-jQuery(function () {
-
-	jQuery('.delete').click(function () {
-		
-		if (!confirm('Wirklich löschen?'))
-			return false;
-		
-		var image = jQuery(this).parent().parent();
-		var url = jQuery(this).attr('href');
-		var params = {
-			_method: 'delete',
-			authenticity_token: '<%= form_authenticity_token %>'
-		}
-				
-		jQuery.post(url, params,
-			function (data, textStatus) {
-				image.fadeOut();
-			}
-		);
-		
-		return false;
-	});
-});
-</script>

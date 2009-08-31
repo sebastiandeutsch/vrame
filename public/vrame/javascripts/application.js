@@ -17,29 +17,59 @@ jQuery(function() {
 		content_css_url: "/vrame/stylesheets/rte.css"
 	});
 	
-    if (jQuery(".datepicker").size() > 0)
-     jQuery(".datepicker").datepicker({
-         duration: '',  
-         showTime: true,  
-         constrainInput: false
-     });
-    
-    jQuery('.tooltip').tipsy({ gravity: 'w' });
+	if (jQuery(".datepicker").size() > 0) {
+		jQuery(".datepicker").datepicker({
+			duration: '',  
+			showTime: true,  
+			constrainInput: false
+		});
+	}
+	
+	jQuery('.tooltip').tipsy({ gravity: 'w' });
 		
 	jQuery("input[type=text][placeholder], textarea[placeholder]").placeholder();
 	
-	if (document.getElementById("gallery-items")) (function () {
+	(function () {
+		var assetLists = jQuery(".asset-list")
+		
+		assetLists.
+				find(".image-wrapper")
+					.click(showFullview)
+				.end()
+				.find("a.delete")
+					.click(deleteAsset);
+		
+		assetLists = undefined;
+		
+		function deleteAsset () {
+			if (!confirm('Wirklich löschen?')) {
+				return false;
+			}
+			
+			var deleteLink = jQuery(this),
+				url = deleteLink.attr('href'),
+				params = {
+					_method: 'delete',
+					authenticity_token: deleteLink.attr("data-authenticity-token")
+				};
+			
+			deleteLink.parents("li:eq(0)").hide();
+			jQuery.post(url, params);
+			
+			return false;
+		}
 		
 		var image = jQuery("<img />")
-			.attr("id", "gallery-item-fullview")
-			.attr("title", "Vollansicht schlie�en")
-			.click(hideImage)
-			.load(fullviewLoaded)
-			.css("display", "none")
-			.insertAfter("#gallery-items");
+				.attr("id", "asset-fullview")
+				.attr("title", "Vollansicht schließen")
+				.click(hideImage)
+				.load(fullviewLoaded)
+				.css("display", "none")
+				.appendTo(document.body),
+			wrapperWidth,
+			wrapperHeight,
+			wrapperOffset;
 			
-		jQuery("#gallery-items .image-wrapper").click(showFullview);
-		
 		function hideImage () {
 			image.css("display", "none");
 		}
@@ -47,17 +77,19 @@ jQuery(function() {
 		function showFullview () {
 			var wrapper = jQuery(this),
 				fullUrl = wrapper.attr("fullurl");
-			if (!fullUrl) return;
-			image.wrapperWidth = wrapper.width();
-			image.wrapperHeight = wrapper.height();
-			image.wrapperOffset = wrapper.offset();
+			if (!fullUrl) {
+				return;
+			}
+			wrapperWidth = wrapper.width();
+			wrapperHeight = wrapper.height();
+			wrapperOffset = wrapper.offset();
 			image.attr("src", fullUrl);
 		}
 		
 		function fullviewLoaded () {
 			image.css({
-				left : image.wrapperOffset.left - (image[0].width - image.wrapperWidth) / 2,
-				top : image.wrapperOffset.top - (image[0].height - image.wrapperHeight) / 2,
+				left : Math.max(0, wrapperOffset.left - (image.attr("width") - wrapperWidth) / 2),
+				top : Math.max(0, wrapperOffset.top - (image.attr("height") - wrapperHeight) / 2),
 				display : "block"
 			});
 		}

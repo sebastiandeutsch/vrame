@@ -1,3 +1,5 @@
+require 'paperclip_images'
+
 class Asset < ActiveRecord::Base  
   belongs_to :user
   

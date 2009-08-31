@@ -489,16 +489,16 @@ button:hover {
 }
 
 /** 
- * @section Gallery/new and Gallery/edit: Gallery Items Lists
+ * @section Image Lists
  *
  *
  */
 
-.gallery-items {
+.asset-list {
 	overflow: hidden;
 }
 
-.gallery-items li {
+.asset-list li {
 	float: left;
 	position: relative;
 	
@@ -512,7 +512,7 @@ button:hover {
 	min-height: 165px;
 }
 
-.gallery-items .image-wrapper {
+.asset-list .image-wrapper {
 	display: table-cell;
 	
 	width: 100px;
@@ -524,25 +524,25 @@ button:hover {
 	cursor: pointer;
 }
 
-.gallery-items .controls {
+.asset-list .controls {
 	padding-top: 5px;
 	clear: both;
 }
 
-.gallery-items .edit {
+.asset-list .edit {
 	float: left;
 }
 
-.gallery-items .delete {
+.asset-list .delete {
 	float: right;
 }
 
-.gallery-items img {
+.asset-list img {
 	display: block;
 	margin: auto;
 }
 
-#gallery-item-fullview {
+#asset-fullview {
 	position: absolute;
 	top: 0;
 	left: -9999px;
@@ -559,14 +559,14 @@ button:hover {
  *
  */
 
-#document-galleries {
+#document-collections {
 	max-height: 200px;
 	overflow-x: hidden;
 	overflow-y: auto;
 	margin-bottom: 10px;
 }
 
-#document-galleries li {
+#document-collections li {
 	margin-bottom: 0;
 	border-bottom: none;
 	padding-bottom: 0;

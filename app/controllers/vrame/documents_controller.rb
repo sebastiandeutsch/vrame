@@ -45,7 +45,7 @@ class Vrame::DocumentsController < Vrame::VrameController
     else
       flash[:error] = 'Es ist ein Fehler aufgetreten'
       render :action => :edit
-    end    
+    end
   end
   
   def destroy

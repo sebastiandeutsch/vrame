@@ -1,5 +1,5 @@
 class Document < ActiveRecord::Base
-  has_many :collections
+  has_many :collections, :dependent => :destroy
   
   has_friendly_id :title, :use_slug => true, :strip_diacritics => true
   
