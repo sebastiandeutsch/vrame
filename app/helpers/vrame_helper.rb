@@ -1,10 +1,16 @@
 module ActionView
   module Helpers
+    
+    class FormBuilder
+      def labelled_check_box(field_name, label)
+        label field_name, check_box(field_name) + ' ' + label.to_s
+      end
+    end
+    
     def tree_select(object, method, collection, value_method, text_method, options = {}, html_options = {})
       options[:indent] = '&nbsp;&nbsp;' unless options[:indent]
       InstanceTag.new(object, method, self, options.delete(:object)).to_tree_select_tag(collection, value_method, text_method, options, html_options)
     end
-    
     
     class InstanceTag #:nodoc:
       def options_from_tree_recursion(collection, value_method, text_method, options, html_options, level = 0)
@@ -29,8 +35,8 @@ module ActionView
         end
         ret
       end
-
-      def to_tree_select_tag(collection, value_method, text_method, options, html_options)        
+      
+      def to_tree_select_tag(collection, value_method, text_method, options, html_options)
         html_options = html_options.stringify_keys
         add_default_name_and_id(html_options)
         value = value(object)
@@ -39,6 +45,7 @@ module ActionView
         )
       end
     end
+    
   end
 end
 
