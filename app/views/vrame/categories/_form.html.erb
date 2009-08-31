@@ -94,8 +94,7 @@
 				<%= collection_select :category, :language_id, Language.all, :id, :name %>
 			</li>
 			<li class="last">
-				<%= f.label :short_navigation, "Zeige in Schnell-Navigation:" %>
-				<%= f.check_box :short_navigation %>
+				<%= f.labelled_check_box :short_navigation, "Zeige in Schnell-Navigation" %>
 			</li>
 		</ul>
 	</fieldset>
