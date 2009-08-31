@@ -34,11 +34,20 @@ module JsonObject
     def method_missing(method_name, *args) 
       if self.schema
         self.schema.each do |i|
-          return self[i['uid']] if method_name.to_s == i['name']
+          return self[i['uid']] if method_name.to_s == dehumanize(i['name'])
         end
       end
       
       self[method_name.to_sym]
+    end
+    
+    private
+    
+    def dehumanize(human_string)
+      # @TODO: - if first char is a number, append an underscore
+      #        - collisions might occur
+      #        - replace invalid characters
+      human_string.downcase.gsub(/ +/,'_')
     end
   end
   
