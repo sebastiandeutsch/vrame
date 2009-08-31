@@ -5,8 +5,7 @@ class Document < ActiveRecord::Base
   
   has_json_object :meta,
     # :schema => [:category, :schema]                 <===   i would like that more
-    # :schema => lambda { |o| o.category.schema } #     <===   good enough for now
-    
+    :schema => lambda { |o| o.category.schema }, #    <===   good enough for now
     :after_read => lambda { |d, m|
       d.category.schema.each do |f|
         v = m[f['uid']]
