@@ -10,8 +10,9 @@
 		<% end %>
 		
 		<p class="controls">
-			<%= link_to 'Edit',                            nil, :class => 'smaller edit button invert' %>
-			<%= link_to 'Löschen', "/vrame/assets/#{asset.id}", :class => 'smaller delete button invert', 'data-authenticity-token' => form_authenticity_token %>
+			<%# Edit not implemented yet %>
+			<%#= link_to 'Edit', edit_vrame_asset_path(asset), :class => 'smaller edit button invert' %>
+			<%= link_to 'Löschen', vrame_asset_path(asset), :class => 'smaller delete button invert', 'data-authenticity-token' => form_authenticity_token %>
 		</p>
 	</li>
 <% end %>

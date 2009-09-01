@@ -1,7 +1,7 @@
 <div class="subnavigation clearfix">
 	<h2>Alle Dokumente</h2>
 	<div class="functions">
-		<%= link_to "&raquo; Neues Dokument", new_admin_document_path %>
+		<%= link_to "&raquo; Neues Dokument", new_vrame_document_path %>
 	</div>
 </div>
 
@@ -29,7 +29,7 @@
 					</td>
 					<td>
 						<span class="options">
-							<%= link_to "Edit", edit_admin_document_path(document.id) %>
+							<%= link_to "Edit", edit_vrame_document_path(document.id) %>
 							<%= link_to "Delete", [:vrame, document], :method => :delete, :confirm => 'Wirklich löschen?' %>
 						</span>
 					</td>

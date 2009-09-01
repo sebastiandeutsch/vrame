@@ -7,9 +7,11 @@ class Vrame::AssetsController < Vrame::VrameController
   def create
     
     @file = params[:Filedata]
+    attributes =  { :user => @current_user, :file => @file }
+    
     # Is the file an image?
     if Paperclip::Attachment.is_image?(@file.original_filename)
-    attributes =  { :user => @current_user, :file => @file }
+      # Create an Image instance
       @asset = Image.create attributes
       @response = {
         :id  => @asset.id,
@@ -17,6 +19,7 @@ class Vrame::AssetsController < Vrame::VrameController
         :is_image => true
       }
     else
+      # Create a generic Asset instance
       @asset = Asset.create attributes
       @response = {
         :id  => @asset.id,
@@ -46,7 +49,11 @@ class Vrame::AssetsController < Vrame::VrameController
   
   def destroy
     Asset.destroy(params[:id])
-    redirect_to :back
+    if request.xhr?
+      render :text => 'OK'
+    else
+      redirect_to :back
+    end
   end
   
   def edit 

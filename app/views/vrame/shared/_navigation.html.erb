@@ -9,8 +9,8 @@
 					<%= link_to 'Kategorien', vrame_categories_path %>
 					<%= tree_ul(Category.roots) { |item|
 						link_to h(item.title),
-						item.backend_url ? item.backend_url_path : vrame_category_path(item),
-						:class => item.children.empty? ? '' : 'top'
+						item.backend_url != "" ? item.backend_url_path : vrame_category_path(item),
+						:class => (item.children.empty? ? '' : 'top')
 					} %>
 				</li>
 				<li>
@@ -19,7 +19,7 @@
 					<% short_navigation = Category.short_navigation %>
 					<% short_navigation.each do |category| %>
 						<li><%= link_to h(category.title),
-							category.backend_url ? category.backend_url_path : vrame_category_path(category)
+							category.backend_url != "" ? category.backend_url_path : vrame_category_path(category)
 						%></li>
 					<% end %>
 					</ul>

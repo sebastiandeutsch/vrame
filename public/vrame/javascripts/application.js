@@ -1,5 +1,7 @@
 jQuery(function() {
 	
+	var jQuery = window.jQuery;
+	
 	jQuery(".flash").click(function() {
 		jQuery(this).fadeOut();
 	});
@@ -29,21 +31,24 @@ jQuery(function() {
 		
 	jQuery("input[type=text][placeholder], textarea[placeholder]").placeholder();
 	
-	(function () {
+	(function (jQuery) {
 		/* Asset list behavior */
 		
 		var assetLists = jQuery(".asset-list");
 		
-		assetLists.
-				find(".image-wrapper")
-					.click(loadFullview)
-				.end()
-				.find("a.delete")
-					.click(deleteAsset);
+		assetLists
+			.find(".image-wrapper")
+				.click(loadFullview)
+				.attr('title', 'Klicken zum Vergrößern')
+			.end()
+			.find("a.delete")
+				.click(deleteAsset);
 		
 		assetLists = undefined;
 		
-		function deleteAsset () {
+		function deleteAsset (e) {
+			e.preventDefault();
+			
 			if (!confirm('Wirklich löschen?')) {
 				return false;
 			}
@@ -53,16 +58,14 @@ jQuery(function() {
 			/* Hide corresponding asset list item */
 			deleteLink.parents("li:eq(0)").hide();
 			
+			/* Remove asset id from hidden input field */
+			deleteLink.parents('div.file-upload:eq(0)').find('input.asset-id').val('');
+			
 			/* Send DELETE request */
 			jQuery.post(deleteLink.attr('href'), {
 				_method: 'delete',
 				authenticity_token: deleteLink.attr("data-authenticity-token")
 			});
-			
-			/* Remove asset id from hidden input field */
-			deleteLink.parents('.file-upload').find('.asset-id').val('');
-			
-			return false;
 		}
 		
 		var image = jQuery("<img />")
@@ -99,7 +102,8 @@ jQuery(function() {
 				display : "block"
 			});
 		}
-	})();
+		
+	})(jQuery);
 	
 });
 
@@ -137,7 +141,7 @@ jQuery.fn.placeholder = function () {
 			}
 		});
 	});
-}
+};
 
 jQuery.fn.placeholder.supported = (function () {
 	return typeof document.createElement('input').placeholder == 'string';
