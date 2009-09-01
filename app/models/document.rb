@@ -11,11 +11,21 @@ class Document < ActiveRecord::Base
         v = m[f['uid']]
         
         if f['type'] == 'Collection'
+          
           if v.nil? or v == ''
             m[f['uid']] = d.collections.build()
           else
             m[f['uid']] = d.collections.find(v)
           end
+          
+        elsif f['type'] == 'Asset'
+          
+          if v.nil? or v == ''
+            m[f['uid']] = d.assets.build()
+          else
+            m[f['uid']] = d.assets.find(v)
+          end
+          
         end
       end
       
