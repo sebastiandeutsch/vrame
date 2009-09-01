@@ -188,7 +188,11 @@ Upload.prototype = {
 			
 			/* Image thumbnail loading */
 			if (response.is_image) {
-				new ThumbnailLoader(response.url, settings.assetList);
+				new ThumbnailLoader(
+					response.url,
+					settings.assetList,
+					collectionId ? 'prepend' : 'replace'
+				);
 			} else {
 				/* Append file name directly */
 				settings.assetList.append("<li><p>" + response.url + "</p></li>");
@@ -257,9 +261,8 @@ Upload.prototype = {
 
 }; /* end CollectionUpload prototype */
 
-function ThumbnailLoader (url, targetElement) {
+function ThumbnailLoader (url, targetElement, insertType) {
 	//console.log('ThumbnailLoader', url, targetElement);
-	
 	var loadAttempts = 0,
 		loadInterval = window.setTimeout(loadImage, 1000);
 		
@@ -278,7 +281,14 @@ function ThumbnailLoader (url, targetElement) {
 	function imageLoadSuccess () {
 		//console.log('ThumbnailLoader.imageLoadSuccess', url);
 		clearInterval(loadInterval);
-		targetElement.prepend("<li><p class='image-wrapper'><img src='" + url + "' alt=''></p></li>");
+		var html = "<li><p class='image-wrapper'><img src='" + url + "' alt=''></p></li>";
+		if (insertType == 'prepend') {
+			targetElement.prepend(html);
+		} else if (insertType == 'replace') {
+			targetElement.html(html);
+		} else {
+			targetElement.append(html);
+		}
 	}
 }
 

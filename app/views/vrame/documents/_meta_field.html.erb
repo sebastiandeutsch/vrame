@@ -5,6 +5,15 @@
 
 <li class="clearfix">
 
+<!--
+<p>
+name: <%=h name.inspect %><br>
+type: <%=h type.inspect %><br>
+uid: <%=h uid.inspect %><br>
+value: <%=h value.inspect %><br>
+</p>
+-->
+
 <% if type == "String" %>
 	
 	<label for="document[meta[<%= uid %>]]"><%= h name %></label>
@@ -30,6 +39,8 @@
 	</div>
 	
 <% elsif type == "File" %>
+	<% asset = value %>
+	<% asset_id = asset.try(:id) %>
 	
 	<label for="document[meta[<%= uid %>]]"><%= h name %></label>
 	
@@ -39,17 +50,20 @@
 		data-upload-token="<%=h current_user.single_access_token %>"
 		data-document-id="<%=h document.id %>"
 	>
-		<input type="hidden" name="document[meta[<%= uid %>]]" class="asset-id" value="<%= h value.try(:id) %>" />
+		<input type="hidden" name="document[asset_ids][]"      class="asset-id" value="<%= h asset_id %>" />
+		<input type="hidden" name="document[meta[<%= uid %>]]" class="asset-id" value="<%= h asset_id %>" />
 		
 		<p class="upload-button" id="upload-button-<%= uid %>">Bitte aktivieren Sie Flash für den Datei-Upload</p>
 		
 		<ol class="upload-queue"></ol>
 		
-		<%= render :partial => 'asset_list', :locals => { :assets => value ? [ value ] : [] } %>
+		<%= render :partial => 'asset_list', :locals => { :assets => ((asset and asset_id) ? [ asset ] : []) } %>
 		
 	</div><!-- /.input-container -->
 	
 <% elsif type == "Collection" %>
+	<% collection = value %>
+	<% collection_id = collection.try(:id) || '' %>
 	
 	<label for="document[meta[<%= uid %>]]"><%= h name %></label>
 	
@@ -58,16 +72,16 @@
 		data-upload-type="<%=h type %>"
 		data-upload-token="<%=h current_user.single_access_token %>"
 		data-document-id="<%=h document.id %>"
-		data-collection-id="<%=h value.try(:id) %>"
+		data-collection-id="<%=h collection_id %>"
 	>
-		<input type="hidden" name="document[collection_ids][]" class="collection-id" value="<%= h value.try(:id) %>" />
-		<input type="hidden" name="document[meta[<%= uid %>]]" class="collection-id" value="<%= h value.try(:id) %>" />
+		<input type="hidden" name="document[collection_ids][]" class="collection-id" value="<%= h collection_id %>" />
+		<input type="hidden" name="document[meta[<%= uid %>]]" class="collection-id" value="<%= h collection_id %>" />
 		
 		<p class="upload-button" id="upload-button-<%= uid %>">Bitte aktivieren Sie Flash für den Datei-Upload</p>
 		
 		<ol class="upload-queue"></ol>
 		
-		<%= render :partial => 'asset_list', :locals => { :assets => value ? value.assets : [] } %>
+		<%= render :partial => 'asset_list', :locals => { :assets => ((collection and collection_id) ? collection.assets : []) } %>
 		
 	</div><!-- /.input-container -->
 	

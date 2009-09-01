@@ -30,11 +30,13 @@ jQuery(function() {
 	jQuery("input[type=text][placeholder], textarea[placeholder]").placeholder();
 	
 	(function () {
-		var assetLists = jQuery(".asset-list")
+		/* Asset list behavior */
+		
+		var assetLists = jQuery(".asset-list");
 		
 		assetLists.
 				find(".image-wrapper")
-					.click(showFullview)
+					.click(loadFullview)
 				.end()
 				.find("a.delete")
 					.click(deleteAsset);
@@ -46,15 +48,19 @@ jQuery(function() {
 				return false;
 			}
 			
-			var deleteLink = jQuery(this),
-				url = deleteLink.attr('href'),
-				params = {
-					_method: 'delete',
-					authenticity_token: deleteLink.attr("data-authenticity-token")
-				};
+			var deleteLink = jQuery(this);
 			
+			/* Hide corresponding asset list item */
 			deleteLink.parents("li:eq(0)").hide();
-			jQuery.post(url, params);
+			
+			/* Send DELETE request */
+			jQuery.post(deleteLink.attr('href'), {
+				_method: 'delete',
+				authenticity_token: deleteLink.attr("data-authenticity-token")
+			});
+			
+			/* Remove asset id from hidden input field */
+			deleteLink.parents('.file-upload').find('.asset-id').val('');
 			
 			return false;
 		}
@@ -62,19 +68,19 @@ jQuery(function() {
 		var image = jQuery("<img />")
 				.attr("id", "asset-fullview")
 				.attr("title", "Vollansicht schließen")
-				.click(hideImage)
-				.load(fullviewLoaded)
+				.click(hideFullview)
+				.load(showFullview)
 				.css("display", "none")
 				.appendTo(document.body),
 			wrapperWidth,
 			wrapperHeight,
 			wrapperOffset;
 			
-		function hideImage () {
+		function hideFullview () {
 			image.css("display", "none");
 		}
 		
-		function showFullview () {
+		function loadFullview () {
 			var wrapper = jQuery(this),
 				fullUrl = wrapper.attr("fullurl");
 			if (!fullUrl) {
@@ -86,7 +92,7 @@ jQuery(function() {
 			image.attr("src", fullUrl);
 		}
 		
-		function fullviewLoaded () {
+		function showFullview () {
 			image.css({
 				left : Math.max(0, wrapperOffset.left - (image.attr("width") - wrapperWidth) / 2),
 				top : Math.max(0, wrapperOffset.top - (image.attr("height") - wrapperHeight) / 2),

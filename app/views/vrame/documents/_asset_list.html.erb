@@ -1,7 +1,7 @@
 <ol class="asset-list">
 <% for asset in assets %>
 	<li>
-		<% if asset.class.to_s == 'Image' %>
+		<% if asset.class == Image %>
 			<p class="image-wrapper" fullurl="<%= h(asset.file.url(:full)) %>" title="<%=h asset.title %>">
 				<img src="<%= h(asset.file.url(:thumbnail)) %>" alt="" />
 			</p>
