@@ -1,8 +1,5 @@
 jQuery(function () {
 	jQuery(".file-upload").each(function () {
-	});
-
-	jQuery(".file-upload").each(function () {
 		var c = $(this);
 		
 		var o = {

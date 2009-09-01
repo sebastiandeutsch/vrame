@@ -18,7 +18,7 @@ class Document < ActiveRecord::Base
             m[f['uid']] = d.collections.find(v)
           end
           
-        elsif f['type'] == 'Asset'
+        elsif f['type'] == 'File'
           
           if v.nil? or v == ''
             m[f['uid']] = d.assets.build()
