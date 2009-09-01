@@ -1,5 +1,6 @@
 class Document < ActiveRecord::Base
   has_many :collections, :dependent => :destroy
+  has_many :assets, :dependent => :destroy
   
   has_friendly_id :title, :use_slug => true, :strip_diacritics => true
   
@@ -18,7 +19,7 @@ class Document < ActiveRecord::Base
             m[f['uid']] = d.collections.find(v)
           end
           
-        elsif f['type'] == 'Asset'
+        elsif f['type'] == 'File'
           
           if v.nil? or v == ''
             m[f['uid']] = d.assets.build()
