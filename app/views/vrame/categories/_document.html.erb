@@ -1,9 +1,8 @@
-<tr class="document odd">
+<tr class="document odd nesting-level-<%= level %>">
 	<td><img src="/vrame/images/admin/page.png" alt="Document" /></td>
 	<td class="title">
-		<%= '&nbsp;' * indent if defined? indent %>
-		<%- if defined? child and child == true -%><img src="/vrame/images/admin/child.png" alt="" /><%- end -%>
-		<%=h document.title %>
+		<%- if defined? level and level > 0 -%><img src="/vrame/images/admin/child.png" alt="" /><%- end -%>
+		<%= link_to h(document.title), edit_vrame_document_path(document) %>
 	</td>
 	<td class="slug">
 		<%=h document.to_param %>

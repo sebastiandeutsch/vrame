@@ -1,0 +1,13 @@
+<% if !defined?(level) then level = 0 end %>
+
+<% if defined?(category) and category %>
+	<%= render :partial => 'document', :collection => category.documents, :locals => { :level => level } %>
+	<% categories = category.children %>
+<% end %>
+
+<% for category in categories do %>
+	<%= render :partial => 'category', :object => category, :locals => { :level => level } %>
+	<% level += 1 %>
+	<%= render :partial => 'document', :collection => category.documents, :locals => { :level => level } %>
+	<%= render :partial => 'category_tree', :locals => { :categories => category.children, :level => level } %>
+<% end %>

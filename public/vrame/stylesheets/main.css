@@ -361,6 +361,34 @@ td.title a {
     text-decoration: none;
 }
 
+table.list .nesting-level-1 td.title {
+	padding-left: 10px;
+}
+
+table.list .nesting-level-2 td.title {
+	padding-left: 20px;
+}
+
+table.list .nesting-level-3 td.title {
+	padding-left: 30px;
+}
+
+table.list .nesting-level-4 td.title {
+	padding-left: 40px;
+}
+
+table.list .nesting-level-5 td.title {
+	padding-left: 50px;
+}
+
+table.list .nesting-level-6 td.title {
+	padding-left: 60px;
+}
+
+table.list .nesting-level-7 td.title {
+	padding-left: 70px;
+}
+
 .pagination-container {
 	width:100%;
 	overflow:hidden;

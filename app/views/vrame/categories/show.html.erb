@@ -1,16 +1,16 @@
 <div class="subnavigation clearfix">
-    <div class="functions">
-        <%- unless @category.nil? -%>
-	    <%= link_to 'Neues Dokument', new_vrame_category_document_path(@category), :class => 'button' %>
-	    <%- end -%>
+	<div class="functions">
+		<%- unless @category.nil? -%>
+			<%= link_to 'Neues Dokument', new_vrame_category_document_path(@category), :class => 'button' %>
+		<%- end -%>
 		<%= link_to 'Neue Kategorie', new_vrame_category_path, :class => 'button' %>
 	</div>
 	
-    <%- unless @category.nil? -%>
-	<%= render :partial => 'vrame/shared/breadcrumbs', :locals => { :breadcrumbs => @breadcrumbs } %>
-	<h2><%= h @category.title %></h2>
+	<%- unless @category.nil? -%>
+		<%= render :partial => 'vrame/shared/breadcrumbs', :locals => { :breadcrumbs => @breadcrumbs } %>
+		<h2><%= h @category.title %></h2>
 	<%- else -%>
-	<h2>Kategorie-Übersicht</h2>
+		<h2>Kategorie-Übersicht</h2>
 	<%- end -%>
 </div>
 
@@ -26,22 +26,9 @@
 			</tr>
 		</thead>
 		<tbody>
-		    <%- if defined? @category -%>
-		    <%= render :partial => 'document', :collection => @category.documents %>
-		    <%- end -%>
-		    
-			<% for category in @categories do %>
-			
-                <%= render :partial => 'category', :object     => category %>
-                <%= render :partial => 'document', :collection => category.documents, :locals => { :indent => 0, :child => true } %>
-                
-				<% for child in category.children do %>
-					<%= render :partial => 'category', :object     => child,           :locals => { :indent => 0, :child => true } %>
-					<%= render :partial => 'document', :collection => child.documents, :locals => { :indent => 2, :child => true } %>	
-				<% end %>
-				
-			<% end %>
+			<%= render :partial => 'category_tree', :locals => { :category => @category, :categories => @categories } %>
 		</tbody>
 	</table>
 </div>
+
 <%= render :partial => 'vrame/shared/pagination', :locals => { :paginatable => @categories } %>

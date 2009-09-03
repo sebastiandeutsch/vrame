@@ -1,15 +1,16 @@
-<tr class="category even">
+<tr class="category even nesting-level-<%= level %>">
 	<td><img src="/vrame/images/admin/folder.png" alt="Category" /></td>
 	<td class="title">
-		<%= '&nbsp;' * indent if defined? indent %>
-		<%- if defined? child and child == true -%><img src="/vrame/images/admin/child.png" alt="" /><%- end -%>
+		<%- if defined? level and level > 0 -%><img src="/vrame/images/admin/child.png" alt="" /><%- end -%>
 		<%= link_to h(category.title), [:vrame, category] %>
 	</td>
 	<td class="slug">
 		<%=h category.to_param %>
 	</td>
 	<td class="options">
-		<%= link_to "Einträge ansehen", category.backend_url_path if category.backend_url != "" %>
+		<% if category.backend_url != "" %>
+			<%= link_to "Einträge ansehen", category.backend_url_path %>
+		<% end %>
 		<%= link_to "Bearbeiten", edit_vrame_category_path(category), :class => 'edit' %>
 		<%= link_to "Löschen", [:vrame, category], :method => :delete, :confirm => 'Wirklich löschen?', :class => 'delete' %>
 		<%= link_to "Dokument hinzufügen",
