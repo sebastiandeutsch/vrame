@@ -5,9 +5,9 @@
 	<% categories = category.children %>
 <% end %>
 
+<% sublevel = level + 1 %>
 <% for category in categories do %>
 	<%= render :partial => 'category', :object => category, :locals => { :level => level } %>
-	<% level += 1 %>
-	<%= render :partial => 'document', :collection => category.documents, :locals => { :level => level } %>
-	<%= render :partial => 'category_tree', :locals => { :categories => category.children, :level => level } %>
+	<%= render :partial => 'document', :collection => category.documents, :locals => { :level => sublevel } %>
+	<%= render :partial => 'category_tree', :locals => { :categories => category.children, :level => sublevel } %>
 <% end %>

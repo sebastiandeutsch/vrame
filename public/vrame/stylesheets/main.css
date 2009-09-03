@@ -315,7 +315,7 @@ table.list {
 table.list tr {
 }
 
-table.list thead tr th {
+table.list thead th {
 	color: #aaa;
 	background-color: #575757;
 	padding: 3px 5px 3px 5px;
@@ -362,31 +362,27 @@ td.title a {
 }
 
 table.list .nesting-level-1 td.title {
-	padding-left: 10px;
+	padding-left: 15px;
 }
 
 table.list .nesting-level-2 td.title {
-	padding-left: 20px;
-}
-
-table.list .nesting-level-3 td.title {
 	padding-left: 30px;
 }
 
+table.list .nesting-level-3 td.title {
+	padding-left: 45px;
+}
+
 table.list .nesting-level-4 td.title {
-	padding-left: 40px;
-}
-
-table.list .nesting-level-5 td.title {
-	padding-left: 50px;
-}
-
-table.list .nesting-level-6 td.title {
 	padding-left: 60px;
 }
 
-table.list .nesting-level-7 td.title {
-	padding-left: 70px;
+table.list .nesting-level-5 td.title {
+	padding-left: 65px;
+}
+
+table.list .nesting-level-6 td.title {
+	padding-left: 80px;
 }
 
 .pagination-container {
