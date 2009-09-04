@@ -34,7 +34,7 @@ module ActionView
           ret += '</option>'
         end
         ret
-      end
+      end # end def options_from_tree_recursion
       
       def to_tree_select_tag(collection, value_method, text_method, options, html_options)
         html_options = html_options.stringify_keys
@@ -43,11 +43,11 @@ module ActionView
         content_tag(
           "select", add_options(options_from_tree_recursion(collection, value_method, text_method, options, html_options, 0), options, value), html_options
         )
-      end
-    end
+      end # end def to_tree_select_tag
+    end # end class InstanceTag
     
-  end
-end
+  end # end module Helpers
+end # module ActionView
 
 module VrameHelper
   def tree_ul(acts_as_tree_set, init=true, &block)

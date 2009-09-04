@@ -94,8 +94,9 @@ h2 {
 }
 
 .breadcrumbs {
-    font-size: 13px;
-    line-height: 1;
+	font-size: 13px;
+	line-height: 1;
+	margin-bottom: 10px;
 }
 
 .breadcrumbs a {
@@ -334,7 +335,11 @@ table.list tbody tr.even td {
 }
 
 table.list tbody tr.odd td {
-	background-color: #ffffff;
+	background-color: #fff;
+}
+
+table.list tbody tr:hover td {
+  background-color: #fff;
 }
 
 table.list .options a {

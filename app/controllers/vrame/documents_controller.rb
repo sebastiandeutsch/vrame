@@ -18,8 +18,11 @@ class Vrame::DocumentsController < Vrame::VrameController
     @category = Category.find(params[:category_id])
     
     @document = @category.documents.build(params[:document])
-
+    
     if @document.save
+      # Initialize order
+      @document.position = @document.id
+      
       flash[:success] = 'Dokument angelegt'
       redirect_to vrame_categories_path
     else

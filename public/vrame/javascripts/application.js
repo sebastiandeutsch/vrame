@@ -2,6 +2,8 @@ jQuery(function() {
 	
 	var jQuery = window.jQuery;
 	
+	jQuery('#nav').droppy({ speed: 0 });
+	
 	jQuery(".flash").click(function() {
 		jQuery(this).fadeOut();
 	});

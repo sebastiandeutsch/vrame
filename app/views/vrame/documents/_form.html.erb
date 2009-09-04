@@ -46,6 +46,12 @@
 		<h3>Systeminformationen <span><a href="#system-information" class="expandable button invert">v</a></span></h3>
 		<ul id="system-information" class="hide">
 			<li>
+				<%= f.labelled_check_box :published, "Veröffentlicht" %>
+			</li>
+			<li>
+				<%= f.labelled_check_box :searchable, "Durchsuchbar" %>
+			</li>
+			<li>
 				<%= f.label :template, "Template:" %>
 				<%= f.text_field :template %> <em><%= f.error_message_on :template %></em>
 			</li>

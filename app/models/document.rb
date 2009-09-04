@@ -45,4 +45,28 @@ class Document < ActiveRecord::Base
       {:conditions => ["category_id IS NULL"]}
     end
   }
+  named_scope :published, :conditions => { :published => true }
+  
+  def to_hash
+    
+    # Convert document to hash
+    document_hash = self.attributes
+    
+    # Remove meta_json source
+    document_hash.delete("meta_json")
+    
+    schema = self.category.schema || []
+    if self.meta
+      schema.each do |item|
+        # Read value from the document's JSON store and append it to the hash
+        name = item['name']
+        next if name.empty?
+        uid = item['uid']
+        value = self.meta[uid]
+        document_hash[ name ] = value
+      end
+    end
+    
+    document_hash
+  end
 end

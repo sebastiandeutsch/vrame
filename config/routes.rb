@@ -5,8 +5,9 @@ ActionController::Routing::Routes.draw do |map|
     
     # CRUD
     vrame.resources :languages
-    vrame.resources :categories, :has_many => [:documents]
-    vrame.resources :documents
+    vrame.resources :categories, :has_many => [:documents], :member => { :order_up => :get, :order_down => :get }
+    vrame.resources :categories, :has_many => [:categories], :only => [:new]
+    vrame.resources :documents, :member => { :order_up => :get, :order_down => :get }
     
     #vrame.connect 'categories/:url', :controller => 'categories', :action => :index
     

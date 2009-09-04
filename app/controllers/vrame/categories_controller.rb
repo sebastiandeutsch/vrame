@@ -20,7 +20,10 @@ class Vrame::CategoriesController < Vrame::VrameController
   end
   
   def new
-    
+    @category = Category.new
+    if params[:category_id]
+      @category.parent = Category.find(params[:category_id])
+    end
   end
   
   def edit
@@ -51,7 +54,11 @@ class Vrame::CategoriesController < Vrame::VrameController
     params[:category][:schema] = params[:schema]
     
     @category = Category.new(params[:category])
+    
     if @category.save
+      # Initialize order
+      @category.position = @category.id
+      
       flash[:success] = 'Kategorie angelegt'
       redirect_to :action => :index
     else
@@ -74,14 +81,17 @@ class Vrame::CategoriesController < Vrame::VrameController
     @category = Category.find(params[:id])
     @category_top = Category.with_parent(@category).order_before(@category.position)[0]
     
-    category_position = @category.position
-    category_top_position = @category_top.position
-    
-    @category.position = category_top_position
-    @category.save
-    
-    @category_top.position = category_position
-    @category_top.save
+    if @category_top
+      # Swap positions
+      category_position = @category.position
+      category_top_position = @category_top.position
+      
+      @category.position = category_top_position
+      @category.save
+      
+      @category_top.position = category_position
+      @category_top.save
+    end
     
     redirect_to :back
   end
@@ -90,14 +100,21 @@ class Vrame::CategoriesController < Vrame::VrameController
     @category = Category.find(params[:id])
     @category_after = Category.with_parent(@category).order_after(@category.position)[0]
     
-    category_position = @category.position
-    category_after_position = @category_after.position
+    if @category_after
+      # Swap positions
+      category_position = @category.position
+      category_after_position = @category_after.position
     
-    @category.position = category_after_position
-    @category.save
+      @category.position = category_after_position
+      @category.save
     
-    @category_after.position = category_position
-    @category_after.save
+      @category_after.position = category_position
+      @category_after.save
+    else
+      # Already the last 
+      @category.position += 1
+      @category.save
+    end
     
     redirect_to :back
   end

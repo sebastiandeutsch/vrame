@@ -7,20 +7,18 @@
 			<ul id="nav">
 				<li>
 					<%= link_to 'Kategorien', vrame_categories_path %>
-					<%= tree_ul(Category.roots) { |item|
-						link_to h(item.title),
-						item.backend_url != "" ? item.backend_url_path : vrame_category_path(item),
-						:class => (item.children.empty? ? '' : 'top')
-					} %>
+					<%= tree_ul(Category.roots) do |category|
+						link_to h(category.title),
+						category.backend_url.empty? ? vrame_category_path(category) : category.backend_url_path,
+						:class => (category.children.empty? ? '' : 'top')
+					end %>
 				</li>
 				<li>
 					<a>Schnellzugriff</a>
 					<ul id="short-navigation">
 					<% short_navigation = Category.short_navigation %>
 					<% short_navigation.each do |category| %>
-						<li><%= link_to h(category.title),
-							category.backend_url != "" ? category.backend_url_path : vrame_category_path(category)
-						%></li>
+						<li><%= link_to h(category.title), category.backend_url.empty? ? vrame_category_path(category) : category.backend_url_path %></li>
 					<% end %>
 					</ul>
 				</li>

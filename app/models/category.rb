@@ -19,6 +19,7 @@ class Category < ActiveRecord::Base
     end
   }
   named_scope :short_navigation, :conditions => { :short_navigation => 1 }
+  named_scope :published, :conditions => { :published => true }
   
   has_json_object :schema,
     :default => [],
@@ -44,4 +45,5 @@ class Category < ActiveRecord::Base
   def backend_url_path
     '/vrame/' + backend_url
   end
+  
 end
