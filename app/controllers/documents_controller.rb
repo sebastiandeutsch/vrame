@@ -2,9 +2,8 @@ class DocumentsController < ApplicationController
   def show
     @document = Document.find(params[:id])
     
-    @public_document = {
-      :title => @document.title
-    }.merge(@document.meta)
+    # Emit documents with JSON store data mixed in
+    @public_document = @document.to_hash
     
     respond_to do |format|
       format.xml  { render :xml  => @public_document }
