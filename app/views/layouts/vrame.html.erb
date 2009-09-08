@@ -48,12 +48,12 @@
 			<div class="flash">
 				<% flash.each_pair do |flashclass, message| %>
 					<% if flashclass == :notice %>
-						<div class="<%=h flashclass %>">
+						<div class="<%= flashclass %>">
 							<%=h(t(message)) %>
 						</div>
 					<% else %>
-						<div class="<%=h flashclass %>">
-							<%=h(message) %>
+						<div class="<%= flashclass %>">
+							<%=h(t(message, :default => message)) %>
 						</div>
 					<% end %>
 				<% end %>

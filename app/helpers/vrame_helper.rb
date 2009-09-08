@@ -63,4 +63,10 @@ module VrameHelper
       ret += '</ul>'
     end
   end
+  
+  def tooltip(title, body, options = {})
+    options = { :class => 'smaller button invert tooltip', :title => body }.merge(options)
+    
+    link_to(title, '#', options)
+  end
 end
