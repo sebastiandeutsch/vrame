@@ -32,14 +32,17 @@
 							<%= options_for_select(["String", "Text", "Datetime", "Bool", "File", "Collection"], item['type']) %>
 						</select>&nbsp;
 						
+						<!--
+						<input name="schema[][required]" type="hidden" value="0" /> 
 						<input name="schema[][required]" type="checkbox" value="1" <% if item['required'] %>checked="checked"<% end %> /> benötigt?&nbsp;
+						-->
 						
 						<a href="#" class="smaller remove button invert">Entfernen</a>
 					</li>
 				<% end %>
 			<% end %>
 		</ol>
-		<div><a id="add-schema-item" href="#" class="button invert">Feld hinzufügen</a></div>
+		<div><a id="add-schema-item" href="#" class="button invert">Weiteres Feld hinzufügen</a></div>
 	</fieldset>
 	
 	<fieldset>
@@ -113,8 +116,10 @@
 		<select name="schema[][type]">
 			<%= options_for_select(["String", "Text", "Datetime", "Bool", "File", "Collection"], "String") %>
 		</select>&nbsp;
+		<!--
 		<input name="schema[][required]" type="hidden" value="0" /> 
 		<input name="schema[][required]" type="checkbox" value="1" /> benötigt?&nbsp;
+		-->
 		<a href="#" class="smaller remove button invert">Entfernen</a>
 	</li>
 	<li id="key-value-prototype">
