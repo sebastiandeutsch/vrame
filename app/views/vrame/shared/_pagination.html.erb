@@ -1,3 +1,4 @@
+<%- if paginatable.size > paginatable.per_page -%>
 <div class="pagination-container clearfix">
 	<div class="left">
 		<a href="?per_page=10">10</a>,
@@ -9,3 +10,4 @@
 		<%= will_paginate paginatable %>
 	</div>
 </div>
+<%- end -%>

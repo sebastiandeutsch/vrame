@@ -361,6 +361,18 @@ table.list .options .add {
 	background-image: url(/vrame/images/admin/add.png)
 }
 
+table.list .options .send_preview {
+	background-image: url(/vrame/images/admin/email_go.png)
+}
+
+table.list .options .send_to_all {
+	background-image: url(/vrame/images/admin/group_go.png)
+}
+
+table.list .options .time {
+	background-image: url(/vrame/images/admin/time.png)
+}
+
 td.title a {
     color: #000;
     text-decoration: none;
