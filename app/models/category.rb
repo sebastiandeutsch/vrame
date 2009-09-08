@@ -34,6 +34,8 @@ class Category < ActiveRecord::Base
   
   has_json_object :meta
   
+  Public_attributes = %W(id title url meta_keywords meta_description meta_title parent_id language_id updated_at created_at)
+  
   def available_parent_categories
     if new_record?
       Category.all
@@ -44,6 +46,11 @@ class Category < ActiveRecord::Base
   
   def backend_url_path
     '/vrame/' + backend_url
+  end
+  
+  def to_hash
+    # Convert category to hash
+    attributes.reject { |key, _| !Public_attributes.include?(key) }
   end
   
 end

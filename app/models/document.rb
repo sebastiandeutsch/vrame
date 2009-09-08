@@ -47,22 +47,21 @@ class Document < ActiveRecord::Base
   }
   named_scope :published, :conditions => { :published => true }
   
+  Public_attributes = %W(id title url meta_keywords meta_description meta_title category_id language_id updated_at created_at)
+    
   def to_hash
     
     # Convert document to hash
-    document_hash = self.attributes
+    document_hash = attributes.reject { |key, _| !Public_attributes.include?(key) }
     
-    # Remove meta_json source
-    document_hash.delete("meta_json")
-    
-    schema = self.category.schema || []
-    if self.meta
+    schema = category.schema || []
+    if meta
       schema.each do |item|
         # Read value from the document's JSON store and append it to the hash
         name = item['name']
         next if name.empty?
         uid = item['uid']
-        value = self.meta[uid]
+        value = meta[uid]
         document_hash[ name ] = value
       end
     end
