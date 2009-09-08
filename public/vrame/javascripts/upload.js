@@ -60,8 +60,8 @@ function Upload (o) {
 		
 		// File Upload Settings
 		file_size_limit : 20 * 1024,
-		file_types : '*.jpg;*.png,*.swf;*.flv',
-		file_types_description : 'JPG, PNG, SWF, FLV',
+		file_types : '*.*',
+		file_types_description : 'Files',
 		file_upload_limit : o.type == 'File' ? 1 : 0,
 
 		// Authentication
