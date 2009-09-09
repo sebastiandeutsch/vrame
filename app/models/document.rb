@@ -54,6 +54,10 @@ class Document < ActiveRecord::Base
     # Convert document to hash
     document_hash = attributes.reject { |key, _| !Public_attributes.include?(key) }
     
+    if document_hash['url'] == ""
+      document_hash['url'] = to_param
+    end
+    
     schema = category.schema || []
     if meta
       schema.each do |item|
