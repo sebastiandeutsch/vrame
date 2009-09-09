@@ -10,8 +10,8 @@ class Vrame::DocumentsController < Vrame::VrameController
       
     @document = @category.documents.build
     
-    @breadcrumbs = [{ :title => 'Kategorien', :url => vrame_categories_path}]
-    (@category.ancestors << @category).each { |a| @breadcrumbs << { :title => a.title, :url => vrame_category_path(a) } }
+    @breadcrumbs = [{ :title => 'Kategorien', :url => vrame_categories_path }]
+    @category.ancestors.reverse.push(@category).each { |a| @breadcrumbs << { :title => a.title, :url => vrame_category_path(a) } }
   end
   
   def create

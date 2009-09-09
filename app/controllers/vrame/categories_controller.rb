@@ -15,8 +15,8 @@ class Vrame::CategoriesController < Vrame::VrameController
     @category = Category.find(params[:id])
     @categories = @category.children.paginate :page => params[:page], :per_page => per_page
     
-    @breadcrumbs = [{ :title => 'Kategorien', :url => vrame_categories_path}]
-    @category.ancestors.each { |a| @breadcrumbs << { :title => a.title, :url => vrame_category_path(a) } }
+    @breadcrumbs = [{ :title => 'Kategorien', :url => vrame_categories_path }]
+    @category.ancestors.reverse.each { |a| @breadcrumbs << { :title => a.title, :url => vrame_category_path(a) } }
   end
   
   def new
@@ -24,6 +24,9 @@ class Vrame::CategoriesController < Vrame::VrameController
     if params[:category_id]
       @category.parent = Category.find(params[:category_id])
     end
+    
+    @breadcrumbs = [{ :title => 'Kategorien', :url => vrame_categories_path }]
+    @category.ancestors.reverse.each { |a| @breadcrumbs << { :title => a.title, :url => vrame_category_path(a) } }
   end
   
   def edit
