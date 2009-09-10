@@ -59,9 +59,6 @@ class Vrame::CategoriesController < Vrame::VrameController
     @category = Category.new(params[:category])
     
     if @category.save
-      # Initialize order
-      @category.position = @category.id
-      
       flash[:success] = 'Kategorie angelegt'
       redirect_to :action => :index
     else
@@ -82,42 +79,14 @@ class Vrame::CategoriesController < Vrame::VrameController
   
   def order_up
     @category = Category.find(params[:id])
-    @category_top = Category.with_parent(@category).order_before(@category.position)[0]
-    
-    if @category_top
-      # Swap positions
-      category_position = @category.position
-      category_top_position = @category_top.position
-      
-      @category.position = category_top_position
-      @category.save
-      
-      @category_top.position = category_position
-      @category_top.save
-    end
+    @category.move_higher
     
     redirect_to :back
   end
   
   def order_down
     @category = Category.find(params[:id])
-    @category_after = Category.with_parent(@category).order_after(@category.position)[0]
-    
-    if @category_after
-      # Swap positions
-      category_position = @category.position
-      category_after_position = @category_after.position
-    
-      @category.position = category_after_position
-      @category.save
-    
-      @category_after.position = category_position
-      @category_after.save
-    else
-      # Already the last 
-      @category.position += 1
-      @category.save
-    end
+    @category.move_lower
     
     redirect_to :back
   end

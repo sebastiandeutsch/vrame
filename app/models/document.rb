@@ -1,4 +1,6 @@
 class Document < ActiveRecord::Base
+  acts_as_list :scope => :category
+  
   has_many :collections, :dependent => :destroy
   has_many :assets, :dependent => :destroy
   

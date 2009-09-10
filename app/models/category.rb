@@ -6,6 +6,7 @@ class Category < ActiveRecord::Base
   belongs_to :user
   
   acts_as_tree :order => "position"
+  acts_as_list :scope => :parent
   
   validates_presence_of :title
   

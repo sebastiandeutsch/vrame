@@ -20,9 +20,6 @@ class Vrame::DocumentsController < Vrame::VrameController
     @document = @category.documents.build(params[:document])
     
     if @document.save
-      # Initialize order
-      @document.position = @document.id
-      
       flash[:success] = 'Dokument angelegt'
       redirect_to vrame_categories_path
     else
@@ -63,32 +60,14 @@ class Vrame::DocumentsController < Vrame::VrameController
   
   def order_up
     @document = Document.find(params[:id])
-    @document_top = Document.with_parent(@document).order_before(@document.position)[0]
-    
-    document_position = @document.position
-    document_top_position = @document_top.position
-    
-    @document.position = document_top_position
-    @document.save
-    
-    @document_top.position = document_position
-    @document_top.save
+    @document.move_higher
     
     redirect_to :back
   end
   
   def order_down
     @document = Document.find(params[:id])
-    @document_after = Document.with_parent(@document).order_after(@document.position)[0]
-    
-    document_position = @document.position
-    document_after_position = @document_after.position
-    
-    @document.position = document_after_position
-    @document.save
-    
-    @document_after.position = document_position
-    @document_after.save
+    @document.move_lower
     
     redirect_to :back
   end
