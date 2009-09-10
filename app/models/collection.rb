@@ -4,4 +4,8 @@ class Collection < ActiveRecord::Base
   has_many :assets, :dependent => :destroy
   
   has_json_object :meta
+  
+  def serialize
+    assets.map(&:serialize)
+  end
 end

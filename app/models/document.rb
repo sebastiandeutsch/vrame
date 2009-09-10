@@ -68,6 +68,10 @@ class Document < ActiveRecord::Base
         next if name.empty?
         uid = item['uid']
         value = meta[uid]
+        
+        # @TODO: Move into model
+        value = value.serialize if value.class.respond_to?(:serialize)
+        
         document_hash[ name ] = value
       end
     end
