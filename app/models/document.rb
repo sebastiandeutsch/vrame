@@ -15,18 +15,18 @@ class Document < ActiveRecord::Base
         
         if f['type'] == 'Collection'
           
-          if v.nil? or v == ''
-            m[f['uid']] = d.collections.build()
-          else
+          begin
             m[f['uid']] = d.collections.find(v)
+          rescue ActiveRecord::RecordNotFound
+            m[f['uid']] = d.collections.build()
           end
           
         elsif f['type'] == 'File'
           
-          if v.nil? or v == ''
-            m[f['uid']] = d.assets.build()
-          else
+          begin
             m[f['uid']] = d.assets.find(v)
+          rescue ActiveRecord::RecordNotFound
+            m[f['uid']] = d.assets.build()
           end
           
         end
