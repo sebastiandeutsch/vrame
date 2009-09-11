@@ -310,7 +310,7 @@ h2 {
 }
 
 table.list {
-	width:100%;
+	width: 100%;
 }
 
 table.list tr {
@@ -342,34 +342,56 @@ table.list tbody tr:hover td {
   background-color: #fff;
 }
 
-table.list .options a {
-	background-repeat: no-repeat;
-	background-position: left center;
-	padding-left: 23px;
-	margin-right: 13px;
+table.list td.slug,
+table.list td.options {
+	font-size: 13px;
 }
 
-table.list .options .edit {
+table.list td.options {
+	width: 360px;
+}
+
+table.list td.order {
+	width: 40px;
+}
+
+table.list .options {
+	line-height: 2;
+}
+
+table.list .options a {
+	margin-right: 13px;
+	padding-left: 23px;
+	background-repeat: no-repeat;
+	background-position: left center;
+	white-space: nowrap;
+}
+
+table.list a.edit {
 	background-image: url(/vrame/images/admin/edit.png)
 }
 
-table.list .options .delete {
+table.list a.delete {
 	background-image: url(/vrame/images/admin/delete.png)
 }
 
-table.list .options .add {
+table.list a.add {
 	background-image: url(/vrame/images/admin/add.png)
 }
 
-table.list .options .send_preview {
+table.list a.list {
+	background-image: url(/vrame/images/admin/magnifier.png)
+}
+
+table.list a.send_preview {
 	background-image: url(/vrame/images/admin/email_go.png)
 }
 
-table.list .options .send_to_all {
+table.list a.send_to_all {
 	background-image: url(/vrame/images/admin/group_go.png)
 }
 
-table.list .options .time {
+table.list a.time {
 	background-image: url(/vrame/images/admin/time.png)
 }
 

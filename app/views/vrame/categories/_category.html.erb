@@ -2,19 +2,20 @@
 	<td><img src="/vrame/images/admin/folder.png" alt="Category" /></td>
 	<td class="title">
 		<%- if defined? level and level > 0 -%><img src="/vrame/images/admin/child.png" alt="" /><%- end -%>
-		<%= link_to h(category.title), [:vrame, category] %>
+		<%= link_to h(category.title), category.backend_url != "" ? category.backend_url_path : [:vrame, category] %>
 	</td>
 	<td class="slug">
 		<%=h category.to_param %>
 	</td>
 	<td class="options">
 		<% if category.backend_url != "" %>
-			<%= link_to "Einträge ansehen", category.backend_url_path %>
+			<%= link_to "Einträge ansehen", category.backend_url_path, :class => 'list'  %>
+			<br />
 		<% end %>
-		<%= link_to "Bearbeiten", edit_vrame_category_path(category), :class => 'edit' %>
+		<%= link_to "Bearbeiten", [:edit, :vrame, category], :class => 'edit' %>
 		<%= link_to "Löschen", [:vrame, category], :method => :delete, :confirm => 'Wirklich löschen?', :class => 'delete' %>
 		<%= link_to "Dokument hinzufügen",
-			category.backend_url.empty? ? new_vrame_category_document_path(category) : category.backend_url_path + '/new',
+			category.backend_url.empty? ? [:new, :vrame, category, :document] : category.backend_url_path + '/new',
 			:class => 'add' %>
 	</td>
 	<td class="order">
