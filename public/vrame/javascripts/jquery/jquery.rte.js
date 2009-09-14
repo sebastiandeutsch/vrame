@@ -14,6 +14,7 @@
             media_url: "",
             content_css_url: "rte.css",
             dot_net_button_class: null,
+			min_height: 260,
             max_height: 350
         };
 
@@ -205,12 +206,15 @@
 	            iframeDoc.keyup(function() {
 	                setSelectedType(getSelectionElement(), select);
 	                var body = $('body', iframeDoc);
+					
 	                if(body.scrollTop() > 0) {
                         var iframe_height = parseInt(iframe.style['height'])
                         if(isNaN(iframe_height))
                             iframe_height = 0;
-                        var h = Math.min(opts.max_height, iframe_height+body.scrollTop()) + 'px';
-	                    iframe.style['height'] = h;
+                        var h = Math.min(opts.max_height, iframe_height+body.scrollTop());
+						h = Math.max(h, opts.min_height);
+						
+	                    iframe.style['height'] = (h + 'px');
                     }
 	                return true;
 	            });
