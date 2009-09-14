@@ -49,7 +49,7 @@ class Document < ActiveRecord::Base
   }
   named_scope :published, :conditions => { :published => true }
   
-  Public_attributes = %W(id title url meta_keywords meta_description meta_title category_id language_id updated_at created_at)
+  Public_attributes = %w(id title url meta_keywords meta_description meta_title category_id language_id updated_at created_at)
     
   def to_hash
     

@@ -1,4 +1,4 @@
-<tr class="category even nesting-level-<%= level %>">
+<tr class="category even nesting-level-<%= level %>" id="category-<%=h category.to_param %>">
 	<td><img src="/vrame/images/admin/folder.png" alt="Category" /></td>
 	<td class="title">
 		<%- if defined? level and level > 0 -%><img src="/vrame/images/admin/child.png" alt="" /><%- end -%>

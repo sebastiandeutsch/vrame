@@ -35,7 +35,7 @@ class Category < ActiveRecord::Base
   
   has_json_object :meta
   
-  Public_attributes = %W(id title url meta_keywords meta_description meta_title parent_id language_id updated_at created_at)
+  Public_attributes = %w(id title url meta_keywords meta_description meta_title parent_id language_id updated_at created_at)
   
   def available_parent_categories
     if new_record?

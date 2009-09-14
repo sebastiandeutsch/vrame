@@ -6,6 +6,7 @@ class CategoriesController < ApplicationController
       
       @category = Category.find(params[:category_id])
       
+      # Filter confidential and unwanted attributes
       @public_categories = @category.children.map(&:to_hash)
         
       respond_to do |format|
@@ -27,6 +28,7 @@ class CategoriesController < ApplicationController
   def show
     @category = Category.find(params[:id])
     
+    # Filter confidential and unwanted attributes
     @public_category = @category.to_hash
     
     respond_to do |format|

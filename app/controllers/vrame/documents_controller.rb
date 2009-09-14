@@ -1,4 +1,5 @@
 class Vrame::DocumentsController < Vrame::VrameController
+  
   def index
     per_page = params[:per_page] || 50
     
@@ -21,10 +22,10 @@ class Vrame::DocumentsController < Vrame::VrameController
     
     if @document.save
       flash[:success] = 'Dokument angelegt'
-      redirect_to vrame_categories_path
+      redirect_to vrame_categories_path + "#document-#{@document.to_param}"
     else
       flash[:error] = 'Dokument konnte nicht angelegt werden'
-      redirect_to vrame_categories_path
+      render :action => :new
     end
   end
   
@@ -41,7 +42,7 @@ class Vrame::DocumentsController < Vrame::VrameController
     
     if @document.update_attributes(params[:document])
       flash[:success] = 'Dokument aktualisiert'
-      redirect_to vrame_categories_path
+      redirect_to vrame_categories_path + "#document-#{@document.to_param}"
     else
       flash[:error] = 'Es ist ein Fehler aufgetreten'
       render :action => :edit
@@ -55,20 +56,20 @@ class Vrame::DocumentsController < Vrame::VrameController
     else
       flash[:error] = 'Das Dokument konnte nicht gelöscht werden'  #TODO Error Messages hierhin
     end
-    redirect_to :back
+    redirect_to vrame_categories_path
   end  
   
   def order_up
     @document = Document.find(params[:id])
     @document.move_higher
     
-    redirect_to :back
+    redirect_to vrame_categories_path + "#document-#{@document.to_param}"
   end
   
   def order_down
     @document = Document.find(params[:id])
     @document.move_lower
     
-    redirect_to :back
+    redirect_to vrame_categories_path + "#document-#{@document.to_param}"
   end
 end

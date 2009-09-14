@@ -1,4 +1,5 @@
 class Vrame::CategoriesController < Vrame::VrameController
+  
   def index
     per_page = params[:per_page] || 50
     
@@ -29,6 +30,21 @@ class Vrame::CategoriesController < Vrame::VrameController
     @category.ancestors.reverse.each { |a| @breadcrumbs << { :title => a.title, :url => vrame_category_path(a) } }
   end
   
+  def create
+    # Hash mapping workaround
+    params[:category][:schema] = params[:schema]
+    
+    @category = Category.new(params[:category])
+    
+    if @category.save
+      flash[:success] = 'Kategorie angelegt'
+      redirect_to vrame_categories_path + "#category-#{@category.to_param}"
+    else
+      flash[:error] = 'Dokument konnte nicht angelegt werden'
+      render :action => :new
+    end
+ end
+  
   def edit
     @category = Category.find(params[:id])
   end
@@ -42,30 +58,16 @@ class Vrame::CategoriesController < Vrame::VrameController
     # Empty default values
     params[:category][:schema] ||= []
     params[:category][:meta] ||= {}
-
+    # TODO: auslagern möglich?
+    
     if @category.update_attributes(params[:category])
       flash[:success] = 'Die Kategorie wurde aktualisiert'
-      redirect_to :action => :index
+      redirect_to vrame_categories_path + "#category-#{@category.to_param}"
     else
       flash[:error] = 'Es ist ein Fehler aufgetreten'
       render :action => :edit
-    end    
-  end  
-  
-  def create
-    # Hash mapping workaround
-    params[:category][:schema] = params[:schema]
-    
-    @category = Category.new(params[:category])
-    
-    if @category.save
-      flash[:success] = 'Kategorie angelegt'
-      redirect_to :action => :index
-    else
-      flash[:error] = 'Dokument konnte nicht angelegt werden'
-      render :new
     end
- end
+  end
   
   def destroy
     @category = Category.find(params[:id])
