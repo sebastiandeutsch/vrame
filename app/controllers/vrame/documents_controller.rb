@@ -51,12 +51,14 @@ class Vrame::DocumentsController < Vrame::VrameController
   
   def destroy
     @document = Document.find(params[:id])
+    @category = @document.category
     if @document.destroy
       flash[:success] = 'Das Dokument wurde gelöscht'
+      redirect_to vrame_categories_path + "#category-#{@category.to_param}"
     else
       flash[:error] = 'Das Dokument konnte nicht gelöscht werden'  #TODO Error Messages hierhin
+      redirect_to vrame_categories_path
     end
-    redirect_to vrame_categories_path
   end  
   
   def order_up

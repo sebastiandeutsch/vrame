@@ -10,7 +10,6 @@
 	<td class="options">
 		<% if category.backend_url != "" %>
 			<%= link_to "Einträge ansehen", category.backend_url_path, :class => 'list'  %>
-			<br />
 		<% end %>
 		<%= link_to "Bearbeiten", [:edit, :vrame, category], :class => 'edit' %>
 		<%= link_to "Löschen", [:vrame, category], :method => :delete, :confirm => 'Wirklich löschen?', :class => 'delete' %>

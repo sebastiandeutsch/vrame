@@ -27,6 +27,7 @@ class CategoriesController < ApplicationController
   
   def show
     @category = Category.find(params[:id])
+    redirect_to @category, :status => 301 if @category.found_using_outdated_friendly_id?
     
     # Filter confidential and unwanted attributes
     @public_category = @category.to_hash

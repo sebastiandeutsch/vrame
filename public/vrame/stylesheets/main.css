@@ -339,7 +339,7 @@ table.list tbody tr.odd td {
 }
 
 table.list tbody tr:hover td {
-  background-color: #fff;
+  background-color: #eaeaff;
 }
 
 table.list td.slug,
@@ -355,9 +355,7 @@ table.list td.order {
 	width: 40px;
 }
 
-table.list .options {
-	line-height: 2;
-}
+table.list .options {}
 
 table.list .options a {
 	margin-right: 13px;
@@ -380,6 +378,8 @@ table.list a.add {
 }
 
 table.list a.list {
+	display: block;
+	margin-bottom: 5px;
 	background-image: url(/vrame/images/admin/magnifier.png)
 }
 

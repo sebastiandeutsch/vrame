@@ -73,10 +73,11 @@ class Vrame::CategoriesController < Vrame::VrameController
     @category = Category.find(params[:id])
     if @category.destroy
       flash[:success] = 'Die Kategorie wurde gelöscht'
+      redirect_to vrame_categories_path + (@category.parent ? "#category-#{@category.parent.to_param}" : "")
     else
       flash[:error] = 'Die Kategorie konnte nicht gelöscht werden'  #TODO Error Messages hierhin
+      redirect_to vrame_categories_path + "#category-#{@category.to_param}"
     end
-    redirect_to :action => :index
   end  
   
   def order_up

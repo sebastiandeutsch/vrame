@@ -28,6 +28,7 @@ class DocumentsController < ApplicationController
   
   def show
     @document = Document.find(params[:id])
+    redirect_to @document, :status => 301 if @document.found_using_outdated_friendly_id?
     
     # Emit document with JSON store data mixed in
     @public_document = @document.to_hash
