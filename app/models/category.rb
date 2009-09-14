@@ -1,16 +1,17 @@
 class Category < ActiveRecord::Base
-  has_many :documents, :order => "order_index"
+  has_many :documents, :order => "position"
   
   has_friendly_id :title, :use_slug => true, :strip_diacritics => true
   
   belongs_to :user
   
-  acts_as_tree :order => "order_index"
+  acts_as_tree :order => "position"
+  acts_as_list :scope => :parent
   
   validates_presence_of :title
   
-  named_scope :order_before, lambda {|order_index| { :conditions => ["order_index < ?", order_index], :limit => 1, :order => "order_index DESC" }}
-  named_scope :order_after, lambda {|order_index| { :conditions => ["order_index > ?", order_index], :limit => 1, :order => "order_index ASC" }}
+  named_scope :order_before, lambda {|position| { :conditions => ["position < ?", position], :limit => 1, :order => "position DESC" }}
+  named_scope :order_after, lambda {|position| { :conditions => ["position > ?", position], :limit => 1, :order => "position ASC" }}
   named_scope :with_parent, lambda {|parent|
     if parent.parent_id != nil 
       {:conditions => ["parent_id = ?", parent.parent_id ]}
@@ -19,6 +20,7 @@ class Category < ActiveRecord::Base
     end
   }
   named_scope :short_navigation, :conditions => { :short_navigation => 1 }
+  named_scope :published, :conditions => { :published => true }
   
   has_json_object :schema,
     :default => [],
@@ -33,6 +35,8 @@ class Category < ActiveRecord::Base
   
   has_json_object :meta
   
+  Public_attributes = %w(id title url meta_keywords meta_description meta_title parent_id language_id updated_at created_at)
+  
   def available_parent_categories
     if new_record?
       Category.all
@@ -44,4 +48,16 @@ class Category < ActiveRecord::Base
   def backend_url_path
     '/vrame/' + backend_url
   end
+  
+  def to_hash
+    # Convert category to hash
+    category_hash = attributes.reject { |key, _| !Public_attributes.include?(key) }
+    
+    if category_hash['url'] == ""
+      category_hash['url'] = to_param
+    end
+    
+    category_hash
+  end
+  
 end

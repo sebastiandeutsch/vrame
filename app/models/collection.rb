@@ -1,5 +1,11 @@
 class Collection < ActiveRecord::Base
-  has_many :images, :dependent => :destroy
+  belongs_to :document
+  
+  has_many :assets, :dependent => :destroy
   
   has_json_object :meta
+  
+  def serialize
+    assets.map(&:serialize)
+  end
 end

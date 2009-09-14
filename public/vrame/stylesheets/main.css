@@ -94,8 +94,9 @@ h2 {
 }
 
 .breadcrumbs {
-    font-size: 13px;
-    line-height: 1;
+	font-size: 13px;
+	line-height: 1;
+	margin-bottom: 10px;
 }
 
 .breadcrumbs a {
@@ -211,7 +212,7 @@ h2 {
 
 /* Everything else is theming */
 
-#nav { width: 200px; height: 24px; background-color: #2b2b2b; margin-top: 1px; -webkit-border-radius: 4px;  }
+#nav { height: 24px; background-color: #2b2b2b; margin-top: 1px; -webkit-border-radius: 4px;  }
 #nav *:hover { background-color: none; }
 #nav a { color: white; font-size: 12px; padding: 6px 16px; line-height: 1; text-decoration: none; }
 #nav ul a { padding: 8px 16px; }
@@ -309,13 +310,13 @@ h2 {
 }
 
 table.list {
-	width:100%;
+	width: 100%;
 }
 
 table.list tr {
 }
 
-table.list thead tr th {
+table.list thead th {
 	color: #aaa;
 	background-color: #575757;
 	padding: 3px 5px 3px 5px;
@@ -334,31 +335,93 @@ table.list tbody tr.even td {
 }
 
 table.list tbody tr.odd td {
-	background-color: #ffffff;
+	background-color: #fff;
 }
+
+table.list tbody tr:hover td {
+  background-color: #eaeaff;
+}
+
+table.list td.slug,
+table.list td.options {
+	font-size: 13px;
+}
+
+table.list td.options {
+	width: 360px;
+}
+
+table.list td.order {
+	width: 40px;
+}
+
+table.list .options {}
 
 table.list .options a {
+	margin-right: 13px;
+	padding-left: 23px;
 	background-repeat: no-repeat;
 	background-position: left center;
-	padding-left: 23px;
-	margin-right: 13px;
+	white-space: nowrap;
 }
 
-table.list .options .edit {
+table.list a.edit {
 	background-image: url(/vrame/images/admin/edit.png)
 }
 
-table.list .options .delete {
+table.list a.delete {
 	background-image: url(/vrame/images/admin/delete.png)
 }
 
-table.list .options .add {
+table.list a.add {
 	background-image: url(/vrame/images/admin/add.png)
+}
+
+table.list a.list {
+	display: block;
+	margin-bottom: 5px;
+	background-image: url(/vrame/images/admin/magnifier.png)
+}
+
+table.list a.send_preview {
+	background-image: url(/vrame/images/admin/email_go.png)
+}
+
+table.list a.send_to_all {
+	background-image: url(/vrame/images/admin/group_go.png)
+}
+
+table.list a.time {
+	background-image: url(/vrame/images/admin/time.png)
 }
 
 td.title a {
     color: #000;
     text-decoration: none;
+}
+
+table.list .nesting-level-1 td.title {
+	padding-left: 15px;
+}
+
+table.list .nesting-level-2 td.title {
+	padding-left: 30px;
+}
+
+table.list .nesting-level-3 td.title {
+	padding-left: 45px;
+}
+
+table.list .nesting-level-4 td.title {
+	padding-left: 60px;
+}
+
+table.list .nesting-level-5 td.title {
+	padding-left: 65px;
+}
+
+table.list .nesting-level-6 td.title {
+	padding-left: 80px;
 }
 
 .pagination-container {
@@ -489,16 +552,16 @@ button:hover {
 }
 
 /** 
- * @section Gallery/new and Gallery/edit: Gallery Items Lists
+ * @section Image Lists
  *
  *
  */
 
-.gallery-items {
+.asset-list {
 	overflow: hidden;
 }
 
-.gallery-items li {
+.asset-list li {
 	float: left;
 	position: relative;
 	
@@ -512,7 +575,7 @@ button:hover {
 	min-height: 165px;
 }
 
-.gallery-items .image-wrapper {
+.asset-list .image-wrapper {
 	display: table-cell;
 	
 	width: 100px;
@@ -524,25 +587,25 @@ button:hover {
 	cursor: pointer;
 }
 
-.gallery-items .controls {
+.asset-list .controls {
 	padding-top: 5px;
 	clear: both;
 }
 
-.gallery-items .edit {
+.asset-list .edit {
 	float: left;
 }
 
-.gallery-items .delete {
+.asset-list .delete {
 	float: right;
 }
 
-.gallery-items img {
+.asset-list img {
 	display: block;
 	margin: auto;
 }
 
-#gallery-item-fullview {
+#asset-fullview {
 	position: absolute;
 	top: 0;
 	left: -9999px;
@@ -559,14 +622,14 @@ button:hover {
  *
  */
 
-#document-galleries {
+#document-collections {
 	max-height: 200px;
 	overflow-x: hidden;
 	overflow-y: auto;
 	margin-bottom: 10px;
 }
 
-#document-galleries li {
+#document-collections li {
 	margin-bottom: 0;
 	border-bottom: none;
 	padding-bottom: 0;
