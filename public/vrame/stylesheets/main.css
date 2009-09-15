@@ -305,6 +305,7 @@ h2 {
  */
 
 .table-container {
+	margin-bottom: 10px;
 	border: 1px solid #777;
 	padding: 1px;
 }
@@ -347,11 +348,12 @@ table.list td.options {
 	font-size: 13px;
 }
 
-table.list td.options {
+#category-list td.options {
 	width: 360px;
 }
 
-table.list td.order {
+#category-list td.order,
+#document-list td.order {
 	width: 40px;
 }
 
