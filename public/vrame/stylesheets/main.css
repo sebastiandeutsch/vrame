@@ -212,17 +212,17 @@ h2 {
 
 /* Everything else is theming */
 
-#nav { height: 24px; background-color: #2b2b2b; margin-top: 1px; -webkit-border-radius: 4px;  }
+#nav { height: 24px; background-color: #2b2b2b; margin-top: 1px; -webkit-border-radius: 4px; -moz-border-radius: 4px; }
 #nav *:hover { background-color: none; }
 #nav a { color: white; font-size: 12px; padding: 6px 16px; line-height: 1; text-decoration: none; }
 #nav ul a { padding: 8px 16px; }
 #nav li.hover a { background-color: #2b2b2b; }
-#nav ul { top: 22px; -webkit-border-radius: 4px; -webkit-box-shadow: 0px 0px 10px #333; }
+#nav ul { top: 22px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -webkit-box-shadow: 0px 0px 10px #333; }
 #nav ul li a { background-color: #2b2b2b; }
 /*#nav ul > li:last-child > a { -webkit-border-bottom-left-radius: 4px; -webkit-border-bottom-right-radius: 4px; }*/
 #nav ul a.top { background: #2b2b2b url('/vrame/images/admin/arrow_right.png') 168px 9px no-repeat; }
 #nav ul a.hover { background-color: #444; }
-#nav > li > a { -webkit-border-radius: 4px; }
+#nav > li > a { -webkit-border-radius: 4px; -moz-border-radius: 4px; }
 
 /** 
  * @section Flash
@@ -448,6 +448,7 @@ label {
 form fieldset {
     background: #e8e8e8;
     -webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
     padding: 15px;
 	margin-bottom: 15px;
 }
@@ -504,6 +505,7 @@ input[type="text"],
 input[type="password"] {
 	border: 1px solid #aaa;
 	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
 }
 
 textarea {
@@ -524,6 +526,7 @@ button {
     color: #fff;
     border: 0;
     -webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
     padding: 7px 10px;
     text-decoration: none;
     font-size: 11px;
@@ -570,6 +573,7 @@ button:hover {
 	margin: 0 10px 10px 0;
 /*  border: 1px solid #aaa;*/
     -webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
 	padding: 5px 5px 5px 5px;
 	background: #fff;
 	
@@ -645,7 +649,7 @@ button:hover {
 
 .tooltip { display: inline; }
 .tipsy { padding: 5px; font-size: 10px; opacity: 0.9; filter: alpha(opacity=90); background-repeat: no-repeat; }
-.tipsy-inner { padding: 4px 5px; background-color: black; color: white; max-width: 200px; text-align: center; -webkit-border-radius: 4px; }
+.tipsy-inner { padding: 4px 5px; background-color: black; color: white; max-width: 200px; text-align: center; -webkit-border-radius: 4px; -moz-border-radius: 4px; }
 .tipsy-north { background-image: url(/vrame/images/tipsy/north.gif); background-position: top center; }
 .tipsy-south { background-image: url(/vrame/images/tipsy/south.gif); background-position: bottom center; }
 .tipsy-east { background-image: url(/vrame/images/tipsy/east.gif); background-position: right center; }
