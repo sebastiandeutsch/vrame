@@ -1,0 +1,38 @@
+<% if defined?(asset) :
+		type = :asset
+		assets = [asset]
+		asset_id = asset.try(:id)
+	elsif defined?(collection) :
+		type = :collection
+		assets = collection.assets
+		collection_id = collection.try(:id)
+	end %>
+
+<div
+	class             = "file-upload"
+	data-upload-token = "<%=h current_user.single_access_token %>"
+	data-parent-id    = "<%=h parent.id %>"
+	data-parent-type  = "<%=h parent.class.to_s.downcase %>"
+	data-upload-type  = "<%=h type.to_s %>"
+	<% if defined?(collection) -%>
+		data-collection-id = "<%=h collection.id %>"
+	<%- end %>
+>
+	<% if type == :asset %>
+		<input type="text" class="asset-id" name="document[asset_ids][]" value="<%= h asset_id %>" />
+		<input type="text" class="asset-id" name="<%= field_name %>" value="<%= h asset_id %>" />
+	<% elsif type == :collection %>
+		<input type="text" class="collection-id" name="document[collection_ids][]"   value="<%= h collection_id %>" />
+		<input type="text" class="collection-id" name="<%= field_name %>" value="<%= h collection_id %>" />
+	<% end %>
+	
+	<% defined?(@upload_button_number) ? @upload_button_number += 1 : @upload_button_number = 1 %>
+	<p class="upload-button" id="upload-button-<%= @upload_button_number %>">
+		Bitte aktivieren Sie Flash für den Datei-Upload.
+	</p>
+
+	<ol class="upload-queue"></ol>
+
+	<%= render :partial => 'vrame/shared/asset_list', :locals => { :assets => assets } %>
+
+</div><!-- /.file-upload -->

@@ -6,28 +6,37 @@ class Vrame::AssetsController < Vrame::VrameController
   
   def create
     
+    # Get the file
     @file = params[:Filedata]
-    attributes =  { :user => @current_user, :file => @file }
+    
+    # Basic attributes
+    attributes =  { :file => @file, :user => @current_user }
+    
+    # Set up document association if document id given
+    attributes[:document_id] = params[:document_id].to_i if params[:document_id]
     
     # Is the file an image?
-    if Paperclip::Attachment.is_image?(@file.original_filename)
-      # Create an Image instance
-      @asset = Image.create attributes
-      @response = {
-        :id  => @asset.id,
-        :url => @asset.file.url(:thumbnail),
-        :is_image => true
-      }
-    else
-      # Create a generic Asset instance
-      @asset = Asset.create attributes
-      @response = {
-        :id  => @asset.id,
-        :url => @asset.file.original_filename
-      }
+    is_image = Paperclip::Attachment.is_image?(@file.original_filename)
+    
+    # Create an Image instance or a generic Asset
+    klass = is_image ? Image : Asset
+    
+    # Create record
+    @asset = klass.create(attributes)
+    
+    # Build response
+    @response = {
+        :id       => @asset.id,
+        :url      => @asset.file.url,
+        :filename => @asset.file.original_filename
+    }
+    
+    if is_image
+      @response[:is_image]  = true
+      @response[:thumbnail] = @asset.file.url(:thumbnail)
     end
     
-    if params[:create_collection]
+    if params[:parent_type] == "collection"
       # The asset is part of a collection
       
       # Find collection by collection_id or create new one
@@ -44,6 +53,7 @@ class Vrame::AssetsController < Vrame::VrameController
       @response.merge! :collection_id => @collection.id
     end
     
+    # Render response
     render :json => @response
   end
   

@@ -1,90 +1,49 @@
 <% name = item['name'] %>
 <% type = item['type'] %>
 <% uid = item['uid'] %>
+
 <% value = document.meta.nil? ? nil : document.meta[uid] %>
+
+<% field_name = "document[meta[#{uid}]]" %>
+<% field_id = "document-meta-#{uid}" %>
 
 <li class="clearfix">
 
-<!--
-<p>
-name: <%=h name.inspect %><br>
-type: <%=h type.inspect %><br>
-uid: <%=h uid.inspect %><br>
-value: <%=h value.inspect %><br>
-</p>
--->
+	<label for="<%= field_id %>"><%= h name %></label>
+	
+	<div class="input-container">
 
-<% if type == "String" %>
-	
-	<label for="document[meta[<%= uid %>]]"><%= h name %></label>
-	
-	<div class="input-container">
-		<input name="document[meta[<%= uid %>]]" type="text" value="<%= h value %>" />
-	</div>
-	
-<% elsif type == "Text" %>
-	
-	<label for="document[meta[<%= uid %>]]"><%= h name %></label>
-	
-	<div class="input-container">
-		<textarea name="document[meta[<%= uid %>]]" id="document-meta-<%= uid %>" class="rte-zone"><%= value %></textarea>
-	</div>
-	
-<% elsif type == "Datetime" %>
-	
-	<label for="document[meta[<%= uid %>]]"><%= h name %></label>
-	
-	<div class="input-container">
-		<input id="document_meta_<%= uid %>" class="datepicker" name="document[meta[<%= uid %>]]" type="text" value="<%= value %>" />
-	</div>
-	
-<% elsif type == "File" %>
-	<% asset = value %>
-	<% asset_id = asset.try(:id) %>
-	
-	<label for="document[meta[<%= uid %>]]"><%= h name %></label>
-	
-	<div
-		class="input-container file-upload"
-		data-upload-type="<%=h type %>"
-		data-upload-token="<%=h current_user.single_access_token %>"
-		data-document-id="<%=h document.id %>"
-	>
-		<input type="hidden" name="document[asset_ids][]"      class="asset-id" value="<%= h asset_id %>" />
-		<input type="hidden" name="document[meta[<%= uid %>]]" class="asset-id" value="<%= h asset_id %>" />
+	<% if type == "String" %>
 		
-		<p class="upload-button" id="upload-button-<%= uid %>">Bitte aktivieren Sie Flash für den Datei-Upload</p>
+		<input type="text" name="<%= field_name %>" id="<%= field_id %>" value="<%= h value %>" />
 		
-		<ol class="upload-queue"></ol>
+	<% elsif type == "Text" %>
 		
-		<%= render :partial => 'asset_list', :locals => { :assets => ((asset and asset_id) ? [ asset ] : []) } %>
+		<textarea name="<%= field_name %>" id="<%= field_id %>" class="rte-zone"><%= value %></textarea>
 		
-	</div><!-- /.input-container -->
-	
-<% elsif type == "Collection" %>
-	<% collection = value %>
-	<% collection_id = collection.try(:id) || '' %>
-	
-	<label for="document[meta[<%= uid %>]]"><%= h name %></label>
-	
-	<div
-		class="input-container file-upload"
-		data-upload-type="<%=h type %>"
-		data-upload-token="<%=h current_user.single_access_token %>"
-		data-document-id="<%=h document.id %>"
-		data-collection-id="<%=h collection_id %>"
-	>
-		<input type="hidden" name="document[collection_ids][]" class="collection-id" value="<%= h collection_id %>" />
-		<input type="hidden" name="document[meta[<%= uid %>]]" class="collection-id" value="<%= h collection_id %>" />
+	<% elsif type == "Datetime" %>
 		
-		<p class="upload-button" id="upload-button-<%= uid %>">Bitte aktivieren Sie Flash für den Datei-Upload.</p>
+		<input type="text" name="<%= field_name %>" id="<%= field_id %>" value="<%= value %>" class="datepicker" />
 		
-		<ol class="upload-queue"></ol>
+	<% elsif type == "File" %>
 		
-		<%= render :partial => 'asset_list', :locals => { :assets => ((collection and collection_id) ? collection.assets : []) } %>
+		<%= render :partial => 'vrame/shared/file_upload', :locals => {
+			:type => "file",
+			:parent => document,
+			:asset => value,
+			:field_name => field_name
+		} %>
 		
-	</div><!-- /.input-container -->
-	
-<% end %>
+	<% elsif type == "Collection" %>
+		
+		<%= render :partial => 'vrame/shared/file_upload', :locals => {
+			:type => "file",
+			:parent => document,
+			:collection => value,
+			:field_name => field_name
+		} %>
+		
+	<% end %>
 
+	</div><!-- /.input-container -->
 </li>

@@ -3,26 +3,29 @@ jQuery(function () {
 		var c = $(this);
 		
 		var o = {
-			/* Upload type (File, Collection) */
-			type						: c.attr('data-upload-type'),
+			/* Upload type (single or multiple files, e.g. "asset" or "collection") */
+			type								: c.attr('data-upload-type'),
 			
 			/* Upload token */
-			token						: c.attr('data-upload-token'),
+			token								: c.attr('data-upload-token'),
 			
-			/* Parent document (database) id */
-			documentId					: c.attr('data-document-id'),
+			/* Parent object id */
+			parentId						: c.attr('data-parent-id'),
+			
+			/* Parent object type */
+			parentType					: c.attr('data-parent-type'),
 			
 			/* Upload button (HTML) id */
-			buttonId					: c.find('.upload-button').attr('id'),
+			buttonId						: c.find('.upload-button').attr('id'),
 			
 			/* Upload queue HTML element (jQuery collection) */
-			queue						: c.find('.upload-queue'),
+			queue								: c.find('.upload-queue'),
 			
 			/* Form submit button */
 			submitButton				: jQuery('#document_submit'),
 			
 			/* Image list HTML element (jQuery collection) */
-			assetList					: c.find('.asset-list'),
+			assetList						: c.find('.asset-list'),
 			
 			/* Form field(s) for the new asset id (jQuery collection) */
 			assetIdInput				: c.find('input.asset-id'),
@@ -31,7 +34,7 @@ jQuery(function () {
 			collectionId				: c.attr('data-collection-id') || '',
 			
 			/* Form field(s) for the new collection id (jQuery collection) */
-			collectionIdInput			: c.find('input.collection-id')
+			collectionIdInput		: c.find('input.collection-id')
 			
 		};
 		
@@ -62,14 +65,14 @@ function Upload (o) {
 		file_size_limit : 20 * 1024,
 		file_types : '*.*',
 		file_types_description : 'Files',
-		file_upload_limit : o.type == 'File' ? 1 : 0,
+		file_upload_limit : o.type == 'asset' ? 1 : 0,
 
 		// Authentication
 		post_params : {
-			user_credentials	: o.token,
-			document_id			: o.documentId,
-			create_collection	: o.type == 'Collection' ? 'true' : '',
-			collection_id		: o.collectionId
+			user_credentials : o.token,
+			parent_id : o.parentId,
+			parent_type : o.parentType,
+			collection_id : o.collectionId
 		},
 
 		custom_settings : o,
@@ -164,7 +167,7 @@ Upload.prototype.handlers = {
 		
 		progress.setComplete();
 		
-		//console.log('serverResponse', serverResponse);
+		console.log('serverResponse', serverResponse);
 		
 		/* Evaluate JSON response */
 		response = eval("(" + serverResponse + ")");
@@ -189,7 +192,7 @@ Upload.prototype.handlers = {
 		if (response.is_image) {
 			/* Asynchronous loading and inserting */
 			new ThumbnailLoader(
-				response.url,
+				response.thumbnail,
 				settings.assetList,
 				collectionId ? 'prepend' : 'replace'
 			);
