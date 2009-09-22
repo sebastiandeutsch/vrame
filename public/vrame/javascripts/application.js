@@ -1,112 +1,112 @@
-jQuery(function() {
+jQuery(function($) {
 	
-	var jQuery = window.jQuery;
+	/* Main Navigation */
+	$('#nav').droppy({ speed: 0 });
 	
-	jQuery('#nav').droppy({ speed: 0 });
-	
-	jQuery(".flash").click(function() {
-		jQuery(this).fadeOut();
+	/* News flashes */
+	$(".flash").click(function() {
+		$(this).fadeOut();
 	});
 	
-	jQuery(".expandable").click(function() {
-		jQuery(jQuery(this).attr("href")).slideToggle();
+	/* Expandable sections */
+	$(".expandable").click(function() {
+		$($(this).attr("href")).slideToggle();
 		return false;
 	});
 	
-	jQuery("#add-schema-item").populateRow("#schema-item-prototype", "#schema");
-	jQuery("#add-key-value").populateRow("#key-value-prototype", "#keys-values");
+	/* Tooltips */
+	$('.tooltip').tipsy({ gravity: 'w' });
 	
-	jQuery(".rte-zone").rte({
+	/* Adding of new meta information fields */
+	$("#add-schema-item").populateRow("#schema-item-prototype", "#schema");
+	$("#add-key-value").populateRow("#key-value-prototype", "#keys-values");
+	
+	/* Rich Text Editing Textareas */
+	$(".rte-zone").rte({
 		media_url : "/vrame/images/rte/",
 		content_css_url: "/vrame/stylesheets/rte.css"
 	});
 	
-	if (jQuery(".datepicker").size() > 0) {
-		jQuery(".datepicker").datepicker({
+	/* Date picker */
+	if ($(".datepicker").size() > 0) {
+		$(".datepicker").datepicker({
 			duration: '',  
 			showTime: true,  
 			constrainInput: false
 		});
 	}
 	
-	jQuery('.tooltip').tipsy({ gravity: 'w' });
+});
+
+/* Asset list behavior */
+jQuery(function ($) {
 		
-	jQuery("input[type=text][placeholder], textarea[placeholder]").placeholder();
+	$(".asset-list a.delete").live("click", deleteAsset)
+	$(".image-wrapper").attr('title', 'Klicken zum Vergrößern').live("click", loadFullview);
 	
-	(function (jQuery) {
-		/* Asset list behavior */
+	function deleteAsset (e) {
+		e.preventDefault();
 		
-		var assetLists = jQuery(".asset-list");
-		
-		assetLists
-			.find(".image-wrapper")
-				.click(loadFullview)
-				.attr('title', 'Klicken zum Vergrößern')
-			.end()
-			.find("a.delete")
-				.click(deleteAsset);
-		
-		assetLists = undefined;
-		
-		function deleteAsset (e) {
-			e.preventDefault();
-			
-			if (!confirm('Wirklich löschen?')) {
-				return false;
-			}
-			
-			var deleteLink = jQuery(this);
-			
-			/* Hide corresponding asset list item */
-			deleteLink.parents("li:eq(0)").hide();
-			
-			/* Remove asset id from hidden input field */
-			deleteLink.parents('div.file-upload:eq(0)').find('input.asset-id').val('');
-			
-			/* Send DELETE request */
-			jQuery.post(deleteLink.attr('href'), {
-				_method: 'delete',
-				authenticity_token: deleteLink.attr("data-authenticity-token")
-			});
+		if (!confirm('Wirklich löschen?')) {
+			return false;
 		}
 		
-		var image = jQuery("<img />")
-				.attr("id", "asset-fullview")
-				.attr("title", "Vollansicht schließen")
-				.click(hideFullview)
-				.load(showFullview)
-				.css("display", "none")
-				.appendTo(document.body),
-			wrapperWidth,
-			wrapperHeight,
-			wrapperOffset;
-			
-		function hideFullview () {
-			image.css("display", "none");
-		}
+		var deleteLink = $(this);
 		
-		function loadFullview () {
-			var wrapper = jQuery(this),
-				fullUrl = wrapper.attr("fullurl");
-			if (!fullUrl) {
-				return;
-			}
-			wrapperWidth = wrapper.width();
-			wrapperHeight = wrapper.height();
-			wrapperOffset = wrapper.offset();
-			image.attr("src", fullUrl);
-		}
+		/* Hide corresponding asset list item */
+		deleteLink.parents("li:eq(0)").hide();
 		
-		function showFullview () {
-			image.css({
-				left : Math.max(0, wrapperOffset.left - (image.attr("width") - wrapperWidth) / 2),
-				top : Math.max(0, wrapperOffset.top - (image.attr("height") - wrapperHeight) / 2),
-				display : "block"
-			});
-		}
+		/* Remove asset id from hidden input field */
+		deleteLink.parents('div.file-upload:eq(0)').find('input.asset-id').val('');
 		
-	})(jQuery);
+		/* Send DELETE request */
+		$.post(deleteLink.attr('href'), {
+			_method: 'delete',
+			authenticity_token: deleteLink.attr("data-authenticity-token")
+		});
+	}
 	
+	var image = $("<img>")
+			.attr("id", "asset-fullview")
+			.attr("title", "Vollansicht schließen")
+			.click(hideFullview)
+			.load(showFullview)
+			.css("display", "none")
+			.appendTo(document.body),
+		wrapperWidth,
+		wrapperHeight,
+		wrapperOffset;
+		
+	function hideFullview () {
+		image.css("display", "none");
+	}
+	
+	function loadFullview () {
+		var wrapper = jQuery(this),
+			fullUrl = wrapper.attr("fullurl");
+		if (!fullUrl) {
+			return;
+		}
+		wrapperWidth = wrapper.width();
+		wrapperHeight = wrapper.height();
+		wrapperOffset = wrapper.offset();
+		image.attr("src", fullUrl);
+	}
+	
+	function showFullview () {
+		image.css({
+			left : Math.max(0, wrapperOffset.left - (image.attr("width") - wrapperWidth) / 2),
+			top : Math.max(0, wrapperOffset.top - (image.attr("height") - wrapperHeight) / 2),
+			display : "block"
+		});
+	}
+	
+});
+
+/* Input field placeholder text */
+
+jQuery(function ($) {
+	$("input[type=text][placeholder], textarea[placeholder]").placeholder();
 });
 
 jQuery.fn.placeholder = function () {

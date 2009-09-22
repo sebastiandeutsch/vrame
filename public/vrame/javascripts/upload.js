@@ -1,92 +1,103 @@
-jQuery(function () {
-	jQuery(".file-upload").each(function () {
-		var c = $(this);
-		
-		var o = {
-			/* Upload type (single or multiple files, e.g. "asset" or "collection") */
-			type								: c.attr('data-upload-type'),
-			
-			/* Upload token */
-			token								: c.attr('data-upload-token'),
-			
-			/* Parent object id */
-			parentId						: c.attr('data-parent-id'),
-			
-			/* Parent object type */
-			parentType					: c.attr('data-parent-type'),
-			
-			/* Upload button (HTML) id */
-			buttonId						: c.find('.upload-button').attr('id'),
-			
-			/* Upload queue HTML element (jQuery collection) */
-			queue								: c.find('.upload-queue'),
-			
-			/* Form submit button */
-			submitButton				: jQuery('#document_submit'),
-			
-			/* Image list HTML element (jQuery collection) */
-			assetList						: c.find('.asset-list'),
-			
-			/* Form field(s) for the new asset id (jQuery collection) */
-			assetIdInput				: c.find('input.asset-id'),
-			
-			/* Current collection id, if already present */
-			collectionId				: c.attr('data-collection-id') || '',
-			
-			/* Form field(s) for the new collection id (jQuery collection) */
-			collectionIdInput		: c.find('input.collection-id')
-			
-		};
-		
-		new Upload(o);
+jQuery(function ($) {
+	$('.file-upload').each(function () {
+		new Upload(this);
 	});
 });
 
-function Upload (o) {
-	var handlers = this.handlers;
+function Upload (containerEl) {
 	
-	//console.log('Upload', o);
+	/* Get the jQuery-wrapped container element */
+	var c = jQuery(containerEl);
+	
+	/* Get the elements and options from DOM */
+	
+	var o = {
+		/* Upload token */
+		token								: c.attr('data-upload-token'),
+		
+		/* Upload type (single or multiple files, e.g. 'asset' or 'collection') */
+		uploadType					: c.attr('data-upload-type'),
+		
+		/* Current collection id, if already present */
+		collectionId				: c.attr('data-collection-id') || '',
+		
+		/* Parent object (asset/collection owner) type */
+		parentType					: c.attr('data-parent-type'),
+		
+		/* Parent object (asset/collection owner) id */
+		parentId						: c.attr('data-parent-id'),
+		
+		/* Upload button element id */
+		buttonId						: c.find('.upload-button').attr('id'),
+		
+		/* Upload queue HTML element (jQuery collection) */
+		queue								: c.find('.upload-queue'),
+		
+		/* Form submit button */
+		submitButton				: $('#document_submit'),
+		
+		/* Image list HTML element (jQuery collection) */
+		assetList						: c.find('.asset-list'),
+		
+		/* Form field(s) for the new asset id (jQuery collection) */
+		assetIdInput				: c.find('input.asset-id'),
+		
+		/* Form field(s) for the new collection id (jQuery collection) */
+		collectionIdInput		: c.find('input.collection-id')
+		
+	};
+	
+	//console.log('new Upload', o);
+	
+	/* Intialize SWFUpload */
+	
+	var handlers = this.handlers;
 	
 	new SWFUpload({
 	
-		// Flash Movie
+		/* The Flash Movie */
 		flash_url : '/vrame/javascripts/swfupload/swfupload.swf',
 		
-		// Upload URL
+		/* Upload URL (AssetsController/create) */
 		upload_url : '/vrame/assets',
 		
-		// Button settings
+		/* Button settings */
 		button_placeholder_id : o.buttonId,
 		button_image_url : '/vrame/images/admin/upload_button.png',
 		button_width : 69,
 		button_height : 27,
+		button_window_mode: SWFUpload.WINDOW_MODE.OPAQUE,
 		
-		// File Upload Settings
+		/* File Upload Settings */
 		file_size_limit : 20 * 1024,
 		file_types : '*.*',
 		file_types_description : 'Files',
-		file_upload_limit : o.type == 'asset' ? 1 : 0,
+		file_upload_limit : o.uploadType == 'asset' ? 1 : 0,
 
-		// Authentication
+		/* POST parameters with authentication and relation ids */
 		post_params : {
 			user_credentials : o.token,
-			parent_id : o.parentId,
-			parent_type : o.parentType,
-			collection_id : o.collectionId
+			upload_type      : o.uploadType,
+			parent_id        : o.parentId,
+			parent_type      : o.parentType,
+			collection_id    : o.collectionId
 		},
 
+		/* Pass our settings */
 		custom_settings : o,
 
-		file_queued_handler				: handlers.fileQueued,
-		file_queue_error_handler		: handlers.fileQueueError,
+		/* Event handlers */
+		file_queued_handler						: handlers.fileQueued,
+		file_queue_error_handler			: handlers.fileQueueError,
 		file_dialog_complete_handler	: handlers.fileDialogComplete,
-		upload_start_handler			: handlers.uploadStart,
-		upload_progress_handler			: handlers.uploadProgress,
-		upload_error_handler			: handlers.uploadError,
-		upload_success_handler			: handlers.uploadSuccess,
-		upload_complete_handler			: handlers.uploadComplete,
-		queue_complete_handler			: handlers.queueComplete
+		upload_start_handler					: handlers.uploadStart,
+		upload_progress_handler				: handlers.uploadProgress,
+		upload_error_handler					: handlers.uploadError,
+		upload_success_handler				: handlers.uploadSuccess,
+		upload_complete_handler				: handlers.uploadComplete,
+		queue_complete_handler				: handlers.queueComplete
 
+		/* Debugging */
 		//,debug : true
 	});
 }
@@ -94,42 +105,44 @@ function Upload (o) {
 Upload.prototype.handlers = {
 	
 	fileQueued : function (file) {
+		//console.log('fileQueued', file);
 		var queue = this.customSettings.queue;
 		queue.show();
 		new FileProgress(file, queue);
 	},
 	
 	fileQueueError : function (file, errorCode, fileNumberLimit) {
+		//console.log('fileQueueError file:', file, 'errorCode:', errorCode, 'fileNumberLimit:', fileNumberLimit);
 		
 		if (errorCode === SWFUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED) {
-			alert("You have attempted to queue too many files.\n" + (fileNumberLimit === 0 ? "You have reached the upload limit." : "You may select " + (fileNumberLimit > 1 ? "up to " + fileNumberLimit + " files." : "one file.")));
+			alert('You have attempted to queue too many files.\n' + (fileNumberLimit === 0 ? 'You have reached the upload limit.' : 'You may select ' + (fileNumberLimit > 1 ? 'up to ' + fileNumberLimit + ' files.' : 'one file.')));
 			return;
 		}
 		
 		var progress = new FileProgress(file, this.customSettings.queue),
-			errorMessage = "";
+			errorMessage = '';
 		
 		switch (errorCode) {
 		
 			case SWFUpload.QUEUE_ERROR.FILE_EXCEEDS_SIZE_LIMIT :
-				errorMessage = "File is too big";
+				errorMessage = 'File is too big';
 				break;
 			
 			case SWFUpload.QUEUE_ERROR.ZERO_BYTE_FILE :
-				errorMessage = "Won't upload empty files";
+				errorMessage = 'Won\'t upload empty files';
 				break;
 			
 			case SWFUpload.QUEUE_ERROR.INVALID_FILETYPE :
-				errorMessage = "Invalid file type";
+				errorMessage = 'Invalid file type';
 				break;
 				
 			default :
-				errorMessage = "Unhandled Error";
+				errorMessage = 'Unhandled Error';
 			
 		} /* End switch */
 		
 		progress.setError(errorMessage);
-		this.debug("Error " + errorCode + ": " + errorMessage + ", File name: " + file.name + ", File size: " + file.size + ", Limit: " + fileNumberLimit);
+		this.debug('Error ' + errorCode + ': ' + errorMessage + ', File name: ' + file.name + ', File size: ' + file.size + ', Limit: ' + fileNumberLimit);
 	},
 
 	fileDialogComplete : function (numFilesSelected, numFilesQueued) {
@@ -167,20 +180,21 @@ Upload.prototype.handlers = {
 		
 		progress.setComplete();
 		
-		console.log('serverResponse', serverResponse);
+		//console.log('serverResponse', serverResponse);
 		
 		/* Evaluate JSON response */
-		response = eval("(" + serverResponse + ")");
+		response = eval('(' + serverResponse + ')');
 		
-		/* Update asset id form field (if any) */
+		/* Update asset id form field(s) (if any) */
+		//console.log('new asset id:', response.id);
 		settings.assetIdInput.val(response.id);
 		
-		/* Handler collection id */
+		/* Handle collection id */
 		collectionId = response.collection_id;
 		if (collectionId) {
 			//console.log('collectionId:', collectionId);
 			
-			/* Update collection id form field (if any) */
+			/* Update collection id form field(s) (if any) */
 			settings.collectionIdInput.val(collectionId);
 			
 			/* Once we have a collection id, reuse it in future uploads */
@@ -188,17 +202,17 @@ Upload.prototype.handlers = {
 			this.addPostParam('collection_id', collectionId);
 		}
 		
-		/* Image thumbnail loading */
 		if (response.is_image) {
-			/* Asynchronous loading and inserting */
-			new ThumbnailLoader(
-				response.thumbnail,
-				settings.assetList,
-				collectionId ? 'prepend' : 'replace'
-			);
+			/* Load image thumbnail asynchronously, then add it to the asset list */
+			new ThumbnailLoader({
+				thumbnailUrl  : response.thumbnail_url,
+				fullUrl  : response.full_url,
+				targetElement : settings.assetList,
+				insertMode    : collectionId ? 'prepend' : 'replace'
+			});
 		} else {
 			/* Directly append the asset's file name */
-			settings.assetList.append("<li><p>" + response.url + "</p></li>");
+			settings.assetList.append('<li><p>' + response.filename + '</p></li>');
 		}
 		
 	},
@@ -209,70 +223,76 @@ Upload.prototype.handlers = {
 		switch (errorCode) {
 			
 			case SWFUpload.UPLOAD_ERROR.HTTP_ERROR :
-				errorMessage = "HTTP Error";
+				errorMessage = 'HTTP Error';
 				break;
 				
 			case SWFUpload.UPLOAD_ERROR.UPLOAD_FAILED :
-				errorMessage = "Upload Failed";
+				errorMessage = 'Upload Failed';
 				break;
 				
 			case SWFUpload.UPLOAD_ERROR.IO_ERROR :
-				errorMessage = "Server IO Error";
+				errorMessage = 'Server IO Error';
 				break;
 				
 			case SWFUpload.UPLOAD_ERROR.SECURITY_ERROR :
-				errorMessage = "Security Error";
+				errorMessage = 'Security Error';
 				break;
 				
 			case SWFUpload.UPLOAD_ERROR.UPLOAD_LIMIT_EXCEEDED :
-				errorMessage = "Upload Limit Exceeded";
+				errorMessage = 'Upload Limit Exceeded';
 				break;
 				
 			case SWFUpload.UPLOAD_ERROR.FILE_VALIDATION_FAILED :
-				errorMessage = "Failed Validation";
+				errorMessage = 'Failed Validation';
 				break;
 				
 			case SWFUpload.UPLOAD_ERROR.FILE_CANCELLED :
-				errorMessage = "Cancelled";
+				errorMessage = 'Cancelled';
 				progress.setCancelled();
 				break;
 				
 			case SWFUpload.UPLOAD_ERROR.UPLOAD_STOPPED :
-				errorMessage = "Stopped";
+				errorMessage = 'Stopped';
 				break;
 				
 			default :
-				errorMessage = "Unhandled Error";
+				errorMessage = 'Unhandled Error';
 				
 		} /* End switch */
 		
 		//console.log('uploadError', errorMessage, message);
 		progress.setError(errorMessage);
-		this.debug("Error " + errorCode + ": " + errorMessage + ", File name: " + file.name + ", File size: " + file.size + ", Message: " + message);
+		this.debug('Error ' + errorCode + ': ' + errorMessage + ', File name: ' + file.name + ', File size: ' + file.size + ', Message: ' + message);
 	},
 
 	uploadComplete : function (file) {
+		//console.log('uploadComplete', file);
 		if (this.getStats().files_queued > 0) {
 			/* Continue with queue */
 			this.startUpload();
 		} else {
-			// this.customSettings.submitButton.attr("disabled", false);
+			//console.log('uploadComplete: no more filed queued');
+			//this.customSettings.submitButton.attr('disabled', false);
 		}
+	},
+
+	queueComplete : function () {
+		//console.log('uploadComplete this:', this, 'arguments:', arguments);
 	}
 
 } /* end Upload.prototype.handlers */
 
-function ThumbnailLoader (url, targetElement, insertType) {
-	//console.log('ThumbnailLoader', url, targetElement);
+function ThumbnailLoader (o) {
+	//console.log('ThumbnailLoader ', o.thumbnailUrl);
+	
 	var loadAttempts = 0,
 		loadInterval = window.setTimeout(loadImage, 1000);
 		
 	function loadImage () {
-		//console.log('ThumbnailLoader.loadImage attempt:', loadAttempts);
+		//console.log('ThumbnailLoader.loadImage attempt:', loadAttempts + 1);
 		var image = new Image;
 		image.onload = imageLoadSuccess;
-		//image.onerror = imageLoadError;
-		image.src = url;
+		image.src = o.thumbnailUrl;
 		loadAttempts++;
 		if (loadAttempts >= 10) {
 			clearInterval(loadInterval);
@@ -280,15 +300,27 @@ function ThumbnailLoader (url, targetElement, insertType) {
 	}
 	
 	function imageLoadSuccess () {
-		//console.log('ThumbnailLoader.imageLoadSuccess', url);
+		//console.log('ThumbnailLoader.imageLoadSuccess', o.thumbnailUrl);
+		
 		clearInterval(loadInterval);
-		var html = "<li><p class='image-wrapper'><img src='" + url + "' alt=''></p></li>";
-		if (insertType == 'prepend') {
-			targetElement.prepend(html);
-		} else if (insertType == 'replace') {
-			targetElement.html(html);
-		} else {
-			targetElement.append(html);
+		
+		var insertMode = o.insertMode,
+			targetElement = o.targetElement,
+			html = "<li>" +
+				"<p class='image-wrapper' fullurl='" + o.fullUrl + "' title='Klicken zum Vergrößern'>" +
+					"<img src='" + o.thumbnailUrl + "' alt=''>" +
+				"</p>" +
+			"</li>";
+		
+		switch (insertMode) {
+			case 'prepend' :
+				targetElement.prepend(html);
+				break;
+			case 'replace' :
+				targetElement.html(html);
+				break;
+			default :
+				targetElement.append(html);
 		}
 	}
 }
@@ -302,7 +334,7 @@ function FileProgress (file, target) {
 	var id = file.id,
 		instances = FileProgress.instances = FileProgress.instances || {},
 		instance,
-		jQuery = window.jQuery,
+		$ = window.jQuery,
 		wrapper,
 		progressElement,
 		progressText,
@@ -318,11 +350,11 @@ function FileProgress (file, target) {
 	instance.id = id;
 	instance.height = 0;
 	
-	wrapper = jQuery("<li>").addClass("progressWrapper").attr("id", id);
-	progressElement = jQuery("<li>").addClass("progressContainer");
-	progressText = jQuery("<span>").addClass("progressName").append(file.name);
-	progressBar = jQuery("<div>").addClass("progressBar");
-	progressStatus = jQuery("<span>").addClass("progressStatus");
+	wrapper         = $('<li>').addClass('progressWrapper').attr('id', id);
+	progressElement = $('<li>').addClass('progressContainer');
+	progressText    = $('<span>').addClass('progressName').append(file.name);
+	progressBar     = $('<div>').addClass('progressBar');
+	progressStatus  = $('<span>').addClass('progressStatus');
 	
 	progressElement.append(progressText).append(progressStatus).append(progressBar);
 	wrapper.append(progressElement);
@@ -335,35 +367,35 @@ function FileProgress (file, target) {
 	instance.progressStatus = progressStatus;
 	
 	instance.height = wrapper.offsetHeight;
-	instance.setStatus(Math.floor(file.size / 1024) + "kb");
+	instance.setStatus(Math.floor(file.size / 1024) + 'kb');
 }
 
 FileProgress.prototype = {
 
 	setProgress : function (percentage) {
-		this.progressElement.attr("className", "progressContainer progressUploading");
-		this.setStatus("Uploading...");
-		this.progressBar.width(percentage + "%");
+		this.progressElement.attr('className', 'progressContainer progressUploading');
+		this.setStatus('Uploading...');
+		this.progressBar.width(percentage + '%');
 	},
 
 	setComplete : function () {
-		this.progressElement.attr("className", "progressContainer progressComplete");
-		this.setStatus("Finished");
-		this.progressBar.css("width", "");
+		this.progressElement.attr('className', 'progressContainer progressComplete');
+		this.setStatus('Finished');
+		this.progressBar.css('width', '');
 		this.disappear(750);
 	},
 
 	setError : function (errorMessage) {
-		this.progressElement.attr("className", "progressContainer progressError");
-		this.setStatus(errorMessage || "Error");
-		this.progressBar.css("width", "");
+		this.progressElement.attr('className', 'progressContainer progressError');
+		this.setStatus(errorMessage || 'Error');
+		this.progressBar.css('width', '');
 		this.disappear(5000);
 	},
 
 	setCancelled : function () {
-		this.progressElement.attr("className", "progressContainer progressCancelled");
-		this.setStatus(errorMessage || "Cancelled");
-		this.progressBar.css("width", "");
+		this.progressElement.attr('className', 'progressContainer progressCancelled');
+		this.setStatus(errorMessage || 'Cancelled');
+		this.progressBar.css('width', '');
 		this.disappear(2000);
 	},
 
@@ -371,10 +403,10 @@ FileProgress.prototype = {
 		this.progressStatus.innerHTML = status;
 	},
 
-	// Fades out and clips away the FileProgress box.
+	/* Fades out and clips away the FileProgress box. */
 	disappear : function (delay) {
 		var self = this;
-		if (typeof delay == "number") {
+		if (typeof delay == 'number') {
 			setTimeout(function () {
 				self.disappear();
 			}, delay);

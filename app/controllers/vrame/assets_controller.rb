@@ -1,6 +1,7 @@
 require 'paperclip_images'
 
 class Vrame::AssetsController < Vrame::VrameController
+  
   skip_before_filter :verify_authenticity_token, :only => :create
   skip_before_filter :require_user, :only => :create
   
@@ -12,8 +13,11 @@ class Vrame::AssetsController < Vrame::VrameController
     # Basic attributes
     attributes =  { :file => @file, :user => @current_user }
     
-    # Set up document association if document id given
-    attributes[:document_id] = params[:document_id].to_i if params[:document_id]
+    # Set up association if parent id given
+    if params[:parent_id] and params[:parent_type]
+      attributes[:assetable_id]   = params[:assetable_id]
+      attributes[:assetable_type] = params[:assetable_type]
+    end
     
     # Is the file an image?
     is_image = Paperclip::Attachment.is_image?(@file.original_filename)
@@ -21,40 +25,47 @@ class Vrame::AssetsController < Vrame::VrameController
     # Create an Image instance or a generic Asset
     klass = is_image ? Image : Asset
     
-    # Create record
+    # Create asset record
     @asset = klass.create(attributes)
     
     # Build response
-    @response = {
+    response = {
         :id       => @asset.id,
         :url      => @asset.file.url,
         :filename => @asset.file.original_filename
     }
     
     if is_image
-      @response[:is_image]  = true
-      @response[:thumbnail] = @asset.file.url(:thumbnail)
+      response[:is_image]      = true
+      response[:full_url]      = @asset.file.url
+      response[:thumbnail_url] = @asset.file.url(:thumbnail)
     end
     
-    if params[:parent_type] == "collection"
+    # Handle collection membership
+    if params[:upload_type] == "collection"
       # The asset is part of a collection
       
       # Find collection by collection_id or create new one
       @collection = Collection.find_or_create_by_id(params[:collection_id]) do |collection|
-        # New collection: Set user id and document id
+        # New collection
+        
+        # Set up user relation
         collection.user_id = current_user.id
-        collection.document_id = params[:document_id]
+        
+        # Set up collection owner
+        collection.collectionable_id   = params[:parent_id]
+        collection.collectionable_type = params[:parent_type]
       end
     
       # Add asset to collection
       @collection.assets << @asset
     
       # Add collection id to the response
-      @response.merge! :collection_id => @collection.id
+      response[:collection_id] = @collection.id
     end
     
     # Render response
-    render :json => @response
+    render :json => response
   end
   
   def destroy

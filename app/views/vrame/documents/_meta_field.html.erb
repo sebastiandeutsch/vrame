@@ -2,7 +2,7 @@
 <% type = item['type'] %>
 <% uid = item['uid'] %>
 
-<% value = document.meta.nil? ? nil : document.meta[uid] %>
+<% value = document.meta ? document.meta[uid] : nil %>
 
 <% field_name = "document[meta[#{uid}]]" %>
 <% field_id = "document-meta-#{uid}" %>
