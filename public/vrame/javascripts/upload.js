@@ -66,7 +66,7 @@ function Upload (containerEl) {
 		button_image_url : '/vrame/images/admin/upload_button.png',
 		button_width : 69,
 		button_height : 27,
-		button_window_mode: SWFUpload.WINDOW_MODE.OPAQUE,
+		//button_window_mode: SWFUpload.WINDOW_MODE.OPAQUE,
 		
 		/* File Upload Settings */
 		file_size_limit : 20 * 1024,
