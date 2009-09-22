@@ -217,7 +217,13 @@ h2 {
 #nav a { color: white; font-size: 12px; padding: 6px 16px; line-height: 1; text-decoration: none; }
 #nav ul a { padding: 8px 16px; }
 #nav li.hover a { background-color: #2b2b2b; }
-#nav ul { top: 22px; -webkit-border-radius: 4px; -moz-border-radius: 4px; -webkit-box-shadow: 0px 0px 10px #333; }
+#nav ul {
+	top: 22px;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-box-shadow: 0px 0px 10px #333;
+	-moz-box-shadow: 0px 0px 10px #333;
+}
 #nav ul li a { background-color: #2b2b2b; }
 /*#nav ul > li:last-child > a { -webkit-border-bottom-left-radius: 4px; -webkit-border-bottom-right-radius: 4px; }*/
 #nav ul a.top { background: #2b2b2b url('/vrame/images/admin/arrow_right.png') 168px 9px no-repeat; }
