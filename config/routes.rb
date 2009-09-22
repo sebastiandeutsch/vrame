@@ -13,7 +13,7 @@ ActionController::Routing::Routes.draw do |map|
     vrame.resources :documents, :member => { :order_up => :get, :order_down => :get }
     
     # Assets CRUD
-    vrame.resources :assets
+    vrame.resources :assets, :member => { :download => :get }
     #vrame.resources :collections, :has_many => [:assets]
     
     vrame.select_language '/select_language/:id',  :controller => 'vrame', :action => 'select_language'
