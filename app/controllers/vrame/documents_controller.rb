@@ -2,7 +2,6 @@ class Vrame::DocumentsController < Vrame::VrameController
   
   def index
     per_page = params[:per_page] || 50
-    
     @documents = Document.paginate :page => params[:page], :per_page => per_page
   end
   

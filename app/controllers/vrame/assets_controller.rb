@@ -5,6 +5,15 @@ class Vrame::AssetsController < Vrame::VrameController
   skip_before_filter :verify_authenticity_token, :only => :create
   skip_before_filter :require_user, :only => :create
   
+  def index
+    per_page = params[:per_page] || 50
+    @assets = Asset.paginate :page => params[:page], :per_page => per_page
+  end
+  
+  # no show action
+  
+  # no new action
+  
   def create
     
     # Get the file
@@ -68,15 +77,6 @@ class Vrame::AssetsController < Vrame::VrameController
     render :json => response
   end
   
-  def destroy
-    Asset.destroy(params[:id])
-    if request.xhr?
-      render :text => 'OK'
-    else
-      redirect_to :back
-    end
-  end
-  
   def edit 
     @asset = Asset.find(params[:id])
   end
@@ -93,8 +93,13 @@ class Vrame::AssetsController < Vrame::VrameController
     end
   end
   
-  def index
-    render :text => 'yay'
+  def destroy
+    Asset.destroy(params[:id])
+    if request.xhr?
+      render :text => 'OK'
+    else
+      redirect_to :back
+    end
   end
   
   private

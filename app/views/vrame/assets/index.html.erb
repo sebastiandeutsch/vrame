@@ -1,0 +1,43 @@
+<div class="subnavigation clearfix">
+	<h2>Alle Assets</h2>
+</div>
+
+<div class="table-container" id="asset-list">
+	<table class="record-list">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Dateiname</th>
+				<th>Größe</th>
+				<th>Zugehörigkeit</th>
+				<th>Funktionen</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% for asset in @assets do %>
+				<tr class="<%= cycle("even", "odd") -%>">
+					<td class="id"><%=h asset.id %></td>
+					<td class="filename"><%=h asset.file.original_filename %></td>
+					<td class="filesize"><%=h number_to_human_size(asset.file.size) %></td>
+					<td class="parent">
+						<% assetable = asset.assetable %>
+						<% if assetable %>
+							<p><%= link_to "bla", [:vrame, assetable] %></p>
+							<% assetable_type = asset.assetable_type %>
+							<% if assetable_type == 'Document' %>
+								<p><%= link_to assetable.title, assetable %></p>
+							<% elsif assetable_type == 'Collection' %>
+								<% collectionable = assetable.collectionable %>
+								<p><%= link_to "Collection von ...", [:vrame, collectionable] %></p>
+							<% end %>
+						<% end %>
+						</td>
+					<td class="options">
+						<%= link_to "Delete", vrame_asset_path(asset), :method => :delete, :confirm => 'Wirklich löschen?', :class => 'delete' %>
+					</td>
+				</tr>
+			<% end %>
+		</tbody>
+	</table>
+</div>
+<%= render :partial => 'vrame/shared/pagination', :locals => { :paginatable => @assets } %>

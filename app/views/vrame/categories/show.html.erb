@@ -17,14 +17,8 @@
 	<%- end -%>
 </div>
 
-<ul id="category-list" class="category list">
-	<%= render :partial => 'category_tree', :locals => { :category => @category, :categories => @categories } %>			
+<ul id="category-list" class="category record-list">
+	<%= render :partial => 'category_tree', :locals => { :category => @category, :categories => @categories } %>
 </ul>
 
 <%= render :partial => 'vrame/shared/pagination', :locals => { :paginatable => @categories } %>
-
-<script>
-	jQuery(function($) {
-		$('ul#category-list').html5sortable();
-	});
-</script>
