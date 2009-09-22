@@ -446,6 +446,88 @@ table.list .nesting-level-6 td.title {
 }
 
 /** 
+ * @section Unordered list
+ *
+ * Description.
+ */
+
+ul.list {
+	padding:1px;
+	border:1px solid #e7e7e7;
+}
+
+ul.list li {
+	padding:10px;
+	border-bottom:2px solid #fff;
+}
+
+ul.list li.even {
+	background-color: #f7f7f7;
+}
+
+ul.list li.odd {
+	background-color: #fff;
+}
+
+ul.list li div.icon {
+	float:left;
+	width:32px;
+}
+
+ul.list li div.title {
+	float:left;
+	width:200px;
+}
+
+ul.list li.nesting-level-1 div.title span {
+	padding-left: 20px;
+}
+
+ul.list li.nesting-level-2 div.title span {
+	padding-left: 40px;
+}
+
+ul.list li.nesting-level-3 div.title span {
+	padding-left: 60px;
+}
+
+ul.list li.nesting-level-4 div.title span {
+	padding-left: 80px;
+}
+
+ul.list li.nesting-level-5 div.title span {
+	padding-left: 100px;
+}
+
+ul.list li.nesting-level-6 div.title span {
+	padding-left: 120px;
+}
+
+ul.list li div.slug {
+	float:left;
+	width:200px;
+}
+
+ul.list li div.options {
+	float:left;
+	width:400px;
+}
+
+ul.list li div.order {
+	float:right;
+}
+
+ul.list li.helper {
+	display:none;
+	margin:0;
+	padding:0;
+	height:0;
+	background: #ffff00;
+	border-bottom:0;
+	overflow:hidden;
+}
+
+/** 
  * @section Forms
  *
  * Description.
