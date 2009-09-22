@@ -1,7 +1,8 @@
 class Collection < ActiveRecord::Base
-  belongs_to :document
   
-  has_many :assets, :dependent => :destroy
+  belongs_to :collectionable, :polymorphic => true
+  
+  has_many :assets, :dependent => :destroy, :as => :assetable
   
   has_json_object :meta
   

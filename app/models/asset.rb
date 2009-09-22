@@ -1,9 +1,9 @@
 require 'paperclip_images'
 
-class Asset < ActiveRecord::Base  
+class Asset < ActiveRecord::Base
+  
   belongs_to :user
-  belongs_to :document
-  belongs_to :collection
+  belongs_to :assetable, :polymorphic => true
   
   has_attached_file :file,
     :path => ":rails_root/public/system/assets/:class/:id/:style.:extension",

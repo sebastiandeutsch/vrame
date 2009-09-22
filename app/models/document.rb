@@ -1,8 +1,9 @@
 class Document < ActiveRecord::Base
-  acts_as_list :scope => :category
   
-  has_many :collections, :dependent => :destroy
-  has_many :assets, :dependent => :destroy
+  has_many :collections, :dependent => :destroy, :as => :collectionable
+  has_many :assets,      :dependent => :destroy, :as => :assetable
+  
+  acts_as_list :scope => :category
   
   has_friendly_id :title, :use_slug => true, :strip_diacritics => true
   
