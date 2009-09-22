@@ -78,8 +78,8 @@ h2 {
  */
 
 .page-align {
-	width:973px;
-	margin: 32px auto 0 auto;
+	width:980px;
+	margin: 0 auto 0 auto;
 }
 
 /** 
@@ -180,11 +180,15 @@ h2 {
     margin-right: 16px;
 }
 
+#header-bar li.last {
+	margin-right: 0;
+}
+
 .logo {
     font-family: 'Helvetica Neue Light', HelveticaNeue-Light, HelveticaNeue, Helvetica, Arial, sans-serif;;
-    font-size: 18px;
+    font-size: 21px;
     font-weight: normal;
-    margin: 0 32px;
+    margin: 0 32px 0 0;
     color: #fff;
 }
 
@@ -268,6 +272,7 @@ h2 {
  */
 
 #content {
+	margin-top:32px;
 	padding: 15px 0;
 }
 
