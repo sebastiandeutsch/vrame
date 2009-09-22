@@ -1,43 +1,45 @@
 <div id="header-container">
-	<ul id="header-bar">
-		<li><%= link_to 'VRAME', vrame_root_path, :class => 'logo' %></li>
+	<div class="page-align">
+		<ul id="header-bar">
+			<li><%= link_to 'VRAME', vrame_root_path, :class => 'logo' %></li>
 		
-		<%- if user -%>
-		<li>
-			<ul id="nav">
-				<li>
-					<%= link_to 'Kategorien', vrame_categories_path %>
-					<%= tree_ul(Category.roots) do |category|
-						link_to h(category.title),
-						category.backend_url.empty? ? vrame_category_path(category) : category.backend_url_path,
-						:class => (category.children.empty? ? '' : 'top')
-					end %>
-				</li>
-				<li>
-					<a>Schnellzugriff</a>
-					<ul id="short-navigation">
-					<% short_navigation = Category.short_navigation %>
-					<% short_navigation.each do |category| %>
-						<li><%= link_to h(category.title), category.backend_url.empty? ? vrame_category_path(category) : category.backend_url_path %></li>
-					<% end %>
-					</ul>
-				</li>
-				<li>
-					<%= link_to 'Newsletter', vrame_mailer_newsletters_path %>
-					<ul>
-						<li><%= link_to 'Archiv',     vrame_mailer_newsletters_path %></li>
-						<li><%= link_to 'Abonnenten', vrame_mailer_subscriptions_path %></li>
-					</ul>
-				</li>
-			</ul>
-		</li>
+			<%- if user -%>
+			<li>
+				<ul id="nav">
+					<li>
+						<%= link_to 'Kategorien', vrame_categories_path %>
+						<%= tree_ul(Category.roots) do |category|
+							link_to h(category.title),
+							category.backend_url.empty? ? vrame_category_path(category) : category.backend_url_path,
+							:class => (category.children.empty? ? '' : 'top')
+						end %>
+					</li>
+					<li>
+						<a>Schnellzugriff</a>
+						<ul id="short-navigation">
+						<% short_navigation = Category.short_navigation %>
+						<% short_navigation.each do |category| %>
+							<li><%= link_to h(category.title), category.backend_url.empty? ? vrame_category_path(category) : category.backend_url_path %></li>
+						<% end %>
+						</ul>
+					</li>
+					<li>
+						<%= link_to 'Newsletter', vrame_mailer_newsletters_path %>
+						<ul>
+							<li><%= link_to 'Archiv',     vrame_mailer_newsletters_path %></li>
+							<li><%= link_to 'Abonnenten', vrame_mailer_subscriptions_path %></li>
+						</ul>
+					</li>
+				</ul>
+			</li>
 
-		<li class="meta"><%= link_to 'Log out', user_sessions_path, :method => 'delete' %></li>
+			<li class="meta last"><%= link_to 'Log out', user_sessions_path, :method => 'delete' %></li>
 		
-		<li class="meta"><strong><%=h user.email %></strong></li>
+			<li class="meta"><strong><%=h user.email %></strong></li>
 		
-		<!-- <li class="meta"><a href="">User-Verwaltung</a></li> -->
-		<%- end -%>
-	</ul>
+			<!-- <li class="meta"><a href="">User-Verwaltung</a></li> -->
+			<%- end -%>
+		</ul>
 
+	</div>
 </div>

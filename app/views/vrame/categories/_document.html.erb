@@ -1,18 +1,21 @@
-<tr class="document odd nesting-level-<%= level %>" id="document-<%=h document.to_param %>">
-	<td><img src="/vrame/images/admin/page.png" alt="Document" /></td>
-	<td class="title">
+<li class="document odd nesting-level-<%= level %> item clearfix" id="document-<%=h document.to_param %>">
+	<div class="icon">
+		<img src="/vrame/images/admin/page.png" alt="Document" />
+	</div>
+	<div class="title">
 		<%- if defined? level and level > 0 -%><img src="/vrame/images/admin/child.png" alt="" /><%- end -%>
 		<%= link_to h(document.title), edit_vrame_document_path(document) %>
-	</td>
-	<td class="slug">
+	</div>
+	<div class="slug">
 		<%=h document.to_param %>
-	</td>
-	<td class="options">
+	</div>
+	<div class="options">
 		<%= link_to "Bearbeiten", edit_vrame_document_path(document), :class => 'edit' %>
 		<%= link_to "Löschen", [:vrame, document], :method => :delete, :confirm => 'Wirklich löschen?', :class => 'delete' %>
-	</td>
-	<td class="order">
+	</div>
+	<div class="order">
 		<%= link_to '<img src="/vrame/images/admin/arrow_up.png" border="0" alt="Weiter nach oben" />', order_up_vrame_document_path(document) %>
 		<%= link_to '<img src="/vrame/images/admin/arrow_down.png" border="0" alt="Weiter nach unten" />', order_down_vrame_document_path(document) %>
-	</td>
-</tr>
+	</div>
+</li>
+

@@ -17,21 +17,14 @@
 	<%- end -%>
 </div>
 
-<div class="table-container" id="category-list">
-	<table class="list">
-		<thead>
-			<tr>
-				<th></th>
-				<th>Titel</th>
-				<th>Slug</th>
-				<th>Funktionen</th>
-				<th></th>
-			</tr>
-		</thead>
-		<tbody>
-			<%= render :partial => 'category_tree', :locals => { :category => @category, :categories => @categories } %>
-		</tbody>
-	</table>
-</div>
+<ul id="category-list" class="category list">
+	<%= render :partial => 'category_tree', :locals => { :category => @category, :categories => @categories } %>			
+</ul>
 
 <%= render :partial => 'vrame/shared/pagination', :locals => { :paginatable => @categories } %>
+
+<script>
+	jQuery(function($) {
+		$('ul#category-list').html5sortable();
+	});
+</script>
