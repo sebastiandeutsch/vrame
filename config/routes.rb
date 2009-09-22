@@ -29,4 +29,6 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resources :documents, :only => [ :show ]
   
+  map.download_asset '/assets/:id/download', :controller => 'assets', :action => 'download'
+  
 end
