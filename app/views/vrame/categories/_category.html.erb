@@ -1,6 +1,8 @@
 <li
-	class="row category nesting-level-<%= level %>"
+	class="row category nesting-level-<%= level %> droppable"
 	id="category-<%=h category.to_param %>"
+	data-id = "<%=h category.id %>"
+	data-type="category"
 >
 	<div class="clearfix">
 		<div class="column icon">
