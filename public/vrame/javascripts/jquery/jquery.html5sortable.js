@@ -6,10 +6,12 @@
 	
         opts = $.extend({
 				itemSelector      : 'li.item',
+				droppableSelector : 'li.droppable',
 				onDrop			  : noop
 			},
 			opts || {}
 		);
+		opts.droppableClass = opts.droppableSelector.match(/\.([^ ]+)/)[1];
 
 		var animateHelpers = function() {
 			$('li.helper', list).each(function(i, el) {
@@ -32,8 +34,12 @@
 			};
 			
 			$(opts.itemSelector, list).each(function(i, el) {
-				if(i == 0) $(el).before('<li class="helper">&nbsp;</li>');
-				$(el).after('<li class="helper">&nbsp;</li>');
+				$(el).before('<li class="helper" data-relative="before" data-id="' + el.id + '">&nbsp;</li>');
+				$(el).after('<li class="helper" data-relative="after" data-id="' + el.id + '">&nbsp;</li>');
+			});
+
+			$(opts.droppableSelector, list).each(function(i, el) {
+				$(el).after('<li class="helper" data-relative="after" data-id="' + el.id + '">&nbsp;</li>');
 			});
 			
 			$('li.helper', list).each(function(i, el) {
@@ -49,31 +55,37 @@
 				el.bind('drop', function (e) {
 				    if (e.originalEvent.stopPropagation) e.originalEvent.stopPropagation(); // stops the browser from redirecting...why???
 					
-					if(e.sortableInsert == 'before') {
-						var id = $(this).prev().attr('id');
-					} else {
-						var id = $(this).prev().attr('id');
-					}
+					var target = $(this);
+					var reference = $('#' + target.attr('data-id'));
+					var elementId = e.originalEvent.dataTransfer.getData('Text');
 					
-					var e1 = $('#' + id);
-					var e2 = $('#' + e.originalEvent.dataTransfer.getData('Text'));
+					if(elementId && elementId != "") {
+						var element = $('#' + elementId);
+						var clone = element.clone();
+						makeElementSortable(clone);
 
-					var clone = e2.clone();
-					makeElementSortable(clone);
+						if(target.attr('data-relative') == 'before') {
+							reference.before(clone);
+						} else {
+							reference.after(clone);
+						}
+						element.remove();
 
-					if(e1.get(0).sortableInsert == 'before') {
-						e1.before(clone);
-					} else {
-						e1.after(clone);
+						var bgColor = clone.css('backgroundColor');
+						
+						clone.css({'backgroundColor' : '#ff0'});
+						clone.animate({'backgroundColor' : bgColor}, 600, function() {
+							clone.css({'backgroundColor' : bgColor});
+						});
+				
+						removeHelpers();
+
+						opts.onDrop({
+							element  : clone,
+							target   : reference,
+							relative : target.attr('data-relative')
+						});
 					}
-					e2.remove();
-
-					clone.css({'backgroundColor' : '#ff0'});
-					clone.animate({'backgroundColor' : '#F7F7F7'}, 600);
-					
-					removeHelpers();
-
-					opts.onDrop();
 
 				    return false;
 				});				
@@ -90,9 +102,7 @@
 			});
 		}
 		
-		var makeElementSortable = function(el) {
-			var currentEl = null;
-
+		var makeElementDraggable = function(el) {
 			// make the item draggable
 			el.attr('draggable', 'true');
 			
@@ -104,33 +114,40 @@
 				e.originalEvent.dataTransfer.effectAllowed = 'move';
 				e.originalEvent.dataTransfer.setData('Text', this.id); // required otherwise doesn't work				
 			});
-			
-			var dragOverHelperFunction = function(e) {
+		}
+		
+		var makeElementDroppable = function(el) {
+			var dragOverHelperFunction = function(e) {				
 				// disable all helpers
 				$('li.helper', list).each(function(i, el) {
 					$(el).get(0).toHeight = 0;
 				});
-				
+												
 				// decide where to drop the item
 				if(e.originalEvent.target.id != "") {
 					var target = $('#' + e.originalEvent.target.id);
 					if(target.get(0)) {
 						var targetY = target.get(0).offsetTop;
 						var targetH = target.height() * 2; // @TODO, why 2* height?
-					
-						if(e.pageY-targetY < targetH/2) {
-							target.prev().css({'display' : 'block'});
-							target.prev().get(0).toHeight = targetH;
-							target.prev().sortableInsert = 'before';
-							target.next().get(0).toHeight = 0;
-							target.next().get(0).myHeight = 0;
-						} else {
-							target.prev().get(0).toHeight = 0;
-							target.prev().get(0).myHeight = 0;
+						
+						if(target.hasClass(opts.droppableClass)) {
 							target.next().css({'display' : 'block'});
 							target.next().get(0).toHeight = targetH;
-							target.next().sortableInsert = 'after';
-						
+							target.get(0).sortableInsert = 'after';
+						} else {
+							if(e.pageY-targetY < targetH/2) {
+								target.prev().css({'display' : 'block'});
+								target.prev().get(0).toHeight = targetH;
+								target.next().get(0).toHeight = 0;
+								target.next().get(0).myHeight = 0;
+								target.get(0).sortableInsert = 'before';
+							} else {
+								target.prev().get(0).toHeight = 0;
+								target.prev().get(0).myHeight = 0;
+								target.next().css({'display' : 'block'});
+								target.next().get(0).toHeight = targetH;
+								target.get(0).sortableInsert = 'after';
+							}							
 						}
 					}
 				}
@@ -152,13 +169,21 @@
 			el.bind('dragend', function (e) {
 				removeHelpers();
 			});
+		}
+		
+		var makeElementSortable = function(el) {
+			makeElementDraggable(el);
+			makeElementDroppable(el);
 		};
 
-		var items = $(opts.itemSelector, list);
-
 		// make all elements sortable
-		items.each(function(i, el) {
+		$(opts.itemSelector, list).each(function(i, el) {
 			makeElementSortable($(el));
+		});
+		
+		// make some elements droppable
+		$(opts.droppableSelector, list).each(function(i, el) {
+			makeElementDroppable($(el));
 		});
 	};
 })(jQuery);
