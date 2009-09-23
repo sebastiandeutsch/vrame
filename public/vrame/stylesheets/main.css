@@ -98,6 +98,10 @@ h2 {
 	margin: 0 auto 0 auto;
 }
 
+.page-spacer {
+	margin-top:32px;
+}
+
 /** 
  * @section Header
  *
@@ -301,7 +305,6 @@ h2 {
  */
 
 #content {
-	margin-top:32px;
 	padding: 15px 0;
 }
 
@@ -440,12 +443,11 @@ ul.record-list > li:hover {
 
 .record-list .options {
 	font-size: 13px;
-	width: 360px;
+	width: 180px;
 }
 
 .record-list .options a {
 	margin-right: 13px;
-	padding-left: 23px;
 	background-repeat: no-repeat;
 	background-position: left center;
 	white-space: nowrap;
@@ -526,16 +528,25 @@ table.record-list tbody td {
  */
 
 ul.record-list li {
-	padding: 10px;
 	border-bottom: 2px solid #fff;
 }
 
 ul.record-list li .column {
 	float: left;
+	margin:10px 10px 10px 10px;
 }
 
 ul.record-list div.icon {
 	width:32px;
+
+}
+
+ul.record-list li .image {
+	width:100px;
+	float: left;
+	margin:0;
+	padding:0;
+	line-height:0.1;
 }
 
 ul.record-list li.helper {
