@@ -1,6 +1,7 @@
 <li
 	class="row item document nesting-level-<%= level %> clearfix"
 	id="document-<%=h document.to_param %>"
+	data-parent-id = "<%=h document.category_id %>"
 >
 	<div class="column icon">
 		<img src="/vrame/images/admin/page.png" alt="Document" />

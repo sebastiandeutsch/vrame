@@ -32,8 +32,8 @@
 			};
 			
 			$(opts.itemSelector, list).each(function(i, el) {
-				if(i == 0) $(el).before('<li class="helper">&nbsp;</li>');
-				$(el).after('<li class="helper">&nbsp;</li>');
+				$(el).before('<li class="helper" data-relative="before" data-id="' + el.id + '">&nbsp;</li>');
+				$(el).after('<li class="helper" data-relative="after" data-id="' + el.id + '">&nbsp;</li>');
 			});
 			
 			$('li.helper', list).each(function(i, el) {
@@ -49,32 +49,34 @@
 				el.bind('drop', function (e) {
 				    if (e.originalEvent.stopPropagation) e.originalEvent.stopPropagation(); // stops the browser from redirecting...why???
 					
-					if(e.sortableInsert == 'before') {
-						var id = $(this).prev().attr('id');
-					} else {
-						var id = $(this).prev().attr('id');
-					}
+					var target = $(this);
+					var reference = $('#' + target.attr('data-id'));
+					var elementId = e.originalEvent.dataTransfer.getData('Text');
 					
-					var e1 = $('#' + id);
-					var e2 = $('#' + e.originalEvent.dataTransfer.getData('Text'));
+					if(elementId && elementId != "") {
+						var element = $('#' + elementId);
+						var clone = element.clone();
+						makeElementSortable(clone);
 
-					var clone = e2.clone();
-					makeElementSortable(clone);
+						if(target.attr('data-relative') == 'before') {
+							reference.before(clone);
+						} else {
+							reference.after(clone);
+						}
+						element.remove();
 
-					if(e1.get(0).sortableInsert == 'before') {
-						e1.before(clone);
-					} else {
-						e1.after(clone);
+						var bgColor = clone.css('backgroundColor');
+						clone.css({'backgroundColor' : '#ff0'});
+						clone.animate({'backgroundColor' : bgColor}, 600);
+				
+						removeHelpers();
+
+						opts.onDrop({
+							element  : clone,
+							target   : reference,
+							relative : target.attr('data-relative')
+						});
 					}
-					e2.remove();
-
-					var bgColor = clone.css('backgroundColor');
-					clone.css({'backgroundColor' : '#ff0'});
-					clone.animate({'backgroundColor' : bgColor}, 600);
-					
-					removeHelpers();
-
-					opts.onDrop();
 
 				    return false;
 				});				
@@ -106,12 +108,12 @@
 				e.originalEvent.dataTransfer.setData('Text', this.id); // required otherwise doesn't work				
 			});
 			
-			var dragOverHelperFunction = function(e) {
+			var dragOverHelperFunction = function(e) {				
 				// disable all helpers
 				$('li.helper', list).each(function(i, el) {
 					$(el).get(0).toHeight = 0;
 				});
-				
+												
 				// decide where to drop the item
 				if(e.originalEvent.target.id != "") {
 					var target = $('#' + e.originalEvent.target.id);
@@ -122,16 +124,15 @@
 						if(e.pageY-targetY < targetH/2) {
 							target.prev().css({'display' : 'block'});
 							target.prev().get(0).toHeight = targetH;
-							target.prev().sortableInsert = 'before';
 							target.next().get(0).toHeight = 0;
 							target.next().get(0).myHeight = 0;
+							target.get(0).sortableInsert = 'before';
 						} else {
 							target.prev().get(0).toHeight = 0;
 							target.prev().get(0).myHeight = 0;
 							target.next().css({'display' : 'block'});
 							target.next().get(0).toHeight = targetH;
-							target.next().sortableInsert = 'after';
-						
+							target.get(0).sortableInsert = 'after';
 						}
 					}
 				}

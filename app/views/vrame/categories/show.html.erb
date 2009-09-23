@@ -22,3 +22,29 @@
 </ul>
 
 <%= render :partial => 'vrame/shared/pagination', :locals => { :paginatable => @categories } %>
+
+<script>
+	jQuery(function($) {
+		// @mathias please as long as it is experimental leave it here, kthxbai
+		/* Sortable list */
+		$('#category-list').html5sortable({
+			onDrop : function(hash) {
+				var el     = hash.element;
+				var target = hash.target;
+				
+				if(el.attr('data-parent-id') != target.attr('data-parent-id')) {
+					// @todo update category id
+					// via AJAX
+					el.attr('data-parent-id', target.attr('data-parent-id'));
+				}
+				
+				var items = jQuery('#category-list li.item[data-parent-id=' + el.attr('data-parent-id') + ']');
+				items.each(function(i, o) {
+					// @todo update positions
+					// via ajax
+					console.log(i + " -> " + o.id);
+				});
+			}
+		});
+	});
+</script>
