@@ -14,6 +14,10 @@
 				<%= link_to h(category.title), category.backend_url != "" ? category.backend_url_path : [:vrame, category] %>
 			</span>
 		</div>
+		
+		<div class="image">
+			&nbsp;
+		</div>
 	
 		<div class="column slug" title="Numerische ID: <%=h category.id %>">
 			<%=h category.to_param %>
@@ -23,11 +27,11 @@
 			<% if category.backend_url != "" %>
 				<%= link_to "Einträge ansehen", category.backend_url_path, :class => 'list'  %>
 			<% end %>
-			<%= link_to "Bearbeiten", [:edit, :vrame, category], :class => 'edit' %>
-			<%= link_to "Löschen", [:vrame, category], :method => :delete, :confirm => 'Wirklich löschen?', :class => 'delete' %>
-			<%= link_to "Dokument hinzufügen",
-				category.backend_url.empty? ? [:new, :vrame, category, :document] : category.backend_url_path + '/new',
-				:class => 'add' %>
+			<%= link_to '<img src="/vrame/images/admin/edit.png" border="0" alt="Editieren" title="Editieren" />', [:edit, :vrame, category] %>
+			<%= link_to '<img src="/vrame/images/admin/delete.png" border="0" alt="Löschen" title="Löschen" />', [:vrame, category], :method => :delete, :confirm => 'Wirklich löschen?' %>
+			<%= link_to '<img src="/vrame/images/admin/page_add.png" border="0" alt="Dokument hinzufügen" title="Dokument hinzufügen" />',
+				category.backend_url.empty? ? [:new, :vrame, category, :document] : category.backend_url_path + '/new'
+			%>
 		</div>
 	
 		<div class="column order">

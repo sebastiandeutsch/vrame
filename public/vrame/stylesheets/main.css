@@ -423,12 +423,11 @@ ul.record-list > li:hover {
 
 .record-list .options {
 	font-size: 13px;
-	width: 360px;
+	width: 180px;
 }
 
 .record-list .options a {
 	margin-right: 13px;
-	padding-left: 23px;
 	background-repeat: no-repeat;
 	background-position: left center;
 	white-space: nowrap;
@@ -520,16 +519,25 @@ ul.record-list {
 }
 
 ul.record-list li {
-	padding: 10px;
 	border-bottom: 2px solid #fff;
 }
 
 ul.record-list li .column {
 	float: left;
+	margin:10px 10px 10px 10px;
 }
 
 ul.record-list div.icon {
 	width:32px;
+
+}
+
+ul.record-list li .image {
+	width:100px;
+	float: left;
+	margin:0;
+	padding:0;
+	line-height:0.1;
 }
 
 ul.record-list li.helper {

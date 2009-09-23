@@ -8,11 +8,19 @@
 		<div class="column icon">
 			<img src="/vrame/images/admin/page.png" alt="Document" />
 		</div>
-	
+		
 		<div class="column title">
 			<span>
 				<%= link_to h(document.title), edit_vrame_document_path(document) %>
 			</span>
+		</div>
+	
+		<div class="image">
+			<% if document.meta.image %>
+				<img src="<%= document.meta.image.file.url(:vrame_backend) %>" />
+			<% else %>
+				&nbsp;
+			<% end %>
 		</div>
 	
 		<div class="column slug" title="Numerische ID: <%=h document.id %>">
@@ -20,8 +28,8 @@
 		</div>
 	
 		<div class="column options">
-			<%= link_to "Bearbeiten", edit_vrame_document_path(document), :class => 'edit' %>
-			<%= link_to "Löschen", [:vrame, document], :method => :delete, :confirm => 'Wirklich löschen?', :class => 'delete' %>
+			<%= link_to '<img src="/vrame/images/admin/edit.png" border="0" alt="Editieren" title="Editieren" />', edit_vrame_document_path(document) %>
+			<%= link_to '<img src="/vrame/images/admin/delete.png" border="0" alt="Löschen" title="Löschen" />', [:vrame, document], :method => :delete, :confirm => 'Wirklich löschen?' %>
 		</div>
 	
 		<div class="column order">
