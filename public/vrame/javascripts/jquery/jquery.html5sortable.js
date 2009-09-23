@@ -66,8 +66,11 @@
 						element.remove();
 
 						var bgColor = clone.css('backgroundColor');
+						
 						clone.css({'backgroundColor' : '#ff0'});
-						clone.animate({'backgroundColor' : bgColor}, 600);
+						clone.animate({'backgroundColor' : bgColor}, 600, function() {
+							clone.css({'backgroundColor' : bgColor});
+						});
 				
 						removeHelpers();
 

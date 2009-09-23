@@ -1,30 +1,32 @@
 <li
-	class="row item document nesting-level-<%= level %> clearfix"
+	class="row item document nesting-level-<%= level %>"
 	id="document-<%=h document.to_param %>"
 	data-parent-id = "<%=h document.category_id %>"
 >
-	<div class="column icon">
-		<img src="/vrame/images/admin/page.png" alt="Document" />
-	</div>
+	<div class="clearfix">
+		<div class="column icon">
+			<img src="/vrame/images/admin/page.png" alt="Document" />
+		</div>
 	
-	<div class="column title">
-		<span>
-			<%= link_to h(document.title), edit_vrame_document_path(document) %>
-		</span>
-	</div>
+		<div class="column title">
+			<span>
+				<%= link_to h(document.title), edit_vrame_document_path(document) %>
+			</span>
+		</div>
 	
-	<div class="column slug" title="Numerische ID: <%=h document.id %>">
-		<%=h document.to_param %>
-	</div>
+		<div class="column slug" title="Numerische ID: <%=h document.id %>">
+			<%=h document.to_param %>
+		</div>
 	
-	<div class="column options">
-		<%= link_to "Bearbeiten", edit_vrame_document_path(document), :class => 'edit' %>
-		<%= link_to "Löschen", [:vrame, document], :method => :delete, :confirm => 'Wirklich löschen?', :class => 'delete' %>
-	</div>
+		<div class="column options">
+			<%= link_to "Bearbeiten", edit_vrame_document_path(document), :class => 'edit' %>
+			<%= link_to "Löschen", [:vrame, document], :method => :delete, :confirm => 'Wirklich löschen?', :class => 'delete' %>
+		</div>
 	
-	<div class="column order">
-		<%= link_to '<img src="/vrame/images/admin/arrow_up.png" border="0" alt="Weiter nach oben" />', order_up_vrame_document_path(document) %>
-		<%= link_to '<img src="/vrame/images/admin/arrow_down.png" border="0" alt="Weiter nach unten" />', order_down_vrame_document_path(document) %>
+		<div class="column order">
+			<%= link_to '<img src="/vrame/images/admin/arrow_up.png" border="0" alt="Weiter nach oben" />', order_up_vrame_document_path(document) %>
+			<%= link_to '<img src="/vrame/images/admin/arrow_down.png" border="0" alt="Weiter nach unten" />', order_down_vrame_document_path(document) %>
+		</div>
 	</div>
 </li>
 
