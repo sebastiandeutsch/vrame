@@ -11,7 +11,7 @@
 	
 		<div class="column title">
 			<span>
-				<%= link_to h(category.title), category.backend_url != "" ? category.backend_url_path : [:vrame, category] %>
+				<%= link_to h(category.title), category.backend_url != "" ? category.backend_url_path : [:edit, :vrame, category] %>
 			</span>
 		</div>
 		
@@ -32,6 +32,7 @@
 			<%= link_to '<img src="/vrame/images/admin/page_add.png" border="0" alt="Dokument hinzufügen" title="Dokument hinzufügen" />',
 				category.backend_url.empty? ? [:new, :vrame, category, :document] : category.backend_url_path + '/new'
 			%>
+			<%= link_to '<img src="/vrame/images/admin/magnifier.png" border="0" alt="Detailansicht" title="Detailansicht" />', [:vrame, category] %>
 		</div>
 	
 		<div class="column order">
