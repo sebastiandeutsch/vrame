@@ -74,7 +74,8 @@
 	                textarea.before(toolbar());
 				    // hide textarea
 	                textarea.hide();
-
+					/* Change: Use p als Standard Format Block --molily */
+					formatText("formatblock", '<p>')
 	            });
 			
 	        }
@@ -126,7 +127,7 @@
 	                <p>\
 	                    <select>\
 	                        <option value=''>Block style</option>\
-	                        <option value='p'>Paragraph</option>\
+	                        <option value='p' selected='selected'>Paragraph</option>\
 	                        <option value='h3'>Title</option>\
 	                        <option value='address'>Address</option>\
 	                    </select>\

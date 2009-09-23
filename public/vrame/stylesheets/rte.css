@@ -37,10 +37,13 @@ body {
 	
 }
 
-.frameBody p
+.frameBody h3,
+.frameBody p,
+.frameBody address
 {
-	border:1px #ddd solid;
-	padding:2px;
+	border: 1px solid #f0f0fa;
+	margin: 0 0 10px;
+	padding: 2px 3px;
 }
 
 .rte-zone

@@ -1,4 +1,6 @@
 <% documents.each do |document| %>
 	<h2><%=h document.title %></h2>
-	<div><%= document.meta.text %></div>
+	<% if document.meta.text %>
+		<div class="copy"><%= document.meta.text %></div>
+	<% end %>
 <% end %>

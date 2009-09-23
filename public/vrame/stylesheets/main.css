@@ -116,11 +116,11 @@ h2 {
 }
 
 .breadcrumbs a {
-    text-decoration: none;
+	text-decoration: none;
 }
 
 .subnavigation {
-    margin-bottom: 7px;
+	margin-bottom: 7px;
 }
 
 /** 
@@ -165,35 +165,35 @@ h2 {
  */
 
 #header-container {
-    display: block;
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    height: 32px;
-    background: #000;
-    color: #fff;
-    width: 100%;
+	display: block;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	height: 32px;
+	background: #000;
+	color: #fff;
+	width: 100%;
 }
 
 #header-bar {
-    padding: 3px 0 0 0;
-    height: 26px;
-    height: 32px;
+	padding: 3px 0 0 0;
+	height: 26px;
+	height: 32px;
 }
 
 #header-bar a {
-    color: #fff;
-    text-decoration: none;
+	color: #fff;
+	text-decoration: none;
 }
 
 #header-bar li {
-    float: left;
+	float: left;
 }
 
 #header-bar li.meta {
-    float: right;
-    margin-top: 3px;
-    margin-right: 16px;
+	float: right;
+	margin-top: 3px;
+	margin-right: 16px;
 }
 
 #header-bar li.last {
@@ -201,11 +201,11 @@ h2 {
 }
 
 .logo {
-    font-family: 'Helvetica Neue Light', HelveticaNeue-Light, HelveticaNeue, Helvetica, Arial, sans-serif;;
-    font-size: 21px;
-    font-weight: normal;
-    margin: 0 32px 0 0;
-    color: #fff;
+	font-family: 'Helvetica Neue Light', HelveticaNeue-Light, HelveticaNeue, Helvetica, Arial, sans-serif;;
+	font-size: 21px;
+	font-weight: normal;
+	margin: 0 32px 0 0;
+	color: #fff;
 }
 
 /** 
@@ -312,30 +312,30 @@ h2 {
  */
  
 .functions {
-    float: right;
-    clear: both;
-    margin-bottom: 16px;
+	float: right;
+	clear: both;
+	margin-bottom: 16px;
 }
 
 /*.functions .new {
-    display: block;
-    float: right;
-    margin-left: 10px;
-    text-decoration: none;
-    
-    background: #333;
-    color: #fff;
-    
-    font-family: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;;
-    font-size: 16px;
-    font-weight: normal;
-    
-    padding: 8px 14px;
-    -webkit-border-radius: 8px;
+	display: block;
+	float: right;
+	margin-left: 10px;
+	text-decoration: none;
+	
+	background: #333;
+	color: #fff;
+	
+	font-family: 'Helvetica Neue', HelveticaNeue, Helvetica, Arial, sans-serif;;
+	font-size: 16px;
+	font-weight: normal;
+	
+	padding: 8px 14px;
+	-webkit-border-radius: 8px;
 }*/
 
 .functions .new:hover {
-    background: #575757;
+	background: #575757;
 }
 
 /** 
@@ -344,20 +344,37 @@ h2 {
  *
  */
 
+.record-list {
+	margin-bottom: 15px;
+}
+
+/** 
+ * @subsection Container with border
+ *
+ *
+ */
+
+.table-container,
+ul.record-list {
+	margin-bottom: 15px;
+	border: 1px solid #e7e7e7;
+	padding: 1px;
+}
+
 /** 
  * @subsection Row background
  *
  *
  */
 
-table.record-list tbody tr.even td,
-ul.record-list li.even,
+.record-list .even,
+table.record-list tr.even td,
 .record-list .category {
 	background-color: #f7f7f7;
 }
 
-table.record-list tbody tr.odd td,
-ul.record-list li.odd,
+.record-list .odd,
+table.record-list tr.odd td,
 .record-list .document {
 	background-color: #fff;
 }
@@ -484,12 +501,6 @@ ul.record-list > li:hover {
  * 
  */
 
-.table-container {
-	margin-bottom: 10px;
-	border: 1px solid #777;
-	padding: 1px;
-}
-
 table.record-list {
 	width: 100%;
 }
@@ -513,11 +524,6 @@ table.record-list tbody td {
  *
  *
  */
-
-ul.record-list {
-	padding: 1px;
-	border: 1px solid #e7e7e7;
-}
 
 ul.record-list li {
 	padding: 10px;
@@ -545,7 +551,7 @@ ul.record-list li.helper {
 /** 
  * @section Forms
  *
- * Description.
+ *
  */
 
 label {
@@ -586,12 +592,12 @@ form ul {
 form ul > li {
 	margin-bottom: 5px;
 	padding-bottom: 5px;
-    border-bottom: 1px solid #d8d8d8;
+	border-bottom: 1px solid #d8d8d8;
 }
 
 form ul > li.last {
-    margin-bottom: 0;
-    padding-bottom: 0;
+	margin-bottom: 0;
+	padding-bottom: 0;
 	border-bottom:none;
 }
 
@@ -626,7 +632,7 @@ textarea {
 
 textarea.big,
 input.big {
-    font-size: 22px;
+	font-size: 22px;
 }
 
 .button,
@@ -648,23 +654,23 @@ button {
 .button:hover,
 input[type="submit"]:hover,
 button:hover {
-    background: #555;
+	background: #555;
 }
 
 .invert {
-    background: #f8f8f8;
-    color: #444;
-    border-bottom: 1px solid #d8d8d8;
-    border-left: 1px solid #d8d8d8;
-    border-right: 1px solid #e0e0e0;
+	background: #f8f8f8;
+	color: #444;
+	border-bottom: 1px solid #d8d8d8;
+	border-left: 1px solid #d8d8d8;
+	border-right: 1px solid #e0e0e0;
 }
 
 .invert:hover {
-    background: #eee;
+	background: #eee;
 }
 
 .smaller {
-    padding: 2px 5px;
+	padding: 2px 5px;
 }
 
 /** 

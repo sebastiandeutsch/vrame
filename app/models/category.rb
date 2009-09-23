@@ -20,7 +20,7 @@ class Category < ActiveRecord::Base
     end
   }
   named_scope :short_navigation, :conditions => { :short_navigation => 1 }
-  named_scope :published, :conditions => { :published => true }
+  named_scope :published, :conditions => '`categories`.`published` = 1'
   
   has_json_object :schema,
     :default => [],
@@ -49,7 +49,7 @@ class Category < ActiveRecord::Base
     '/vrame/' + backend_url
   end
   
-  def to_hash
+  def to_public_hash
     # Convert category to hash
     category_hash = attributes.reject { |key, _| !Public_attributes.include?(key) }
     

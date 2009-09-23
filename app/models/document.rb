@@ -48,11 +48,11 @@ class Document < ActiveRecord::Base
       {:conditions => ["category_id IS NULL"]}
     end
   }
-  named_scope :published, :conditions => { :published => true }
+  named_scope :published, :conditions => '`documents`.`published` = 1'
   
   Public_attributes = %w(id title url meta_keywords meta_description meta_title category_id language_id updated_at created_at)
     
-  def to_hash
+  def to_public_hash
     
     # Convert document to hash
     document_hash = attributes.reject { |key, _| !Public_attributes.include?(key) }

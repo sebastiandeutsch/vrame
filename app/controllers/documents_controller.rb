@@ -4,11 +4,11 @@ class DocumentsController < ApplicationController
     if params[:category_id]
       # Show documents from given category
       
-      @category = Category.find(params[:category_id])
-      @documents = @category.documents
+      @category = Category.published.find(params[:category_id])
+      @documents = @category.documents.published
       
       # Emit documents with JSON store data mixed in
-      @public_documents = @documents.map(&:to_hash)
+      @public_documents = @documents.map(&:to_public_hash)
         
       respond_to do |format|
         format.json do
@@ -27,11 +27,11 @@ class DocumentsController < ApplicationController
   end
   
   def show
-    @document = Document.find(params[:id])
+    @document = Document.published.find(params[:id])
     redirect_to @document, :status => 301 if @document.found_using_outdated_friendly_id?
     
     # Emit document with JSON store data mixed in
-    @public_document = @document.to_hash
+    @public_document = @document.to_public_hash
     
     respond_to do |format|
       format.json do
