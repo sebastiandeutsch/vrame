@@ -72,6 +72,22 @@ h2 {
 }
 
 /** 
+ * @section Sortable hacks
+ *
+ *
+ */
+
+*[draggable=true] {
+  -moz-user-select:none;
+  -khtml-user-drag: element;
+  cursor: move;
+}
+
+*:-khtml-drag {
+  background-color: rgba(200,200,200, 0.5) !important;
+}
+
+/** 
  * @section Main Layout
  *
  *
