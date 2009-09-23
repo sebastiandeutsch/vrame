@@ -8,9 +8,9 @@ class Vrame::CollectionsController < Vrame::VrameController
   def show
     @collection = Collection.find(params[:id])
     if @collection.collectionable
-      redirect_to @collection.collectionable
+      redirect_to [:edit, :vrame, @collection.collectionable]
     else
-      flash[:error] = 'Zugehörigkeit der Collection nicht gefunden'
+      flash[:error] = 'ZugehÃ¶rigkeit der Collection nicht gefunden'
       redirect_to :back
     end
   end
@@ -18,9 +18,9 @@ class Vrame::CollectionsController < Vrame::VrameController
   def destroy
     @collection = Collection.find(params[:id])
     if @collection and @collection.destroy
-      flash[:success] = 'Collection gelöscht'
+      flash[:success] = 'Collection gelÃ¶scht'
     else
-      flash[:error] = 'Fehler beim Löschen der Collection'
+      flash[:error] = 'Fehler beim LÃ¶schen der Collection'
     end
     redirect_to :root
   end

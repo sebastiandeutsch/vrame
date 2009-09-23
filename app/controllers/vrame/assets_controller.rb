@@ -10,7 +10,15 @@ class Vrame::AssetsController < Vrame::VrameController
     @assets = Asset.paginate :page => params[:page], :per_page => per_page
   end
   
-  # no show action
+  def show
+    @asset = Asset.find(params[:id])
+    if @asset.assetable
+      redirect_to [:edit, :vrame, @asset.assetable]
+    else
+      flash[:error] = 'Zugehörigkeit des Assets nicht gefunden'
+      redirect_to :back
+    end
+  end
   
   # no new action
   
@@ -94,11 +102,21 @@ class Vrame::AssetsController < Vrame::VrameController
   end
   
   def destroy
-    Asset.destroy(params[:id])
-    if request.xhr?
-      render :text => 'OK'
-    else
-      redirect_to :back
+    @asset = Asset.find(params[:id])
+    if @asset and @asset.destroy
+      if request.xhr?
+        render :text => 'OK'
+      else
+        flash[:success] = 'Asset gelöscht'
+        redirect_to :back
+      end
+    else 
+      if request.xhr?
+        render :text => 'Error'
+      else
+        flash[:error] = 'Fehler beim Löschen des Assets'
+        redirect_to :back
+      end
     end
   end
   
