@@ -98,6 +98,10 @@ h2 {
 	margin: 0 auto 0 auto;
 }
 
+.page-spacer {
+	margin-top:32px;
+}
+
 /** 
  * @section Header
  *
@@ -301,7 +305,6 @@ h2 {
  */
 
 #content {
-	margin-top:32px;
 	padding: 15px 0;
 }
 

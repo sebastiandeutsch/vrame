@@ -44,8 +44,11 @@
 
 	<div class="page-decorator">
 		<%= render :partial => 'vrame/shared/navigation', :locals => { :category => @category, :user => current_user } %>
-		
+				
 		<div class="page-align">
+			<div class="page-spacer">
+			</div>
+			
 		    <%- unless flash.empty? -%>
 			<div class="flash">
 				<% flash.each_pair do |flashclass, message| %>
