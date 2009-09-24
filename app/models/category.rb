@@ -68,7 +68,7 @@ class Category < ActiveRecord::Base
     children.find(
       :first,
       :order => :position,
-      :conditions => '`documents_count` > 0 AND `url` IS NOT NULL and `template` IS NOT NULL'
+      :conditions => 'NOT (`documents_count` > 0 AND `url` IS NOT NULL and `template` IS NOT NULL)'
     )
   end
   
