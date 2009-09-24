@@ -60,4 +60,16 @@ class Category < ActiveRecord::Base
     category_hash
   end
   
+  def insignificant?
+    documents.empty? and url.empty? and template.empty?
+  end
+  
+  def first_significant_child
+    children.find(
+      :first,
+      :order => :position,
+      :conditions => '`documents_count` > 0 AND `url` IS NOT NULL and `template` IS NOT NULL'
+    )
+  end
+  
 end
