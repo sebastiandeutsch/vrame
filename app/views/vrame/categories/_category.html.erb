@@ -24,9 +24,6 @@
 	</div>
 
 	<div class="column options">
-		<% if category.backend_url != "" %>
-			<%= link_to "Einträge ansehen", category.backend_url_path, :class => 'list'  %>
-		<% end %>
 		<% if category.published %>
 			<%= link_to '<img src="/vrame/images/admin/led-green.png" border="0" alt="Editieren" title="Editieren" />', [:edit, :vrame, category] %>
 		<% else %>
