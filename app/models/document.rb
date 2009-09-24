@@ -36,7 +36,7 @@ class Document < ActiveRecord::Base
       m
     }
   
-  belongs_to :category
+  belongs_to :category, :counter_cache => true
   belongs_to :user
   
   named_scope :order_before, lambda {|position| {:conditions => ["position < ?", position], :limit => 1, :order => "position DESC"}}

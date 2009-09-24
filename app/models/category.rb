@@ -1,11 +1,11 @@
 class Category < ActiveRecord::Base
-  has_many :documents, :order => "position"
+  has_many :documents, :order => :position
   
   has_friendly_id :title, :use_slug => true, :strip_diacritics => true
   
   belongs_to :user
   
-  acts_as_tree :order => "position"
+  acts_as_tree :order => "position", :counter_cache => true
   acts_as_list :scope => :parent
   
   validates_presence_of :title

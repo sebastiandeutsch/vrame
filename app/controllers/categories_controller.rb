@@ -27,7 +27,12 @@ class CategoriesController < ApplicationController
   
   def show
     @category = Category.published.find(params[:id])
-    redirect_to @category, :status => 301 if @category.found_using_outdated_friendly_id?
+    
+    # Redirect permanently to the most recent slug if given slug is outdated
+    if @category.found_using_outdated_friendly_id?
+      redirect_to @category, :status => 301
+      return
+    end
     
     # Filter confidential and unwanted attributes
     @public_category = @category.to_public_hash
