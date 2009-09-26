@@ -84,13 +84,13 @@ class Vrame::CategoriesController < Vrame::VrameController
     @category = Category.find(params[:id])
     @category.move_higher
     
-    redirect_to :back
+    redirect_to vrame_categories_path
   end
   
   def order_down
     @category = Category.find(params[:id])
     @category.move_lower
     
-    redirect_to :back
+    redirect_to vrame_categories_path
   end
 end
