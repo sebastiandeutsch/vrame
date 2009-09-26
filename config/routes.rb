@@ -33,6 +33,7 @@ ActionController::Routing::Routes.draw do |map|
   
   # Documents
   map.resources :documents, :only => [ :show ]
+  map.seach     '/search', :controller => 'documents', :action => 'search'
   
   # Assets
   map.download_asset '/assets/:id/download', :controller => 'assets', :action => 'download'

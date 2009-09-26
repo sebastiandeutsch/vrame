@@ -44,4 +44,7 @@ class DocumentsController < ApplicationController
     end
   end
   
+  def search
+    @documents = Document.search(params[:q], :page => params[:page], :per_page => 10)
+  end
 end
