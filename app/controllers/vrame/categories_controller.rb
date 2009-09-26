@@ -93,4 +93,18 @@ class Vrame::CategoriesController < Vrame::VrameController
     
     redirect_to vrame_categories_path
   end
+  
+  def publish
+    @category = Category.find(params[:id])
+    @category.publish
+    
+    redirect_to vrame_categories_path
+  end
+  
+  def unpublish
+    @category = Category.find(params[:id])
+    @category.unpublish
+    
+    redirect_to vrame_categories_path
+  end
 end
