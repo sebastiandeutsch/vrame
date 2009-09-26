@@ -24,7 +24,7 @@
 	</div>
 
 	<div class="column slug" title="Numerische ID: <%=h document.id %>">
-		<%=h document.to_param %>
+		<%= link_to h( document.to_param), document_path(document) %>
 	</div>
 
 	<div class="column options">

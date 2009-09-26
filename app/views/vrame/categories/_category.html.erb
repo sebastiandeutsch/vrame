@@ -20,7 +20,7 @@
 	</div>
 
 	<div class="column slug" title="Numerische ID: <%=h category.id %>">
-		<%=h category.to_param %>
+		<%=link_to h(category.to_param), category_path(category) %>
 	</div>
 
 	<div class="column options">
