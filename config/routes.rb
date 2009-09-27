@@ -7,11 +7,11 @@ ActionController::Routing::Routes.draw do |map|
     vrame.root :controller => 'categories', :action => 'index'
     
     # Categories
-    vrame.resources :categories, :has_many => [ :documents ], :member => { :order_up => :get, :order_down => :get }
+    vrame.resources :categories, :has_many => [ :documents ], :member => { :order_up => :get, :order_down => :get, :publish => :get, :unpublish => :get }
     vrame.resources :categories, :has_many => [ :categories ], :only => [ :new ]
     
     # Documents
-    vrame.resources :documents, :member => { :order_up => :get, :order_down => :get }
+    vrame.resources :documents, :member => { :order_up => :get, :order_down => :get, :order_down => :get, :publish => :get, :unpublish => :get  }
     
     # Languages
     vrame.resources :languages
@@ -33,6 +33,7 @@ ActionController::Routing::Routes.draw do |map|
   
   # Documents
   map.resources :documents, :only => [ :show ]
+  map.seach     '/search', :controller => 'documents', :action => 'search'
   
   # Assets
   map.download_asset '/assets/:id/download', :controller => 'assets', :action => 'download'

@@ -24,14 +24,14 @@
 	</div>
 
 	<div class="column slug" title="Numerische ID: <%=h document.id %>">
-		<%=h document.to_param %>
+		<%= link_to h( document.to_param), document_path(document) %>
 	</div>
 
 	<div class="column options">
 		<% if document.published %>
-			<%= link_to '<img src="/vrame/images/admin/led-green.png" border="0" alt="Editieren" title="Editieren" />', edit_vrame_document_path(document) %>
+			<%= link_to '<img src="/vrame/images/admin/led-green.png" border="0" alt="Editieren" title="Editieren" />', unpublish_vrame_document_path(document) %>
 		<% else %>
-			<%= link_to '<img src="/vrame/images/admin/led-red.png" border="0" alt="Editieren" title="Editieren" />', edit_vrame_document_path(document) %>
+			<%= link_to '<img src="/vrame/images/admin/led-red.png" border="0" alt="Editieren" title="Editieren" />', publish_vrame_document_path(document) %>
 		<% end %>
 		<%= link_to '<img src="/vrame/images/admin/edit.png" border="0" alt="Editieren" title="Editieren" />', edit_vrame_document_path(document) %>
 		<%= link_to '<img src="/vrame/images/admin/delete.png" border="0" alt="Löschen" title="Löschen" />', [:vrame, document], :method => :delete, :confirm => 'Wirklich löschen?' %>

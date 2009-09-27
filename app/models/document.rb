@@ -79,4 +79,26 @@ class Document < ActiveRecord::Base
     
     document_hash
   end
+  
+  def self.search(keyword, options = { :page => 1, :per_page => 10 })
+    query_string = keyword.gsub(/\\/, '\&\&').gsub(/'/, "''").gsub('%', '\%').gsub('_', '\_')
+    sql = "select documents.* from documents where
+            (documents.title like '%#{query_string}%'
+            or documents.meta_json like '%#{query_string}%'
+            or documents.meta_title like '%#{query_string}%'
+            or documents.meta_keywords like '%#{query_string}%'
+            or documents.meta_description like '%#{query_string}%')
+            and searchable = 1"
+    self.paginate_by_sql sql, options
+  end
+  
+  def publish
+    self.published = true
+    self.save
+  end
+  
+  def unpublish
+    self.published = false
+    self.save
+  end
 end

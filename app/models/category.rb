@@ -101,4 +101,13 @@ class Category < ActiveRecord::Base
     )
   end
   
+  def publish
+    self.published = true
+    self.save
+  end
+  
+  def unpublish
+    self.published = false
+    self.save
+  end
 end
