@@ -51,6 +51,34 @@ module JsonObject
     end
   end
   
+  class ParamHash < HashWithIndifferentAccess    
+    def initialize(hash)
+      initialize_parameter_map(hash)
+    end
+    
+    def method_missing(method_name, *args)
+      @parameter_map[method_name]
+    end
+    
+    private
+    
+    def initialize_parameter_map(hash)
+      @parameter_map = {}
+      
+      hash.each do |field|
+        @parameter_map[dehumanize(field['name']).to_sym] = field['value']
+      end
+    end
+    
+    def dehumanize(human_string)
+      # @TODO: - if first char is a number, append an underscore
+      #        - collisions might occur
+      #        - replace invalid characters
+      human_string.downcase.gsub(/ +/,'_')
+    end
+    
+  end
+  
   def self.included(mod)
     mod.extend(ClassMethods)
   end 
@@ -81,6 +109,12 @@ module JsonObject
           schema = self.class.json_object_definitions[name][:schema]
           if schema
             object = JsonItem.new(object, schema.call(self))
+          end
+          
+          # eigenschema
+          eigenschema = self.class.json_object_definitions[name][:eigenschema]
+          if eigenschema
+            object = ParamHash.new(object)
           end
           
           object

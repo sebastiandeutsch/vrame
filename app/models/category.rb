@@ -1,5 +1,8 @@
 class Category < ActiveRecord::Base
+  
   has_many :documents, :order => :position
+  has_many :collections, :dependent => :destroy, :as => :collectionable
+  has_many :assets,      :dependent => :destroy, :as => :assetable
   
   has_friendly_id :title, :use_slug => true, :strip_diacritics => true
   
@@ -33,7 +36,33 @@ class Category < ActiveRecord::Base
       } unless v.nil?
     }
   
-  has_json_object :meta
+  has_json_object :meta,
+    :eigenschema => true,
+    :after_read => lambda { |category, meta|
+      meta.each do |field|
+        value = field['value']
+        
+        if field['type'] == 'Collection'
+          
+          begin
+            field['value'] = category.collections.find(value)
+          rescue ActiveRecord::RecordNotFound
+            field['value'] = category.collections.build()
+          end
+          
+        elsif field['type'] == 'File'
+          
+          begin
+            field['value'] = category.assets.find(value)
+          rescue ActiveRecord::RecordNotFound
+            field['value'] = category.assets.build()
+          end
+          
+        end
+      end
+      
+      meta
+    }
   
   Public_attributes = %w(id title url meta_keywords meta_description meta_title parent_id language_id updated_at created_at)
   
@@ -72,4 +101,13 @@ class Category < ActiveRecord::Base
     )
   end
   
+  def publish
+    self.published = true
+    self.save
+  end
+  
+  def unpublish
+    self.published = false
+    self.save
+  end
 end

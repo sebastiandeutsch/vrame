@@ -20,14 +20,14 @@
 	</div>
 
 	<div class="column slug" title="Numerische ID: <%=h category.id %>">
-		<%=h category.to_param %>
+		<%=link_to h(category.to_param), category_path(category) %>
 	</div>
 
 	<div class="column options">
 		<% if category.published %>
-			<%= link_to '<img src="/vrame/images/admin/led-green.png" border="0" alt="Editieren" title="Editieren" />', [:edit, :vrame, category] %>
+			<%= link_to '<img src="/vrame/images/admin/led-green.png" border="0" alt="Editieren" title="Editieren" />', [:unpublish, :vrame, category] %>
 		<% else %>
-			<%= link_to '<img src="/vrame/images/admin/led-red.png" border="0" alt="Editieren" title="Editieren" />', [:edit, :vrame, category] %>
+			<%= link_to '<img src="/vrame/images/admin/led-red.png" border="0" alt="Editieren" title="Editieren" />', [:publish, :vrame, category] %>
 		<% end %>
 		<%= link_to '<img src="/vrame/images/admin/edit.png" border="0" alt="Editieren" title="Editieren" />', [:edit, :vrame, category] %>
 		<%= link_to '<img src="/vrame/images/admin/delete.png" border="0" alt="Löschen" title="Löschen" />', [:vrame, category], :method => :delete, :confirm => 'Wirklich löschen?' %>

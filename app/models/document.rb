@@ -91,4 +91,14 @@ class Document < ActiveRecord::Base
             and searchable = 1"
     self.paginate_by_sql sql, options
   end
+  
+  def publish
+    self.published = true
+    self.save
+  end
+  
+  def unpublish
+    self.published = false
+    self.save
+  end
 end

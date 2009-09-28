@@ -36,7 +36,8 @@ class CategoriesController < ApplicationController
     
     # If category has no documents, redirect to first child category with documents
     if @category.insignificant? and not @category.children.empty?
-      redirect_to @category.first_significant_child
+      @significant_category = @category.first_significant_child
+      redirect_to @significant_category.url != "" ? "/#{@significant_category.url}" : @significant_category
       return
     end
     
