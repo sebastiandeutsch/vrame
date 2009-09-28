@@ -82,7 +82,7 @@ class Category < ActiveRecord::Base
     # Convert category to hash
     category_hash = attributes.reject { |key, _| !Public_attributes.include?(key) }
     
-    if category_hash['url'] == ""
+    if category_hash['url'].empty?
       category_hash['url'] = to_param
     end
     
