@@ -1,3 +1,4 @@
-<input name="<%=h class_name %>[meta[][name]]" type="text" placeholder="Schlüssel" value="<%=h(name) if defined?(name) and name %>" />&nbsp;
-<input name="<%=h class_name %>[meta[][value]]" type="text" placeholder="Wert" value="<%=h(value) if defined?(value) and value %>" />
+<%= text_field_tag  'meta[][name]',  defined?(item) ? h(item['name']) : nil,  :placeholder => 'Name' %>
+<%= type_select_tag 'meta[][type]',  defined?(item) ? item['type'] : "String" %>
+<%= text_field_tag  'meta[][value]', defined?(item) ? h(item['value']) : nil, :placeholder => 'Wert' %>
 <a href="#" class="smaller remove button invert">Entfernen</a>
