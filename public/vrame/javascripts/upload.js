@@ -155,7 +155,7 @@ Upload.prototype.handlers = {
 	uploadStart : function (file) {
 		var progress = new FileProgress(file, this.customSettings.queue);
 		
-		progress.setProgress();
+		progress.setProgress(0);
 		
 		/* No file validation, accept all files */
 		return true;
