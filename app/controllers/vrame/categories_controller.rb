@@ -33,6 +33,7 @@ class Vrame::CategoriesController < Vrame::VrameController
   def create
     # Hash mapping workaround
     params[:category][:schema] = params[:schema]
+    params[:category][:meta]   = params[:meta]
     
     @category = Category.new(params[:category])
     
@@ -54,11 +55,11 @@ class Vrame::CategoriesController < Vrame::VrameController
     
     # Hash mapping workaround
     params[:category][:schema] = params[:schema]
+    params[:category][:meta]   = params[:meta]
     
     # Empty default values
     params[:category][:schema] ||= []
-    params[:category][:meta] ||= {}
-    # TODO: auslagern möglich?
+    params[:category][:meta]   ||= []
     
     if @category.update_attributes(params[:category])
       flash[:success] = 'Die Kategorie wurde aktualisiert'

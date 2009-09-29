@@ -1,49 +1,113 @@
-# JsonSchema
-# class JsonSchema
-#   attr_accessor :name, :type, :uid
-#   
-#   
-# end
-
-# JsonObject
 module JsonObject
-  class JsonItem < HashWithIndifferentAccess # Hash
-    attr_accessor :schema
+  
+  class Schema
     
-    def initialize(hash, schema)
-      self.schema = schema
-      super(hash)
-    end
+    attr_reader :last_uid, :fields, :uid_map
     
-    def try(name)
-      if self[name]
-        self[name]
-      else
-        ""
-      end
-    end
-    
-    def type
-      if self[:type]
-        self[:type]
-      else
-        ""
-      end
-    end
-    
-    def method_missing(method_name, *args) 
-      if self.schema
-        self.schema.each do |i|
-          return self[i['uid']] if method_name.to_s == dehumanize(i['name'])
-        end
-      end
+    def initialize(schema = {})
+      schema = HashWithIndifferentAccess.new(schema)
       
-      self[method_name.to_sym]
+      @last_uid = schema.fetch(:last_uid, 0)
+      
+      @uid_map = {}
+      
+      @fields = schema.fetch(:fields, []).map do |field|
+        uid = field.fetch(:uid) { @last_uid += 1 }
+        uid_map[uid] = SchemaItem.new(field[:name], field[:type], uid)
+      end
     end
     
-    private
+    def each(&block)
+      @fields.each(&block)
+    end
     
-    def dehumanize(human_string)
+    def to_hash
+      { :last_uid => @last_uid,
+        :fields   => @fields.map(&:to_hash) }
+    end
+    
+  end
+  
+  class SchemaItem
+    
+    attr_accessor :name, :type, :uid
+    
+    def initialize(name, type, uid)
+      @name = name
+      @type = type
+      @uid  = uid
+    end
+    
+    def to_hash
+      { :name => @name,
+        :type => @type,
+        :uid => @uid }
+    end
+    
+  end
+  
+  class Store
+    
+    attr_reader :schema, :values, :param_map
+    
+    def initialize(store = {})
+      store = HashWithIndifferentAccess.new(store)
+      
+      @schema = Schema.new(store.fetch(:schema, {}))
+      
+      @param_map = HashWithIndifferentAccess.new
+      
+      @values = []
+      store.fetch(:values, {}).each_pair do |uid, value|
+        schema_item = @schema.uid_map[uid]
+        @values << store_item = StoreItem.new(schema_item, value)
+        @param_map[Helper::dehumanize(schema_item.name)] = store_item
+      end
+    end
+    
+    def each(&block)
+      @values.each(&block)
+    end
+    
+    def method_missing(name)
+      @param_map[name]
+    end
+    
+    def to_hash
+      { :schema => @schema.to_hash,
+        :values => @values }
+    end
+    
+  end
+  
+  class StoreItem
+    
+    attr_reader :schema_item, :value
+    
+    def initialize(schema_item, value)
+      @schema_item = schema_item
+      @value       = value
+    end
+    
+    def name; @schema_item.name; end
+    
+    def type; @schema_item.type; end
+    
+    def uid; @schema_item.uid; end
+    
+    def to_s; @value; end
+    
+    def to_hash
+      { :name  => @schema_item.name,
+        :type  => @schema_item.type,
+        :uid   => @schema_item.uid,
+        :value => @value }
+    end
+    
+  end
+  
+  module Helper
+    def self.dehumanize(human_string)
       # @TODO: - if first char is a number, append an underscore
       #        - collisions might occur
       #        - replace invalid characters
@@ -51,89 +115,64 @@ module JsonObject
     end
   end
   
-  class ParamHash < HashWithIndifferentAccess    
-    def initialize(hash)
-      initialize_parameter_map(hash)
+  module Adapter
+    def self.included(mod)
+      mod.extend(ClassMethods)
     end
     
-    def method_missing(method_name, *args)
-      @parameter_map[method_name]
+    module SingletonMethods
     end
-    
-    private
-    
-    def initialize_parameter_map(hash)
-      @parameter_map = {}
-      
-      hash.each do |field|
-        @parameter_map[dehumanize(field['name']).to_sym] = field['value']
-      end
+
+    module InstanceMethods
     end
-    
-    def dehumanize(human_string)
-      # @TODO: - if first char is a number, append an underscore
-      #        - collisions might occur
-      #        - replace invalid characters
-      human_string.downcase.gsub(/ +/,'_')
-    end
-    
-  end
-  
-  def self.included(mod)
-    mod.extend(ClassMethods)
-  end 
-  
-  module SingletonMethods
-  end
-  
-  module InstanceMethods
-  end
-  
-  module ClassMethods
-    def has_json_object(name, options = {})
-      extend JsonObject::SingletonMethods
-      include JsonObject::InstanceMethods
+
+    module ClassMethods
       
-      write_inheritable_attribute(:json_object_definitions, {}) if json_object_definitions.nil?
-      json_object_definitions[name] = options
-      
-      JsonObject::InstanceMethods.send "define_method", "#{name}" do |*args|
-        if self.send("#{name}_json")
-          object = ActiveSupport::JSON.decode(self.send("#{name}_json"))
-          
-          # after_read callback
-          after_read = self.class.json_object_definitions[name][:after_read]
-          object = after_read.call(self, object) unless after_read.nil?
-          
-          # schema
-          schema = self.class.json_object_definitions[name][:schema]
-          if schema
-            object = JsonItem.new(object, schema.call(self))
-          end
-          
-          # eigenschema
-          eigenschema = self.class.json_object_definitions[name][:eigenschema]
-          if eigenschema
-            object = ParamHash.new(object)
-          end
-          
-          object
-        else
-          self.class.json_object_definitions[name][:default]
-        end
-      end
-      
-      JsonObject::InstanceMethods.send "define_method", "#{name}=" do |object|
-        # before_serialize callback
-        before_serialize = self.class.json_object_definitions[name][:before_serialize]
-        object = before_serialize.call(object) unless before_serialize.nil?
+      def has_json_schema(name, options = {})
+        extend JsonObject::Adapter::SingletonMethods
+        include JsonObject::Adapter::InstanceMethods
         
-        self.send "#{name}_json=", object.to_json
+        JsonObject::Adapter::InstanceMethods.send "define_method", "#{name}" do |*args|
+          Schema.new(ActiveSupport::JSON.decode(self.send("#{name}_json")))
+        end
+
+        JsonObject::Adapter::InstanceMethods.send "define_method", "#{name}=" do |object|
+          self.send "#{name}_json=", object.to_hash.to_json
+        end
+        
+      end
+      
+      def has_json_store(name, options = {})
+        extend JsonObject::Adapter::SingletonMethods
+        include JsonObject::Adapter::InstanceMethods
+    
+        write_inheritable_attribute(:json_store_definitions, {}) if json_store_definitions.nil?
+        json_store_definitions[name] = options
+
+        JsonObject::Adapter::InstanceMethods.send "define_method", "#{name}" do |*args|
+          if self.send("#{name}_json")
+            object = ActiveSupport::JSON.decode(self.send("#{name}_json"))
+          else
+            object = {}
+          end
+          
+          if schema = self.class.json_store_definitions[name][:schema]
+            object[:schema] = [self, schema].flatten.inject { |current, parent| current.send(parent) }.to_hash
+          end
+          
+          object = Store.new(object)
+        end
+
+        JsonObject::Adapter::InstanceMethods.send "define_method", "#{name}=" do |object|
+          self.send "#{name}_json=", object.to_hash.to_json
+        end
+      end
+
+      def json_store_definitions
+        read_inheritable_attribute(:json_store_definitions)
       end
     end
     
-    def json_object_definitions
-      read_inheritable_attribute(:json_object_definitions)
-    end
   end
+
 end

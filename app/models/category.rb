@@ -25,44 +25,8 @@ class Category < ActiveRecord::Base
   named_scope :short_navigation, :conditions => { :short_navigation => 1 }
   named_scope :published, :conditions => '`categories`.`published` = 1'
   
-  has_json_object :schema,
-    :default => [],
-    :before_serialize => lambda { |v|
-      v.map { |i|
-        # Create new UID if nonexistent
-        # @TODO move to a static model function (will be part of JsonSchema)
-        # @TODO find a better unique hash algo  (will be an auto incrementing primary key ---> JsonSchema will handle this)
-        i.merge({'uid' => i['uid'].nil? || i['uid'].empty? ? rand(36**32).to_s(36) : i['uid']})
-      } unless v.nil?
-    }
-  
-  has_json_object :meta,
-    :eigenschema => true,
-    :after_read => lambda { |category, meta|
-      meta.each do |field|
-        value = field['value']
-        
-        if field['type'] == 'Collection'
-          
-          begin
-            field['value'] = category.collections.find(value)
-          rescue ActiveRecord::RecordNotFound
-            field['value'] = category.collections.build()
-          end
-          
-        elsif field['type'] == 'File'
-          
-          begin
-            field['value'] = category.assets.find(value)
-          rescue ActiveRecord::RecordNotFound
-            field['value'] = category.assets.build()
-          end
-          
-        end
-      end
-      
-      meta
-    }
+  has_json_schema :schema
+  has_json_store  :meta
   
   Public_attributes = %w(id title url meta_keywords meta_description meta_title parent_id language_id updated_at created_at)
   
