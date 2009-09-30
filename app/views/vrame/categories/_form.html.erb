@@ -47,11 +47,14 @@
 	
 	<fieldset>
 		<h3>Meta-Informationen</h3>
+		
 		<ol id="keys-values">
-			<% if category.meta %>
-				<% category.meta.each_with_index do |item, index| %>
+			<% if category.meta.schema %>
+				<% category.meta.schema.each do |item| %>
 					<li>
-						<%= render :partial => 'vrame/shared/key_value_item', :locals => { :class_name => 'category', :key => item['key'], :value => item['value'] } %>
+						<%= render :partial => 'vrame/shared/key_value_item',
+                  :locals => { :class_name => 'category', :item => item }
+						%>
 					</li>
 				<% end %>
 			<% end %>
@@ -130,6 +133,6 @@
 		<a href="#" class="smaller remove button invert">Entfernen</a>
 	</li>
 	<li id="key-value-prototype">
-		<%= render :partial => 'vrame/shared/key_value_item', :locals => { :class_name => 'category' } %>
+		<%= render :partial => 'vrame/shared/key_value_item' %>
 	</li>
 </ul>
