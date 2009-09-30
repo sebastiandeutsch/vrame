@@ -78,13 +78,13 @@ class Vrame::DocumentsController < Vrame::VrameController
     @document = Document.find(params[:id])
     @document.publish
     
-    redirect_to vrame_categories_path
+    redirect_to vrame_categories_path + "#document-#{@document.to_param}"
   end
   
   def unpublish
     @document = Document.find(params[:id])
     @document.unpublish
     
-    redirect_to vrame_categories_path
+    redirect_to vrame_categories_path + "#document-#{@document.to_param}"
   end
 end
