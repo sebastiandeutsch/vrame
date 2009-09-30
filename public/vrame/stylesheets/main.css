@@ -759,7 +759,11 @@ button:hover {
 	font-size: 13px;
 }
 
-.asset-list .filename {}
+.asset-list .filename {
+	height: 19px;
+	white-space: nowrap;
+	overflow: hidden;
+}
 
 .asset-list .filesize {}
 
