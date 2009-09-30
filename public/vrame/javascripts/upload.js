@@ -105,7 +105,7 @@ function Upload (containerEl) {
 Upload.prototype.handlers = {
 	
 	fileQueued : function (file) {
-		//console.log('fileQueued', file);
+		//console.log('fileQueued', file.name);
 		var queue = this.customSettings.queue;
 		queue.show();
 		new FileProgress(file, queue);
@@ -153,10 +153,9 @@ Upload.prototype.handlers = {
 	},
 
 	uploadStart : function (file) {
+		//console.log('uploadStart', file.name);
 		var progress = new FileProgress(file, this.customSettings.queue);
-		
 		progress.setProgress(0);
-		
 		/* No file validation, accept all files */
 		return true;
 	},
@@ -169,7 +168,7 @@ Upload.prototype.handlers = {
 	},
 
 	uploadSuccess : function (file, serverResponse) {
-		//console.log('uploadSuccess', file);
+		//console.log('uploadSuccess', file.name);
 		
 		var settings = this.customSettings,
 			progress = new FileProgress(file, settings.queue),
@@ -203,20 +202,6 @@ Upload.prototype.handlers = {
 		}
 		
 		settings.assetList.append(response.asset_list_item);
-		/*
-		if (response.is_image) {
-			// Load image thumbnail asynchronously, then add it to the asset list
-			new ThumbnailLoader({
-				thumbnailUrl    : response.thumbnail_url,
-				fullUrl         : response.full_url,
-				targetElement   : settings.assetList,
-				insertMode      : collectionId ? 'prepend' : 'replace'
-			});
-		} else {
-			// Directly append the asset's file name
-			settings.assetList.append('<li><p>' + response.filename + '</p></li>');
-		}
-		*/
 		
 	},
 	
@@ -269,7 +254,7 @@ Upload.prototype.handlers = {
 	},
 
 	uploadComplete : function (file) {
-		//console.log('uploadComplete', file);
+		//console.log('uploadComplete', file.name);
 		if (this.getStats().files_queued > 0) {
 			/* Continue with queue */
 			this.startUpload();
@@ -284,50 +269,6 @@ Upload.prototype.handlers = {
 	}
 
 } /* end Upload.prototype.handlers */
-
-function ThumbnailLoader (o) {
-	//console.log('ThumbnailLoader ', o.thumbnailUrl);
-	
-	var loadAttempts = 0,
-		loadInterval = window.setTimeout(loadImage, 1000);
-		
-	function loadImage () {
-		//console.log('ThumbnailLoader.loadImage attempt:', loadAttempts + 1);
-		var image = new Image;
-		image.onload = imageLoadSuccess;
-		image.src = o.thumbnailUrl;
-		loadAttempts++;
-		if (loadAttempts >= 10) {
-			clearInterval(loadInterval);
-		}
-	}
-	
-	function imageLoadSuccess () {
-		//console.log('ThumbnailLoader.imageLoadSuccess', o.thumbnailUrl);
-		
-		clearInterval(loadInterval);
-		
-		var insertMode = o.insertMode,
-			targetElement = o.targetElement,
-			html = "<li>" +
-				"<p class='image-wrapper' fullurl='" + o.fullUrl + "' title='Klicken zum Vergrößern'>" +
-					"<img src='" + o.thumbnailUrl + "' alt=''>" +
-				"</p>" +
-				"<texarea name=''></textarea>" +
-			"</li>";
-		
-		switch (insertMode) {
-			case 'prepend' :
-				targetElement.prepend(html);
-				break;
-			case 'replace' :
-				targetElement.html(html);
-				break;
-			default :
-				targetElement.append(html);
-		}
-	}
-}
 
 function FileProgress (file, target) {
 

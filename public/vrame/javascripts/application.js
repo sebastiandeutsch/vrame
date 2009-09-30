@@ -129,7 +129,7 @@ jQuery(function ($) {
 	}
 	
 	function saveTitle (e) {
-		//console.log("saveTitle", e.type);
+		console.log("saveTitle", e.type);
 		var textarea = $(e.target),
 			saveInterval,
 			closure = function () {
@@ -148,7 +148,7 @@ jQuery(function ($) {
 	}
 	
 	function sendTitle (textarea) {
-		//console.log("sendTitle");
+		console.log("sendTitle");
 		var assetId = textarea.attr("data-asset-id");
 		$.post(
 			"/vrame/assets/" + assetId,
@@ -164,7 +164,7 @@ jQuery(function ($) {
 	}
 	
 	function titleSent (responseData, textarea) {
-		//console.log("titleSent", responseData);
+		console.log("titleSent", responseData);
 		textarea
 			.css('backgroundColor', '#ffb')
 			.animate({'backgroundColor' : '#fff'}, 800);
