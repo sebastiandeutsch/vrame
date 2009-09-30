@@ -1,29 +1,6 @@
 <ol class="asset-list">
 <% for asset in assets %>
 	<% next if not (asset and asset.id) %>
-	<% file = asset.file %>
-	
-	<li class="asset">
-		
-		<% if asset.is_a?(Image) %>
-			<div class="image-wrapper" fullurl="<%= h(file.url(:full)) %>" title="Klicken zum Vergrößern">
-				<img src="<%= h(file.url(:thumbnail)) %>" alt="" />
-			</div>
-		<% end %>
-		
-		<div class="beside-image">
-			
-			<p class="title">
-				<textarea name="title" placeholder="Titel bearbeiten" title="Titel bearbeiten" data-asset-id="<%= asset.id %>" data-authenticity-token="<%= form_authenticity_token %>"><%=h asset.title %></textarea>
-			</p>
-			
-			<p class="filename"><%=h file.original_filename %></p>
-			<p class="filesize"><%= number_to_human_size(file.size) %></p>
-			
-			<p class="delete"><%= link_to 'Löschen', vrame_asset_path(asset), :class => 'smaller delete button invert', 'data-authenticity-token' => form_authenticity_token %></p>
-			
-		</div>
-		
-	</li>
+	<%= render :partial => 'vrame/shared/asset_list_item', :locals => { :asset => asset } %>
 <% end %>
 </ol>

@@ -47,16 +47,8 @@ class Vrame::AssetsController < Vrame::VrameController
     
     # Build response
     response = {
-        :id       => @asset.id,
-        :url      => @asset.file.url,
-        :filename => @asset.file.original_filename
+        :id => @asset.id
     }
-    
-    if is_image
-      response[:is_image]      = true
-      response[:full_url]      = @asset.file.url
-      response[:thumbnail_url] = @asset.file.url(:thumbnail)
-    end
     
     # Handle collection membership
     if params[:upload_type] == "collection"
@@ -81,7 +73,10 @@ class Vrame::AssetsController < Vrame::VrameController
       response[:collection_id] = @collection.id
     end
     
-    # Render response
+    # Render HTML for asset list item
+    response[:asset_list_item] = render_to_string :partial => 'vrame/shared/asset_list_item', :locals => { :asset => @asset }
+    
+    # Send JSON response
     render :json => response
   end
   

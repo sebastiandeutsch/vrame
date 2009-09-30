@@ -13,37 +13,37 @@ function Upload (containerEl) {
 	
 	var o = {
 		/* Upload token */
-		token								: c.attr('data-upload-token'),
+		token                       : c.attr('data-upload-token'),
 		
 		/* Upload type (single or multiple files, e.g. 'asset' or 'collection') */
-		uploadType					: c.attr('data-upload-type'),
+		uploadType                  : c.attr('data-upload-type'),
 		
 		/* Current collection id, if already present */
-		collectionId				: c.attr('data-collection-id') || '',
+		collectionId                : c.attr('data-collection-id') || '',
 		
 		/* Parent object (asset/collection owner) type */
-		parentType					: c.attr('data-parent-type'),
+		parentType                  : c.attr('data-parent-type'),
 		
 		/* Parent object (asset/collection owner) id */
-		parentId						: c.attr('data-parent-id'),
+		parentId                    : c.attr('data-parent-id'),
 		
 		/* Upload button element id */
-		buttonId						: c.find('.upload-button').attr('id'),
+		buttonId                    : c.find('.upload-button').attr('id'),
 		
 		/* Upload queue HTML element (jQuery collection) */
-		queue								: c.find('.upload-queue'),
+		queue                       : c.find('.upload-queue'),
 		
 		/* Form submit button */
-		submitButton				: $('#document_submit'),
+		submitButton                : $('#document_submit'),
 		
 		/* Image list HTML element (jQuery collection) */
-		assetList						: c.find('.asset-list'),
+		assetList                   : c.find('.asset-list'),
 		
 		/* Form field(s) for the new asset id (jQuery collection) */
-		assetIdInput				: c.find('input.asset-id'),
+		assetIdInput                : c.find('input.asset-id'),
 		
 		/* Form field(s) for the new collection id (jQuery collection) */
-		collectionIdInput		: c.find('input.collection-id')
+		collectionIdInput           : c.find('input.collection-id')
 		
 	};
 	
@@ -87,15 +87,15 @@ function Upload (containerEl) {
 		custom_settings : o,
 
 		/* Event handlers */
-		file_queued_handler						: handlers.fileQueued,
-		file_queue_error_handler			: handlers.fileQueueError,
-		file_dialog_complete_handler	: handlers.fileDialogComplete,
-		upload_start_handler					: handlers.uploadStart,
-		upload_progress_handler				: handlers.uploadProgress,
-		upload_error_handler					: handlers.uploadError,
-		upload_success_handler				: handlers.uploadSuccess,
-		upload_complete_handler				: handlers.uploadComplete,
-		queue_complete_handler				: handlers.queueComplete
+		file_queued_handler             : handlers.fileQueued,
+		file_queue_error_handler        : handlers.fileQueueError,
+		file_dialog_complete_handler    : handlers.fileDialogComplete,
+		upload_start_handler            : handlers.uploadStart,
+		upload_progress_handler         : handlers.uploadProgress,
+		upload_error_handler            : handlers.uploadError,
+		upload_success_handler          : handlers.uploadSuccess,
+		upload_complete_handle          : handlers.uploadComplete,
+		queue_complete_handler          : handlers.queueComplete
 
 		/* Debugging */
 		//,debug : true
@@ -202,18 +202,21 @@ Upload.prototype.handlers = {
 			this.addPostParam('collection_id', collectionId);
 		}
 		
+		settings.assetList.append(response.asset_list_item);
+		/*
 		if (response.is_image) {
-			/* Load image thumbnail asynchronously, then add it to the asset list */
+			// Load image thumbnail asynchronously, then add it to the asset list
 			new ThumbnailLoader({
-				thumbnailUrl  : response.thumbnail_url,
-				fullUrl  : response.full_url,
-				targetElement : settings.assetList,
-				insertMode    : collectionId ? 'prepend' : 'replace'
+				thumbnailUrl    : response.thumbnail_url,
+				fullUrl         : response.full_url,
+				targetElement   : settings.assetList,
+				insertMode      : collectionId ? 'prepend' : 'replace'
 			});
 		} else {
-			/* Directly append the asset's file name */
+			// Directly append the asset's file name
 			settings.assetList.append('<li><p>' + response.filename + '</p></li>');
 		}
+		*/
 		
 	},
 	
@@ -310,6 +313,7 @@ function ThumbnailLoader (o) {
 				"<p class='image-wrapper' fullurl='" + o.fullUrl + "' title='Klicken zum Vergrößern'>" +
 					"<img src='" + o.thumbnailUrl + "' alt=''>" +
 				"</p>" +
+				"<texarea name=''></textarea>" +
 			"</li>";
 		
 		switch (insertMode) {
