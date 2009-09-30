@@ -15,7 +15,6 @@ class Document < ActiveRecord::Base
         v = m[f['uid']]
         
         if f['type'] == 'Collection'
-          
           begin
             m[f['uid']] = d.collections.find(v)
           rescue ActiveRecord::RecordNotFound

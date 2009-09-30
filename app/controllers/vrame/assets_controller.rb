@@ -92,17 +92,27 @@ class Vrame::AssetsController < Vrame::VrameController
   def update
     @asset = Asset.find(params[:id])
     params[:asset][:user_id] = @current_user.id
+    
     if @asset.update_attributes(params[:asset])
-      flash[:success] = 'Datei aktualisiert'
-      redirect :back
-    else
-      flash[:error] = 'Es ist ein Fehler aufgetreten'
-      render :action => :edit
+      if request.xhr?
+        render :text => 'OK'
+      else
+        flash[:success] = 'Asset aktualisiert'
+        redirect_to :back
+      end
+    else 
+      if request.xhr?
+        render :text => 'Error'
+      else
+        flash[:error] = 'Fehler beim Löschen des Assets'
+        redirect_to :back
+      end
     end
   end
   
   def destroy
     @asset = Asset.find(params[:id])
+    
     if @asset and @asset.destroy
       if request.xhr?
         render :text => 'OK'
