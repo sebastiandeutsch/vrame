@@ -1,0 +1,5 @@
+Vrame Bugs
+==========
+
+Category Formular. Dokument Felder hinzufügen (2x), dann einmal löschen. Beide Zeilen verschwinden, es sollte nur eine Zeile verschwinden.
+Bild upload wirft undefined. (erst seit der neusten VRAME Version)
