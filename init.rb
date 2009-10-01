@@ -8,3 +8,7 @@ ActiveRecord::Base.send :include, JsonObject
 config.to_prepare do
   ApplicationController.helper(VrameHelper)
 end
+
+unless File.exist?(File.join(RAILS_ROOT, 'public', "vrame")) || ARGV[0] == "vrame:sync"
+  raise "Please run rake vrame:sync before continuing" 
+end
