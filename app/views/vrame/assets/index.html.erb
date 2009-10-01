@@ -15,38 +15,21 @@
 			</tr>
 		</thead>
 		<tbody>
-			<% for asset in @assets do %>
-				<tr class="<%= cycle("even", "odd") -%>">
-					<td class="id"><%=h asset.id %></td>
-					<td class="thumbnail"><%= image_tag asset.file.url(:thumbnail_square), :alt => "" %></td>
-					<td class="filename"><%=h asset.file.original_filename %></td>
-					<td class="filesize"><%=h number_to_human_size(asset.file.size) %></td>
-					<td class="parent">
-						<% assetable = asset.assetable %>
-						<% if assetable %>
-							<% if asset.assetable_type == 'Document' %>
-								<p>Dokument</p>
-								<p><%= link_to assetable.title, [:edit, :vrame, assetable] %></p>
-							<% elsif asset.assetable_type == 'Collection' %>
-								<% collectionable = assetable.collectionable %>
-								<% if collectionable %>
-									<p>Collection vom <%=h collectionable.class %></p>
-									<p><%= link_to h(collectionable.title), [:edit, :vrame, collectionable] %></p>
-								<% else %>
-									<p>Collection ohne Zugehörigkeit</p>
-								<% end %>
-							<% else %>
-								<p><%= link_to "#{asset.title} #{asset.assetable_type}", "/vrame/assets/#{asset.id}" %></p>
-							<% end %>
-						<% else %>
-							<p>verwaist</p>
-						<% end %>
-						</td>
-					<td class="options">
-						<%= link_to "Delete", vrame_asset_path(asset), :method => :delete, :confirm => 'Wirklich löschen?', :class => 'delete' %>
-					</td>
-				</tr>
-			<% end %>
+		<% for asset in @assets do %>
+			<tr class="<%= cycle("even", "odd") -%>">
+				<td class="id"><%=h asset.id %></td>
+				<td class="thumbnail"><%= image_tag asset.file.url(:thumbnail_square), :alt => "" %></td>
+				<td class="filename"><%= link_to h(asset.file.original_filename), edit_vrame_asset_path(asset) %></td>
+				<td class="filesize"><%= number_to_human_size(asset.file.size) %></td>
+				<td class="parent">
+					<%= render :partial => 'vrame/assets/assetable', :locals => { :asset => asset } %>
+				</td>
+				<td class="options">
+					<%= link_to image_tag("/vrame/images/admin/edit.png"), edit_vrame_asset_path(asset) %>
+					<%= link_to image_tag("/vrame/images/admin/delete.png"), vrame_asset_path(asset), :method => :delete, :confirm => 'Wirklich löschen?' %>
+				</td>
+			</tr>
+		<% end %>
 		</tbody>
 	</table>
 </div>

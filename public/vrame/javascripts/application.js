@@ -43,9 +43,27 @@ jQuery(function($) {
 
 /* Asset list behavior */
 jQuery(function ($) {
-		
-	$(".asset-list a.delete").live("click", deleteAsset)
-	$(".image-wrapper").attr('title', 'Klicken zum Vergrößern').live("click", loadFullview);
+	
+	var textareaSelector = "textarea[name=title]";
+	
+	$(".asset-list")
+	
+		.find("a.delete")
+			.live("click", deleteAsset)
+			.end()
+			
+		.find(".image-wrapper")
+			.attr('title', 'Klicken zum Vergrößern')
+			.live("click", loadFullview)
+			.end()
+			
+		.find(textareaSelector)
+			.live("keypress", saveTitle)
+			.end()
+		/* Event delegation with bubbling focusout */
+		.bind("focusout", saveTitle)
+		/* Event Delegation with capturing blur */
+		.each(captureTextareaBlur);
 	
 	function deleteAsset (e) {
 		e.preventDefault();
@@ -102,6 +120,54 @@ jQuery(function ($) {
 			top : Math.max(0, wrapperOffset.top - (image.attr("height") - wrapperHeight) / 2),
 			display : "block"
 		});
+	}
+	
+	function captureTextareaBlur () {
+		if (this.addEventListener) {
+			this.addEventListener("blur", saveTitle, true);
+		}
+	}
+	
+	function saveTitle (e) {
+		//console.log("saveTitle", e.type);
+		var textarea = $(e.target),
+			saveInterval,
+			closure = function () {
+				sendTitle(textarea);
+			};
+		if (!textarea.is(textareaSelector)) {
+			return;
+		}
+		clearInterval(textarea.data("saveInterval"));
+		if (e.type == "keypress") {
+			saveInterval = setTimeout(closure, 2000);
+			textarea.data("saveInterval", saveInterval);
+		} else {
+			closure();
+		}
+	}
+	
+	function sendTitle (textarea) {
+		//console.log("sendTitle");
+		var assetId = textarea.attr("data-asset-id");
+		$.post(
+			"/vrame/assets/" + assetId,
+			{
+				"asset[title]" : textarea.val(),
+				"_method" : "put",
+				"authenticity_token" : textarea.attr("data-authenticity-token")
+			},
+			function (responseData) {
+				titleSent(responseData, textarea);
+			}
+		);
+	}
+	
+	function titleSent (responseData, textarea) {
+		//console.log("titleSent", responseData);
+		textarea
+			.css('backgroundColor', '#ffb')
+			.animate({'backgroundColor' : '#fff'}, 800);
 	}
 	
 });

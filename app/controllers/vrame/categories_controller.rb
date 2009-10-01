@@ -33,6 +33,7 @@ class Vrame::CategoriesController < Vrame::VrameController
   def create
     # Hash mapping workaround
     params[:category][:schema] = params[:schema]
+    params[:category][:meta]   = params[:meta]
     
     @category = Category.new(params[:category])
     
@@ -54,11 +55,11 @@ class Vrame::CategoriesController < Vrame::VrameController
     
     # Hash mapping workaround
     params[:category][:schema] = params[:schema]
+    params[:category][:meta]   = params[:meta]
     
     # Empty default values
     params[:category][:schema] ||= []
-    params[:category][:meta] ||= {}
-    # TODO: auslagern möglich?
+    params[:category][:meta]   ||= []
     
     if @category.update_attributes(params[:category])
       flash[:success] = 'Die Kategorie wurde aktualisiert'
@@ -84,27 +85,27 @@ class Vrame::CategoriesController < Vrame::VrameController
     @category = Category.find(params[:id])
     @category.move_higher
     
-    redirect_to vrame_categories_path
+    redirect_to vrame_categories_path + "#category-#{@category.to_param}"
   end
   
   def order_down
     @category = Category.find(params[:id])
     @category.move_lower
     
-    redirect_to vrame_categories_path
+    redirect_to vrame_categories_path + "#category-#{@category.to_param}"
   end
   
   def publish
     @category = Category.find(params[:id])
     @category.publish
     
-    redirect_to vrame_categories_path
+    redirect_to vrame_categories_path + "#category-#{@category.to_param}"
   end
   
   def unpublish
     @category = Category.find(params[:id])
     @category.unpublish
     
-    redirect_to vrame_categories_path
+    redirect_to vrame_categories_path + "#category-#{@category.to_param}"
   end
 end

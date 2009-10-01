@@ -15,7 +15,6 @@ class Document < ActiveRecord::Base
         v = m[f['uid']]
         
         if f['type'] == 'Collection'
-          
           begin
             m[f['uid']] = d.collections.find(v)
           rescue ActiveRecord::RecordNotFound
@@ -57,7 +56,7 @@ class Document < ActiveRecord::Base
     # Convert document to hash
     document_hash = attributes.reject { |key, _| !Public_attributes.include?(key) }
     
-    if document_hash['url'] == ""
+    if document_hash['url'].empty?
       document_hash['url'] = to_param
     end
     

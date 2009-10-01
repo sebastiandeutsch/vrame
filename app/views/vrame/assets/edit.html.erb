@@ -1,0 +1,43 @@
+<div class="subnavigation clearfix">
+	<h2>Asset <%=h @asset.id %> editieren</h2>
+</div>
+
+<% form_for :asset, @asset, :url => { :action => "update" }, :html => { :multipart => true }  do |f| %>
+	
+	<fieldset>
+		<ul>
+			<li style="border-bottom: 0">
+				<%= f.text_field :title, :placeholder => 'Titel', :class => 'big' %> <em><%= f.error_message_on :title %></em>
+			</li>
+		</ul>
+	</fieldset>
+	
+	<fieldset>
+		<h3>Dateianhang</h3>
+		<ul>
+			<li class="filename">Dateiname: <%=h @asset.file.original_filename %></li>
+			<li class="filesize">Dateigröße: <%=h number_to_human_size(@asset.file.size) %></li>
+			<% if @asset.is_a?(Image) %>
+				<li class="image"><%= image_tag @asset.file.url(:thumbnail_square), :alt => "" %></li>
+			<% end %>
+			<li>
+				<%= f.label :file, "Neue Datei hochladen" %>
+				<%= f.file_field :file %>
+			</li>
+		</ul>
+	</fieldset>
+	
+	<fieldset>
+		<h3>Elternobjekt</h3>
+		<%= render :partial => 'vrame/assets/assetable', :locals => { :asset => @asset } %>
+	</fieldset>
+	
+	<fieldset>
+		<ul>
+			<li class="last">
+				<%= f.submit 'Speichern' %> oder <%= link_to '&laquo; zurück', vrame_assets_path %>
+			</li>
+		</ul>
+	</fieldset>
+	
+<% end %>

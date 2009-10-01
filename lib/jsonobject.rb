@@ -7,6 +7,8 @@
 
 # JsonObject
 module JsonObject
+  VALID_TYPES = %w{String Text Datetime Bool File Collection}
+  
   class JsonItem < HashWithIndifferentAccess # Hash
     attr_accessor :schema
     

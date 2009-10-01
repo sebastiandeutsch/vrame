@@ -46,20 +46,6 @@
 	</fieldset>
 	
 	<fieldset>
-		<h3>Meta-Informationen</h3>
-		<ol id="keys-values">
-			<% if category.meta %>
-				<% category.meta.each_with_index do |item, index| %>
-					<li>
-						<%= render :partial => 'vrame/shared/key_value_item', :locals => { :class_name => 'category', :key => item['key'], :value => item['value'] } %>
-					</li>
-				<% end %>
-			<% end %>
-		</ol>
-		<div><a id="add-key-value" href="#" class="button invert">Schlüssel-Wert-Paar hinzufügen</a></div>
-	</fieldset>
-	
-	<fieldset>
 		<h3>Meta-Tags</h3>
 		<ul id="meta-tags">
 			<li>
@@ -130,6 +116,6 @@
 		<a href="#" class="smaller remove button invert">Entfernen</a>
 	</li>
 	<li id="key-value-prototype">
-		<%= render :partial => 'vrame/shared/key_value_item', :locals => { :class_name => 'category' } %>
+		<%= render :partial => 'vrame/shared/key_value_item' %>
 	</li>
 </ul>

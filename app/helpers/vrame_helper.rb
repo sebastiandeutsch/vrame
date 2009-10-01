@@ -69,4 +69,8 @@ module VrameHelper
     
     link_to(title, '#', options)
   end
+  
+  def type_select_tag(name, value = nil)
+    select_tag(name, options_for_select(JsonObject::VALID_TYPES, value))
+  end
 end

@@ -10,6 +10,7 @@ class Image < Asset
       :thumbnail_square   => "100x100#",
       :full               => "300x250",
       :bg_thumb           => "392x272"
-    }
+    },
+    :convert_options => { :all => "-quality 80 -strip" }
     
 end

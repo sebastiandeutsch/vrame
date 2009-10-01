@@ -1,31 +1,29 @@
 <% if defined?(asset) :
-		type = :asset
-		assets = [asset]
-		asset_id = asset.try(:id)
-	elsif defined?(collection) :
-		type = :collection
-		assets = collection.assets
-		collection_id = collection.try(:id)
-	end %>
+	type = 'asset'
+	assets = [asset]
+	id = asset.try(:id)
+elsif defined?(collection) :
+	type = 'collection'
+	assets = collection.is_a?(Collection) ? collection.assets : []
+	id = collection.try(:id)
+end %>
+
+<% parent_name = parent.class.to_s %>
+<% parent_name_lowercase = parent_name.downcase %>
 
 <div
 	class             = "file-upload"
 	data-upload-token = "<%=h current_user.single_access_token %>"
 	data-parent-id    = "<%=h parent.id %>"
-	data-parent-type  = "<%=h parent.class.to_s %>"
-	data-upload-type  = "<%=h type.to_s %>"
-	<% if defined?(collection_id) and collection_id -%>
-		data-collection-id = "<%=h collection_id %>"
+	data-parent-type  = "<%=h parent_name %>"
+	data-upload-type  = "<%=h type %>"
+	<% if type == 'collection' and id -%>
+		data-collection-id = "<%=h id %>"
 	<%- end %>
 >
 	
-	<% if type == :asset %>
-		<input type="text" class="asset-id" value="<%= h asset_id %>" name="<%=h parent.class.to_s.downcase %>[asset_ids][]" />
-		<input type="text" class="asset-id" value="<%= h asset_id %>" name="<%= field_name %>" />
-	<% elsif type == :collection %>
-		<input type="text" class="collection-id" value="<%= h collection_id %>" name="<%=h parent.class.to_s.downcase %>[collection_ids][]" />
-		<input type="text" class="collection-id" value="<%= h collection_id %>" name="<%= field_name %>" />
-	<% end %>
+	<input type="text" class="<%= type %>-id" value="<%= id %>" name="<%=h parent_name_lowercase %>[<%= type %>_ids][]" />
+	<input type="text" class="<%= type %>-id" value="<%= id %>" name="<%= field_name %>" />
 	
 	<% defined?(@upload_button_number) ? @upload_button_number += 1 : @upload_button_number = 1 %>
 	<p class="upload-button" id="upload-button-<%= @upload_button_number %>">
@@ -33,7 +31,7 @@
 	</p>
 
 	<ol class="upload-queue"></ol>
-
+	
 	<%= render :partial => 'vrame/shared/asset_list', :locals => { :assets => assets } %>
-
+	
 </div><!-- /.file-upload -->
