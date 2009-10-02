@@ -154,6 +154,8 @@ Upload.prototype.handlers = {
 
 	uploadStart : function (file) {
 		//console.log('uploadStart', file.name);
+		vrame.unsavedChanges = true;
+		
 		var progress = new FileProgress(file, this.customSettings.queue);
 		progress.setProgress(0);
 		/* No file validation, accept all files */
