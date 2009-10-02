@@ -40,7 +40,7 @@
 		'/vrame/javascripts/upload.js'
 	] %>
 </head>
-<body>
+<body class="<%= bodyclass %>">
 
 	<div class="page-decorator">
 		<%= render :partial => 'vrame/shared/navigation', :locals => { :category => @category, :user => current_user } %>
