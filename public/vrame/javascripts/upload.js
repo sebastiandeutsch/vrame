@@ -168,7 +168,7 @@ Upload.prototype.handlers = {
 	},
 
 	uploadSuccess : function (file, serverResponse) {
-		console.log('uploadSuccess', file.name);
+		//console.log('uploadSuccess', file.name);
 		
 		var settings = this.customSettings,
 			progress = new FileProgress(file, settings.queue),
@@ -179,7 +179,7 @@ Upload.prototype.handlers = {
 		
 		progress.setComplete();
 		
-		console.log('serverResponse', serverResponse);
+		//console.log('serverResponse', serverResponse);
 		
 		/* Evaluate JSON response */
 		response = eval('(' + serverResponse + ')');
