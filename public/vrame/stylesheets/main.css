@@ -209,7 +209,9 @@ h2 {
 	font-size: 21px;
 	font-weight: normal;
 	margin: 0 32px 0 0;
+	padding: 5px 0 0 0;
 	color: #fff;
+	display:block;
 }
 
 /** 
@@ -381,7 +383,6 @@ ul.record-list {
 
 .content-view .categories ul {
 	border-bottom:1px dotted transparent;
-	margin-top:10px;
 }
 
 .content-view .categories > ul {
@@ -389,12 +390,7 @@ ul.record-list {
 	background:#fff;
 }
 
-.content-view .categories ul li {
-	border-bottom:1px dotted transparent;
-}
-
 .content-view .categories ul li div.category {
-	padding:15px 0 15px 15px;
 }
 
 .content-view .categories ul li div.active {
@@ -536,8 +532,15 @@ div.category .column {
 }
 
 div.category .title {
+	width:140px;
+}
 
-	width:250px;
+div.category .options {
+	float:right;
+}
+
+div.category .order {
+	float:right;
 }
 
 li.document .column {
