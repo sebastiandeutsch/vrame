@@ -1,8 +1,5 @@
-# Include hook code here
-
-# Tell ActiveRecord::Base about JsonObject
-require 'jsonobject'
-ActiveRecord::Base.send :include, JsonObject::Adapter
+# Load JsonObject
+require File.join(File.dirname(__FILE__), "lib", "jsonobject")
 
 # Include VrameHelper
 config.to_prepare do

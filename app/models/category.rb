@@ -26,7 +26,13 @@ class Category < ActiveRecord::Base
   named_scope :published, :conditions => '`categories`.`published` = 1'
   
   has_json_schema :schema
-  has_json_store  :meta
+  
+  has_json_store  :meta,
+    :types => {
+      :file       => :asset,
+      :collection => :collection#,
+      # :datetime   => :date_time
+    }
   
   Public_attributes = %w(id title url meta_keywords meta_description meta_title parent_id language_id updated_at created_at)
   

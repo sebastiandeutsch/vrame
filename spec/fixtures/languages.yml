@@ -1,0 +1,11 @@
+---
+deutsch:
+  id: 1
+  name: Deutsch
+  iso3_code: deu
+  published: true
+english:
+  id: 2
+  name: English
+  iso3_code: eng
+  published: true
