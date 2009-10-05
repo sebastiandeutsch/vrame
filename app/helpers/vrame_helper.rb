@@ -66,23 +66,28 @@ module VrameHelper
   
   def category_tree(acts_as_tree_set, level = 0, &block)
     if acts_as_tree_set.size > 0
-      ret = '<ul>'
+      concat('<ul>', block.binding)
       acts_as_tree_set.collect do |item|
         next if item.parent_id && level == 0
         if acts_as_tree_set.last == item
-          ret += '<li class="last">'
+          concat('<li class="last">', block.binding)
         else
           if(item.title == "Team")
-            ret += '<li class="active">'
+            concat('<li class="active">', block.binding)
           else
-            ret += '<li>'
+            concat('<li>', block.binding)
           end
         end
-        ret += yield item, level
-        ret += category_tree(item.children, level+1, &block) if item.children.size > 0
-        ret += '</li>'
-      end
-      ret += '</ul>'
+        
+        # yield
+        yield item, level
+        
+        # recurse
+        category_tree(item.children, level+1, &block) if item.children.size > 0
+        
+        concat('</li>', block.binding)
+      end  
+      concat('</ul>', block.binding)
     end
   end
   

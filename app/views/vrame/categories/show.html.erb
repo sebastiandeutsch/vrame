@@ -19,13 +19,11 @@
 
 <div class="content-view clearfix" class="clearfix">
 	<div class="categories">
-		<%= category_tree @categories do |category, level|
-			html  = ""
-			html += '<div id="category-' + category.id.to_s + '" class="category level-' + level.to_s + '">'
-			html += link_to h(category.title), '#', :class => "category-button", :rel => category.id
-			html += '</div>'
-			html
-		end %>
+		<% category_tree @categories do |category, level| %>
+			<div id="category-<%= category.id.to_s %>" class="category level-<%= level.to_s %>">
+				<%= link_to h(category.title), '#', :class => "category-button", :rel => category.id %>
+			</div>
+		<% end %>
 	</div>
 	<div id="items" class="items">
 		<%= render :partial => 'vrame/categories/documents', :locals => { :documents => @documents } %>
