@@ -365,6 +365,89 @@ ul.record-list {
 }
 
 /** 
+ * @section Content-View
+ *
+ * Description.
+ */
+
+.content-view {
+	background-color:#f7f7f7;
+}
+
+.content-view .categories {
+	width:30%;
+	float:left;
+}
+
+.content-view .categories ul {
+	border-bottom:1px dotted transparent;
+	margin-top:10px;
+}
+
+.content-view .categories > ul {
+	margin-top:0px;
+	background:#fff;
+}
+
+.content-view .categories ul li {
+	border-bottom:1px dotted transparent;
+	padding:10px 0 10px 0;
+}
+
+.content-view .categories ul li.active {
+	-moz-border-radius: 15px 0 0 15px;
+	background-color:#f7f7f7;
+}
+
+.content-view .categories ul li.last {
+	border-bottom:0;
+	padding-bottom:0;
+}
+
+.content-view .categories ul li div.level-0 {
+	margin-left:0px;
+}
+
+.content-view .categories ul li div.level-1 {
+	margin-left:10px;
+}
+
+.content-view .categories ul li div.level-2 {
+	margin-left:20px;
+}
+
+.content-view .categories ul li div.level-3 {
+	margin-left:30px;
+}
+
+.content-view .categories ul li div.level-4 {
+	margin-left:40px;
+}
+
+.content-view .categories ul li div.level-5 {
+	margin-left:50px;
+}
+
+.content-view .categories ul li div.level-6 {
+	margin-left:60px;
+}
+
+
+.content-view .items {
+	width:70%;
+	float:left;
+}
+
+.content-view .items ul {
+	border-top:1px dotted #d7d7d7;
+}
+
+.content-view .items ul li {
+	background-color:#f7f7f7;
+	border-bottom:1px dotted #d7d7d7;
+}
+
+/** 
  * @subsection Row background
  *
  *
@@ -433,6 +516,38 @@ ul.record-list > li:hover {
 
 .record-list .order {
 	width: 40px;
+}
+
+/** 
+ * @subsection Title and misc columns
+ *
+ *
+ */
+
+li.document .column {
+	float:left;
+	margin:10px 10px 10px 10px;
+}
+
+li.document .title {
+	width: 300px;
+}
+
+li.document .title a {
+	color: #000;
+	text-decoration: none;
+}
+
+li.document .slug {
+	width: 140px;
+}
+
+li.document .image {
+	width:100px;
+	float: left;
+	margin:0;
+	padding:0;
+	line-height:0.1;
 }
 
 /** 
@@ -690,8 +805,7 @@ button:hover {
  *
  */
 
-.file-upload input.asset-id,
-.file-upload input.collection-id {
+input.asset-id, input.collection-id {
 	display: none;
 	width: 45px;
 	vertical-align: top;
@@ -704,7 +818,6 @@ button:hover {
  */
 
 .asset-list {
-	margin: 15px 0;
 	overflow: hidden;
 }
 
@@ -712,63 +825,46 @@ button:hover {
 	float: left;
 	position: relative;
 	
+	margin: 0 10px 10px 0;
+/*  border: 1px solid #aaa;*/
 	border-radius: 4px;
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
-
-	margin: 0 10px 10px 0;
-	padding: 5px;
+	padding: 5px 5px 5px 5px;
+	background: #fff;
 	
-	width: 295px;
-	
-	background-color: #fff;
-}
-
-.asset-list p {
-	margin: 0;
-	font-size: 12px;
+	width: 100px;
+	min-height: 165px;
 }
 
 .asset-list .image-wrapper {
-	float: left;
-	margin: 0;
-	cursor: pointer;
+	display: table-cell;
+	
 	width: 100px;
 	height: 140px;
+	
+	overflow: hidden;
+	vertical-align: middle;
+	
+	cursor: pointer;
+}
+
+.asset-list .controls {
+	padding-top: 5px;
+	clear: both;
+}
+
+.asset-list .edit {
+	float: left;
+}
+
+.asset-list .delete {
+	float: right;
 }
 
 .asset-list img {
 	display: block;
 	margin: auto;
-}
-
-.asset-list .beside-image {
-	padding-left: 10px;
-	overflow: hidden;
-}
-
-.asset-list label {
-	
-}
-
-.asset-list textarea {
-	padding: 2px;
-	width: 178px;
-	height: 50px;
-	font-family: arial,sans-serif;
-	font-size: 13px;
-}
-
-.asset-list .filename {
-	height: 19px;
-	white-space: nowrap;
-	overflow: hidden;
-}
-
-.asset-list .filesize {}
-
-.asset-list .delete {
-	float: right;
 }
 
 #asset-fullview {

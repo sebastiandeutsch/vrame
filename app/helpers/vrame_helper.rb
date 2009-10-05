@@ -64,6 +64,28 @@ module VrameHelper
     end
   end
   
+  def category_tree(acts_as_tree_set, level = 0, &block)
+    if acts_as_tree_set.size > 0
+      ret = '<ul>'
+      acts_as_tree_set.collect do |item|
+        next if item.parent_id && level == 0
+        if acts_as_tree_set.last == item
+          ret += '<li id="category-' + item.id.to_s + '" class="last">'
+        else
+          if(item.title == "Team")
+            ret += '<li id="category-' + item.id.to_s + '" class="active">'
+          else
+            ret += '<li id="category-' + item.id.to_s + '">'
+          end
+        end
+        ret += yield item, level
+        ret += category_tree(item.children, level+1, &block) if item.children.size > 0
+        ret += '</li>'
+      end
+      ret += '</ul>'
+    end
+  end
+  
   def tooltip(title, body, options = {})
     options = { :class => 'smaller button invert tooltip', :title => body }.merge(options)
     

@@ -4,6 +4,11 @@ class Vrame::CategoriesController < Vrame::VrameController
     per_page = params[:per_page] || 50
     
     @categories = Category.roots.paginate :page => params[:page], :per_page => per_page
+    if @categories.first
+      @documents = @categories.first.documents
+    else
+      @documents = []
+    end
     
     @ancestors = []
     
@@ -14,6 +19,8 @@ class Vrame::CategoriesController < Vrame::VrameController
     per_page = params[:per_page] || 50
     
     @category = Category.find(params[:id])
+    @documents = @category.documents
+    
     @categories = @category.children.paginate :page => params[:page], :per_page => per_page
     
     @breadcrumbs = [{ :title => 'Kategorien', :url => vrame_categories_path }]
