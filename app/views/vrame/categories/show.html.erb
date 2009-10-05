@@ -22,10 +22,10 @@
 		<% category_tree @categories do |category, level| %>
 			<div id="category-<%= category.id.to_s %>" class="category level-<%= level.to_s %> clearfix">
 				<div class="column title">
-					<% if category.documents_count > 0 %>
-						<%= link_to "#{h(category.title)} (#{category.documents_count})" , '#', :class => "category-button", :rel => category.id %>
+					<% if category.backend_url.empty? %>
+						<%= link_to h(category_title(category)) , '#', :class => "category-button", :rel => category.id %>
 					<% else %>
-						<%= link_to "#{h(category.title)}" , '#', :class => "category-button", :rel => category.id %>
+						<%= link_to h(category_title(category)) , category.backend_url, :rel => category.id %>
 					<% end %>
 				</div>
 
