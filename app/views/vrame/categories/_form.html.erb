@@ -29,7 +29,7 @@
 						<input name="schema[][uid]" type="hidden" value="<%= h(item['uid']) %>">
 						<input name="schema[][name]" type="text" value="<%= h(item['name']) %>" />&nbsp;
 						<select name="schema[][type]">
-							<%= options_for_select(["String", "Text", "Datetime", "Bool", "File", "Collection"], item['type']) %>
+							<%= options_for_select(Category::TYPES, item['type']) %>
 						</select>&nbsp;
 						
 						<!--
@@ -107,7 +107,7 @@
 	<li id="schema-item-prototype">
 		<input  name="schema[][name]" type="text" placeholder="Name" />&nbsp;
 		<select name="schema[][type]">
-			<%= options_for_select(["String", "Text", "Datetime", "Bool", "File", "Collection"], "String") %>
+			<%= options_for_select(Category::TYPES, "String") %>
 		</select>&nbsp;
 		<!--
 		<input name="schema[][required]" type="hidden" value="0" /> 
