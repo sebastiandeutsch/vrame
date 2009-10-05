@@ -1,0 +1,14 @@
+<% parent_name = parent.class.to_s %>
+<% parent_name_lowercase = parent_name.downcase %>
+
+<div
+	class             = "placemark"
+	data-parent-id    = "<%=h parent.id %>"
+	data-parent-type  = "<%=h parent_name %>"
+>
+	
+	Adresse:    <input type="text" id="<%= field_id %>-address"><br/>
+	<input type="text" name="<%= field_name %>">
+
+
+</div>
