@@ -94,7 +94,7 @@ h2 {
  */
 
 .page-align {
-	width:980px;
+	width:100%;
 	margin: 0 auto 0 auto;
 }
 
@@ -180,7 +180,7 @@ h2 {
 }
 
 #header-bar {
-	padding: 3px 0 0 0;
+	padding: 3px 0 0 10px;
 	height: 26px;
 	height: 32px;
 }
@@ -201,7 +201,7 @@ h2 {
 }
 
 #header-bar li.last {
-	margin-right: 0;
+	margin-right: 10px;
 }
 
 .logo {

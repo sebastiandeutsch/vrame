@@ -41,8 +41,11 @@
 			$.ajax({
 				url: "/vrame/categories/" + categoryId + "/documents",
 				cache: false,
-				success: function(html){
+				success: function(html) {
 					$('#items').html(html);
+				},
+				error: function(msg) {
+					console.log(msg);
 				}
 			});
 			
