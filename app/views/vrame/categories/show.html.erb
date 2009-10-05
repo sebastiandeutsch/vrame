@@ -60,11 +60,13 @@
 			$('.categories ul li div').removeClass('active');
 			$('#category-' + categoryId).addClass('active');
 			
+			$('#ajax-loading-bar').fadeIn('fast');
 			$.ajax({
 				url: "/vrame/categories/" + categoryId + "/documents",
 				cache: false,
 				success: function(html) {
 					$('#items').html(html);
+					$('#ajax-loading-bar').stop().fadeOut('fast');
 				},
 				error: function(msg) {
 					console.log(msg);
