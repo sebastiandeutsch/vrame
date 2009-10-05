@@ -217,3 +217,44 @@ jQuery.fn.placeholder = function () {
 jQuery.fn.placeholder.supported = (function () {
 	return typeof document.createElement('input').placeholder == 'string';
 })();
+
+/* Unsaved Alert */
+
+jQuery(function() {
+  if (typeof(vrame) == 'undefined') {vrame = {};}
+  // Remember wether the current pages contains unsaved changes
+  vrame.unsavedChanges = false;
+  
+  // Tell wether the content of the RTEs was changed
+  var rtesChanged = function() {
+    var changed = false;
+    $("iframe").each(function(){
+      var id = this.id;
+      var content = $(this).contents().find("body").html();
+      var textarea_content = $("textarea#"+ id).val();
+      changed = changed || (content != textarea_content);
+    })
+    return changed;
+  };
+  
+  var onBeforeUnloadHandler = function() {
+    if (vrame.unsavedChanges || rtesChanged())  {
+      return "If you leave this page without submitting the form, none of the changes you made will be saved.";
+    }
+  };
+  
+  var onChangeHandler = function() {
+    vrame.unsavedChanges = true;
+  };
+  
+  var onSubmitHandler = function() {
+    window.onbeforeunload = null;
+  };
+  
+  // Install handlers if we're on a page that is a "new" or "edit" form
+  if (!!$("body")[0].className.match(/va_edit|va_new/)) {
+    $("input, textarea, select").change(onChangeHandler);
+    $("form").submit(onSubmitHandler);
+    window.onbeforeunload = onBeforeUnloadHandler;
+  }
+});
