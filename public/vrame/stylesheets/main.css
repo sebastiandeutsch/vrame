@@ -391,10 +391,13 @@ ul.record-list {
 
 .content-view .categories ul li {
 	border-bottom:1px dotted transparent;
-	padding:10px 0 10px 0;
 }
 
-.content-view .categories ul li.active {
+.content-view .categories ul li div.category {
+	padding:15px 0 15px 15px;
+}
+
+.content-view .categories ul li div.active {
 
 	-moz-border-radius: 15px 0 0 15px;
 	-webkit-border-top-left-radius: 15px;
