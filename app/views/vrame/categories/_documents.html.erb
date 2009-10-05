@@ -1,6 +1,6 @@
-<ul>
+<ul id="ui-sortable">
 	<% documents.each do |document| %>
-		<li class="document clearfix">
+		<li id="document-<%=h document.id %>" class="document clearfix">
 			<div class="column title">
 				<span>
 					<%= link_to h(document.title), [:edit, :vrame, document] %>
@@ -31,3 +31,24 @@
 		</li>
 	<% end %>
 </ul>
+
+<% if documents.first %>
+	<script>
+		jQuery(function($) {
+			$("#ui-sortable").sortable({
+				update: function(event, ui) {
+							var data = $("#ui-sortable").sortable('serialize');
+						
+							$.ajax({
+								type: "POST",
+								url: "/vrame/categories/<%=h documents.first.category.id %>/sort",
+								processData: false,
+								data: data + '&authenticity_token=' + encodeURIComponent('<%= form_authenticity_token if protect_against_forgery? %>'),
+								success: function(msg) {
+								}
+							});
+						}
+			});
+		});
+	</script>
+<% end %>

@@ -395,7 +395,10 @@ ul.record-list {
 }
 
 .content-view .categories ul li.active {
+
 	-moz-border-radius: 15px 0 0 15px;
+	-webkit-border-top-left-radius: 15px;
+	-webkit-border-bottom-left-radius: 15px;
 	background-color:#f7f7f7;
 }
 

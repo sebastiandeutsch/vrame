@@ -15,6 +15,16 @@ class Vrame::CategoriesController < Vrame::VrameController
     render :show
   end
   
+  def sort
+    params[:document].each_with_index do |id, i|
+      document = Document.find_by_id(id)
+      document.position = i
+      document.save
+    end
+    
+    render :text => 'ok'
+  end
+  
   def show
     per_page = params[:per_page] || 50
     
