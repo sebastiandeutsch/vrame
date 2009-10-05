@@ -64,6 +64,7 @@
 			$('.categories ul li div').removeClass('active');
 			$('#category-' + categoryId).addClass('active');
 			
+			$(document).scrollTo( {top:'0px', left:'0px'}, 200 );
 			$('#ajax-loading-bar').fadeIn('fast');
 			$.ajax({
 				url: "/vrame/categories/" + categoryId + "/documents",
