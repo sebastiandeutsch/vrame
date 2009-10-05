@@ -530,6 +530,16 @@ ul.record-list > li:hover {
  *
  */
 
+div.category .column {
+	float:left;
+	margin:10px 10px 10px 10px;
+}
+
+div.category .title {
+
+	width:250px;
+}
+
 li.document .column {
 	float:left;
 	margin:10px 10px 10px 10px;
