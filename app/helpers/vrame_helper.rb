@@ -70,12 +70,12 @@ module VrameHelper
       acts_as_tree_set.collect do |item|
         next if item.parent_id && level == 0
         if acts_as_tree_set.last == item
-          ret += '<li id="category-' + item.id.to_s + '" class="last">'
+          ret += '<li class="last">'
         else
           if(item.title == "Team")
-            ret += '<li id="category-' + item.id.to_s + '" class="active">'
+            ret += '<li class="active">'
           else
-            ret += '<li id="category-' + item.id.to_s + '">'
+            ret += '<li>'
           end
         end
         ret += yield item, level

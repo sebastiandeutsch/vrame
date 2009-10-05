@@ -21,7 +21,7 @@
 	<div class="categories">
 		<%= category_tree @categories do |category, level|
 			html  = ""
-			html += '<div class="row level-' + level.to_s + '">'
+			html += '<div id="category-' + category.id.to_s + '" class="category level-' + level.to_s + '">'
 			html += link_to h(category.title), '#', :class => "category-button", :rel => category.id
 			html += '</div>'
 			html
@@ -37,7 +37,7 @@
 		$('.category-button').click(function() {
 			var categoryId = $(this).attr('rel');
 			
-			$('.categories ul li').removeClass('active');
+			$('.categories ul li div').removeClass('active');
 			$('#category-' + categoryId).addClass('active');
 			
 			$.ajax({
