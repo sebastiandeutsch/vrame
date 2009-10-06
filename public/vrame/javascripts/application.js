@@ -268,16 +268,20 @@ jQuery.fn.placeholder.supported = (function () {
 
 jQuery(function() {
   if (typeof(vrame) == 'undefined') {vrame = {};}
-  // Remember wether the current pages contains unsaved changes
+  // Remember wether the current page contains unsaved changes
   vrame.unsavedChanges = false;
+  
+  var rteContents = {};
+  $("iframe").each(function(){
+    rteContents[this.id] = $(this).contents().find("body").html();
+  })
   
   // Tell wether the content of the RTEs was changed
   var rtesChanged = function() {
     var changed = false;
     $("iframe").each(function(){
-      var id = this.id;
       var content = $(this).contents().find("body").html();
-      var textarea_content = $("textarea#"+ id).val();
+      var textarea_content = rteContents[this.id];
       changed = changed || (content != textarea_content);
     })
     return changed;
