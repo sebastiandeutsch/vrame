@@ -1,0 +1,56 @@
+<ul id="ui-sortable">
+	<% documents.each do |document| %>
+		<li id="document-<%=h document.id %>" class="document clearfix">
+			<div class="column title">
+				<span>
+					<%= link_to h(document.title), [:edit, :vrame, document] %>
+				</span>
+			</div>
+
+			<div class="image">
+				<% if document.meta and document.meta.image %>
+					<img src="<%= document.meta.image.file.url(:vrame_backend) %>" />
+				<% else %>
+					&nbsp;
+				<% end %>
+			</div>
+
+			<div class="column slug" title="Numerische ID: <%=h document.id %>">
+				<%= link_to h(document.to_param), document %>
+			</div>
+			
+			<div class="column options">
+				<% if document.published %>
+					<%= link_to '<img src="/vrame/images/admin/led-green.png" border="0" alt="Verstecken" title="Verstecken" />', [:unpublish, :vrame, document] %>
+				<% else %>
+					<%= link_to '<img src="/vrame/images/admin/led-red.png" border="0" alt="Veröffentlichen" title="Veröffentlichen" />', [:publish, :vrame, document] %>
+				<% end %>
+				<%= link_to '<img src="/vrame/images/admin/edit.png" border="0" alt="Editieren" title="Editieren" />', [:edit, :vrame, document] %>
+				<%= link_to '<img src="/vrame/images/admin/delete.png" border="0" alt="Löschen" title="Löschen" />', [:vrame, document], :method => :delete, :confirm => 'Wirklich löschen?' %>
+			</div>
+		</li>
+	<% end %>
+</ul>
+
+<% if documents.first %>
+	<script>
+		jQuery(function($) {
+			$("#ui-sortable").sortable({
+				update: function(event, ui) {
+							var data = $("#ui-sortable").sortable('serialize');
+							
+							$('#ajax-loading-bar').fadeIn('fast');
+							$.ajax({
+								type: "POST",
+								url: "/vrame/categories/<%=h documents.first.category.id %>/sort",
+								processData: false,
+								data: data + '&authenticity_token=' + encodeURIComponent('<%= form_authenticity_token if protect_against_forgery? %>'),
+								success: function(msg) {
+									$('#ajax-loading-bar').stop().fadeOut('fast');
+								}
+							});
+						}
+			});
+		});
+	</script>
+<% end %>

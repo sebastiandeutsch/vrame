@@ -1,34 +1,5 @@
-<div class="subnavigation clearfix">
-	<div class="functions">
-		<%= link_to "Neues Dokument", new_vrame_document_path, :class => 'button' %>
-	</div>
-	<h2>Alle Dokumente</h2>
-</div>
-
-<div class="table-container" id="document-list">
-	<table class="record-list">
-		<thead>
-			<tr>
-				<th>Id</th>
-				<th>Titel</th>
-				<th>Slug</th>
-				<th>Funktionen</th>
-			</tr>
-		</thead>
-		<tbody>
-			<% for document in @documents do %>
-				<tr class="<%= cycle("even", "odd") -%>">
-					<td class="id"><%=h document.id %></td>
-					<td class="title"><%=h document.title %></td>
-					<td class="slug"><%=h document.to_param %></td>
-					<td class="options">
-						<%= link_to "Edit", edit_vrame_document_path(document.id), :class => 'edit' %>
-						<%= link_to "Delete", [:vrame, document], :method => :delete, :confirm => 'Wirklich löschen?', :class => 'delete' %>
-					</td>
-				</tr>
-			<% end %>
-		</tbody>
-	</table>
-</div>
-
-<%= render :partial => 'vrame/shared/pagination', :locals => { :paginatable => @documents } %>
+<ul>
+	<% @documents.each do |documents| %>
+		<li><%=h documents.title %></li>
+	<% end %>
+</ul>
