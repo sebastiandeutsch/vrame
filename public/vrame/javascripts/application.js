@@ -36,6 +36,13 @@ jQuery(function($) {
 		});
 	}
 	
+	/* give window.name a unique id */
+	function generateUUID() {
+		var newDate = new Date;
+		return newDate.getTime();
+	}
+	
+	window.name = generateUUID();
 });
 
 /* Asset list behavior */
