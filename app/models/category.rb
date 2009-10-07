@@ -25,24 +25,20 @@ class Category < ActiveRecord::Base
   named_scope :short_navigation, :conditions => { :short_navigation => 1 }
   named_scope :published, :conditions => '`categories`.`published` = 1'
   
-  has_json_schema :schema
-  
-  has_json_store  :meta,
-    :types => {
+  def self.default_schema_mappings
+    @@default_schema_mappings ||= {
       :file       => :asset,
-      :collection => :collection#,
-      # :datetime   => :date_time
+      :collection => :collection,
+      :date       => :date,
+      :time       => :time,
+      :date_time  => :date_time
     }
+  end
+  
+  has_json_schema :schema, :mappings => self.default_schema_mappings
+  has_json_store  :meta,   :mappings => self.default_schema_mappings
   
   Public_attributes = %w(id title url meta_keywords meta_description meta_title parent_id language_id updated_at created_at)
-  
-  def available_parent_categories
-    if new_record?
-      Category.all
-    else
-      Category.find(:all, :conditions => ['id != ?', id])
-    end
-  end
   
   def backend_url_path
     '/vrame/' + backend_url

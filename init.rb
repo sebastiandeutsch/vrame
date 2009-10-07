@@ -1,4 +1,5 @@
 # Load JsonObject
+require 'json/add/core'
 require File.join(File.dirname(__FILE__), "lib", "jsonobject")
 
 # Include VrameHelper

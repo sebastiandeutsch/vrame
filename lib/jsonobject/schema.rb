@@ -2,12 +2,25 @@ module JsonObject
   class UnknownSchemaAttributeError < NoMethodError
   end
   
+  class UnknownAssociationError < ActiveRecord::ActiveRecordError
+  end
+  
   class EmbeddedSchema
     include Serializable
     
-    def initialize(hash)
+    attr_reader :mappings
+    
+    def initialize(hash, options = {})
+      @options = options
+      
       assign(hash)
-            
+      
+      initialize_mappings
+    end
+    
+    def assign(hash)
+      super(hash)
+      
       initialize_fields
     end
     
@@ -20,6 +33,14 @@ module JsonObject
     end
     
   private
+  
+    def initialize_mappings
+      @mappings ||= {}
+    
+      @options[:mappings].each do |k, v|
+        @mappings[k.to_s.camelize] = v.to_s.classify.constantize
+      end
+    end
     
     def initialize_fields
       # Initialize empty uid2field map
@@ -49,7 +70,7 @@ module JsonObject
   class Schema < EmbeddedSchema
     def self.default_options
       @default_options ||= {
-        :types  => nil
+        :mappings  => {}
       }
     end
     
@@ -60,7 +81,7 @@ module JsonObject
       
       initialize_serialization
       
-      super(@hash)
+      super(@hash, options)
     end
   end
 end

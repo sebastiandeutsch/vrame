@@ -8,14 +8,23 @@ describe Category, :type => :model do
     @store_hash_with_schema = {
       "schema" => {
         "fields" => [
+          # Simple values
           { "uid" => "1", "name" => "some_string",      "type" => "String"     },
           { "uid" => "2", "name" => "some_text",        "type" => "Text"       },
+          
+          # Mapped ActiveRecord pointers
           {               "name" => "some_file",        "type" => "File"       },
           {               "name" => "some_collection",  "type" => "Collection" },
+          
+          # More of the above
           { "uid" => "3", "name" => "another_text",     "type" => "Text"       },
           {               "name" => "yet_another_text", "type" => "Text"       },
-          {               "name" => "another_file",     "type" => "File"       },
-          {               "name" => "some_datetime",    "type" => "Datetime"   }
+          {               "name" => "another_file",     "type" => "File"       },          
+          
+          # Mapped/serialized object values
+          {               "name" => "some_date",        "type" => "Date"       },
+          {               "name" => "some_time",        "type" => "Time"       },
+          {               "name" => "some_datetime",    "type" => "DateTime"   }
         ]
       },
       
@@ -93,32 +102,33 @@ describe Category, :type => :model do
   it "should have a meta attribute which maps typed values to objects with specific classes" do
     @category.meta.some_file.should be_an(Asset)
     @category.meta.some_collection.should be_a(Collection)
+    @category.meta.some_date.should nil
   end
   
-  it "should have a meta attribute which maps an asset correctly" do
+  it "should have a meta attribute which maps and serializes an asset attribute correctly" do
     @category.save
     
-    @asset = @category.assets.create()
+    asset = @category.assets.create()
     
-    @category.meta.another_file = @asset
+    @category.meta.another_file = asset
     
     @category.save
     
     @category = Category.find_by_title(@title)
     
-    @category.meta.another_file.should == @asset
+    @category.meta.another_file.should == asset
   end
   
-  # it "should have a meta attributes which maps a datetime value correctly" do
-  #   @now = DateTime.now
-  #   
-  #   @category.meta.some_datetime = @now
-  #       
-  #   @category.save
-  #   
-  #   @category = Category.find_by_title(@title)
-  #   
-  #   pp @category.meta.some_datetime
-  # end
+  it "should have a meta attribute which maps and serializes a date attribute correctly" do
+    date = Date.today
+    
+    @category.meta.some_date = date
+    
+    @category.save
+    
+    @category = Category.find_by_title(@title)
+    
+    @category.meta.some_date.should == date
+  end
   
 end

@@ -5,9 +5,11 @@ module JsonObject
     def self.default_options
       @default_options ||= {
         :schema => nil,
-        :types  => nil
+        :mappings  => {}
       }
     end
+    
+    attr_reader :schema
     
     def initialize(name, instance, options)
       @name     = name
@@ -15,28 +17,19 @@ module JsonObject
       @options  = self.class.default_options.merge(options)
             
       initialize_serialization
-      initialize_types
-    end
-    
-    def initialize_types
-      @types ||= {}
-      
-      @options[:types].each do |k, v|
-        @types[k.to_s.camelize] = v.to_s.classify.constantize
-      end
     end
     
     def initialize_schema
-      @schema = case @options[:schema].class
+      @schema = case @options[:schema]
         when Array then
           [@instance, @options[:schema]].flatten.inject { |current, parent| current.send(parent) }
         when Symbol then
           @instance.send(@options[:schema])
-        when Hash then
-          EmbeddedSchema.new(@options[:schema])
+        # when Hash then
+        #   EmbeddedSchema.new(@options[:schema], { :mappings => @options[:mappings] })
         else
           unless @hash['schema'].nil?
-            EmbeddedSchema.new(@hash['schema'])
+            EmbeddedSchema.new(@hash['schema'], { :mappings => @options[:mappings] })
           end
       end
     end
@@ -64,35 +57,73 @@ module JsonObject
       field = @schema.find_field_by_name(name)
       type  = field['type']
       
-      # Get value from hash
+      # Read value from hash
       value = @hash['values'].fetch(field['uid'], nil)
       
-      # If type has mapping class
-      if @types.include?(type)
-        klass = @types[type]
-        
-        # If mapping class is a model
+      # If field type has a mapping
+      if klass = @schema.mappings[type]
+        # If field type is a model
         if klass.ancestors.include?(ActiveRecord::Base)
-          begin
-            klass.find(value.to_i)
-          rescue ActiveRecord::RecordNotFound
-            klass.new()
+          # Check whether @instance has a has_many association for klass
+          association_name = klass.to_s.tableize.to_sym
+          unless reflection = @instance.class.reflect_on_association(association_name) and reflection.macro == :has_many
+            raise UnknownAssociationError.new("#{@instance.class} has no has_many association '#{association_name.to_s}'")
           end
-        # Return object of type mapping class
+          association_proxy = @instance.send(reflection.name)
+                    
+          # Try to find model instance with id=value
+          begin
+            association_proxy.find(value.to_i)
+          # Create new model instance
+          rescue ActiveRecord::RecordNotFound
+            association_proxy.build
+          end
+        # If field type is a normal class
         else
-          klass.json_create(value)
+          # If decoded object has wrong type
+          if value.class != klass and not value.nil?
+            # Raise error
+            raise TypeError.new("Decoded object's class '#{value.class}' doesn't match schema's class '#{klass}'")
+          else
+            # Return plain decoded object
+            value
+          end
         end
-      # Return plain value
+      # If field type has no mapping
       else
+        # Return plain value
         value
       end
     end
     
     def write_value(name, value)
-      value = value.id      if value.is_a? ActiveRecord::Base
-      value = value.to_json if @types.values.include?(value.class)
+      # Check whether name is already JSON encoded
+      if match = name.match(/(.*)_json$/)
+        name = match[1]
+        already_encoded = true        
+      else
+        already_encoded = false
+      end
       
-      @hash['values'][@schema.find_field_by_name(name)['uid']] = value
+      # Get field information from schema
+      field = @schema.find_field_by_name(name)
+      type  = field['type']
+      
+      # If field type has a mapping
+      if klass = @schema.mappings[type]
+        # If field type is a model
+        if klass.ancestors.include?(ActiveRecord::Base)
+          # Save model instance id
+          value = value.id
+        # If field type is a normal class
+        else
+          # Decode value if already JSON encoded
+          value = JSON.parse(value) if already_encoded
+        end
+      end
+            
+      # Write value into hash
+      @hash['values'][field['uid']] = value
     end
   end
 end
