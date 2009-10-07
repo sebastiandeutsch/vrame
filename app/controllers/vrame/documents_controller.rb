@@ -1,6 +1,9 @@
 class Vrame::DocumentsController < Vrame::VrameController
   
   def index
+    session["#{params[:tab_id]}_category_id"] = params[:category_id]
+    session["last_tab_id"] = params[:tab_id]
+    
     @category = Category.find(params[:category_id])
     @documents = @category.documents
     

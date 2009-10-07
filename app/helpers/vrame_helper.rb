@@ -80,11 +80,7 @@ module VrameHelper
         if acts_as_tree_set.last == item
           concat('<li class="last">', block.binding)
         else
-          if(item.title == "Team")
-            concat('<li class="active">', block.binding)
-          else
-            concat('<li>', block.binding)
-          end
+          concat('<li>', block.binding)
         end
         
         # yield
