@@ -30,6 +30,13 @@
 			</div>
 		</li>
 	<% end %>
+	<% if category != nil and documents.size == 0 %>
+		<li class="document clearfix">
+			<div class="column">
+				Die Kategorie "<%=h category.title %>" enthält noch keine Dokumente. Wollen Sie eines <%= link_to "hinzufügen", category.backend_url.empty? ? [:new, :vrame, category, :document] : category.backend_url_path + '/new' %>?
+			</div>
+		</li>
+	<% end %>
 </ul>
 
 <% if documents.first %>

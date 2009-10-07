@@ -52,7 +52,7 @@
 		<% end %>
 	</div>
 	<div id="items" class="items">
-		<%= render :partial => 'vrame/categories/documents', :locals => { :documents => @documents } %>
+		<%= render :partial => 'vrame/categories/documents', :locals => { :documents => @documents, :category => @active_category } %>
 	</div>
 </div>
 

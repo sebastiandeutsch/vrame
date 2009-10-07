@@ -7,7 +7,7 @@ class Vrame::DocumentsController < Vrame::VrameController
     @category = Category.find(params[:category_id])
     @documents = @category.documents
     
-    render :partial => 'vrame/categories/documents'
+    render :partial => 'vrame/categories/documents', :locals => { :documents => @documents, :category => @category }
   end
   
   def new
