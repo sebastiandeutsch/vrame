@@ -546,14 +546,31 @@ div.category .column {
 
 div.category .title {
 	width:140px;
+	padding:0 0 3px 0;
 }
 
 div.category .options {
 	float:right;
+	display:none;
+}
+
+div.category .options img {
+	margin-right:3px;
 }
 
 div.category .order {
 	float:right;
+	display:none;
+}
+
+div.category:hover .options {
+	float:right;
+	display:block;
+}
+
+div.category:hover .order {
+	float:right;
+	display:block;
 }
 
 li.document .column {
@@ -580,6 +597,14 @@ li.document .image {
 	margin:0;
 	padding:0;
 	line-height:0.1;
+}
+
+li.document .options {
+	float:right;
+}
+
+li.document .options img {
+	margin-right:3px;
 }
 
 /** 
