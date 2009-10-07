@@ -3,7 +3,7 @@ module JsonObject
     include Serializable
     
     def self.default_options
-      @default_options ||= {
+      @@default_options ||= {
         :schema => nil,
         :mappings  => {}
       }

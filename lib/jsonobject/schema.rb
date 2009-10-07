@@ -8,10 +8,16 @@ module JsonObject
   class EmbeddedSchema
     include Serializable
     
+    def self.default_options
+      @@default_options ||= {
+        :mappings  => {}
+      }
+    end
+    
     attr_reader :mappings
     
     def initialize(hash, options = {})
-      @options = options
+      @options = self.class.default_options.merge(options)
       
       assign(hash)
       
@@ -68,16 +74,12 @@ module JsonObject
   end
   
   class Schema < EmbeddedSchema
-    def self.default_options
-      @default_options ||= {
-        :mappings  => {}
-      }
-    end
+
     
     def initialize(name, instance, options)
       @name     = name
       @instance = instance
-      @options  = self.class.default_options.merge(options)
+      @options  = options
       
       initialize_serialization
       
