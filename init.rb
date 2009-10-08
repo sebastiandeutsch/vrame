@@ -6,13 +6,13 @@ require 'jsonobject'
 begin
   require 'nine_auth_engine'
 rescue Exception => e
-  puts e
   puts "\033[31m"
   puts "VRAME requires the NineAuthEngine"
   puts "you can install it through git"
   puts "\033[36m"
   puts "git submodule add git://github.com/sebastiandeutsch/nine_auth_engine.git vendor/plugins/nine_auth_engine"
   puts "\033[0m"
+  raise "VRAME Bootstrap Error"
 end
 
 ActiveRecord::Base.send :include, JsonObject
@@ -52,5 +52,10 @@ config.to_prepare do
 end
 
 unless File.exist?(File.join(RAILS_ROOT, 'public', "vrame")) || ARGV[0] == "vrame:sync"
-  raise "Please run rake vrame:sync before continuing" 
+  puts "\033[31m"
+  puts "Please run rake vrame:sync before continuing"
+  puts "\033[36m"
+  puts "rake vrame:sync"
+  puts "\033[0m"
+  raise "VRAME Bootstrap Error"
 end
