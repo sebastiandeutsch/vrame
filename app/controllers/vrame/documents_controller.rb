@@ -1,8 +1,13 @@
 class Vrame::DocumentsController < Vrame::VrameController
   
   def index
-    per_page = params[:per_page] || 50
-    @documents = Document.paginate :page => params[:page], :per_page => per_page
+    session["#{params[:tab_id]}_category_id"] = params[:category_id]
+    session["last_tab_id"] = params[:tab_id]
+    
+    @category = Category.find(params[:category_id])
+    @documents = @category.documents
+    
+    render :partial => 'vrame/categories/documents', :locals => { :documents => @documents, :category => @category }
   end
   
   def new

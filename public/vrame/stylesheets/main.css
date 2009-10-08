@@ -36,6 +36,19 @@
 	float:right;
 }
 
+#ajax-loading-bar {
+	position:absolute;
+	top:0px;
+	left:47%;
+	color:#fff;
+	display:none;
+}
+
+#ajax-loading-bar img {
+	padding-top:5px;
+	padding-right:5px;
+}
+
 /** 
  * @section HTML Styles
  *
@@ -94,7 +107,7 @@ h2 {
  */
 
 .page-align {
-	width:980px;
+	width:100%;
 	margin: 0 auto 0 auto;
 }
 
@@ -180,7 +193,7 @@ h2 {
 }
 
 #header-bar {
-	padding: 3px 0 0 0;
+	padding: 3px 0 0 10px;
 	height: 26px;
 	height: 32px;
 }
@@ -201,7 +214,7 @@ h2 {
 }
 
 #header-bar li.last {
-	margin-right: 0;
+	margin-right: 10px;
 }
 
 .logo {
@@ -209,7 +222,9 @@ h2 {
 	font-size: 21px;
 	font-weight: normal;
 	margin: 0 32px 0 0;
+	padding: 5px 0 0 0;
 	color: #fff;
+	display:block;
 }
 
 /** 
@@ -274,7 +289,7 @@ h2 {
  */
 
 .flash {
-	padding: 15px 0 10px 0;
+	padding: 15px 10px 10px 10px;
 	clear: left;
 }
 
@@ -305,7 +320,7 @@ h2 {
  */
 
 #content {
-	padding: 15px 0;
+	padding: 10px;
 }
 
 /**
@@ -362,6 +377,89 @@ ul.record-list {
 	margin-bottom: 15px;
 	border: 1px solid #e7e7e7;
 	padding: 1px;
+}
+
+/** 
+ * @section Content-View
+ *
+ * Description.
+ */
+
+.content-view {
+	background-color:#f7f7f7;
+}
+
+.content-view .categories {
+	width:35%;
+	float:left;
+}
+
+.content-view .categories ul {
+	border-bottom:1px dotted transparent;
+}
+
+.content-view .categories > ul {
+	margin-top:0px;
+	background:#fff;
+}
+
+.content-view .categories ul li div.category {
+}
+
+.content-view .categories ul li div.active {
+
+	-moz-border-radius: 15px 0 0 15px;
+	-webkit-border-top-left-radius: 15px;
+	-webkit-border-bottom-left-radius: 15px;
+	background-color:#f7f7f7;
+}
+
+.content-view .categories ul li.last {
+	border-bottom:0;
+	padding-bottom:0;
+}
+
+.content-view .categories ul li div.level-0 {
+	margin-left:0px;
+}
+
+.content-view .categories ul li div.level-1 {
+	margin-left:10px;
+}
+
+.content-view .categories ul li div.level-2 {
+	margin-left:20px;
+}
+
+.content-view .categories ul li div.level-3 {
+	margin-left:30px;
+}
+
+.content-view .categories ul li div.level-4 {
+	margin-left:40px;
+}
+
+.content-view .categories ul li div.level-5 {
+	margin-left:50px;
+}
+
+.content-view .categories ul li div.level-6 {
+	margin-left:60px;
+}
+
+
+.content-view .items {
+	width:65%;
+	float:left;
+}
+
+.content-view .items ul {
+	border-top:1px dotted #d7d7d7;
+}
+
+.content-view .items ul li {
+	background-color:#f7f7f7;
+	border-bottom:1px dotted #d7d7d7;
 }
 
 /** 
@@ -433,6 +531,79 @@ ul.record-list > li:hover {
 
 .record-list .order {
 	width: 40px;
+}
+
+/** 
+ * @subsection Title and misc columns
+ *
+ *
+ */
+
+div.category .column {
+	float:left;
+	margin:10px 10px 10px 10px;
+}
+
+div.category .title {
+	padding:0 0 3px 0;
+}
+
+div.category .options {
+	float:right;
+	display:none;
+}
+
+div.category .options img {
+	margin-right:3px;
+}
+
+div.category .order {
+	float:right;
+	display:none;
+}
+
+div.category:hover .options {
+	float:right;
+	display:block;
+}
+
+div.category:hover .order {
+	float:right;
+	display:block;
+}
+
+li.document .column {
+	float:left;
+	margin:10px 10px 10px 10px;
+}
+
+li.document .title {
+	width: 300px;
+}
+
+li.document .title a {
+	color: #000;
+	text-decoration: none;
+}
+
+li.document .slug {
+	width: 140px;
+}
+
+li.document .image {
+	width:100px;
+	float: left;
+	margin:0;
+	padding:0;
+	line-height:0.1;
+}
+
+li.document .options {
+	float:right;
+}
+
+li.document .options img {
+	margin-right:3px;
 }
 
 /** 
@@ -690,8 +861,7 @@ button:hover {
  *
  */
 
-.file-upload input.asset-id,
-.file-upload input.collection-id {
+input.asset-id, input.collection-id {
 	display: none;
 	width: 45px;
 	vertical-align: top;
@@ -711,16 +881,16 @@ button:hover {
 .asset-list li {
 	float: left;
 	position: relative;
-	
+ 
 	border-radius: 4px;
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
-
+ 
 	margin: 0 10px 10px 0;
 	padding: 5px;
-	
+ 
 	width: 295px;
-	
+ 
 	background-color: #fff;
 }
 
@@ -747,9 +917,7 @@ button:hover {
 	overflow: hidden;
 }
 
-.asset-list label {
-	
-}
+.asset-list label {}
 
 .asset-list textarea {
 	padding: 2px;
@@ -778,9 +946,9 @@ button:hover {
 	z-index: 100;
 	cursor: pointer;
 	border: 1px solid #888;
-	box-shadow: 1px 1px 5px white;
-	-moz-box-shadow: 1px 1px 5px white;
-	-webkit-box-shadow: 1px 1px 5px white;
+	box-shadow: 1px 1px 8px black;
+	-moz-box-shadow: 1px 1px 8px black;
+	-webkit-box-shadow: 1px 1px 8px black;
 }
 
 /** 

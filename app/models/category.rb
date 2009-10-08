@@ -79,14 +79,15 @@ class Category < ActiveRecord::Base
   end
   
   def to_public_hash
-    # Convert category to hash
+    
+    # Convert category to hash, only accept some attributes
     category_hash = attributes.reject { |key, _| !Public_attributes.include?(key) }
     
-    if category_hash['url'].empty?
-      category_hash['url'] = to_param
-    end
+    # Set url
+    category_hash['url'] = to_param if category_hash['url'].empty?
     
     category_hash
+    
   end
   
   def insignificant?

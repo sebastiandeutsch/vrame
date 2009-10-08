@@ -8,9 +8,6 @@ jQuery(function($) {
 		$(this).fadeOut();
 	});
 	
-	/* Sortable list */
-	$('#category-list').html5sortable();
-	
 	/* Expandable sections */
 	$(".expandable").click(function() {
 		$($(this).attr("href")).slideToggle();
@@ -39,31 +36,71 @@ jQuery(function($) {
 		});
 	}
 	
+	/* give window.name a unique id */
+	function generateUUID () {
+		return +new Date;
+	}
+	window.name = generateUUID();
+});
+
+/* Category view */
+jQuery(function($) {
+	$('.category-button').click(function() {
+		var categoryId = $(this).attr('rel');
+		
+		$('.categories ul li div').removeClass('active');
+		$('#category-' + categoryId).addClass('active');
+		
+		$(document).scrollTo( {top:'0px', left:'0px'}, 200 );
+		$('#ajax-loading-bar').fadeIn('fast');
+		$.ajax({
+			url: "/vrame/categories/" + categoryId + "/documents/?tab_id=" + window.name,
+			cache: false,
+			success: function(html) {
+				$('#items').html(html);
+				$('#ajax-loading-bar').stop().fadeOut('fast');
+			},
+			error: function(msg) {
+				console.log(msg);
+			}
+		});
+		
+		return false;
+	});
 });
 
 /* Asset list behavior */
+
 jQuery(function ($) {
 	
-	var textareaSelector = "textarea[name=title]";
+	var assetListSelector = ".asset-list",
+		textareaSelector = "textarea[name=title]";
 	
-	$(".asset-list")
+	/* Event Handling */
 	
+	var assetLists = $(assetListSelector)
+	
+		/* Asset deletion */
 		.find("a.delete")
 			.live("click", deleteAsset)
 			.end()
-			
+		
+		/* Image fullview */
 		.find(".image-wrapper")
 			.attr('title', 'Klicken zum Vergrößern')
 			.live("click", loadFullview)
 			.end()
-			
+		
+		/* Title editing and saving */
 		.find(textareaSelector)
 			.live("keypress", saveTitle)
 			.end()
 		/* Event delegation with bubbling focusout */
 		.bind("focusout", saveTitle)
-		/* Event Delegation with capturing blur */
+		/* Event delegation with capturing blur */
 		.each(captureTextareaBlur);
+	
+	/* Asset deletion */
 	
 	function deleteAsset (e) {
 		e.preventDefault();
@@ -86,6 +123,8 @@ jQuery(function ($) {
 			authenticity_token: deleteLink.attr("data-authenticity-token")
 		});
 	}
+	
+	/* Image fullview */
 	
 	var image = $("<img>")
 			.attr("id", "asset-fullview")
@@ -118,9 +157,13 @@ jQuery(function ($) {
 		image.css({
 			left : Math.max(0, wrapperOffset.left - (image.attr("width") - wrapperWidth) / 2),
 			top : Math.max(0, wrapperOffset.top - (image.attr("height") - wrapperHeight) / 2),
+			//left : wrapperOffset.left,
+			//top : wrapperOffset.top,
 			display : "block"
 		});
 	}
+	
+	/* Title editing and saving */
 	
 	function captureTextareaBlur () {
 		if (this.addEventListener) {
@@ -150,6 +193,7 @@ jQuery(function ($) {
 	function sendTitle (textarea) {
 		//console.log("sendTitle");
 		var assetId = textarea.attr("data-asset-id");
+		$('#ajax-loading-bar').fadeIn('fast');
 		$.post(
 			"/vrame/assets/" + assetId,
 			{
@@ -165,9 +209,11 @@ jQuery(function ($) {
 	
 	function titleSent (responseData, textarea) {
 		//console.log("titleSent", responseData);
+		$('#ajax-loading-bar').stop().fadeOut('fast');
+		var originalBackgroundColor = textarea.css('backgroundColor');
 		textarea
 			.css('backgroundColor', '#ffb')
-			.animate({'backgroundColor' : '#fff'}, 800);
+			.animate({'backgroundColor' : originalBackgroundColor}, 800);
 	}
 	
 });
