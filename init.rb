@@ -2,6 +2,19 @@
 
 # Tell ActiveRecord::Base about JsonObject
 require 'jsonobject'
+
+begin
+  require 'nine_auth_engine'
+rescue Exception => e
+  puts e
+  puts "\033[31m"
+  puts "VRAME requires the NineAuthEngine"
+  puts "you can install it through git"
+  puts "\033[36m"
+  puts "git submodule add git://github.com/sebastiandeutsch/nine_auth_engine.git vendor/plugins/nine_auth_engine"
+  puts "\033[0m"
+end
+
 ActiveRecord::Base.send :include, JsonObject
 
 config.gem 'coupa-acts_as_list',
