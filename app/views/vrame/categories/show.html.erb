@@ -17,39 +17,61 @@
 	<%- end -%>
 </div>
 
-<ul id="category-list" class="category record-list">
-	<%= render :partial => 'category_tree', :locals => { :category => @category, :categories => @categories } %>
-</ul>
+<div class="content-view clearfix" class="clearfix">
+	<div class="categories">
+		<% category_tree @categories do |category, level| %>
+			<div id="category-<%= category.id.to_s %>" class="category level-<%= level.to_s %> clearfix">
+				<div class="column title">
+					<%= link_to h(category.title), '#', :class => "category-button", :rel => category.id %>
+				</div>
 
-<%= render :partial => 'vrame/shared/pagination', :locals => { :paginatable => @categories } %>
+				<div class="column order">
+					<%= link_to '<img src="/vrame/images/admin/arrow_up.png" border="0" alt="Weiter nach oben" />', order_up_vrame_category_path(category) %>
+					<%= link_to '<img src="/vrame/images/admin/arrow_down.png" border="0" alt="Weiter nach unten" />', order_down_vrame_category_path(category) %>
+				</div>
+				
+				<div class="column options">
+					<% if category.published %>
+						<%= link_to '<img src="/vrame/images/admin/led-green.png" border="0" alt="Verstecken" title="Verstecken" />', [:unpublish, :vrame, category] %>
+					<% else %>
+						<%= link_to '<img src="/vrame/images/admin/led-red.png" border="0" alt="Veröffentlichen" title="Veröffentlichen" />', [:publish, :vrame, category] %>
+					<% end %>
+					<%= link_to '<img src="/vrame/images/admin/edit.png" border="0" alt="Editieren" title="Editieren" />', [:edit, :vrame, category] %>
+					<%= link_to '<img src="/vrame/images/admin/delete.png" border="0" alt="Löschen" title="Löschen" />', [:vrame, category], :method => :delete, :confirm => 'Wirklich löschen?' %>
+					<%= link_to '<img src="/vrame/images/admin/page_add.png" border="0" alt="Dokument hinzufügen" title="Dokument hinzufügen" />',
+						category.backend_url.empty? ? [:new, :vrame, category, :document] : category.backend_url_path + '/new'
+					%>
+					<%= link_to '<img src="/vrame/images/admin/magnifier.png" border="0" alt="Detailansicht" title="Detailansicht" />', [:vrame, category] %>
+				</div>
+
+			</div>
+		<% end %>
+	</div>
+	<div id="items" class="items">
+		<%= render :partial => 'vrame/categories/documents', :locals => { :documents => @documents } %>
+	</div>
+</div>
 
 <script>
 	jQuery(function($) {
-		// @mathias please as long as it is experimental leave it here, kthxbai
-		/* Sortable list */
-		$('#category-list').html5sortable({
-			onDrop : function(hash) {
-				var el     = hash.element;
-				var target = hash.target;
-				
-				if(target.attr('data-type') == 'document') {
-					if(el.attr('data-parent-id') != target.attr('data-parent-id')) {
-						// @todo update category id
-						// via AJAX
-						el.attr('data-parent-id', target.attr('data-parent-id'));
-					}
-				
-					var items = jQuery('#category-list li.item[data-parent-id=' + el.attr('data-parent-id') + ']');
-					items.each(function(i, o) {
-						// @todo update positions
-						// via ajax					
-						console.log(i + " -> " + o.id);
-					});
-				} else {
-					// we dropped on a category lets prepend the element
-					console.log(target.attr('data-id'));
+		$('.category-button').click(function() {
+			var categoryId = $(this).attr('rel');
+			
+			$('.categories ul li div').removeClass('active');
+			$('#category-' + categoryId).addClass('active');
+			
+			$.ajax({
+				url: "/vrame/categories/" + categoryId + "/documents",
+				cache: false,
+				success: function(html) {
+					$('#items').html(html);
+				},
+				error: function(msg) {
+					console.log(msg);
 				}
-			}
+			});
+			
+			return false;
 		});
 	});
 </script>
