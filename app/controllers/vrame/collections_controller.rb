@@ -21,6 +21,17 @@ class Vrame::CollectionsController < Vrame::VrameController
   
   def sort
     @collection = Collection.find(params[:id])
+    
+    params[:asset].each_with_index do |id, i|
+      asset = Asset.find_by_id(id, @collection.id)
+      
+      # sanity check
+      if asset.assetable_id == @collection.id 
+        asset.position = i
+        asset.save
+      end
+    end
+    
     render :text => 'ok'
   end
 

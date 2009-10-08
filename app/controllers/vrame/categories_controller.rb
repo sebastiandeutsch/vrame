@@ -25,10 +25,14 @@ class Vrame::CategoriesController < Vrame::VrameController
   end
   
   def sort
+    @category = Category.find(params[:id])
+    
     params[:document].each_with_index do |id, i|
       document = Document.find_by_id(id)
-      document.position = i
-      document.save
+      if document.category_id == @category.id
+        document.position = i
+        document.save
+      end
     end
     
     render :text => 'ok'
