@@ -289,7 +289,7 @@ h2 {
  */
 
 .flash {
-	padding: 15px 0 10px 0;
+	padding: 15px 10px 10px 10px;
 	clear: left;
 }
 
@@ -390,7 +390,7 @@ ul.record-list {
 }
 
 .content-view .categories {
-	width:30%;
+	width:33%;
 	float:left;
 }
 
@@ -449,7 +449,7 @@ ul.record-list {
 
 
 .content-view .items {
-	width:70%;
+	width:67%;
 	float:left;
 }
 
@@ -546,14 +546,31 @@ div.category .column {
 
 div.category .title {
 	width:140px;
+	padding:0 0 3px 0;
 }
 
 div.category .options {
 	float:right;
+	display:none;
+}
+
+div.category .options img {
+	margin-right:3px;
 }
 
 div.category .order {
 	float:right;
+	display:none;
+}
+
+div.category:hover .options {
+	float:right;
+	display:block;
+}
+
+div.category:hover .order {
+	float:right;
+	display:block;
 }
 
 li.document .column {
@@ -580,6 +597,14 @@ li.document .image {
 	margin:0;
 	padding:0;
 	line-height:0.1;
+}
+
+li.document .options {
+	float:right;
+}
+
+li.document .options img {
+	margin-right:3px;
 }
 
 /** 
@@ -928,6 +953,22 @@ input.asset-id, input.collection-id {
 	margin-bottom: 0;
 	border-bottom: none;
 	padding-bottom: 0;
+}
+
+/** 
+ * @section Sortable grid
+ *
+ *
+ */
+
+ul.sortable-grid li {
+	float:left;
+	width:100px;
+	height:50px;
+	border:1px solid #d7d7d7;
+	padding:1px;
+	background: #e7e7e7;
+	margin:0 5px 5px 0;	
 }
 
 /**

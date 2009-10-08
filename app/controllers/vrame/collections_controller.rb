@@ -14,6 +14,15 @@ class Vrame::CollectionsController < Vrame::VrameController
       redirect_to :back
     end
   end
+  
+  def rearrange
+    @collection = Collection.find(params[:id])
+  end
+  
+  def sort
+    @collection = Collection.find(params[:id])
+    render :text => 'ok'
+  end
 
   def destroy
     @collection = Collection.find(params[:id])

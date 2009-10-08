@@ -20,12 +20,12 @@
 <div class="content-view clearfix" class="clearfix">
 	<div class="categories">
 		<% category_tree @categories do |category, level| %>
-			<div id="category-<%= category.id.to_s %>" class="category level-<%= level.to_s %> clearfix">
+			<div id="category-<%= category.id.to_s %>" class="category level-<%= level.to_s %> <% if @active_category.id == category.id %>active<% end %> clearfix">
 				<div class="column title">
 					<% if category.backend_url.empty? %>
 						<%= link_to h(category_title(category)) , '#', :class => "category-button", :rel => category.id %>
 					<% else %>
-						<%= link_to h(category_title(category)) , category.backend_url, :rel => category.id %>
+						<%= link_to h(category_title(category)) , category.backend_url_path, :rel => category.id %>
 					<% end %>
 				</div>
 
@@ -45,40 +45,13 @@
 					<%= link_to '<img src="/vrame/images/admin/page_add.png" border="0" alt="Dokument hinzufügen" title="Dokument hinzufügen" />',
 						category.backend_url.empty? ? [:new, :vrame, category, :document] : category.backend_url_path + '/new'
 					%>
-					<%= link_to '<img src="/vrame/images/admin/magnifier.png" border="0" alt="Detailansicht" title="Detailansicht" />', [:vrame, category] %>
+					<%= link_to '<img src="/vrame/images/admin/magnifier.png" border="0" alt="Vorschau" title="Vorschau" />', category_path(category) %>
 				</div>
 
 			</div>
 		<% end %>
 	</div>
 	<div id="items" class="items">
-		<%= render :partial => 'vrame/categories/documents', :locals => { :documents => @documents } %>
+		<%= render :partial => 'vrame/categories/documents', :locals => { :documents => @documents, :category => @active_category } %>
 	</div>
 </div>
-
-<script>
-	jQuery(function($) {
-		$('.category-button').click(function() {
-			var categoryId = $(this).attr('rel');
-			
-			$('.categories ul li div').removeClass('active');
-			$('#category-' + categoryId).addClass('active');
-			
-			$(document).scrollTo( {top:'0px', left:'0px'}, 200 );
-			$('#ajax-loading-bar').fadeIn('fast');
-			$.ajax({
-				url: "/vrame/categories/" + categoryId + "/documents",
-				cache: false,
-				success: function(html) {
-					$('#items').html(html);
-					$('#ajax-loading-bar').stop().fadeOut('fast');
-				},
-				error: function(msg) {
-					console.log(msg);
-				}
-			});
-			
-			return false;
-		});
-	});
-</script>

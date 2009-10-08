@@ -32,6 +32,10 @@ end %>
 
 	<ol class="upload-queue"></ol>
 	
+	<% if defined?(collection) and assets.length %>
+		<p id="rearrange-collection"><%= link_to "Asset-Liste sortieren", rearrange_vrame_collection_path(collection), :class => 'smaller button invert' %></p>
+	<% end %>
+	
 	<%= render :partial => 'vrame/shared/asset_list', :locals => { :assets => assets } %>
 	
 </div><!-- /.file-upload -->
