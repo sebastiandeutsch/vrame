@@ -390,7 +390,7 @@ ul.record-list {
 }
 
 .content-view .categories {
-	width:35%;
+	width:30%;
 	float:left;
 }
 
@@ -449,7 +449,7 @@ ul.record-list {
 
 
 .content-view .items {
-	width:65%;
+	width:70%;
 	float:left;
 }
 
@@ -545,6 +545,7 @@ div.category .column {
 }
 
 div.category .title {
+	width:140px;
 	padding:0 0 3px 0;
 }
 
@@ -874,69 +875,53 @@ input.asset-id, input.collection-id {
  */
 
 .asset-list {
-	margin: 15px 0;
 	overflow: hidden;
 }
 
 .asset-list li {
 	float: left;
 	position: relative;
- 
+	
+	margin: 0 10px 10px 0;
+/*  border: 1px solid #aaa;*/
 	border-radius: 4px;
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
- 
-	margin: 0 10px 10px 0;
-	padding: 5px;
- 
-	width: 295px;
- 
-	background-color: #fff;
-}
-
-.asset-list p {
-	margin: 0;
-	font-size: 12px;
+	padding: 5px 5px 5px 5px;
+	background: #fff;
+	
+	width: 100px;
+	min-height: 165px;
 }
 
 .asset-list .image-wrapper {
-	float: left;
-	margin: 0;
-	cursor: pointer;
+	display: table-cell;
+	
 	width: 100px;
 	height: 140px;
+	
+	overflow: hidden;
+	vertical-align: middle;
+	
+	cursor: pointer;
+}
+
+.asset-list .controls {
+	padding-top: 5px;
+	clear: both;
+}
+
+.asset-list .edit {
+	float: left;
+}
+
+.asset-list .delete {
+	float: right;
 }
 
 .asset-list img {
 	display: block;
 	margin: auto;
-}
-
-.asset-list .beside-image {
-	padding-left: 10px;
-	overflow: hidden;
-}
-
-.asset-list label {}
-
-.asset-list textarea {
-	padding: 2px;
-	width: 178px;
-	height: 50px;
-	font-family: arial,sans-serif;
-	font-size: 13px;
-}
-
-.asset-list .filename {
-	height: 19px;
-	white-space: nowrap;
-	overflow: hidden;
-}
-
-.asset-list .filesize {}
-
-.asset-list .delete {
-	float: right;
 }
 
 #asset-fullview {
@@ -946,9 +931,9 @@ input.asset-id, input.collection-id {
 	z-index: 100;
 	cursor: pointer;
 	border: 1px solid #888;
-	box-shadow: 1px 1px 8px black;
-	-moz-box-shadow: 1px 1px 8px black;
-	-webkit-box-shadow: 1px 1px 8px black;
+	box-shadow: 1px 1px 5px white;
+	-moz-box-shadow: 1px 1px 5px white;
+	-webkit-box-shadow: 1px 1px 5px white;
 }
 
 /** 
@@ -968,6 +953,22 @@ input.asset-id, input.collection-id {
 	margin-bottom: 0;
 	border-bottom: none;
 	padding-bottom: 0;
+}
+
+/** 
+ * @section Sortable grid
+ *
+ *
+ */
+
+ul.sortable-grid li {
+	float:left;
+	width:100px;
+	height:50px;
+	border:1px solid #d7d7d7;
+	padding:1px;
+	background: #e7e7e7;
+	margin:0 5px 5px 0;	
 }
 
 /**
