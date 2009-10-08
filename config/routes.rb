@@ -19,7 +19,7 @@ ActionController::Routing::Routes.draw do |map|
     
     # Assets and Collections
     vrame.resources :assets
-    vrame.resources :collections, :member => [ :rearrange => :get ]
+    vrame.resources :collections, :member => { :rearrange => :get, :sort => :post }
   end
 
   # Frontend

@@ -18,6 +18,11 @@ class Vrame::CollectionsController < Vrame::VrameController
   def rearrange
     @collection = Collection.find(params[:id])
   end
+  
+  def sort
+    @collection = Collection.find(params[:id])
+    render :text => 'ok'
+  end
 
   def destroy
     @collection = Collection.find(params[:id])
