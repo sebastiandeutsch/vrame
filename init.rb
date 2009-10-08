@@ -13,6 +13,7 @@ rescue Exception => e
   puts "git submodule add git://github.com/sebastiandeutsch/nine_auth_engine.git vendor/plugins/nine_auth_engine"
   puts ""
   puts "or"
+  puts ""
   puts "script/plugin install git://github.com/sebastiandeutsch/nine_auth_engine.git"
   puts ""
   puts "\033[0m"
