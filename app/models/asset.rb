@@ -1,6 +1,7 @@
 require 'paperclip_images'
 
 class Asset < ActiveRecord::Base
+  acts_as_list :scope => :collections
   
   belongs_to :user
   belongs_to :assetable, :polymorphic => true
