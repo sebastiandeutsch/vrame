@@ -50,6 +50,14 @@ module ActionView
 end # module ActionView
 
 module VrameHelper
+  def category_title(category)
+    if category.documents_count > 0
+      "#{category.title} (#{category.documents_count})"
+    else
+      category.title
+    end
+  end
+  
   def tree_ul(acts_as_tree_set, init=true, &block)
     if acts_as_tree_set.size > 0
       ret = '<ul>'
@@ -72,11 +80,7 @@ module VrameHelper
         if acts_as_tree_set.last == item
           concat('<li class="last">', block.binding)
         else
-          if(item.title == "Team")
-            concat('<li class="active">', block.binding)
-          else
-            concat('<li>', block.binding)
-          end
+          concat('<li>', block.binding)
         end
         
         # yield

@@ -1,17 +1,26 @@
 class Vrame::CategoriesController < Vrame::VrameController
   
   def index
-    per_page = params[:per_page] || 50
+    @categories = Category.roots
     
-    @categories = Category.roots.paginate :page => params[:page], :per_page => per_page
-    if @categories.first
-      @documents = @categories.first.documents
+    if params[:category_id]
+      @active_category = Category.find_by_id(params[:category_id])
+      @documents = @active_category.documents
     else
-      @documents = []
+      if session["last_tab_id"]
+        @active_category = Category.find_by_id(session["#{session["last_tab_id"]}_category_id"])
+        @documents = @active_category.documents
+      else
+        if @categories.first
+          @active_category = @categories.first
+          @documents = @active_category.documents
+        else
+          @active_category = nil
+          @documents = []
+        end 
+      end
     end
-    
-    @ancestors = []
-    
+        
     render :show
   end
   

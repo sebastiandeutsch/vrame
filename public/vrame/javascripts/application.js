@@ -8,9 +8,6 @@ jQuery(function($) {
 		$(this).fadeOut();
 	});
 	
-	/* Sortable list */
-	$('#category-list').html5sortable();
-	
 	/* Expandable sections */
 	$(".expandable").click(function() {
 		$($(this).attr("href")).slideToggle();
@@ -39,6 +36,13 @@ jQuery(function($) {
 		});
 	}
 	
+	/* give window.name a unique id */
+	function generateUUID() {
+		var newDate = new Date;
+		return newDate.getTime();
+	}
+	
+	window.name = generateUUID();
 });
 
 /* Asset list behavior */
