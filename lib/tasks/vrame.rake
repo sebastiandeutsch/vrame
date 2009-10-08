@@ -41,6 +41,10 @@ namespace :vrame do
     puts "Copying plugin assets to public/vrame"
     FileUtils.cp_r(vrame_assets, public_sync_target)
     
+    # Create empty vrame_specific.css if necessary
+    vrame_specific_css = File.join(RAILS_ROOT, 'public', 'stylesheets', 'vrame_specific.css')
+    File.new(vrame_specific_css, 'w').close unless File.exists?(vrame_specific_css)
+    
     # Copy DB migrations
     puts "Copying migrations to db/migrate"
     FileUtils.cp_r(vrame_migrations, migrations_sync_target)
