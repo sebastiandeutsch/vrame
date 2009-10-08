@@ -1,0 +1,10 @@
+<h2>Collection sortieren</h2>
+<ul class="sortable-grid clearfix">
+	<% @collection.assets.each do |asset| %>
+		<li>
+			<div>
+				<img src="<%= asset.file.url(:vrame_backend) %>" alt="<%= asset.title %>" title="<%= asset.title %>" />
+			</div>
+		</li>
+	<% end %>
+</ul>
