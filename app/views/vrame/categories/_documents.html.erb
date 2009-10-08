@@ -42,23 +42,23 @@
 </ul>
 
 <% if documents.first %>
-	<script>
+	<script type="text/javascript">
 		jQuery(function($) {
 			$("#ui-sortable").sortable({
 				update: function(event, ui) {
-							var data = $("#ui-sortable").sortable('serialize');
-							
-							$('#ajax-loading-bar').fadeIn('fast');
-							$.ajax({
-								type: "POST",
-								url: "/vrame/categories/<%=h documents.first.category.id %>/sort",
-								processData: false,
-								data: data + '&authenticity_token=' + encodeURIComponent('<%= form_authenticity_token if protect_against_forgery? %>'),
-								success: function(msg) {
-									$('#ajax-loading-bar').stop().fadeOut('fast');
-								}
-							});
+					var data = $("#ui-sortable").sortable('serialize');
+					
+					$('#ajax-loading-bar').fadeIn('fast');
+					$.ajax({
+						type: "POST",
+						url: "/vrame/categories/<%=h documents.first.category.id %>/sort",
+						processData: false,
+						data: data + '&authenticity_token=' + encodeURIComponent('<%= form_authenticity_token if protect_against_forgery? %>'),
+						success: function(msg) {
+							$('#ajax-loading-bar').stop().fadeOut('fast');
 						}
+					});
+				}
 			});
 		});
 	</script>

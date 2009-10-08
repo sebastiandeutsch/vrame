@@ -946,9 +946,9 @@ input.asset-id, input.collection-id {
 	z-index: 100;
 	cursor: pointer;
 	border: 1px solid #888;
-	box-shadow: 1px 1px 5px white;
-	-moz-box-shadow: 1px 1px 5px white;
-	-webkit-box-shadow: 1px 1px 5px white;
+	box-shadow: 1px 1px 8px black;
+	-moz-box-shadow: 1px 1px 8px black;
+	-webkit-box-shadow: 1px 1px 8px black;
 }
 
 /** 

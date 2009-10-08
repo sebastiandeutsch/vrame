@@ -55,30 +55,3 @@
 		<%= render :partial => 'vrame/categories/documents', :locals => { :documents => @documents, :category => @active_category } %>
 	</div>
 </div>
-
-<script>
-	jQuery(function($) {
-		$('.category-button').click(function() {
-			var categoryId = $(this).attr('rel');
-			
-			$('.categories ul li div').removeClass('active');
-			$('#category-' + categoryId).addClass('active');
-			
-			$(document).scrollTo( {top:'0px', left:'0px'}, 200 );
-			$('#ajax-loading-bar').fadeIn('fast');
-			$.ajax({
-				url: "/vrame/categories/" + categoryId + "/documents/?tab_id=" + window.name,
-				cache: false,
-				success: function(html) {
-					$('#items').html(html);
-					$('#ajax-loading-bar').stop().fadeOut('fast');
-				},
-				error: function(msg) {
-					console.log(msg);
-				}
-			});
-			
-			return false;
-		});
-	});
-</script>
