@@ -11,6 +11,10 @@ rescue Exception => e
   puts "you can install it through git"
   puts "\033[36m"
   puts "git submodule add git://github.com/sebastiandeutsch/nine_auth_engine.git vendor/plugins/nine_auth_engine"
+  puts ""
+  puts "or"
+  puts "script/plugin install git://github.com/sebastiandeutsch/nine_auth_engine.git"
+  puts ""
   puts "\033[0m"
   raise "VRAME Bootstrap Error"
 end
