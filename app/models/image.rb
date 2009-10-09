@@ -11,6 +11,6 @@ class Image < Asset
       :full               => "300x250",
       :bg_thumb           => "392x272"
     },
-    :convert_options => { :all => "-quality 80 -colorspace sRGB -strip" }
+    :convert_options => { :all => "-quality 80 -colorspace RGB -strip" }
     
 end
