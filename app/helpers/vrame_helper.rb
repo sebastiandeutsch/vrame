@@ -102,7 +102,7 @@ module VrameHelper
   end
   
   def type_select_tag(name, value = nil)
-    select_tag(name, options_for_select(JsonObject::VALID_TYPES, value))
+    select_tag(name, options_for_select(["String", "Text", "Datetime", "Bool", "File", "Collection"], value))
   end
   
   # Current controller and action as body classes, namespaced with vc/va

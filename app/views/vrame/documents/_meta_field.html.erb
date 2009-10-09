@@ -1,31 +1,27 @@
-<% name = item['name'] %>
-<% type = item['type'] %>
-<% uid = item['uid'] %>
+<% value = document.meta.send(field.name) %>
 
-<% value = document.meta ? document.meta[uid] : nil %>
-
-<% field_name = "document[meta[#{uid}]]" %>
-<% field_id = "document-meta-#{uid}" %>
+<% field_name = "document[meta[values[#{field.uid}]]]" %>
+<% field_id   = "document-meta-#{field.uid}" %>
 
 <li class="clearfix">
 
-	<label for="<%= field_id %>"><%= h name %></label>
+	<label for="<%= field_id %>"><%= h field.title %></label>
 	
 	<div class="input-container">
 
-	<% if type == "String" %>
+	<% if field.type == "String" %>
 		
 		<input type="text" name="<%= field_name %>" id="<%= field_id %>" value="<%= h value %>" />
 		
-	<% elsif type == "Text" %>
+	<% elsif field.type == "Text" %>
 		
 		<textarea name="<%= field_name %>" id="<%= field_id %>" class="rte-zone"><%= value %></textarea>
 		
-	<% elsif type == "Datetime" %>
+	<% elsif field.type == "Datetime" %>
 		
 		<input type="text" name="<%= field_name %>" id="<%= field_id %>" value="<%= value %>" class="datepicker" />
 		
-	<% elsif type == "File" %>
+	<% elsif field.type == "File" %>
 		
 		<%= render :partial => 'vrame/shared/file_upload', :locals => {
 			:type => "file",
@@ -34,7 +30,7 @@
 			:field_name => field_name
 		} %>
 		
-	<% elsif type == "Collection" %>
+	<% elsif field.type == "Collection" %>
 		
 		<%= render :partial => 'vrame/shared/file_upload', :locals => {
 			:type => "file",

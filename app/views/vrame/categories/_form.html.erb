@@ -24,17 +24,17 @@
 		<h3>Dokument-Template</h3>
 		<ol id="schema">
 			<% if category.schema %>
-				<% category.schema.each_with_index do |item, index| %>
+				<% category.schema.each do |field| %>
 					<li>
-						<input name="schema[][uid]" type="hidden" value="<%= h(item['uid']) %>">
-						<input name="schema[][name]" type="text" value="<%= h(item['name']) %>" />&nbsp;
-						<select name="schema[][type]">
-							<%= options_for_select(["String", "Text", "Datetime", "Bool", "File", "Collection"], item['type']) %>
+						<input name="fields[][uid]" type="hidden" value="<%= h(field.uid) %>">
+						<input name="fields[][title]" type="text" value="<%= h(field.title) %>" />&nbsp;
+						<select name="fields[][type]">
+							<%= options_for_select(["String", "Text", "Datetime", "Bool", "File", "Collection"], field.type) %>
 						</select>&nbsp;
 						
 						<!--
 						<input name="schema[][required]" type="hidden" value="0" /> 
-						<input name="schema[][required]" type="checkbox" value="1" <% if item['required'] %>checked="checked"<% end %> /> benötigt?&nbsp;
+						<input name="schema[][required]" type="checkbox" value="1" <% if field.required %>checked="checked"<% end %> /> benötigt?&nbsp;
 						-->
 						
 						<a href="#" class="smaller remove button invert">Entfernen</a>
@@ -105,8 +105,8 @@
 
 <ul style="display: none">
 	<li id="schema-item-prototype">
-		<input  name="schema[][name]" type="text" placeholder="Name" />&nbsp;
-		<select name="schema[][type]">
+		<input  name="fields[][title]" type="text" placeholder="Name" />&nbsp;
+		<select name="fields[][type]">
 			<%= options_for_select(["String", "Text", "Datetime", "Bool", "File", "Collection"], "String") %>
 		</select>&nbsp;
 		<!--

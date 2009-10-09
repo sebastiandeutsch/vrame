@@ -13,16 +13,14 @@
 		</ul>
 	</fieldset>
 	
-	<% if category.schema and !category.schema.empty? %>
-		<fieldset>
-			<h3>Meta-Informationen</h3>
-			<ol id="keys-values">
-				<% category.schema.each do |item| %>
-					<%= render :partial => 'meta_field', :locals => { :document => document, :item => item } %>
-				<% end %>
-			</ol>
-		</fieldset>
-	<% end %>
+	<fieldset>
+		<h3>Meta-Informationen</h3>
+		<ol id="keys-values">
+			<% category.schema.each do |field| %>
+				<%= render :partial => 'meta_field', :locals => { :document => document, :field => field } %>
+			<% end %>
+		</ol>
+	</fieldset>
 	
 	<fieldset>
 		<h3>Meta-Tags <span><a href="#meta-tags" class="expandable button invert">v</a></span></h3>

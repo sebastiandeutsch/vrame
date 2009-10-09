@@ -45,8 +45,10 @@ module JsonObject
     
     def each(&block)
       @schema_fields ||= {}
-      @hash['fields'].each do |field|
-        yield @schema_fields[field['name']] ||= SchemaField.new(field['uid'], field['name'], field['type'])
+      if @hash.include?('fields')
+        @hash['fields'].each do |field|
+          yield @schema_fields[field['name']] ||= SchemaField.new(field)
+        end
       end
     end
     
@@ -102,6 +104,9 @@ module JsonObject
     end
   end
   
-  class SchemaField < Struct.new('SchemaField', :uid, :name, :type)
+  class SchemaField < OpenStruct
+    def type
+      @table[:type]
+    end
   end
 end
