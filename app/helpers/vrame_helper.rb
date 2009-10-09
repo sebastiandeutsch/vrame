@@ -73,4 +73,11 @@ module VrameHelper
   def type_select_tag(name, value = nil)
     select_tag(name, options_for_select(JsonObject::VALID_TYPES, value))
   end
+  
+  # Current controller and action as body classes, namespaced with vc/va
+  #
+  # vc_ for VrameController, va_ for VrameAction
+  def bodyclass
+    "vc_#{params[:controller].gsub("/", '_')} va_#{params[:action]}"
+  end
 end

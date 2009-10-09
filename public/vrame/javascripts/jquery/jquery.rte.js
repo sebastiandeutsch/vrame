@@ -75,7 +75,11 @@
 				    // hide textarea
 	                textarea.hide();
 					/* Change: Use p als Standard Format Block --molily */
-					formatText("formatblock", '<p>')
+					// ey molily, that was not so nice
+					// now all the time the richtext editor will be loaded all the first lines
+					// which are usually are <h4> are <p> ;-(
+					// so I comment this in... and fix it properly ;-)
+					// formatText("formatblock", '<p>')
 	            });
 			
 	        }

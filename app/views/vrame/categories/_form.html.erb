@@ -46,23 +46,6 @@
 	</fieldset>
 	
 	<fieldset>
-		<h3>Meta-Informationen</h3>
-		
-		<ol id="keys-values">
-			<% if category.meta.schema %>
-				<% category.meta.schema.each do |item| %>
-					<li>
-						<%= render :partial => 'vrame/shared/key_value_item',
-                  :locals => { :class_name => 'category', :item => item }
-						%>
-					</li>
-				<% end %>
-			<% end %>
-		</ol>
-		<div><a id="add-key-value" href="#" class="button invert">Schlüssel-Wert-Paar hinzufügen</a></div>
-	</fieldset>
-	
-	<fieldset>
 		<h3>Meta-Tags</h3>
 		<ul id="meta-tags">
 			<li>

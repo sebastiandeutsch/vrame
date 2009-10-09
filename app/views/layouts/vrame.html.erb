@@ -14,8 +14,8 @@
 		'/vrame/stylesheets/jquery-ui-1.7.1/smoothness/jquery-ui-1.7.1.css',
 		
 		'/vrame/stylesheets/main.css',
-		'/vrame/stylesheets/rte.css',
 		'/vrame/stylesheets/upload_form.css',
+		'/vrame/stylesheets/rte.css',
 
 		'/stylesheets/vrame_specific.css'
 	] %>
@@ -40,7 +40,7 @@
 		'/vrame/javascripts/upload.js'
 	] %>
 </head>
-<body>
+<body class="<%= bodyclass %>">
 
 	<div class="page-decorator">
 		<%= render :partial => 'vrame/shared/navigation', :locals => { :category => @category, :user => current_user } %>

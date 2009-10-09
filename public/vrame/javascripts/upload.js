@@ -13,37 +13,37 @@ function Upload (containerEl) {
 	
 	var o = {
 		/* Upload token */
-		token								: c.attr('data-upload-token'),
+		token                       : c.attr('data-upload-token'),
 		
 		/* Upload type (single or multiple files, e.g. 'asset' or 'collection') */
-		uploadType					: c.attr('data-upload-type'),
+		uploadType                  : c.attr('data-upload-type'),
 		
 		/* Current collection id, if already present */
-		collectionId				: c.attr('data-collection-id') || '',
+		collectionId                : c.attr('data-collection-id') || '',
 		
 		/* Parent object (asset/collection owner) type */
-		parentType					: c.attr('data-parent-type'),
+		parentType                  : c.attr('data-parent-type'),
 		
 		/* Parent object (asset/collection owner) id */
-		parentId						: c.attr('data-parent-id'),
+		parentId                    : c.attr('data-parent-id'),
 		
 		/* Upload button element id */
-		buttonId						: c.find('.upload-button').attr('id'),
+		buttonId                    : c.find('.upload-button').attr('id'),
 		
 		/* Upload queue HTML element (jQuery collection) */
-		queue								: c.find('.upload-queue'),
+		queue                       : c.find('.upload-queue'),
 		
 		/* Form submit button */
-		submitButton				: $('#document_submit'),
+		submitButton                : $('#document_submit'),
 		
 		/* Image list HTML element (jQuery collection) */
-		assetList						: c.find('.asset-list'),
+		assetList                   : c.find('.asset-list'),
 		
 		/* Form field(s) for the new asset id (jQuery collection) */
-		assetIdInput				: c.find('input.asset-id'),
+		assetIdInput                : c.find('input.asset-id'),
 		
 		/* Form field(s) for the new collection id (jQuery collection) */
-		collectionIdInput		: c.find('input.collection-id')
+		collectionIdInput           : c.find('input.collection-id')
 		
 	};
 	
@@ -87,15 +87,15 @@ function Upload (containerEl) {
 		custom_settings : o,
 
 		/* Event handlers */
-		file_queued_handler						: handlers.fileQueued,
-		file_queue_error_handler			: handlers.fileQueueError,
-		file_dialog_complete_handler	: handlers.fileDialogComplete,
-		upload_start_handler					: handlers.uploadStart,
-		upload_progress_handler				: handlers.uploadProgress,
-		upload_error_handler					: handlers.uploadError,
-		upload_success_handler				: handlers.uploadSuccess,
-		upload_complete_handler				: handlers.uploadComplete,
-		queue_complete_handler				: handlers.queueComplete
+		file_queued_handler             : handlers.fileQueued,
+		file_queue_error_handler        : handlers.fileQueueError,
+		file_dialog_complete_handler    : handlers.fileDialogComplete,
+		upload_start_handler            : handlers.uploadStart,
+		upload_progress_handler         : handlers.uploadProgress,
+		upload_error_handler            : handlers.uploadError,
+		upload_success_handler          : handlers.uploadSuccess,
+		upload_complete_handle          : handlers.uploadComplete,
+		queue_complete_handler          : handlers.queueComplete
 
 		/* Debugging */
 		//,debug : true
@@ -105,7 +105,7 @@ function Upload (containerEl) {
 Upload.prototype.handlers = {
 	
 	fileQueued : function (file) {
-		//console.log('fileQueued', file);
+		//console.log('fileQueued', file.name);
 		var queue = this.customSettings.queue;
 		queue.show();
 		new FileProgress(file, queue);
@@ -153,10 +153,11 @@ Upload.prototype.handlers = {
 	},
 
 	uploadStart : function (file) {
+		//console.log('uploadStart', file.name);
+		vrame.unsavedChanges = true;
+		
 		var progress = new FileProgress(file, this.customSettings.queue);
-		
-		progress.setProgress();
-		
+		progress.setProgress(0);
 		/* No file validation, accept all files */
 		return true;
 	},
@@ -169,7 +170,7 @@ Upload.prototype.handlers = {
 	},
 
 	uploadSuccess : function (file, serverResponse) {
-		//console.log('uploadSuccess', file);
+		//console.log('uploadSuccess', file.name);
 		
 		var settings = this.customSettings,
 			progress = new FileProgress(file, settings.queue),
@@ -200,21 +201,13 @@ Upload.prototype.handlers = {
 			/* Once we have a collection id, reuse it in future uploads */
 			settings.collectionId = collectionId;
 			this.addPostParam('collection_id', collectionId);
-		}
-		
-		if (response.is_image) {
-			/* Load image thumbnail asynchronously, then add it to the asset list */
-			new ThumbnailLoader({
-				thumbnailUrl  : response.thumbnail_url,
-				fullUrl  : response.full_url,
-				targetElement : settings.assetList,
-				insertMode    : collectionId ? 'prepend' : 'replace'
-			});
+			
+			/* Append item to asset list */
+			settings.assetList.append(response.asset_list_item);
 		} else {
-			/* Directly append the asset's file name */
-			settings.assetList.append('<li><p>' + response.filename + '</p></li>');
+			/* Replace asset list items */
+			settings.assetList.html(response.asset_list_item);
 		}
-		
 	},
 	
 	uploadError : function (file, errorCode, message) {
@@ -266,7 +259,7 @@ Upload.prototype.handlers = {
 	},
 
 	uploadComplete : function (file) {
-		//console.log('uploadComplete', file);
+		//console.log('uploadComplete', file.name);
 		if (this.getStats().files_queued > 0) {
 			/* Continue with queue */
 			this.startUpload();
@@ -281,49 +274,6 @@ Upload.prototype.handlers = {
 	}
 
 } /* end Upload.prototype.handlers */
-
-function ThumbnailLoader (o) {
-	//console.log('ThumbnailLoader ', o.thumbnailUrl);
-	
-	var loadAttempts = 0,
-		loadInterval = window.setTimeout(loadImage, 1000);
-		
-	function loadImage () {
-		//console.log('ThumbnailLoader.loadImage attempt:', loadAttempts + 1);
-		var image = new Image;
-		image.onload = imageLoadSuccess;
-		image.src = o.thumbnailUrl;
-		loadAttempts++;
-		if (loadAttempts >= 10) {
-			clearInterval(loadInterval);
-		}
-	}
-	
-	function imageLoadSuccess () {
-		//console.log('ThumbnailLoader.imageLoadSuccess', o.thumbnailUrl);
-		
-		clearInterval(loadInterval);
-		
-		var insertMode = o.insertMode,
-			targetElement = o.targetElement,
-			html = "<li>" +
-				"<p class='image-wrapper' fullurl='" + o.fullUrl + "' title='Klicken zum Vergrößern'>" +
-					"<img src='" + o.thumbnailUrl + "' alt=''>" +
-				"</p>" +
-			"</li>";
-		
-		switch (insertMode) {
-			case 'prepend' :
-				targetElement.prepend(html);
-				break;
-			case 'replace' :
-				targetElement.html(html);
-				break;
-			default :
-				targetElement.append(html);
-		}
-	}
-}
 
 function FileProgress (file, target) {
 
