@@ -32,7 +32,7 @@ module JsonObject
     
     def find_field_by_name(name)
       begin
-        @uid_field_map.fetch(name)
+        @name_field_map.fetch(name)
       rescue IndexError
         raise UnknownSchemaAttributeError.new("Attribute named '#{name}' not in store schema")
       end
@@ -56,8 +56,8 @@ module JsonObject
     end
     
     def initialize_fields
-      # Initialize empty uid2field map
-      @uid_field_map = {}
+      # Initialize empty name->field map
+      @name_field_map = {}
       
       if @hash.include?('fields')
         @hash['fields'].each do |field|
@@ -69,8 +69,8 @@ module JsonObject
             field['name'] = Helper.dehumanize(field['title'])
           end
           
-          # Assign uid2name mapping
-          @uid_field_map[field['name']] = field    
+          # Assign name->field mapping
+          @name_field_map[field['name']] = field
         end
       end      
     end

@@ -35,8 +35,8 @@ class Document < ActiveRecord::Base
     end
     
     if meta
-      document.meta.schema.each do |item|
-        value = item.value
+      meta.schema.each do |item|
+        value = meta.send(item.name)
         
         # @TODO: Move into model
         value = value.serialize if value.class.respond_to?(:serialize)

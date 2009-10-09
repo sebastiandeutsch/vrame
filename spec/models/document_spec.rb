@@ -24,7 +24,7 @@ describe Document, :type => :model do
     @category = Category.new(:title => @title, :schema => @schema_hash)
   end
   
-  it "should have a meta attribute with category schema" do
+  it "should have a meta attribute with accesible attributes using its category's foreign schema" do
     @category.save
         
     @document = Document.new(:category => @category, :title => @title, :meta => @store_hash)
