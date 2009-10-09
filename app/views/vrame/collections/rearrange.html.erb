@@ -1,9 +1,9 @@
 <h2>Collection sortieren</h2>
 <ul id="ui-sortable-collection" class="sortable-grid clearfix">
 	<% @collection.assets.each do |asset| %>
-		<li>
+		<li id="asset-<%=h asset.id %>">
 			<div>
-				<img src="<%= asset.file.url(:vrame_backend) %>" alt="<%= asset.title %>" title="<%= asset.title %>" />
+				<img src="<%= asset.file.url(:vrame_backend) %>" alt="<%=h asset.title %>" title="<%=h asset.title %>" />
 			</div>
 		</li>
 	<% end %>
