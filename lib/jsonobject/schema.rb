@@ -38,6 +38,11 @@ module JsonObject
       end
     end
     
+    def has_attribute?(name)
+      name = name.to_sym
+      @name_field_map.include?(name)
+    end
+    
     def each(&block)
       @schema_fields ||= {}
       @hash['fields'].each do |field|

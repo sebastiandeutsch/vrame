@@ -16,7 +16,7 @@
 	</div>
 
 	<div class="image">
-		<% if document.meta and document.meta.image %>
+		<% if document.meta and document.meta.schema.has_attribute?(:image) %>
 			<img src="<%= document.meta.image.file.url(:vrame_backend) %>" />
 		<% else %>
 			&nbsp;
