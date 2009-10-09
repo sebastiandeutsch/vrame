@@ -24,15 +24,10 @@ class Document < ActiveRecord::Base
   named_scope :published, :conditions => '`documents`.`published` = 1'
   
   Public_attributes = %w(id title url meta_keywords meta_description meta_title category_id language_id updated_at created_at)
+  
+  def meta_hash
     
-  def to_public_hash
-    
-    # Convert document to hash
-    document_hash = attributes.reject { |key, _| !Public_attributes.include?(key) }
-    
-    if document_hash['url'].empty?
-      document_hash['url'] = to_param
-    end
+    meta_hash = {}
     
     if meta
       meta.schema.each do |item|
@@ -41,11 +36,25 @@ class Document < ActiveRecord::Base
         # @TODO: Move into model
         value = value.serialize if value.class.respond_to?(:serialize)
         
-        document_hash[item.name] = value
+        meta_hash[ name ] = value
       end
     end
     
-    document_hash
+    meta_hash
+    
+  end
+  
+  def to_public_hash
+    
+    # Convert document to hash, only accept some attributes
+    document_hash = attributes.reject { |key, _| !Public_attributes.include?(key) }
+    
+    # Set url
+    document_hash['url'] = to_param if document_hash['url'].empty?
+    
+    # Mix in JSON store items
+    document_hash.merge!(meta_hash)
+
   end
   
   def self.search(keyword, options = { :page => 1, :per_page => 10 })

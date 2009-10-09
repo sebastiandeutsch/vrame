@@ -1,0 +1,31 @@
+<h2>Collection sortieren</h2>
+<ul id="ui-sortable-collection" class="sortable-grid clearfix">
+	<% @collection.assets.each do |asset| %>
+		<li id="asset-<%=h asset.id %>">
+			<div>
+				<img src="<%= asset.file.url(:vrame_backend) %>" alt="<%=h asset.title %>" title="<%=h asset.title %>" />
+			</div>
+		</li>
+	<% end %>
+</ul>
+
+<script type="text/javascript">
+	jQuery(function($) {
+		$("#ui-sortable-collection").sortable({
+			update: function(event, ui) {
+				var data = $("#ui-sortable-collection").sortable('serialize');
+				
+				$('#ajax-loading-bar').fadeIn('fast');
+				$.ajax({
+					type: "POST",
+					url: "/vrame/collections/<%=h @collection.id %>/sort",
+					processData: false,
+					data: data + '&authenticity_token=' + encodeURIComponent('<%= form_authenticity_token if protect_against_forgery? %>'),
+					success: function(msg) {
+						$('#ajax-loading-bar').stop().fadeOut('fast');
+					}
+				});
+			}
+		});
+	});
+</script>

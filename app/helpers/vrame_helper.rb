@@ -50,6 +50,14 @@ module ActionView
 end # module ActionView
 
 module VrameHelper
+  def category_title(category)
+    if category.documents_count > 0
+      "#{category.title} (#{category.documents_count})"
+    else
+      category.title
+    end
+  end
+  
   def tree_ul(acts_as_tree_set, init=true, &block)
     if acts_as_tree_set.size > 0
       ret = '<ul>'
@@ -61,6 +69,29 @@ module VrameHelper
         ret += '</li>'
       end
       ret += '</ul>'
+    end
+  end
+  
+  def category_tree(acts_as_tree_set, level = 0, &block)
+    if acts_as_tree_set.size > 0
+      concat('<ul>', block.binding)
+      acts_as_tree_set.collect do |item|
+        next if item.parent_id && level == 0
+        if acts_as_tree_set.last == item
+          concat('<li class="last">', block.binding)
+        else
+          concat('<li>', block.binding)
+        end
+        
+        # yield
+        yield item, level
+        
+        # recurse
+        category_tree(item.children, level+1, &block) if item.children.size > 0
+        
+        concat('</li>', block.binding)
+      end  
+      concat('</ul>', block.binding)
     end
   end
   
