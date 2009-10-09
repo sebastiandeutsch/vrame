@@ -59,8 +59,8 @@ GMap.georevive = function georevive(key, value) {
     var retval = {};
     retval.location = new google.maps.LatLng(value.location.Lf, value.location.Nf);
     retval.location_type = value.location_type;
-    var ne = new google.maps.LatLng(ac(value.viewport.N.h), ac(value.viewport.A.h));
-    var sw = new google.maps.LatLng(ac(value.viewport.N.i), ac(value.viewport.A.i));
+    var ne = new google.maps.LatLng(ac(value.viewport.O.h), ac(value.viewport.A.h));
+    var sw = new google.maps.LatLng(ac(value.viewport.O.i), ac(value.viewport.A.i));
     retval.viewport = new google.maps.LatLngBounds(sw, ne);
     return retval;
   } else {
