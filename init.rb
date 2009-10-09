@@ -54,13 +54,13 @@ config.gem 'daemons'
 config.to_prepare do
   # configure nine_auth_engine
   NineAuthEngine.configure do |config|
-    config.signup_path = '/signin/'
-    config.signin_path = '/vrame/'
-    config.signout_path = '/signin/'
-    config.password_reset_path = '/signin/'
-    config.password_update_path = '/vrame/'
-    config.signup_disabled_path = '/signin/'
-    config.disable_signup = false
+    config.after_signup_redirect = '/signin/'
+    config.after_signin_redirect = '/vrame/'
+    config.after_signout_redirect = '/signin/'
+    config.after_password_reset_redirect = '/signin/'
+    config.after_password_update_redirect = '/vrame/'
+    config.after_signup_disabled_redirect = '/signin/'
+    config.disable_signup = true
     config.layout("vrame")
   end
 
