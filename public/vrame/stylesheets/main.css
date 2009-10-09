@@ -868,60 +868,72 @@ input.asset-id, input.collection-id {
 	vertical-align: top;
 }
 
- /** 
+/** 
  * @section Asset Lists
  *
  *
  */
 
 .asset-list {
+	margin: 15px 0;
 	overflow: hidden;
 }
 
 .asset-list li {
 	float: left;
 	position: relative;
-	
-	margin: 0 10px 10px 0;
-/*  border: 1px solid #aaa;*/
 	border-radius: 4px;
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
-	padding: 5px 5px 5px 5px;
-	background: #fff;
-	
-	width: 100px;
-	min-height: 165px;
+	margin: 0 10px 10px 0;
+	padding: 5px;
+	width: 295px;
+	background-color: #fff;
+}
+
+.asset-list p {
+	margin: 0;
+	font-size: 12px;
 }
 
 .asset-list .image-wrapper {
-	display: table-cell;
-	
+	float: left;
+	margin: 0;
+	cursor: pointer;
 	width: 100px;
 	height: 140px;
-	
-	overflow: hidden;
-	vertical-align: middle;
-	
-	cursor: pointer;
-}
-
-.asset-list .controls {
-	padding-top: 5px;
-	clear: both;
-}
-
-.asset-list .edit {
-	float: left;
-}
-
-.asset-list .delete {
-	float: right;
 }
 
 .asset-list img {
 	display: block;
 	margin: auto;
+}
+
+.asset-list .beside-image {
+	padding-left: 10px;
+	overflow: hidden;
+}
+
+.asset-list label {}
+
+.asset-list textarea {
+	padding: 2px;
+	width: 178px;
+	height: 50px;
+	font-family: arial,sans-serif;
+	font-size: 13px;
+}
+
+.asset-list .filename {
+	height: 19px;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.asset-list .filesize {}
+
+.asset-list .delete {
+	float: right;
 }
 
 #asset-fullview {
