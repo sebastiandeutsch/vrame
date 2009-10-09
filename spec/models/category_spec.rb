@@ -1,6 +1,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
 
 describe Category, :type => :model do
+  
   before(:all) do
     @title              = "JsonObjectTesting"
     @without_meta_title = "JsonObjectTestingWithoutTitle"
@@ -24,14 +25,18 @@ describe Category, :type => :model do
           # Mapped/serialized object values
           {               "name" => "some_date",        "type" => "Date"       },
           {               "name" => "some_time",        "type" => "Time"       },
-          {               "name" => "some_datetime",    "type" => "DateTime"   }
+          {               "name" => "some_datetime",    "type" => "DateTime"   },
+          
+          # Field without name but with title
+          { "uid" => "4", "title" => "Some Title",      "type" => "String"     }
         ]
       },
       
       "values" => {
         "1" => "Hello, I'm a value for a field called some_string!",
         "2" => "Hello, I'm a value for a field called some_text!",
-        "3" => "Hello, I'm a value for a field called another_text!"
+        "3" => "Hello, I'm a value for a field called another_text!",
+        "4" => "Hello, I should be accesible via an attribute altough i only had a title defined!"
       }
     }.freeze
   end
@@ -129,6 +134,10 @@ describe Category, :type => :model do
     @category = Category.find_by_title(@title)
     
     @category.meta.some_date.should == date
+  end
+  
+  it "should have a meta attribute which populates a field's attribute name from its title if the attribute name was empty" do
+    @category.meta.some_title.should == "Hello, I should be accesible via an attribute altough i only had a title defined!"
   end
   
 end

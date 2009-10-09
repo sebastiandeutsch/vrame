@@ -38,6 +38,13 @@ module JsonObject
       end
     end
     
+    def each(&block)
+      @schema_fields ||= {}
+      @hash['fields'].each do |field|
+        yield @schema_fields[field['name']] ||= SchemaField.new(field['uid'], field['name'], field['type'])
+      end
+    end
+    
   private
   
     def initialize_mappings
@@ -57,6 +64,11 @@ module JsonObject
           # Assign UID if necessary
           field['uid'] ||= next_uid
           
+          # Generate attribute title if there is none (only if there's a title)
+          if field['name'].nil? and not field['title'].nil?
+            field['name'] = Helper.dehumanize(field['title'])
+          end
+          
           # Assign uid2name mapping
           @uid_field_map[field['name']] = field    
         end
@@ -74,8 +86,6 @@ module JsonObject
   end
   
   class Schema < EmbeddedSchema
-
-    
     def initialize(name, instance, options)
       @name     = name
       @instance = instance
@@ -85,5 +95,8 @@ module JsonObject
       
       super(@hash, options)
     end
+  end
+  
+  class SchemaField < Struct.new('SchemaField', :uid, :name, :type)
   end
 end

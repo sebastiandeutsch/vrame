@@ -58,7 +58,7 @@ module JsonObject
       type  = field['type']
       
       # Read value from hash
-      value = @hash['values'].fetch(field['uid'], nil)
+      value = @hash.fetch('values', {}).fetch(field['uid'], nil)
       
       # If field type has a mapping
       if klass = @schema.mappings[type]
