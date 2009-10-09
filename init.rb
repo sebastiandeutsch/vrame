@@ -51,8 +51,20 @@ config.gem 'norman-friendly_id',
     
 config.gem 'daemons'
 
-# Include VrameHelper
 config.to_prepare do
+  # configure nine_auth_engine
+  NineAuthEngine.configure do |config|
+    config.signup_path = '/signin/'
+    config.signin_path = '/vrame/'
+    config.signout_path = '/signin/'
+    config.password_reset_path = '/signin/'
+    config.password_update_path = '/vrame/'
+    config.signup_disabled_path = '/signin/'
+    config.disable_signup = false
+    config.layout("vrame")
+  end
+
+  # Include VrameHelper
   ApplicationController.helper(VrameHelper)
 end
 
