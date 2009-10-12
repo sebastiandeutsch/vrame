@@ -32,8 +32,8 @@ class Vrame::AssetsController < Vrame::VrameController
     
     # Set up association if parent id given
     if params[:parent_id] and params[:parent_type]
-      attributes[:assetable_id]   = params[:assetable_id]
-      attributes[:assetable_type] = params[:assetable_type]
+      attributes[:assetable_id]   = params[:parent_id]
+      attributes[:assetable_type] = params[:parent_type]
     end
     
     # Is the file an image?
