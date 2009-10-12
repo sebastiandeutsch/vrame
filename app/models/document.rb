@@ -36,7 +36,7 @@ class Document < ActiveRecord::Base
         # @TODO: Move into model
         value = value.serialize if value.class.respond_to?(:serialize)
         
-        meta_hash[ name ] = value
+        meta_hash[item.name] = value
       end
     end
     
