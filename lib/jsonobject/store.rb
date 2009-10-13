@@ -28,7 +28,7 @@ module JsonObject
         # when Hash then
         #   EmbeddedSchema.new(@options[:schema], { :mappings => @options[:mappings] })
         else
-          unless @hash['schema'].nil?
+          unless @hash.nil? or @hash['schema'].nil?
             EmbeddedSchema.new(@hash['schema'], { :mappings => @options[:mappings] })
           end
       end
@@ -37,7 +37,7 @@ module JsonObject
     def assign(hash)      
       super(hash)
       
-      initialize_schema      
+      initialize_schema
     end
     
     def method_missing(name, value=nil)

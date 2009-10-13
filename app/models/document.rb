@@ -23,6 +23,8 @@ class Document < ActiveRecord::Base
   }
   named_scope :published, :conditions => '`documents`.`published` = 1'
   
+  validates_presence_of :title
+  
   Public_attributes = %w(id title url meta_keywords meta_description meta_title category_id language_id updated_at created_at)
   
   def meta_hash

@@ -22,7 +22,7 @@ class Vrame::DocumentsController < Vrame::VrameController
   def create
     @category = Category.find(params[:category_id])
     
-    @document = @category.documents.build(params[:document])
+    @document = Document.new(params[:document].merge({ :category => @category }))
     
     if @document.save
       flash[:success] = 'Dokument angelegt'

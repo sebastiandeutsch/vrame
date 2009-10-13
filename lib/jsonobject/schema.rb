@@ -66,7 +66,7 @@ module JsonObject
       # Initialize empty name->field map
       @name_field_map = {}
       
-      if @hash.include?('fields')
+      if @hash.fetch('fields', nil).is_a? Array
         @hash['fields'].each do |field|
           # Assign UID if necessary
           field['uid'] ||= next_uid
