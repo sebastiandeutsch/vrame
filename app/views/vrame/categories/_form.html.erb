@@ -70,6 +70,9 @@
 				<%= f.labelled_check_box :published, "Veröffentlicht" %>
 			</li>
 			<li>
+				<%= f.labelled_check_box :hide_in_nav, "Im Menü verstecken" %>
+			</li>
+			<li>
 				<%= f.label :template, "Template:" %>
 				<%= f.text_field :template %> <em><%= f.error_message_on :template %></em>
 			</li>

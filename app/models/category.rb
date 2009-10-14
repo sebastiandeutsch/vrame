@@ -24,6 +24,7 @@ class Category < ActiveRecord::Base
   }
   named_scope :short_navigation, :conditions => { :short_navigation => 1 }
   named_scope :published, :conditions => '`categories`.`published` = 1'
+  named_scope :in_navigation, :conditions => '`categories`.`hide_in_nav` IS NULL OR `categories`.`hide_in_nav` != 1'
   
   has_json_object :schema,
     :default => [],
