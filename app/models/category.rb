@@ -2,7 +2,7 @@ class Category < ActiveRecord::Base
   
   has_many :documents, :order => :position
   has_many :collections, :dependent => :destroy, :as => :collectionable
-  has_many :assets,      :dependent => :destroy, :as => :assetable
+  has_many :assets, :order => "position", :dependent => :destroy, :as => :assetable
   
   has_friendly_id :title, :use_slug => true, :strip_diacritics => true
   

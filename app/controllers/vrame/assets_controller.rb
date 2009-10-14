@@ -23,58 +23,30 @@ class Vrame::AssetsController < Vrame::VrameController
   # no new action
   
   def create
+    @asset = Asset.create_from_file(params[:Filedata])
     
-    # Get the file
-    @file = params[:Filedata]
+    # Build response hash
+    response = { :id => @asset.id }
     
-    # Basic attributes
-    attributes =  { :file => @file, :user => @current_user }
+    parent_type = params[:parent_type]
+    parent_id   = params[:parent_id]
     
-    # Set up association if parent id given
-    if params[:parent_id] and params[:parent_type]
-      attributes[:assetable_id]   = params[:parent_id]
-      attributes[:assetable_type] = params[:parent_type]
-    end
-    
-    # Is the file an image?
-    is_image = Paperclip::Attachment.is_image?(@file.original_filename)
-    
-    # Create an Image instance or a generic Asset
-    klass = is_image ? Image : Asset
-    
-    # Create asset record
-    @asset = klass.create(attributes)
-    
-    # Build response
-    response = {
-        :id => @asset.id
-    }
-    
-    # Handle collection membership
+    # Set up assetable relation
     if params[:upload_type] == "collection"
-      # The asset is part of a collection
+      # The asset belongs to a collection
+      @collection = asset.initialize_collection(params[:collection_id], parent_type, parent_id)
       
-      # Find collection by collection_id or create new one
-      @collection = Collection.find_or_create_by_id(params[:collection_id]) do |collection|
-        # New collection
-        
-        # Set up user relation
-        collection.user_id = current_user.id
-        
-        # Set up collection owner
-        collection.collectionable_id   = params[:parent_id]
-        collection.collectionable_type = params[:parent_type]
-      end
-    
-      # Add asset to collection
-      @collection.assets << @asset
-    
       # Add collection id to the response
       response[:collection_id] = @collection.id
+    else
+      # The asset belongs directly to an object (e.g. Document)
+      @asset.assetable_id   = parent_id
+      @asset.assetable_type = parent_type
+      @asset.save
     end
     
     # Render HTML for asset list item
-    response[:asset_list_item] = render_to_string :partial => 'vrame/shared/asset_list_item', :locals => { :asset => @asset }
+    response[:asset_list_item] = render_to_string(:partial => 'vrame/shared/asset_list_item', :locals => { :asset => @asset })
     
     # Send JSON response
     render :json => response

@@ -33,9 +33,6 @@ function Upload (containerEl) {
 		/* Upload queue HTML element (jQuery collection) */
 		queue                       : c.find('.upload-queue'),
 		
-		/* Form submit button */
-		submitButton                : $('#document_submit'),
-		
 		/* Image list HTML element (jQuery collection) */
 		assetList                   : c.find('.asset-list'),
 		
@@ -186,6 +183,8 @@ Upload.prototype.handlers = {
 		/* Evaluate JSON response */
 		response = eval('(' + serverResponse + ')');
 		
+		//console.log('response', response);
+		
 		/* Update asset id form field(s) (if any) */
 		//console.log('new asset id:', response.id);
 		settings.assetIdInput.val(response.id);
@@ -193,7 +192,7 @@ Upload.prototype.handlers = {
 		/* Handle collection id */
 		collectionId = response.collection_id;
 		if (collectionId) {
-			//console.log('collectionId:', collectionId);
+			//console.log('collection id:', collectionId);
 			
 			/* Update collection id form field(s) (if any) */
 			settings.collectionIdInput.val(collectionId);
@@ -265,7 +264,6 @@ Upload.prototype.handlers = {
 			this.startUpload();
 		} else {
 			//console.log('uploadComplete: no more filed queued');
-			//this.customSettings.submitButton.attr('disabled', false);
 		}
 	},
 

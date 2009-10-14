@@ -1,4 +1,12 @@
 <h2>Collection sortieren</h2>
+
+<% if collectionable = assetable.collectionable %>
+	<p>
+		Collection vom <%=h collectionable.class %>
+		<%= link_to h(collectionable.title), [:edit, :vrame, collectionable] %>
+	</p>
+<% end %>
+
 <ul id="ui-sortable-collection" class="sortable-grid clearfix">
 	<% @collection.assets.each do |asset| %>
 		<li id="asset-<%=h asset.id %>">

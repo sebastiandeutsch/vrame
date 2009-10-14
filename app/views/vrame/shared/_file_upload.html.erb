@@ -13,29 +13,36 @@ end %>
 
 <div
 	class             = "file-upload"
-	data-upload-token = "<%=h current_user.single_access_token %>"
-	data-parent-id    = "<%=h parent.id %>"
-	data-parent-type  = "<%=h parent_name %>"
-	data-upload-type  = "<%=h type %>"
+	data-upload-token = "<%= current_user.single_access_token %>"
+	data-parent-id    = "<%= parent.id %>"
+	data-parent-type  = "<%= parent_name %>"
+	data-upload-type  = "<%= type %>"
 	<% if type == 'collection' and id -%>
-		data-collection-id = "<%=h id %>"
+		data-collection-id = "<%= id %>"
 	<%- end %>
 >
 	
-	<input type="text" class="<%= type %>-id" value="<%= id %>" name="<%=h parent_name_lowercase %>[<%= type %>_ids][]" />
-	<input type="text" class="<%= type %>-id" value="<%= id %>" name="<%= field_name %>" />
+	<%# ****** Field with child id (asset or collection)%>
+	<input type="text" name="<%= field_name %>" value="<%= id %>" class="<%= type %>-id" />
 	
+	<%# ****** Field to set up child-to-parent relation %>
+	<input type="text" name="<%=h parent_name_lowercase %>[<%= type %>_ids][]" value="<%= id %>" class="<%= type %>-id" />
+	
+	<%# ****** Placeholder element for Flash upload button %>
 	<% defined?(@upload_button_number) ? @upload_button_number += 1 : @upload_button_number = 1 %>
 	<p class="upload-button" id="upload-button-<%= @upload_button_number %>">
 		Bitte aktivieren Sie Flash für den Datei-Upload.
 	</p>
-
+	
+	<%# ****** Upload Queue %>
 	<ol class="upload-queue"></ol>
 	
+	<%# ****** Collection sorting %>
 	<% if defined?(collection) and assets.length %>
-		<p id="rearrange-collection"><%= link_to "Asset-Liste sortieren", rearrange_vrame_collection_path(collection), :class => 'smaller button invert' %></p>
+		<p id="rearrange-collection"><%= link_to "Assets sortieren", rearrange_vrame_collection_path(collection), :class => 'smaller button invert' %></p>
 	<% end %>
 	
+	<%# ****** Asset list %>
 	<%= render :partial => 'vrame/shared/asset_list', :locals => { :assets => assets } %>
 	
 </div><!-- /.file-upload -->
