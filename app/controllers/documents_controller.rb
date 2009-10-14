@@ -27,7 +27,13 @@ class DocumentsController < ApplicationController
   end
   
   def show
-    @document = Document.published.find(params[:id])
+    
+    begin
+      @document = Document.published.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      raise ActiveRecord::RecordNotFound, "Couldn't find Document with ID=#{params[:id]}, maybe you need to publish it first"
+    end
+    
     redirect_to @document, :status => 301 if @document.found_using_outdated_friendly_id?
     
     # Emit document with JSON store data mixed in
