@@ -26,7 +26,11 @@ class CategoriesController < ApplicationController
   end
   
   def show
-    @category = Category.published.find(params[:id])
+    begin
+      @category = Category.published.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      raise ActiveRecord::RecordNotFound, "Couldn't find Category with ID=#{params[:id]}, maybe you need to publish it first"
+    end
     
     # Redirect permanently to the most recent slug if given slug is outdated
     if @category.found_using_outdated_friendly_id?

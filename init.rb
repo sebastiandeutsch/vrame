@@ -1,3 +1,9 @@
+# Include hook code here
+
+load_paths.each do |path|
+  ActiveSupport::Dependencies.load_once_paths.delete(path)
+end if config.environment == 'development'
+
 # Load JsonObject
 require 'json/add/core'
 require File.join(File.dirname(__FILE__), "lib", "jsonobject")
@@ -65,7 +71,7 @@ config.to_prepare do
   ApplicationController.helper(VrameHelper)
 end
 
-unless File.exist?(File.join(RAILS_ROOT, 'public', "vrame")) || ARGV[0] == "vrame:sync"
+unless File.exist?(File.join(RAILS_ROOT, 'public', "vrame")) || ARGV[0] == "vrame:sync" || ARGV[0] == "gems:install"
   puts "\033[31m"
   puts "Please run rake vrame:sync before continuing"
   puts "\033[36m"
