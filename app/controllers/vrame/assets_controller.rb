@@ -34,7 +34,7 @@ class Vrame::AssetsController < Vrame::VrameController
     # Set up assetable relation
     if params[:upload_type] == "collection"
       # The asset belongs to a collection
-      @collection = asset.initialize_collection(params[:collection_id], parent_type, parent_id)
+      @collection = @asset.initialize_collection(params[:collection_id], parent_type, parent_id)
       
       # Add collection id to the response
       response[:collection_id] = @collection.id
