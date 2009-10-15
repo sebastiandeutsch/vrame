@@ -38,6 +38,15 @@
 			:field_name => name
 		} %>
 		
+	<% elsif type == "Placemark" %>
+
+		<%= render :partial => 'vrame/shared/placemark', :locals => {
+			:field_id => field_id,
+			:parent => document,
+			:field_name => field_name,
+			:value => value
+		} %>
+
 	<% end %>
 
 	</div><!-- /.input-container -->
