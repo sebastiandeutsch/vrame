@@ -29,7 +29,7 @@
 						<input name="fields[][uid]" type="hidden" value="<%= h(field.uid) %>">
 						<input name="fields[][title]" type="text" value="<%= h(field.title) %>" />&nbsp;
 						<select name="fields[][type]">
-							<%= options_for_select(Category::TYPES, item['type']) %>
+							<%= options_for_select(Category::TYPES, field.type) %>
 						</select>&nbsp;
 						
 						<!--
@@ -110,7 +110,7 @@
 	<li id="schema-item-prototype">
 		<input  name="fields[][title]" type="text" placeholder="Name" />&nbsp;
 		<select name="fields[][type]">
-			options_for_select(Category::TYPES, "String")
+			<%= options_for_select(Category::TYPES, "String") %>
 		</select>&nbsp;
 		<!--
 		<input name="schema[][required]" type="hidden" value="0" /> 
