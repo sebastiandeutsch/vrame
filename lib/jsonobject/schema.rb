@@ -45,7 +45,7 @@ module JsonObject
     
     def each(&block)
       @schema_fields ||= {}
-      if @hash.include?('fields')
+      if @hash.fetch('fields', nil).is_a? Array
         @hash['fields'].each do |field|
           yield @schema_fields[field['name']] ||= SchemaField.new(field)
         end

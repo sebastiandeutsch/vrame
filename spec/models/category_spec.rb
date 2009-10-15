@@ -58,6 +58,8 @@ describe Category, :type => :model do
     fixed_meta_json = @store_hash_with_schema.to_json
     
     saved_meta_json.should == fixed_meta_json
+    
+    @category.save
   end
 
   it "should have a meta attribute with readable attribtues" do
