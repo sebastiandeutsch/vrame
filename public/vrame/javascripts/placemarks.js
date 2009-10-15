@@ -9,9 +9,9 @@ GMap = function(placemark_div) {
   });
   this.marker = new google.maps.Marker({visible: false, map: this.map, clickable: false});
 
-  var placemark  = JSON.parse($(".json_string", this.div).val(), GMap.georevive);
+  var placemark  = GMap.parse($(".json_string", this.div).val());
 
-  if (typeof(placemark) == "object") {
+  if (typeof(placemark) == "object" && placemark != null) {
     this.relocate_map(placemark);
     this.set_marker(placemark.geometry.location);
     $(".address").val(placemark.formatted_address);
@@ -52,21 +52,49 @@ GMap = function(placemark_div) {
   
 }
 
-GMap.georevive = function georevive(key, value) {
-  if (key == "geometry"){
-    var ac = function(x){return x * (180/Math.PI)};
-
-    var retval = {};
-    retval.location = new google.maps.LatLng(value.location.Lf, value.location.Nf);
-    retval.location_type = value.location_type;
-    var ne = new google.maps.LatLng(ac(value.viewport.O.h), ac(value.viewport.A.h));
-    var sw = new google.maps.LatLng(ac(value.viewport.O.i), ac(value.viewport.A.i));
-    retval.viewport = new google.maps.LatLngBounds(sw, ne);
-    return retval;
-  } else {
-    return value;
+GMap.stringify = function(o) {
+  var result_geometry = {
+    location : {
+      lat   : o.geometry.location.lat(),
+      lng   : o.geometry.location.lng() },
+    location_type : o.geometry.location_type,
+    viewport : {
+      north : o.geometry.viewport.getNorthEast().lat(),
+      east  : o.geometry.viewport.getNorthEast().lng(),
+      south : o.geometry.viewport.getSouthWest().lat(),
+      west  : o.geometry.viewport.getSouthWest().lng() }
+  };
+  if (o.geometry.bounds) {
+    result_geometry.bounds = {
+      north : o.geometry.bounds.getNorthEast().lat(),
+      east  : o.geometry.bounds.getNorthEast().lng(),
+      south : o.geometry.bounds.getSouthWest().lat(),
+      west  : o.geometry.bounds.getSouthWest().lng()
+    }
   }
-};
+  o.geometry = result_geometry;
+  return JSON.stringify(o);
+}
+
+GMap.parse = function(s) {
+  if (s == "") return null;
+  var o = JSON.parse(s);
+  var geometry = {};
+  geometry.location = new google.maps.LatLng(o.geometry.location.lat, o.geometry.location.lng);
+  geometry.location_type = o.geometry.location_type;
+  geometry.viewport = new google.maps.LatLngBounds(
+      new google.maps.LatLng(o.geometry.viewport.south, o.geometry.viewport.west),
+      new google.maps.LatLng(o.geometry.viewport.north, o.geometry.viewport.east)
+    );
+  if (o.geometry.bounds) {
+    geometry.bounds = new google.maps.LatLngBounds(
+        new google.maps.LatLng(o.geometry.bounds.south, o.geometry.bounds.west),
+        new google.maps.LatLng(o.geometry.bounds.north, o.geometry.bounds.east)
+      );    
+  }
+  o.geometry = geometry;
+  return o;
+}
 
 GMap.prototype = {
   set_marker : function(pos){
@@ -88,7 +116,7 @@ GMap.prototype = {
     var gmap = this;
     GMap.geocoder.geocode({address: address, bounds: this.map.getBounds()}, function(result, status){
       gmap.relocate_map(result[0]);
-      $(".json_string").val(JSON.stringify(result[0]));
+      $(".json_string").val(GMap.stringify(result[0]));
       $(".address", gmap.div).val(result[0].formatted_address)
     })
   }
@@ -110,92 +138,3 @@ GMap.initialize_placemark_divs = function(){
 
 
 $(GMap.initialize_placemark_divs);
-
-
-/*
-
-function bounds_from_lat_lon_box(box) {
-  var ne = new google.maps.LatLng(box.north, box.east);
-  var sw = new google.maps.LatLng(box.south, box.west);
-  return new google.maps.LatLngBounds(sw, ne);
-}
-
-
-function update_map(scope) {
-  var placemark_div = $(scope).parents(".placemark")[0]; //TODO was wenn Scope == placemark_div?
-  var address = $(".address", placemark_div).val();
-  placemark_div.geocoder.geocode({address: address, bounds: placemark_div.map.getBounds()}, function(status, result){
-    relocate_map(map, result[0]);
-    $(".json_string").val(JSON.stringify(result[0]));
-  })  
-}
-
-// Reviver for JSON.parse
-function georevive(key, value) {
-  if (key == "geometry"){
-    var ac = function(x){return x * (180/Math.PI)};
-
-    var retval = {};
-    retval.location = new google.maps.LatLng(value.location.Lf, value.location.Nf);
-    retval.location_type = value.location_type;
-    var ne = new google.maps.LatLng(ac(value.viewport.N.h), ac(value.viewport.A.h));
-    var sw = new google.maps.LatLng(ac(value.viewport.N.i), ac(value.viewport.A.i));
-    retval.viewport = new google.maps.LatLngBounds(sw, ne);
-    return retval;
-  } else {
-    return value;
-  }
-}
-
-function initialize_placemark_divs(){
-  var geocoder    = new google.maps.Geocoder();
-  var deutschland = new google.maps.LatLng(51.1656910, 10.4515260);
-  
-  $("div.placemark").each(function(){
-    var div        = this;
-    var map_canvas = $(".map_canvas",  div)[0];
-    var value      = $(".json_string", div).val();
-    var placemark  = JSON.parse(value, georevive);
-
-    var map = new google.maps.Map(map_canvas, {
-      zoom: 5,
-      center: deutschland,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
-    })
-    div.map = map;
-    div.geocoder = geocoder;
-    if (typeof(placemark) == "object") {
-      map.fitBounds(placemark.geometry.viewport);
-      var position = placemark.geometry.location;
-      div.marker = new google.maps.Marker({position: position, map: map});
-      $(".address").val(placemark.address);
-    } else {
-    }
-    var old_address = $(".address").val();
-    var relocate_timer = null;
-    $(".address")
-      .keyup(function(){
-        var new_address = $(this).val();
-        if (new_address != old_address) { //only act on changes
-          old_address = new_address;
-
-          if (relocate_timer != null) { //reset old timer
-            clearTimeout(relocate_timer);
-            relocate_timer = null;
-            $("#geolocation_spinner").hide();
-          }
-          $("#geolocation_spinner").show();
-          relocate_timer = setTimeout(function(){
-            relocate_map(map_canvas);
-            relocate_timer = null;
-            $("#geolocation_spinner").hide();
-          }, 1500)
-        }
-      })
-    
-  })
-}
-
-$(initialize_placemark_divs);
-
-*/
