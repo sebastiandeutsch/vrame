@@ -38,12 +38,12 @@
 			:field_name => name
 		} %>
 		
-	<% elsif type == "Placemark" %>
+	<% elsif field.type == "Placemark" %>
 
 		<%= render :partial => 'vrame/shared/placemark', :locals => {
-			:field_id => field_id,
+			:field_id => id,
 			:parent => document,
-			:field_name => field_name,
+			:field_name => name,
 			:value => value
 		} %>
 
