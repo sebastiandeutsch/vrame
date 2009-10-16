@@ -276,14 +276,15 @@ jQuery(function ($) {
 	
 	function sluggify (string) {
 		return string
-			.replace(/ä|Ä/g, 'ae')
-			.replace(/ö|Ö/g, 'oe')
-			.replace(/ü|Ü/g, 'ue')
+			.toLowerCase()
+			.replace(/ä/g, 'ae')
+			.replace(/ö/g, 'oe')
+			.replace(/ü/g, 'ue')
 			.replace(/ß/g, 'ss')
-			.replace(/(^(\s+|\d+\s+)|\s+$)/g, '')
-			.replace(/\s+/g, '_')
-			.replace(/[^a-zA-Z\d_]+/g, '')
-			.toLowerCase();
+			.replace(/^\d+/g, '')
+			.replace(/[\s-]+/g, '_')
+			.replace(/[^a-z\d_]+/g, '')
+			.replace(/^_+|_+$/g, '');
 	}
 	
 	function slugGenerator () {
@@ -295,7 +296,7 @@ jQuery(function ($) {
 	}
 	
 	function setupSlugGenerator (clone) {
-		clone.find('input.title').keyup(slugGenerator).focus(slugGenerator).blur(slugGenerator);
+		clone.find('input.title').keydown(slugGenerator).keyup(slugGenerator).focus(slugGenerator).blur(slugGenerator);
 	}
 	
 	/* $('#add-key-value').populateRow('#key-value-prototype tr', '#keys-values'); */
