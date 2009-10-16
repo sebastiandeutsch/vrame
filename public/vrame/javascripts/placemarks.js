@@ -96,6 +96,18 @@ GMap.parse = function(s) {
   return o;
 }
 
+// Transform Google's address components into a key-value object
+GMap.transform_address = function(address_components) {
+  var result = {};
+  for (var i=0; i < address_components.length; i++) {
+    var key   = address_components[i].types[0];
+    var value = address_components[i].long_name
+    result[key] = value;
+  };
+  
+  return result;
+}
+
 GMap.prototype = {
   set_marker : function(pos){
     this.marker.setPosition(pos);
