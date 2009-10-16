@@ -1,9 +1,10 @@
 <% form_for [:vrame, category] do |f| %>
 
 	<fieldset>
-		<ul>
+		<ul id="title-slug">
 			<li style="border-bottom: 0">
-				<%= f.text_field :title, :placeholder => 'Titel', :class => 'big' %> <em><%= f.error_message_on :title %></em>
+				<%= f.text_field :title, :placeholder => 'Titel', :class => 'big' %>
+				<em><%= f.error_message_on :title %></em>
 			</li>
 			
 			<li class="last">
@@ -13,36 +14,25 @@
 	</fieldset>
 	
 	<fieldset>
-		<h3>Zuordnung</h3>
-		
-		<%= f.label :parent_id, 'Gehört zu ', :style => 'display: inline'%>
-		<%= tree_select(:category, :parent_id, Category.roots, :id, :title, :include_blank => true) %>
-		
+		<h3>Zuordnung und Sprache</h3>
+		<ul id="parent-category-language">
+			<li>
+				<%= f.label :parent_id, 'Eltern-Kategorie:' %>
+				<%= tree_select(:category, :parent_id, Category.roots, :id, :title, :include_blank => true) %>
+			</li>
+			<li class="last">
+				<%= f.label :language_id, "Sprache:" %>
+				<%= collection_select :category, :language_id, Language.all, :id, :name %>
+			</li>
+		</ul>
 	</fieldset>
 	
 	<fieldset>
 		<h3>Dokument-Template</h3>
-		<ol id="schema">
-			<% if category.schema %>
-				<% category.schema.each do |field| %>
-					<li>
-						<input name="fields[][uid]" type="hidden" value="<%= h(field.uid) %>">
-						<input name="fields[][title]" type="text" value="<%= h(field.title) %>" />&nbsp;
-						<select name="fields[][type]">
-							<%= options_for_select(Category::TYPES, field.type) %>
-						</select>&nbsp;
-						
-						<!--
-						<input name="schema[][required]" type="hidden" value="0" /> 
-						<input name="schema[][required]" type="checkbox" value="1" <% if field.required %>checked="checked"<% end %> /> benötigt?&nbsp;
-						-->
-						
-						<a href="#" class="smaller remove button invert">Entfernen</a>
-					</li>
-				<% end %>
-			<% end %>
-		</ol>
-		<div><a id="add-schema-item" href="#" class="button invert">Weiteres Feld hinzufügen</a></div>
+		<% if category.schema %>
+			<%= render :partial => 'vrame/shared/schema_builder', :locals => { :category => category } %>
+		<% end %>
+		<p><a id="add-schema-item" href="#" class="button invert">Weiteres Feld hinzufügen</a></p>
 	</fieldset>
 	
 	<fieldset>
@@ -50,50 +40,65 @@
 		<ul id="meta-tags">
 			<li>
 				<%= f.label :meta_title, "Browser-Titel:" %>
-				<%= f.text_field :meta_title %> <em><%= f.error_message_on :meta_title %></em>
+				<%= f.text_field :meta_title %>
+				<em><%= f.error_message_on :meta_title %></em>
 			</li>
 			<li>
 				<%= f.label :meta_keywords, "Meta-Keywords:" %>
-				<%= f.text_field :meta_keywords %> <em><%= f.error_message_on :meta_keywords %></em>
+				<%= f.text_field :meta_keywords %>
+				<em><%= f.error_message_on :meta_keywords %></em>
 			</li>
 			<li class="last">
 				<%= f.label :meta_description, "Meta-Description:" %>
-				<%= f.text_field :meta_description %> <em><%= f.error_message_on :meta_description %></em>
+				<%= f.text_field :meta_description %>
+				<em><%= f.error_message_on :meta_description %></em>
 			</li>
 		</ul>
 	</fieldset>
 	
 	<fieldset>
-		<h3>Systeminformationen</h3>
-		<ul id="system-information">
+		<h3>Sichtbarkeit</h3>
+		<ul id="visibility">
 			<li>
-				<%= f.labelled_check_box :published, "Veröffentlicht" %>
+				<strong><%= f.labelled_check_box :published, "Veröffentlicht" %></strong>
 			</li>
 			<li>
-				<%= f.labelled_check_box :hide_in_nav, "Im Menü verstecken" %>
+				<%= f.labelled_check_box :hide_in_nav, "Im Menü verstecken (Frontend)" %>
 			</li>
+			<li class="last">
+				<%= f.labelled_check_box :short_navigation, "Zeige in Schnell-Navigation (Backend)" %>
+			</li>
+		</ul>
+	</fieldset>
+	
+	<fieldset>
+		<h3>Templates</h3>
+		<ul id="templates">
 			<li>
 				<%= f.label :template, "Template:" %>
-				<%= f.text_field :template %> <em><%= f.error_message_on :template %></em>
+				<%= f.text_field :template %>
+				<em><%= f.error_message_on :template %></em>
 			</li>
 			<li>
 				<%= f.label :layout, "Layout:" %>
-				<%= f.text_field :layout %> <em><%= f.error_message_on :layout %></em>
+				<%= f.text_field :layout %>
+				<em><%= f.error_message_on :layout %></em>
 			</li>
+		</ul>
+	</fieldset>
+	
+	<fieldset>
+		<h3>URLs (eigene Controller)</h3>
+		<ul id="urls">
 			<li>
 				<%= f.label :url, "Frontend-URL:" %>
-				<%= f.text_field :url %> <em><%= f.error_message_on :url %></em>
-			</li>
-			<li>
-				<%= f.label :backend_url, "Backend-URL:" %>
-				<%= f.text_field :backend_url %> <em><%= f.error_message_on :backend_url %></em>
-			</li>
-			<li>
-				<%= f.label :language_id, "Sprache:" %>
-				<%= collection_select :category, :language_id, Language.all, :id, :name %>
+				<%= f.text_field :url %>
+				<em><%= f.error_message_on :url %></em>
 			</li>
 			<li class="last">
-				<%= f.labelled_check_box :short_navigation, "Zeige in Schnell-Navigation" %>
+				<%= f.label :backend_url, "Backend-URL:" %>
+				<%= f.text_field :backend_url %>
+				<em><%= f.error_message_on :backend_url %></em>
 			</li>
 		</ul>
 	</fieldset>
@@ -105,20 +110,3 @@
 	</ul>
 	
 <% end %>
-
-<ul style="display: none">
-	<li id="schema-item-prototype">
-		<input  name="fields[][title]" type="text" placeholder="Name" />&nbsp;
-		<select name="fields[][type]">
-			<%= options_for_select(Category::TYPES, "String") %>
-		</select>&nbsp;
-		<!--
-		<input name="schema[][required]" type="hidden" value="0" /> 
-		<input name="schema[][required]" type="checkbox" value="1" /> benötigt?&nbsp;
-		-->
-		<a href="#" class="smaller remove button invert">Entfernen</a>
-	</li>
-	<li id="key-value-prototype">
-		<%= render :partial => 'vrame/shared/key_value_item' %>
-	</li>
-</ul>

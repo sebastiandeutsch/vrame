@@ -1,0 +1,25 @@
+<table id="schema-builder">
+<thead>
+	<tr>
+		<th>Typ</th>
+		<th>Name / Interner Schlüssel</th>
+		<th>Beschreibung</th>
+		<th>Erforderlich</th>
+		<th>Aktionen</th>
+	</tr>
+</thead>
+<tbody>
+<% category.schema.each do |field| %>
+	<%= render :partial => 'vrame/shared/schema_field', :locals => { :field => field } %></li>
+<% end %>
+</tbody>
+</table>
+
+<table style="display: none">
+	<tbody id="schema-field-prototype">
+		<%= render :partial => 'vrame/shared/schema_field', :locals => { :new_item => true } %>
+	</tbody>
+	<tbody id="key-value-prototype">
+		<%= render :partial => 'vrame/shared/key_value_item' %>
+	</tbody>
+</table>

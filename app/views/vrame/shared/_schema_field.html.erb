@@ -1,0 +1,27 @@
+<% field_set = defined?(field) %>
+
+<tr class="schema-item">
+<td>
+	<input type="hidden" name="fields[][uid]" value="<%= h(field.uid) if field_set %>">
+	<select name="fields[][type]" class="type""><%= options_for_select(Category::TYPES, field_set ? field.type : '') %></select>
+</td>
+<td class="title-name">
+	<p>
+		<label>Titel:</label>
+		<input type="text" name="fields[][title]" class="title" placeholder="Titel" value="<%= h(field.title) if field_set %>" />
+	</p>
+	<p>
+		<label>Schlüssel:</label>
+		<input type="text" name="fields[][name]" class="name" placeholder="Interner Schlüssel" value="<%= h(field.name) if field_set %>" />
+	</p>
+</td>
+<td><textarea name="fields[][description]" class="description" placeholder="Beschreibung"><%= h(field.description) if field_set %></textarea></td>
+<td class="required">
+	<input name="schema[][required]" type="hidden" value="0" /> 
+	<label>
+		<input name="schema[][required]" type="checkbox" value="1" <%= 'checked="checked"' if field_set and field.required %> />
+		erforderlich?
+	</label>
+</td>
+<td><a href="#" class="smaller remove button invert">Entfernen</a></td>
+</tr>
