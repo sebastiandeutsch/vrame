@@ -6,6 +6,10 @@ class Image < Asset
     :url  =>                   "/system/assets/:class/:id/:style.:extension",
     :styles => {
       :menucarddesign_thumb => "85x57",
+      :qbus_large           => ["x506", :jpg],
+      :qbus_medium          => ["294x166#", :jpg],
+      :qbus_thumb           => ["x124", :jpg],
+      :qbus_backend         => ["x57", :jpg],
       :vrame_backend      => "100x50",
       :thumbnail          => "100x140",
       :thumbnail_square   => "100x100#",
