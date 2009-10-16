@@ -17,9 +17,9 @@
 </td>
 <td><textarea name="fields[][description]" class="description" placeholder="Beschreibung"><%= h(field.description) if field_set %></textarea></td>
 <td class="required">
-	<input name="schema[][required]" type="hidden" value="0" /> 
+	<input type="hidden" name="fields[][required]" value="0" /> 
 	<label>
-		<input name="schema[][required]" type="checkbox" value="1" <%= 'checked="checked"' if field_set and field.required %> />
+		<input type="checkbox" name="fields[][required]" value="1" <%= 'checked="checked"' if field_set and field.required %> />
 		erforderlich?
 	</label>
 </td>
