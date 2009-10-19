@@ -80,4 +80,12 @@ class Document < ActiveRecord::Base
     self.published = false
     self.save
   end
+  
+  def render_options
+    returning(Hash.new) do |options|
+      options[:template] = self.template.blank? ? category.document_template : self.template
+      options[:layout]   = self.layout.blank?   ? category.document_layout   : self.layout
+      options.delete_if {|key, value| value.blank?}
+    end
+  end
 end

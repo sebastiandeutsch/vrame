@@ -41,11 +41,14 @@ class DocumentsController < ApplicationController
     
     respond_to do |format|
       format.json do
-        response.headers["Content-Type"] = "text/plain; charset=utf-8"
         render :json => @public_document
       end
       format.xml do
         render :xml  => @public_document
+      end
+      format.html do
+        @page_title = @document.title
+        render(@document.render_options.blank? ? nil : @document.render_options)
       end
     end
   end
