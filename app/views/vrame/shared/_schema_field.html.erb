@@ -16,12 +16,15 @@
 	</p>
 </td>
 <td><textarea name="fields[][description]" class="description" placeholder="Beschreibung"><%= h(field.description) if field_set %></textarea></td>
+<!--
 <td class="required">
-	<input type="hidden" name="fields[][required]" value="0" /> 
-	<label>
-		<input type="checkbox" name="fields[][required]" value="1" <%= 'checked="checked"' if field_set and field.required %> />
+	<% field_required = (field_set and field.required == '1') %>
+	<input type="hidden" name="fields[][required]" value="<%= field_required ? 1 : 0 %>" class="required-field" /> 
+	<label class="required">
+		<input type="checkbox" <%= 'checked="checked"' if field_required %> />
 		erforderlich?
 	</label>
 </td>
+-->
 <td><a href="#" class="smaller remove button invert">Entfernen</a></td>
 </tr>

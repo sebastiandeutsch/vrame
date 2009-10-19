@@ -274,6 +274,8 @@ jQuery(function ($) {
 		}
 	);
 	
+	$('#schema-builder label.required').click();
+	
 	function sluggify (string) {
 		return string
 			.toLowerCase()
@@ -297,6 +299,12 @@ jQuery(function ($) {
 	
 	function setupSlugGenerator (clone) {
 		clone.find('input.title').keydown(slugGenerator).keyup(slugGenerator).focus(slugGenerator).blur(slugGenerator);
+	}
+	
+	function toogleRequiredField (e) {
+		var input = $(this),
+			checked = input.find('.input').attr('checked') ? '1' : '0';
+		input.parends('td:first').find('input.required-field').val(checked);
 	}
 	
 	/* $('#add-key-value').populateRow('#key-value-prototype tr', '#keys-values'); */

@@ -15,11 +15,15 @@
 </tbody>
 </table>
 
-<table style="display: none">
-	<tbody id="schema-field-prototype">
-		<%= render :partial => 'vrame/shared/schema_field', :locals => { :new_item => true } %>
-	</tbody>
-	<tbody id="key-value-prototype">
-		<%= render :partial => 'vrame/shared/key_value_item' %>
-	</tbody>
-</table>
+<% content_for :schema_builder_after_form do %>
+	<table style="display: none">
+		<tbody id="schema-field-prototype">
+			<%= render :partial => 'vrame/shared/schema_field' %>
+		</tbody>
+		<!--
+		<tbody id="key-value-prototype">
+			<%= render :partial => 'vrame/shared/key_value_item' %>
+		</tbody>
+		-->
+	</table>
+<% end %>

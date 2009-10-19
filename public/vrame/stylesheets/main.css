@@ -1045,7 +1045,7 @@ ul.sortable-grid li {
 	height: 46px;
 }
 
-#schema-builder td.required label {
+#schema-builder label.required {
 	float: none;
 }
 
