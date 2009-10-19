@@ -2,7 +2,9 @@
 
 <tr class="schema-item">
 <td>
-	<input type="hidden" name="fields[][uid]" value="<%= h(field.uid) if field_set %>">
+	<% if field_set %>
+		<input type="hidden" name="fields[][uid]" value="<%= h(field.uid) %>">
+	<% end %>
 	<select name="fields[][type]" class="type""><%= options_for_select(Category::TYPES, field_set ? field.type : '') %></select>
 </td>
 <td class="title-name">
