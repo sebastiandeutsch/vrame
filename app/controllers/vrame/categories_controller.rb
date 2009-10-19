@@ -63,7 +63,7 @@ class Vrame::CategoriesController < Vrame::VrameController
   def create
     # Hash mapping workaround
     params[:category][:schema] = { 'fields' => params[:fields] || {} }
-    params[:category][:meta]   = params[:meta] || {}
+    params[:category][:meta]   = { 'values' => params[:meta]   || {} }
     
     @category = Category.new(params[:category])
     
@@ -85,7 +85,7 @@ class Vrame::CategoriesController < Vrame::VrameController
     
     # Hash mapping workaround
     params[:category][:schema] = { 'fields' => params[:fields] || {} }
-    params[:category][:meta]   = params[:meta] || {}
+    params[:category][:meta]   = { 'values' => params[:meta]   || {} }
     
     if @category.update_attributes(params[:category])
       flash[:success] = 'Die Kategorie wurde aktualisiert'
