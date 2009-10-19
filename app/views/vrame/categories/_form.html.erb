@@ -91,6 +91,14 @@
 		<h3>URLs (eigene Controller)</h3>
 		<ul id="urls">
 			<li>
+				<%= f.label :document_template, "Dokumenten Template:" %>
+				<%= f.text_field :document_template %> <em><%= f.error_message_on :document_template %></em>
+			</li>
+			<li>
+				<%= f.label :document_layout, "Dokumenten Layout:" %>
+				<%= f.text_field :document_layout %> <em><%= f.error_message_on :document_layout %></em>
+			</li>
+			<li>
 				<%= f.label :url, "Frontend-URL:" %>
 				<%= f.text_field :url %>
 				<em><%= f.error_message_on :url %></em>

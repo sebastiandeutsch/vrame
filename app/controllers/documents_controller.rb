@@ -48,11 +48,7 @@ class DocumentsController < ApplicationController
       end
       format.html do
         @page_title = @document.title
-        unless @document.template.empty?
-          render :template => @document.template
-        end
-        
-        render
+        render(@document.render_options.blank? ? nil : @document.render_options)
       end
     end
   end
