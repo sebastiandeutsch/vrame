@@ -46,6 +46,14 @@ class DocumentsController < ApplicationController
       format.xml do
         render :xml  => @public_document
       end
+      format.html do
+        @page_title = @document.title
+        unless @document.template.empty?
+          render :template => @document.template
+        end
+        
+        render
+      end
     end
   end
   
