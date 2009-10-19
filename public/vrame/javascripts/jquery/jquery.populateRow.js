@@ -1,41 +1,36 @@
 jQuery.fn.populateRow = function(source, dest, options) {
-	var defaults = {
-	    add : function() {},
-	    remove : function() {},
-		removeSelector : 'a.remove',
-		fx : 'fadeIn'
-	};
-	
-	var opts = jQuery.extend(defaults, options);
+	var $ = window.jQuery,
+		noop = new Function,
+		defaults = {
+			add : noop,
+			remove : noop,
+			removeSelector : 'a.remove',
+			removeParentSelector : null,
+			fx : 'fadeIn'
+		},
+		opts = $.extend(defaults, options);
 
-	if(opts.removeSelector != null) {
-		jQuery(dest).find(opts.removeSelector).click(function(e) {
-			jQuery(this).parent().remove();
-			e.preventDefault();
-		});
+	this.click(add);
+	$(dest).find(opts.removeSelector).click(remove);
+	
+	return this;
+	
+	function add (e) {
+		e.preventDefault();
+		var clone = $(source).clone(true).appendTo(dest);
+		clone[opts.fx]();
+		clone.find(opts.removeSelector).click(remove);
+		opts.add(clone);
 	}
 	
-	jQuery(this).click(function() {
-		var cloneDiv = jQuery(source).clone(true);
-		if(opts.fx != null) {
-			cloneDiv.hide();
+	function remove (e) {
+		e.preventDefault();
+		var removeButton = $(this);
+		if (opts.removeParentSelector) {
+			removeButton.parents(opts.removeParentSelector).eq(0).remove();
+		} else {
+			removeButton.parent().remove();
 		}
-		
-		jQuery(dest).append(cloneDiv);
-		if(opts.fx != null) {
-			cloneDiv[opts.fx]();
-		}
-		
-		if(opts.removeSelector != null) {
-			jQuery(opts.removeSelector, cloneDiv).click(function (e) {
-				if(opts.remove(cloneDiv) !== false) {
-					cloneDiv.remove();
-				}
-			});
-			return false;
-		}
-		opts.add(cloneDiv);
-		
-		return false;
-	});
-}
+	}
+	
+};

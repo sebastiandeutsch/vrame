@@ -3,24 +3,30 @@
 <% value = document.meta.send(field.name) %>
 
 <li class="clearfix">
-
+	
 	<label for="<%= id %>"><%= h field.title %></label>
 	
 	<div class="input-container">
-
-	<% if field.type == "String" %>
+	
+	<% case field.type %>
+	<% when "String" %>
 		
 		<input type="text" name="<%= name %>" id="<%= id %>" value="<%= h value %>" />
 		
-	<% elsif field.type == "Text" %>
+	<% when "Text" %>
 		
 		<textarea name="<%= name %>" id="<%= id %>" class="rte-zone"><%= value %></textarea>
 		
-	<% elsif field.type == "Datetime" %>
+	<% when "Bool" %>
+		
+		<input type="hidden"   name="<%= name %>" id="<%= id %>" value="0" />
+		<input type="checkbox" name="<%= name %>" id="<%= id %>" <% 'checked="checked"' if value == '1' %> />
+		
+	<% when "Datetime" %>
 		
 		<input type="text" name="<%= name %>" id="<%= id %>" value="<%= value %>" class="datepicker" />
 		
-	<% elsif field.type == "File" %>
+	<% when "File" %>
 		
 		<%= render :partial => 'vrame/shared/file_upload', :locals => {
 			:type => "file",
@@ -29,7 +35,7 @@
 			:field_name => name
 		} %>
 		
-	<% elsif field.type == "Collection" %>
+	<% when "Collection" %>
 		
 		<%= render :partial => 'vrame/shared/file_upload', :locals => {
 			:type => "file",
@@ -38,7 +44,7 @@
 			:field_name => name
 		} %>
 		
-	<% elsif field.type == "Placemark" %>
+	<% when "Placemark" %>
 
 		<%= render :partial => 'vrame/shared/placemark', :locals => {
 			:field_id => id,
@@ -47,7 +53,7 @@
 			:value => value
 		} %>
 
-	<% end %>
+	<% end # case %>
 
 	</div><!-- /.input-container -->
-</li>
+</li><!-- /li.clearfix -->

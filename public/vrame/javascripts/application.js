@@ -4,32 +4,28 @@ jQuery(function($) {
 	$('#nav').droppy({ speed: 0 });
 	
 	/* News flashes */
-	$(".flash").click(function() {
+	$('.flash').click(function() {
 		$(this).fadeOut();
 	});
 	
 	/* Expandable sections */
-	$(".expandable").click(function() {
-		$($(this).attr("href")).slideToggle();
+	$('.expandable').click(function() {
+		$($(this).attr('href')).slideToggle();
 		return false;
 	});
 	
 	/* Tooltips */
 	$('.tooltip').tipsy({ gravity: 'w' });
 	
-	/* Adding of new meta information fields */
-	$("#add-schema-item").populateRow("#schema-item-prototype", "#schema");
-	$("#add-key-value").populateRow("#key-value-prototype", "#keys-values");
-	
 	/* Rich Text Editing Textareas */
-	$(".rte-zone").rte({
-		media_url : "/vrame/images/rte/",
-		content_css_url: "/vrame/stylesheets/rte.css"
+	$('.rte-zone').rte({
+		media_url : '/vrame/images/rte/',
+		content_css_url: '/vrame/stylesheets/rte.css'
 	});
 	
 	/* Date picker */
-	if ($(".datepicker").size() > 0) {
-		$(".datepicker").datepicker({
+	if ($('.datepicker').size() > 0) {
+		$('.datepicker').datepicker({
 			duration: '',  
 			showTime: true,  
 			constrainInput: false
@@ -44,6 +40,7 @@ jQuery(function($) {
 });
 
 /* Category view */
+
 jQuery(function($) {
 	$('.category-button').click(function() {
 		var categoryId = $(this).attr('rel');
@@ -54,7 +51,7 @@ jQuery(function($) {
 		$(document).scrollTo( {top:'0px', left:'0px'}, 200 );
 		$('#ajax-loading-bar').fadeIn('fast');
 		$.ajax({
-			url: "/vrame/categories/" + categoryId + "/documents/?tab_id=" + window.name,
+			url: '/vrame/categories/' + categoryId + '/documents/?tab_id=' + window.name,
 			cache: false,
 			success: function(html) {
 				$('#items').html(html);
@@ -73,30 +70,30 @@ jQuery(function($) {
 
 jQuery(function ($) {
 	
-	var assetListSelector = ".asset-list",
-		textareaSelector = "textarea[name=title]";
+	var assetListSelector = '.asset-list',
+		textareaSelector = 'textarea[name=title]';
 	
 	/* Event Handling */
 	
 	var assetLists = $(assetListSelector)
 	
 		/* Asset deletion */
-		.find("a.delete")
-			.live("click", deleteAsset)
+		.find('a.delete')
+			.live('click', deleteAsset)
 			.end()
 		
 		/* Image fullview */
-		.find(".image-wrapper")
+		.find('.image-wrapper')
 			.attr('title', 'Klicken zum Vergrößern')
-			.live("click", loadFullview)
+			.live('click', loadFullview)
 			.end()
 		
 		/* Title editing and saving */
 		.find(textareaSelector)
-			.live("keypress", saveTitle)
+			.live('keypress', saveTitle)
 			.end()
 		/* Event delegation with bubbling focusout */
-		.bind("focusout", saveTitle)
+		.bind('focusout', saveTitle)
 		/* Event delegation with capturing blur */
 		.each(captureTextareaBlur);
 	
@@ -112,7 +109,7 @@ jQuery(function ($) {
 		var deleteLink = $(this);
 		
 		/* Hide corresponding asset list item */
-		deleteLink.parents("li:eq(0)").hide();
+		deleteLink.parents('li:first').hide();
 		
 		/* Remove asset id from hidden input field */
 		deleteLink.parents('div.file-upload:eq(0)').find('input.asset-id').val('');
@@ -120,46 +117,46 @@ jQuery(function ($) {
 		/* Send DELETE request */
 		$.post(deleteLink.attr('href'), {
 			_method: 'delete',
-			authenticity_token: deleteLink.attr("data-authenticity-token")
+			authenticity_token: deleteLink.attr('data-authenticity-token')
 		});
 	}
 	
 	/* Image fullview */
 	
-	var image = $("<img>")
-			.attr("id", "asset-fullview")
-			.attr("title", "Vollansicht schließen")
+	var image = $('<img>')
+			.attr('id', 'asset-fullview')
+			.attr('title', 'Vollansicht schließen')
 			.click(hideFullview)
 			.load(showFullview)
-			.css("display", "none")
+			.css('display', 'none')
 			.appendTo(document.body),
 		wrapperWidth,
 		wrapperHeight,
 		wrapperOffset;
 		
 	function hideFullview () {
-		image.css("display", "none");
+		image.css('display', 'none');
 	}
 	
 	function loadFullview () {
 		var wrapper = jQuery(this),
-			fullUrl = wrapper.attr("fullurl");
+			fullUrl = wrapper.attr('fullurl');
 		if (!fullUrl) {
 			return;
 		}
 		wrapperWidth = wrapper.width();
 		wrapperHeight = wrapper.height();
 		wrapperOffset = wrapper.offset();
-		image.attr("src", fullUrl);
+		image.attr('src', fullUrl);
 	}
 	
 	function showFullview () {
 		image.css({
-			left : Math.max(0, wrapperOffset.left - (image.attr("width") - wrapperWidth) / 2),
-			top : Math.max(0, wrapperOffset.top - (image.attr("height") - wrapperHeight) / 2),
+			left : Math.max(0, wrapperOffset.left - (image.attr('width') - wrapperWidth) / 2),
+			top : Math.max(0, wrapperOffset.top - (image.attr('height') - wrapperHeight) / 2),
 			//left : wrapperOffset.left,
 			//top : wrapperOffset.top,
-			display : "block"
+			display : 'block'
 		});
 	}
 	
@@ -167,12 +164,12 @@ jQuery(function ($) {
 	
 	function captureTextareaBlur () {
 		if (this.addEventListener) {
-			this.addEventListener("blur", saveTitle, true);
+			this.addEventListener('blur', saveTitle, true);
 		}
 	}
 	
 	function saveTitle (e) {
-		//console.log("saveTitle", e.type);
+		//console.log('saveTitle', e.type);
 		var textarea = $(e.target),
 			saveInterval,
 			closure = function () {
@@ -181,25 +178,25 @@ jQuery(function ($) {
 		if (!textarea.is(textareaSelector)) {
 			return;
 		}
-		clearInterval(textarea.data("saveInterval"));
-		if (e.type == "keypress") {
+		clearInterval(textarea.data('saveInterval'));
+		if (e.type == 'keypress') {
 			saveInterval = setTimeout(closure, 2000);
-			textarea.data("saveInterval", saveInterval);
+			textarea.data('saveInterval', saveInterval);
 		} else {
 			closure();
 		}
 	}
 	
 	function sendTitle (textarea) {
-		//console.log("sendTitle");
-		var assetId = textarea.attr("data-asset-id");
+		//console.log('sendTitle');
+		var assetId = textarea.attr('data-asset-id');
 		$('#ajax-loading-bar').fadeIn('fast');
 		$.post(
-			"/vrame/assets/" + assetId,
+			'/vrame/assets/' + assetId,
 			{
-				"asset[title]" : textarea.val(),
-				"_method" : "put",
-				"authenticity_token" : textarea.attr("data-authenticity-token")
+				'asset[title]' : textarea.val(),
+				'_method' : 'put',
+				'authenticity_token' : textarea.attr('data-authenticity-token')
 			},
 			function (responseData) {
 				titleSent(responseData, textarea);
@@ -208,7 +205,7 @@ jQuery(function ($) {
 	}
 	
 	function titleSent (responseData, textarea) {
-		//console.log("titleSent", responseData);
+		//console.log('titleSent', responseData);
 		$('#ajax-loading-bar').stop().fadeOut('fast');
 		var originalBackgroundColor = textarea.css('backgroundColor');
 		textarea
@@ -221,7 +218,7 @@ jQuery(function ($) {
 /* Input field placeholder text */
 
 jQuery(function ($) {
-	$("input[type=text][placeholder], textarea[placeholder]").placeholder();
+	$('input[type=text][placeholder], textarea[placeholder]').placeholder();
 });
 
 jQuery.fn.placeholder = function () {
@@ -264,23 +261,72 @@ jQuery.fn.placeholder.supported = (function () {
 	return typeof document.createElement('input').placeholder == 'string';
 })();
 
+/* Schema Builder */
+
+jQuery(function ($) {
+	
+	$('#add-schema-item').populateRow(
+		'#schema-field-prototype tr',
+		'#schema-builder tbody',
+		{
+			removeParentSelector : 'tr',
+			add : setupSlugGenerator
+		}
+	);
+	
+	$('#schema-builder label.required').click();
+	
+	function sluggify (string) {
+		return string
+			.toLowerCase()
+			.replace(/ä/g, 'ae')
+			.replace(/ö/g, 'oe')
+			.replace(/ü/g, 'ue')
+			.replace(/ß/g, 'ss')
+			.replace(/^\d+/g, '')
+			.replace(/[\s-]+/g, '_')
+			.replace(/[^a-z\d_]+/g, '')
+			.replace(/^_+|_+$/g, '');
+	}
+	
+	function slugGenerator () {
+		var input = $(this),
+			title = input.val(),
+			slug = sluggify(title);
+		
+		input.parents('td:first').find('input.name').val(slug);
+	}
+	
+	function setupSlugGenerator (clone) {
+		clone.find('input.title').keydown(slugGenerator).keyup(slugGenerator).focus(slugGenerator).blur(slugGenerator);
+	}
+	
+	function toogleRequiredField (e) {
+		var input = $(this),
+			checked = input.find('.input').attr('checked') ? '1' : '0';
+		input.parends('td:first').find('input.required-field').val(checked);
+	}
+	
+	/* $('#add-key-value').populateRow('#key-value-prototype tr', '#keys-values'); */
+});
+
 /* Unsaved Alert */
 
-jQuery(function() {
+jQuery(function ($) {
   if (typeof(vrame) == 'undefined') {vrame = {};}
   // Remember wether the current page contains unsaved changes
   vrame.unsavedChanges = false;
   
   var rteContents = {};
-  $("iframe").each(function(){
-    rteContents[this.id] = $(this).contents().find("body").html();
-  })
+  $('iframe').each(function(){
+    rteContents[this.id] = $(this).contents().find('body').html();
+  });
   
   // Tell wether the content of the RTEs was changed
   var rtesChanged = function() {
     var changed = false;
-    $("iframe").each(function(){
-      var content = $(this).contents().find("body").html();
+    $('iframe').each(function(){
+      var content = $(this).contents().find('body').html();
       var textarea_content = rteContents[this.id];
       changed = changed || (content != textarea_content);
     })
@@ -289,7 +335,7 @@ jQuery(function() {
   
   var onBeforeUnloadHandler = function() {
     if (vrame.unsavedChanges || rtesChanged())  {
-      return "If you leave this page without submitting the form, none of the changes you made will be saved.";
+      return 'If you leave this page without submitting the form, none of the changes you made will be saved.';
     }
   };
   
@@ -301,10 +347,10 @@ jQuery(function() {
     window.onbeforeunload = null;
   };
   
-  // Install handlers if we're on a page that is a "new" or "edit" form
-  if (!!$("body")[0].className.match(/va_edit|va_new/)) {
-    $("input, textarea, select").change(onChangeHandler);
-    $("form").submit(onSubmitHandler);
+  // Install handlers if we're on a page that is a 'new' or 'edit' form
+  if (!!document.body.className.match(/va_edit|va_new/)) {
+    $('input, textarea, select').change(onChangeHandler);
+    $('form').submit(onSubmitHandler);
     window.onbeforeunload = onBeforeUnloadHandler;
   }
 });
