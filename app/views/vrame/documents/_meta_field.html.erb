@@ -8,8 +8,7 @@
 	
 	<div class="input-container">
 	
-	<% case field.type %>
-	<% when "String" %>
+	<% case field.type when "String" %>
 		
 		<input type="text" name="<%= name %>" id="<%= id %>" value="<%= h value %>" />
 		
