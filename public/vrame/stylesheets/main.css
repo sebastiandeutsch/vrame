@@ -869,6 +869,24 @@ input.asset-id, input.collection-id {
 }
 
 /** 
+ * @section Meta field list
+ *
+ *
+ */
+
+#meta-fields li.meta-field {
+	border-bottom: 1px solid #d0d0d0;
+}
+
+#meta-fields li.meta-field:last {
+	border-bottom: none;
+}
+
+#meta-fields label {
+	font-size: 1.25em;
+}
+
+/** 
  * @section Asset Lists
  *
  *

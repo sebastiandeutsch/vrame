@@ -2,9 +2,13 @@
 <% id    = "document-meta-#{field.uid}" %>
 <% value = document.meta.send(field.name) %>
 
-<li class="clearfix">
+<li class="meta-field clearfix">
 	
 	<label for="<%= id %>"><%= h field.title %></label>
+	
+	<% unless field.description.blank? %>
+		<p class="meta-field-description"><%=h field.description %></p>
+	<% end %>
 	
 	<div class="input-container">
 	
@@ -53,6 +57,6 @@
 		} %>
 
 	<% end # case %>
-
+	
 	</div><!-- /.input-container -->
 </li><!-- /li.clearfix -->

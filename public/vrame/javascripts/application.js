@@ -249,7 +249,6 @@ jQuery.fn.placeholder = function () {
 			.blur();
 		
 		jQuery(field.attr('form')).submit(function () {
-			var field = jQuery(this);
 			if (field.val() == placeholder) {
 				field.val('');
 			}
@@ -274,7 +273,7 @@ jQuery(function ($) {
 		}
 	);
 	
-	$('#schema-builder label.required').click();
+	$('#schema-builder label.required').click(toogleRequiredField);
 	
 	function sluggify (string) {
 		return string
@@ -302,9 +301,9 @@ jQuery(function ($) {
 	}
 	
 	function toogleRequiredField (e) {
-		var input = $(this),
-			checked = input.find('.input').attr('checked') ? '1' : '0';
-		input.parends('td:first').find('input.required-field').val(checked);
+		var label = $(this),
+			checked = label.find('input').attr('checked') ? '1' : '0';
+		label.parents('td:first').find('input.required-field').val(checked);
 	}
 	
 	/* $('#add-key-value').populateRow('#key-value-prototype tr', '#keys-values'); */

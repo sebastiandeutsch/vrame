@@ -27,10 +27,10 @@
 	
 	<fieldset>
 		<h3>Meta-Informationen</h3>
-		<ol id="keys-values">
-			<% category.schema.each do |field| %>
-				<%= render :partial => 'meta_field', :locals => { :document => document, :field => field } %>
-			<% end %>
+		<ol id="meta-fields">
+		<% category.schema.each do |field| %>
+			<%= render :partial => 'meta_field', :locals => { :document => document, :field => field } %>
+		<% end %>
 		</ol>
 	</fieldset>
 	
