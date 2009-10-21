@@ -2,15 +2,8 @@ module JsonObject
   class Store
     include Serializable
     
-    def self.default_options
-      @@default_options ||= {
-        :schema => nil,
-        :mappings  => {}
-      }
-    end
-    
     attr_reader :schema
-    
+
     def initialize(name, instance, options)
       @name     = name
       @instance = instance
@@ -29,15 +22,13 @@ module JsonObject
         #   EmbeddedSchema.new(@options[:schema], { :mappings => @options[:mappings] })
         else
           unless @hash.nil? or @hash['schema'].nil?
-            EmbeddedSchema.new(@hash['schema'], { :mappings => @options[:mappings] })
+            EmbeddedSchema.new(@hash['schema'], { :mappings => @options[:mappings] }) # Wieso hier nicht Schema.new?
           end
       end
     end
-    
-    def assign(hash)      
-      super(hash)
-      
-      initialize_schema
+
+    def values
+      @hash['values']
     end
     
     def method_missing(name, value=nil)
@@ -50,80 +41,40 @@ module JsonObject
       end
     end
     
+    def self.default_options
+      @@default_options ||= {
+        :schema => nil,
+        :mappings  => {}
+      }
+    end
+    
+    def assign(hash)      
+      super(hash)
+      initialize_schema
+    end
+        
   private
     
     def read_value(name)
-      # Get field information from schema
-      field = @schema.find_field_by_name(name)
-      type  = field['type']
-      
-      # Read value from hash
-      value = @hash.fetch('values', {}).fetch(field['uid'], nil)
-      
-      # If field type has a mapping
-      if klass = @schema.mappings[type]
-        # If field type is a model
-        if klass.ancestors.include?(ActiveRecord::Base)
-          # Check whether @instance has a has_many association for klass
-          association_name = klass.to_s.tableize.to_sym
-          unless reflection = @instance.class.reflect_on_association(association_name) and reflection.macro == :has_many
-            raise UnknownAssociationError.new("#{@instance.class} has no has_many association '#{association_name.to_s}'")
-          end
-          association_proxy = @instance.send(reflection.name)
-                    
-          # Try to find model instance with id=value
-          begin
-            association_proxy.find(value.to_i)
-          # Create new model instance
-          rescue ActiveRecord::RecordNotFound
-            association_proxy.build
-          end
-        # If field type is a normal class
-        else
-          # If decoded object has wrong type
-          if value.class != klass and not value.nil?
-            # Raise error
-            raise TypeError.new("Decoded object's class '#{value.class}' doesn't match schema's class '#{klass}'")
-          else
-            # Return plain decoded object
-            value
-          end
-        end
-      # If field type has no mapping
-      else
-        # Return plain value
-        value
-      end
+      field = @schema.field_for(name)
+      field.get_value_from_store(self)
     end
     
     def write_value(name, value)
-      # Check whether name is already JSON encoded
-      if match = name.match(/(.*)_json$/)
-        name = match[1]
-        already_encoded = true        
-      else
-        already_encoded = false
-      end
-      
-      # Get field information from schema
-      field = @schema.find_field_by_name(name)
-      type  = field['type']
-      
-      # If field type has a mapping
-      if klass = @schema.mappings[type]
-        # If field type is a model
-        if klass.ancestors.include?(ActiveRecord::Base)
-          # Save model instance id
-          value = value.id
-        # If field type is a normal class
-        else
-          # Decode value if already JSON encoded
-          value = JSON.parse(value) if already_encoded
-        end
-      end
-            
-      # Write value into hash
-      @hash['values'][field['uid']] = value
+      field = @schema.field_for(name)
+      name, value = normalize_access_to_object(name, value)
+
+      field.set_value_in_store(value, store)
     end
+    
+    def normalize_access_to_object(name,value)
+      if name =~ /(.*)_json$/
+        name = $1
+      else
+        value = JSON.parse(value)
+      end
+      [name, value]
+    end
+    
   end
 end

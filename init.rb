@@ -55,7 +55,10 @@ config.gem 'norman-friendly_id',
 config.gem 'daemons'
 
 config.to_prepare do
-  # configure nine_auth_engine
+  # Use JSON gem as ActiveSupport::JSON backend
+  ActiveSupport::JSON.backend = 'JSONGem'
+  
+  # Configure nine_auth_engine
   NineAuthEngine.configure do |config|
     config.after_signup_redirect = '/signin/'
     config.after_signin_redirect = '/vrame/'

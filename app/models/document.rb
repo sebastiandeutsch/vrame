@@ -1,7 +1,7 @@
 class Document < ActiveRecord::Base
   
   has_many :collections, :dependent => :destroy, :as => :collectionable
-  has_many :assets, :order => "position", :dependent => :destroy, :as => :assetable
+  has_many :assets,      :dependent => :destroy, :as => :assetable, :order => "position"
   
   acts_as_list :scope => :category
   

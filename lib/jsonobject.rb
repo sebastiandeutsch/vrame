@@ -4,7 +4,7 @@ require 'jsonobject/serializable'
 require 'jsonobject/schema'
 require 'jsonobject/store'
 
-module JsonObject
+module JsonObject # @TODO rename JsonObjectExtension, this is not an object!
   class << self
     def included base
       base.extend(ClassMethods)
@@ -15,8 +15,7 @@ module JsonObject
     def has_json_schema(name, options = {})
       include InstanceMethods
       
-      write_inheritable_attribute(:json_schema_definitions, {}) if json_schema_definitions.nil?
-      json_schema_definitions[name] = options
+      json_schema_options[name] = options
       
       define_method name do |*args|
         json_schema_for(name)
@@ -30,8 +29,7 @@ module JsonObject
     def has_json_store(name, options = {})
       include InstanceMethods
       
-      write_inheritable_attribute(:json_store_definitions, {}) if json_store_definitions.nil?      
-      json_store_definitions[name] = options
+      json_store_options[name] = options
       
       define_method name do |*args|
         json_store_for(name)
@@ -42,24 +40,30 @@ module JsonObject
       end
     end
     
-    def json_schema_definitions
-      read_inheritable_attribute(:json_schema_definitions)
+    def json_schema_options
+      if read_inheritable_attribute(:json_schema_options).nil?
+        write_inheritable_attribute(:json_schema_options, {})
+      end
+      read_inheritable_attribute(:json_schema_options)
     end
     
-    def json_store_definitions
-      read_inheritable_attribute(:json_store_definitions)
+    def json_store_options
+      if read_inheritable_attribute(:json_store_options).nil?
+        write_inheritable_attribute(:json_store_options, {})
+      end
+      read_inheritable_attribute(:json_store_options)
     end
   end
   
   module InstanceMethods
     def json_schema_for(name)
       @json_schemas ||= {}
-      @json_schemas[name] ||= Schema.new(name, self, self.class.json_schema_definitions[name])
+      @json_schemas[name] ||= Schema.new(name, self, self.class.json_schema_options[name])
     end
     
     def json_store_for(name)
       @json_stores ||= {}
-      @json_stores[name] ||= Store.new(name, self, self.class.json_store_definitions[name])
+      @json_stores[name] ||= Store.new(name, self, self.class.json_store_options[name])
     end
   end
 end

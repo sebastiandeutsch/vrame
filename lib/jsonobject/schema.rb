@@ -8,86 +8,50 @@ module JsonObject
   class EmbeddedSchema
     include Serializable
     
-    def self.default_options
-      @@default_options ||= {
-        :mappings  => {}
-      }
-    end
-    
-    attr_reader :mappings
-    
+    attr_reader :fields, :mappings
+
     def initialize(hash, options = {})
-      @options = self.class.default_options.merge(options)
-      
+      @options = EmbeddedSchema.default_options.merge(options)
       assign(hash)
-      
-      initialize_mappings
     end
     
-    def assign(hash)
-      super(hash)
-      
-      initialize_fields
-    end
-    
-    def find_field_by_name(name)
-      begin
-        @name_field_map.fetch(name)
-      rescue IndexError
-        raise UnknownSchemaAttributeError.new("Attribute named '#{name}' not in store schema")
-      end
+    def field_for(name)
+      @fields.fetch(name)
+    rescue IndexError
+      raise UnknownSchemaAttributeError.new("Attribute named '#{name}' not in store schema")
     end
     
     def has_attribute?(name)
       name = name.to_sym
-      @name_field_map.include?(name)
+      @fields.include?(name)
     end
     
     def each(&block)
-      @schema_fields ||= {}
-      if @hash.fetch('fields', nil).is_a? Array
-        @hash['fields'].each do |field|
-          yield @schema_fields[field['name']] ||= SchemaField.new(field)
-        end
-      end
+      @fields.each(block)
     end
     
-  private
-  
-    def initialize_mappings
-      @mappings ||= {}
-    
-      @options[:mappings].each do |k, v|
-        @mappings[k.to_s.camelize] = v.to_s.classify.constantize
-      end
+    def self.default_options
+      @@default_options ||= { :allowed_types  => {} }
     end
     
-    def initialize_fields
-      # Initialize empty name->field map
-      @name_field_map = {}
-      
-      if @hash.fetch('fields', nil).is_a? Array
-        @hash['fields'].each do |field|
-          # Assign UID if necessary
-          field['uid'] ||= next_uid
-          
-          # Generate attribute title if there is none (only if there's a title)
-          if field['name'].nil? and not field['title'].nil?
-            field['name'] = Helper.dehumanize(field['title'])
-          end
-          
-          # Assign name->field mapping
-          @name_field_map[field['name']] = field
-        end
-      end      
+    def assign(hash)
+      super(hash)
+      initialize_fields
     end
     
-    def next_uid
-      # Find highest uid of fields
-      @last_uid ||= @hash['fields'].map { |field| field['uid'].to_i }.max || 0
+    def class_for_type(t)
+      t.constantize if @options[:allowed_types].include? t
+    end
 
-      # Increase last UID
-      (@last_uid += 1).to_s
+  private
+        
+    def initialize_fields
+      @fields = {}
+      if @hash['fields'].is_a? Array
+        @hash['fields'].each do |field|
+          @fields[field['name']] = Field.new(field, self)
+        end
+      end
     end
     
   end
@@ -103,10 +67,7 @@ module JsonObject
       super(@hash, options)
     end
   end
-  
-  class SchemaField < OpenStruct
-    def type
-      @table[:type]
-    end
-  end
 end
+
+require 'jsonobject/schema/field'
+
