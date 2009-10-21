@@ -1,5 +1,5 @@
 class Category < ActiveRecord::Base
-  TYPES = ["String", "Text", "Datetime", "Bool", "File", "Collection", "Placemark"]
+  TYPES = ["String", "Text", "Datetime", "Bool", "File", "Collection", "Placemark", "Select", "Multiselect"]
   
   has_many :documents, :order => :position
   has_many :collections, :dependent => :destroy, :as => :collectionable

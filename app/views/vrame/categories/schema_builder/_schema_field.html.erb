@@ -1,12 +1,15 @@
 <% field_set = defined?(field) %>
+<% class_name = (field_set and %w(File Collection Select Multiselect).include?(field.type) ? ' has-field-options' : '') %>
 
-<tr class="schema-item">
-<td>
+<tr class="schema-field<%= class_name %>">
+
+<td class="type">
 	<% if field_set %>
 		<input type="hidden" name="fields[][uid]" value="<%= h(field.uid) %>">
 	<% end %>
 	<select name="fields[][type]" class="type""><%= options_for_select(Category::TYPES, field_set ? field.type : '') %></select>
 </td>
+
 <td class="title-name">
 	<p>
 		<label>Titel:</label>
@@ -17,8 +20,11 @@
 		<input type="text" name="fields[][name]" class="name" placeholder="Interner Schlüssel" value="<%= h(field.name) if field_set %>" />
 	</p>
 </td>
-<td><textarea name="fields[][description]" class="description" placeholder="Beschreibung"><%= h(field.description) if field_set %></textarea></td>
-<!--
+
+<td class="description">
+	<textarea name="fields[][description]" class="description" placeholder="Beschreibung"><%= h(field.description) if field_set %></textarea>
+</td>
+
 <td class="required">
 	<% field_required = (field_set and field.required == '1') %>
 	<input type="hidden" name="fields[][required]" value="<%= field_required ? 1 : 0 %>" class="required-field" /> 
@@ -27,6 +33,18 @@
 		erforderlich?
 	</label>
 </td>
--->
-<td><a href="#" class="smaller remove button invert">Entfernen</a></td>
+
+<td class="remove">
+	<a href="#" class="smaller remove button invert">Entfernen</a>
+</td>
+
 </tr>
+
+<%# Field options %>
+<% if field_set %>
+	<% if field.type == 'File' or field.type == 'Collection' %>
+		<%= render :partial => 'vrame/categories/schema_builder/asset_styles' %>
+	<% elsif field.type == 'Select' or field.type == 'Multiselect' %>
+		<%= render :partial => 'vrame/categories/schema_builder/select_options', :locals => { :type => field.type } %>
+	<% end %>
+<% end %>

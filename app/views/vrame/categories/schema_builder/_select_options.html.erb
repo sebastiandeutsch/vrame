@@ -1,0 +1,16 @@
+<tr class="field-options <% 'multi' if type == 'Multiselect' %>select-fields">
+	<td></td>
+	<td colspan="4">
+		
+		<h3>Felder für  <%= type == 'Multiselect' ? 'Mehrfachauswahl' : 'Auswahl' %></h3>
+		
+		<ul>
+		<% 4.times do %>
+			<li><input type="text" name="fields[][options][]" /></li>
+		<% end %>
+		</ul>
+		
+		<p><a href="javascript:void(0)" class="smaller button invert add-select-field">Feld hinzufügen</a></p>
+		
+	</td>
+</tr>

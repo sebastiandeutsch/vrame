@@ -29,10 +29,7 @@
 	
 	<fieldset>
 		<h3>Dokument-Template</h3>
-		<% if category.schema %>
-			<%= render :partial => 'vrame/shared/schema_builder', :locals => { :category => category } %>
-		<% end %>
-		<p><a id="add-schema-item" href="#" class="button invert">Weiteres Feld hinzufügen</a></p>
+		<%= render :partial => 'vrame/categories/schema_builder/schema_builder', :locals => { :category => category } %>
 	</fieldset>
 	
 	<fieldset>

@@ -1,0 +1,36 @@
+<table id="schema-builder">
+<thead>
+	<tr>
+		<th>Typ</th>
+		<th>Name / Interner Schlüssel</th>
+		<th>Beschreibung</th>
+		<th>Erforderlich</th>
+		<th>Aktionen</th>
+	</tr>
+</thead>
+<tbody>
+<% category.schema.each do |field| %>
+	<%= render :partial => 'vrame/categories/schema_builder/schema_field', :locals => { :field => field } %></li>
+<% end %>
+</tbody>
+</table>
+
+<p><a id="add-schema-field" href="#" class="button invert">Weiteres Feld hinzufügen</a></p>
+
+<%# Populate Row Prototypes %>
+<% content_for :schema_builder_after_form do %>
+	<table style="display: none">
+		<tbody id="schema-field-prototype">
+			<%= render :partial => 'vrame/categories/schema_builder/schema_field' %>
+		</tbody>
+		<tbody id="asset-styles-prototype">
+			<%= render :partial => 'vrame/categories/schema_builder/asset_styles' %>
+		</tbody>
+		<tbody id="select-options-prototype">
+			<%= render :partial => 'vrame/categories/schema_builder/select_options', :locals => { :type => 'Select' } %>
+		</tbody>
+		<tbody id="multiselect-options-prototype">
+			<%= render :partial => 'vrame/categories/schema_builder/select_options', :locals => { :type => 'Multiselect' } %>
+		</tbody>
+	</table>
+<% end %>

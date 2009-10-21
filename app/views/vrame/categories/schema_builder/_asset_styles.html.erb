@@ -1,0 +1,21 @@
+<tr class="field-options asset-styles">
+	<td></td>
+	<td colspan="4">
+	
+		<h3>Grafik-Größen</h3>
+		
+		<p>Die Schlüssel müssen gültige Ruby-Variablenname sein, die Größen gültige <a href="http://www.imagemagick.org/script/command-line-processing.php#geometry">ImageMagick-Formate</a>.</p>
+		
+		<ul class="clearfix">
+		<% 3.times do %>
+		<li>
+			<p><label><span>Schlüssel:</span> <input type="text" name="fields[][asset_styles][]" placeholder="z.B. sidebar_thumb"></label></p>
+			<p><label><span>Größe:</span>     <input type="text" name="fields[][asset_styles][]" placeholder="z.B. 150x100"></label></p>
+		</li>
+		<% end %>
+		</ul>
+		
+		<p><a href="javascript:void(0)" class="smaller button invert add-asset-style">Größe hinzufügen</a></p>
+		
+	</td>
+</tr>

@@ -1,8 +1,0 @@
-<% field_set = defined?(field) %>
-<tr>
-<td><%= text_field_tag  'meta[][title]', field_set ? h(field.title) : nil,  :placeholder => 'Name' %>
-<td><%= text_field_tag  'meta[][name]',  field_set ? h(field.name) : nil,  :placeholder => 'Interner Schlüssel' %>
-<td><%= type_select_tag 'meta[][type]',  field_set ? field.type : "String" %></td>
-<td><%= text_field_tag  'meta[][value]', field_set ? h(item.value) : nil, :placeholder => 'Wert' %></td>
-<td><a href="#" class="smaller remove button invert">Entfernen</a></td>
-</tr>
