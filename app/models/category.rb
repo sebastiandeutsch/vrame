@@ -38,8 +38,8 @@ class Category < ActiveRecord::Base
     ]
   end
   
-  has_json_schema :schema, :mappings => self.default_schema_mappings
-  has_json_store  :meta,   :mappings => self.default_schema_mappings
+  has_json_schema :schema, :allowed_types => self.allowed_schema_types
+  has_json_store  :meta,   :allowed_types => self.allowed_schema_types
   
   Public_attributes = %w(id title url meta_keywords meta_description meta_title parent_id language_id updated_at created_at)
   

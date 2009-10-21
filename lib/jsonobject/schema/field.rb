@@ -65,7 +65,7 @@ module JsonObject
       end
       
       def mapped_class_for_type
-        @mapped_class_for_type ||= @schema.mappings[type]
+        @mapped_class_for_type ||= @schema.class_for_type(type)
       end
       
     end

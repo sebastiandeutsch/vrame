@@ -11,10 +11,7 @@ module JsonObject
     attr_reader :fields, :mappings
 
     def initialize(hash, options = {})
-      @options = self.class.default_options.merge(options)
-      
-      initialize_mappings
-      
+      @options = EmbeddedSchema.default_options.merge(options)
       assign(hash)
     end
     
@@ -34,29 +31,22 @@ module JsonObject
     end
     
     def self.default_options
-      @@default_options ||= {
-        :mappings  => {}
-      }
+      @@default_options ||= { :allowed_types  => {} }
     end
     
     def assign(hash)
       super(hash)
       initialize_fields
     end
+    
+    def class_for_type(t)
+      t.constantize if @options[:allowed_types].include? t
+    end
 
   private
-    
-    def initialize_mappings
-      @mappings ||= {}
-      
-      @options[:mappings].each do |type|
-        @mappings[type] = type.constantize
-      end
-    end
-    
+        
     def initialize_fields
       @fields = {}
-      
       if @hash['fields'].is_a? Array
         @hash['fields'].each do |field|
           @fields[field['name']] = Field.new(field, self)
