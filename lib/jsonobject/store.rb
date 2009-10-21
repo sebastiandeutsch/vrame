@@ -62,33 +62,20 @@ module JsonObject
     end
     
     def write_value(name, value)
-      # Check whether name is already JSON encoded
-      if match = name.match(/(.*)_json$/)
-        name = match[1]
-        already_encoded = true
-      else
-        already_encoded = false
-      end
-      
-      # Get field information from schema
-      field = @schema.find_field_by_name(name)
-      type  = field['type']
-      
-      # If field type has a mapping
-      if klass = @schema.mappings[type]
-        # If field type is a model
-        if klass.ancestors.include?(ActiveRecord::Base)
-          # Save model instance id
-          value = value.id
-        # If field type is a normal class
-        else
-          # Decode value if already JSON encoded
-          value = JSON.parse(value) if already_encoded
-        end
-      end
-            
-      # Write value into hash
-      @hash['values'][field['uid']] = value
+      field = @schema.field_for(name)
+      name, value = normalize_access_method(name, value)
+
+      field.set_value_in_store(value, store)
     end
+    
+    def normalize_access_method(name,value)
+      if name =~ /(.*)_json$/
+        name = $1
+      else
+        value = JSON.parse(value)
+      end
+      [name, value]
+    end
+    
   end
 end

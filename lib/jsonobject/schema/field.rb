@@ -20,8 +20,20 @@ module JsonObject
         typed_value(value)
       end
       
-    private
+      def set_value_in_store(value, store)
+        if mapped_class_for_type
+          if type_descends_from_active_record_base?
+            value = value.id
+          else
+            value.update('json_class', type)
+          end
+        end
+        
+        store.values[uid] = value
+      end
       
+    private
+    
       def assign_uid_if_empty
         uid ||= generate_next_uid
       end
