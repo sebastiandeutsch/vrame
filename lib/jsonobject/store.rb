@@ -2,15 +2,8 @@ module JsonObject
   class Store
     include Serializable
     
-    def self.default_options
-      @@default_options ||= {
-        :schema => nil,
-        :mappings  => {}
-      }
-    end
-    
     attr_reader :schema
-    
+
     def initialize(name, instance, options)
       @name     = name
       @instance = instance
@@ -33,11 +26,9 @@ module JsonObject
           end
       end
     end
-    
-    def assign(hash)      
-      super(hash)
-      
-      initialize_schema
+
+    def values
+      @hash['values']
     end
     
     def method_missing(name, value=nil)
@@ -50,10 +41,18 @@ module JsonObject
       end
     end
     
-    def values
-      @hash['values']
+    def self.default_options
+      @@default_options ||= {
+        :schema => nil,
+        :mappings  => {}
+      }
     end
     
+    def assign(hash)      
+      super(hash)
+      initialize_schema
+    end
+        
   private
     
     def read_value(name)
