@@ -5,7 +5,7 @@ class Image < Asset
     :path => ":rails_root/public/system/assets/:class/:id/:style.:extension",
     :url  =>                   "/system/assets/:class/:id/:style.:extension",
     :styles => {
-      :menucarddesign_thumb => "85x57",
+      :menucarddesign_thumb => "85x57#",
       :qbus_large           => ["x506", :jpg],
       :qbus_medium          => ["294x166#", :jpg],
       :qbus_thumb           => ["x124", :jpg],
