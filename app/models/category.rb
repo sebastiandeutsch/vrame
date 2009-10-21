@@ -27,14 +27,15 @@ class Category < ActiveRecord::Base
   named_scope :published, :conditions => '`categories`.`published` = 1'
   named_scope :in_navigation, :conditions => '`categories`.`hide_in_nav` IS NULL OR `categories`.`hide_in_nav` != 1'
   
-  def self.default_schema_mappings
-    @@default_schema_mappings ||= {
-      :file       => :asset,
-      :collection => :collection,
-      :date       => :date,
-      :time       => :time,
-      :date_time  => :date_time
-    }
+  def self.allowed_schema_types
+    @@allowed_schema_types ||= [
+      'Asset',
+      'Collection',
+      
+      'Date',
+      'Time',
+      'DateTime'
+    ]
   end
   
   has_json_schema :schema, :mappings => self.default_schema_mappings

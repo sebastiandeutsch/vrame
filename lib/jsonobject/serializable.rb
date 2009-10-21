@@ -17,6 +17,7 @@ module JsonObject
     # Decode hash into object
     def assign(hash)      
       @hash = hash
+      @hash.default = Hash.new
     end
     
     # Encode object hash to JSON string
