@@ -7,8 +7,7 @@ module JsonObject
         
         super(hash)
         
-        assign_uid_if_empty
-        assign_name_if_empty
+        generate_name_and_uid_if_empty
       end
       
       def type
@@ -34,17 +33,15 @@ module JsonObject
       
     private
     
-      def assign_uid_if_empty
-        uid ||= generate_next_uid
+      def generate_name_and_uid_if_empty
+        uid  ||= generate_uid
+        name ||= generate_name_from_title
+        
       end
       
-      def generate_next_uid
+      def generate_uid
         # @TODO Only works with MySQL
         ActiveRecord::Base.connection.select_value("SELECT UUID();")
-      end
-      
-      def assign_name_if_empty
-        name ||= generate_name_from_title
       end
       
       def generate_name_from_title
