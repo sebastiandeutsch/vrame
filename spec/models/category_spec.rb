@@ -14,13 +14,13 @@ describe Category, :type => :model do
           { "uid" => "2", "name" => "some_text",        "type" => "Text"       },
           
           # Mapped ActiveRecord pointers
-          {               "name" => "some_file",        "type" => "File"       },
+          {               "name" => "some_asset",       "type" => "Asset"       },
           {               "name" => "some_collection",  "type" => "Collection" },
           
           # More of the above
           { "uid" => "3", "name" => "another_text",     "type" => "Text"       },
           {               "name" => "yet_another_text", "type" => "Text"       },
-          {               "name" => "another_file",     "type" => "File"       },          
+          {               "name" => "another_asset",    "type" => "Asset"      },          
           
           # Mapped/serialized object values
           {               "name" => "some_date",        "type" => "Date"       },
@@ -106,10 +106,10 @@ describe Category, :type => :model do
     }.should raise_error(JsonObject::UnknownSchemaAttributeError)
   end
   
-  it "should have a meta attribute which maps typed values to objects with specific classes" do
-    @category.meta.some_file.should be_an(Asset)
-    @category.meta.some_collection.should be_a(Collection)
-    @category.meta.some_date.should nil
+  it "should have a meta attribute which maps typed fields without values to nil" do
+    @category.meta.some_asset.should      == nil
+    @category.meta.some_collection.should == nil
+    @category.meta.some_date.should       == nil
   end
   
   it "should have a meta attribute which maps and serializes an asset attribute correctly" do
@@ -117,13 +117,13 @@ describe Category, :type => :model do
     
     asset = @category.assets.create()
     
-    @category.meta.another_file = asset
+    @category.meta.another_asset = asset
     
     @category.save
     
     @category = Category.find_by_title(@title)
     
-    @category.meta.another_file.should == asset
+    @category.meta.another_asset.should == asset
   end
   
   it "should have a meta attribute which maps and serializes a date attribute correctly" do

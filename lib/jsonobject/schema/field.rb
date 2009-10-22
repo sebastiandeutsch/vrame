@@ -1,5 +1,7 @@
 module JsonObject
   class Schema
+    class Text < String; end
+    
     class Field < OpenStruct
       
       def initialize(hash, schema)
@@ -36,7 +38,6 @@ module JsonObject
       def generate_name_and_uid_if_empty
         uid  ||= generate_uid
         name ||= generate_name_from_title
-        
       end
       
       def generate_uid
