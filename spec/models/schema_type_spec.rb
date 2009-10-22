@@ -30,6 +30,11 @@ describe JsonObject::Type do
       @new_type.to_json.should match(/JsonObject::Type/)
     end
     
+    it "should not serialize the errors instance variable" do
+      @new_type.valid?
+      @new_type.to_json.should_not match(/errors/)
+    end
+    
     it "should have a self.json_create method to deserialize its representation" do
       JsonObject::Type.should respond_to(:json_create)
       @new_type.name = "Name"
@@ -40,10 +45,28 @@ describe JsonObject::Type do
       revived.uid.should eql @new_type.uid
     end
 
-    it "should refuse a reserved keyword for the types name"
-    it "should generate a name from its title"
-    it "should refuse duplicate names"
-    it "should prevent illegal configuration of types"    
+    describe "Validations" do
+      it "should provide a 'valid?' method on the Type Instance" do
+        @new_type.should respond_to(:valid?)
+      end
+      
+      it "should refuse an empty name" do
+        @new_type.should_not be_valid
+        @new_type.name = "bla"
+        @new_type.should be_valid
+      end
+      
+      it "should refuse a reserved keyword for the types name" do
+        @new_type.name = "type"
+        @new_type.should_not be_valid        
+      end
+      
+      it "should generate a name from its title"
+      it "should refuse duplicate names"
+      it "should prevent illegal configuration of types"
+      
+      it "should execute the validate method in subclasses and respect their additions to the error object"
+    end
   end
   
   describe JsonObject::Types::String do

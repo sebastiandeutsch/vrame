@@ -18,11 +18,13 @@ module JsonObject
     #     Type.deserialize(primitivobjekt) => Ruby Object
     class Type
       RESERVED_KEYWORDS = Object.new.methods
+      UNSERIALIZABLE_PROPERTIES = ['@errors']
 
       attr_accessor :name, :description, :title, :required, :uid
       
       def initialize
         self.uid = generate_uid
+        
       end
       
       def generate_uid
@@ -30,9 +32,16 @@ module JsonObject
         ActiveRecord::Base.connection.select_value("SELECT UUID();")
       end
       
+      def valid?
+        @errors = []
+        validate_base
+        @errors.empty?
+      end
+      
       def to_json
         hash = {}
         self.instance_variables.each do |attr|
+          next if UNSERIALIZABLE_PROPERTIES.include?(attr)
           hash[attr[1..-1]] = self.instance_variable_get(attr)
         end
         hash[:json_class] = self.class.name
@@ -46,6 +55,13 @@ module JsonObject
           type.instance_variable_set("@#{key}", value)
         end
         type
+      end
+    
+    private
+    
+      def validate_base
+        @errors << [:name, "Darf nicht leer sein"] if name.blank?
+        @errors << [:name, "Darf kein reserviertes Wort sein"] if RESERVED_KEYWORDS.include?(name)
       end
     end
 end
