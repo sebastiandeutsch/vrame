@@ -22,7 +22,7 @@ module JsonObject
         #   EmbeddedSchema.new(@options[:schema], { :mappings => @options[:mappings] })
         else
           unless @hash.nil? or @hash['schema'].nil?
-            EmbeddedSchema.new(@hash['schema'], { :mappings => @options[:mappings] }) # Wieso hier nicht Schema.new?
+            EmbeddedSchema.new(@hash['schema'], { :allowed_types => @options[:allowed_types] }) # Wieso hier nicht Schema.new?
           end
       end
     end

@@ -15,8 +15,8 @@ module JsonObject
     end
     
     # Decode hash into object
-    def assign(hash)      
-      @hash = hash
+    def assign(hash)
+      @hash = hash.dup
       @hash.default = Hash.new
     end
     

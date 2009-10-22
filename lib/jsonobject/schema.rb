@@ -49,7 +49,7 @@ module JsonObject
       @fields = {}
       if @hash['fields'].is_a? Array
         @hash['fields'].each do |field|
-          @fields[field['name']] = Field.new(field, self)
+          @fields[field['name']] = Schema::Field.new(field, self)
         end
       end
     end

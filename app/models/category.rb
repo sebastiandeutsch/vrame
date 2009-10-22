@@ -32,6 +32,8 @@ class Category < ActiveRecord::Base
       'Asset',
       'Collection',
       
+      'String',
+      'Text',
       'Date',
       'Time',
       'DateTime'
