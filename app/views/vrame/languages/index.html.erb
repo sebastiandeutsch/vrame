@@ -27,11 +27,9 @@
 					<td>
 						<%=h language.iso3_code %>
 					</td>
-					<td>
-						<span class="options">
-							<%= link_to "Edit", edit_admin_language_path(language.id) %>
-							<%= link_to "Delete", [:vrame, language], :method => :delete, :confirm => 'Wirklich löschen?' %>
-						</span>
+					<td class="options">
+						<%= link_to "Edit", edit_admin_language_path(language.id) %>
+						<%= link_to "Delete", [:vrame, language], :method => :delete, :confirm => 'Wirklich löschen?' %>
 					</td>
 				</tr>
 			<% end %>

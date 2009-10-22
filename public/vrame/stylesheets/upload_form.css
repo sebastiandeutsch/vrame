@@ -1,11 +1,37 @@
-/* Upload Button Placeholder */
+/** 
+ * Upload Form
+ *
+ *
+ */
+
+/** 
+ * @section asset / Collection ID fields (usually hidden)
+ *
+ *
+ */
+
+input.asset-id, input.collection-id {
+	display: none;
+	width: 45px;
+	vertical-align: top;
+}
+
+/** 
+ * @section Upload Button Placeholder
+ *
+ *
+ */
 
 #upload-button {
 	width: 70px;
 	height: 32px;
 }
 
-/* Flash Upload Queue */
+/** 
+ * @section Flash Upload Queue
+ *
+ *
+ */
 
 #upload-queue {
 	margin: 10px 0;

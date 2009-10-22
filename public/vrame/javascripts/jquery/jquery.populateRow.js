@@ -9,7 +9,7 @@ jQuery.fn.populateRow = function(source, dest, options) {
 			fx : 'fadeIn'
 		},
 		opts = $.extend(defaults, options);
-
+	
 	this.click(add);
 	$(dest).find(opts.removeSelector).click(remove);
 	
@@ -17,7 +17,8 @@ jQuery.fn.populateRow = function(source, dest, options) {
 	
 	function add (e) {
 		e.preventDefault();
-		var clone = $(source).clone(true).appendTo(dest);
+		/* Current behavior: Do not copy event handlers */
+		var clone = $(source).clone().appendTo(dest);
 		clone[opts.fx]();
 		clone.find(opts.removeSelector).click(remove);
 		opts.add(clone);
@@ -25,12 +26,14 @@ jQuery.fn.populateRow = function(source, dest, options) {
 	
 	function remove (e) {
 		e.preventDefault();
-		var removeButton = $(this);
+		var removeButton = $(this), parent;
 		if (opts.removeParentSelector) {
-			removeButton.parents(opts.removeParentSelector).eq(0).remove();
+			parent = removeButton.parents(opts.removeParentSelector).eq(0);
 		} else {
-			removeButton.parent().remove();
+			parent = removeButton.parent();
 		}
+		parent.remove();
+		opts.remove(parent);
 	}
 	
 };

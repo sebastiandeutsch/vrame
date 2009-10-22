@@ -1,0 +1,174 @@
+/** 
+ * @section Category schema builder
+ *
+ *
+ */
+
+#add-schema-item {
+	display: inline-block;
+}
+
+/** 
+ * @subsection Table cells
+ *
+ *
+ */
+
+#schema-builder th {
+	font-weight: bold;
+	background-color: #f0f0f0;
+	padding: 8px 5px;
+}
+
+#schema-builder td {
+	border-bottom: 1px solid #ccc;
+	padding: 10px 30px 10px 0;
+	vertical-align: top;
+}
+
+#schema-builder th:first-child,
+#schema-builder td:first-child {
+	padding-left: 10px;
+}
+#schema-builder tr:last-child td {
+	border-bottom-style: none;
+}
+
+/** 
+ * @subsection Column widths
+ *
+ *
+ */
+
+#schema-builder td.type {
+	width: 100px;
+}
+
+#schema-builder td.title-name {
+	width: 300px;
+}
+
+#schema-builder td.description {
+	width: 230px;
+}
+
+#schema-builder td.required {
+	width: 90px;
+}
+
+#schema-builder td.remove {
+	width: 70px;
+}
+
+/** 
+ * @subsection Table cell content
+ *
+ *
+ */
+
+#schema-builder p {
+	margin-bottom: 5px;
+}
+
+#schema-builder td.title-name label {
+	float: left;
+	width: 70px;
+}
+
+/** 
+ * @subsection Form fields
+ *
+ *
+ */
+
+ #schema-builder select.type {
+	width: 100%;
+}
+
+#schema-builder input.title,
+#schema-builder input.name,
+#schema-builder textarea.description {
+	width: 220px;
+}
+
+#schema-builder textarea.description {
+	margin: 0;
+	height: 46px;
+}
+
+/** 
+ * @subsection Required column
+ *
+ *
+ */
+
+#schema-builder label.required {
+	float: none;
+}
+
+#schema-builder td.required input {
+	margin: 0;
+}
+
+/**
+ * @subsection Field options
+ *
+ * 
+ */
+ 
+#schema-builder tr.has-field-options td {
+	border-bottom-style: none;
+	/* padding-bottom: 0; */
+}
+
+#schema-builder tr.field-options td {
+	padding-top: 0;
+}
+
+#schema-builder tr.field-options li {
+	float: left;
+	margin: 0 25px 10px 0;
+	padding: 0;
+	border: 0 none;
+}
+
+#schema-builder tr.field-options h3 {
+	margin: 0 0 5px;
+	font-size: 1.1em;
+}
+
+#schema-builder tr.field-options p {
+	margin-bottom: 5px;
+	clear: left;
+}
+
+#schema-builder tr.field-options label span {
+	display: inline-block;
+	width: 90px;
+}
+
+#schema-builder tr.field-options input {
+	width: 115px;
+	font-size: 12px;
+}
+
+/**
+ * @subsection Asset styles
+ *
+ * 
+ */
+
+#schema-builder tr.asset-styles td {
+	padding-bottom: 0;
+}
+
+/**
+ * @subsection Select options
+ *
+ * 
+ */
+
+#schema-builder tr.multiselect-options ul {
+	list-style-type: decimal;
+	list-style-position: inside;
+}

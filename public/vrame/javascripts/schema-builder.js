@@ -72,44 +72,57 @@ jQuery(function ($) {
 	var fieldTypeBehavior = {
 		'File' : {
 			rowPrototype    : '#asset-styles-prototype tr',
-			addButton       : 'a.add-asset-style',
+			optionButton    : 'tr.asset-styles a.add-asset-style',
 			optionPrototype : 'li:first',
 			optionTarget    : 'ul:first'
 		},
 		'Collection' : {
 			rowPrototype    : '#asset-styles-prototype tr',
-			addButton       : 'a.add-asset-style',
+			optionButton    : 'tr.asset-styles a.add-asset-style',
 			optionPrototype : 'li:first',
 			optionTarget    : 'ul:first'
 		},
 		'Select' : {
 			rowPrototype    : '#select-options-prototype tr',
-			addButton       : 'a.add-select-field',
+			optionButton    : 'tr.select-fields a.add-select-field',
 			optionPrototype : 'li:first',
 			optionTarget    : 'ul:first'
 		},
 		'Multiselect' : {
 			rowPrototype    : '#multiselect-options-prototype tr',
-			addButton       : 'a.add-select-field',
+			optionButton    : 'tr.multiselect-fields a.add-select-field',
 			optionPrototype : 'li:first',
 			optionTarget    : 'ul:first'
 		}
 	};
 	
 	$('#schema-builder select.type').change(addFieldOptions);
+	setupOptionPopulation();
 	
-	/* Setup event handling in prototypes */
-	for (var key in fieldTypeBehavior) {
-		var o = fieldTypeBehavior[key];
-		if (!o.rowPrototype) continue;
-		$(o.rowPrototype).find(o.addButton).populateRow(
-			/* Clone from Source*/
-			tr.find(o.optionPrototype),
-			/* Append to Destination */
-			tr.find(o.optionTarget),
-			/* Add Callback */
-			o.callback ? { add : o.callback } : null
-		);
+	function setupOptionPopulation (tr) {
+		for (var key in fieldTypeBehavior) {
+			var o = fieldTypeBehavior[key], buttons;
+			if (!o.optionButton) continue;
+			buttons = $(o.optionButton)
+				/* Don't treat a button twice, set and check a flag */
+				.filter(function () {
+					return !$(this).data('populateRow');
+				})
+				.data('populateRow', true)
+				/* It's complicated because populateRow doesn't support relative sources/destinations atm */
+				.each(function () {
+					var button = $(this),
+						tr = tr || button.closest('tr');
+					/* Setup event handling */
+					button.populateRow(
+						/* Clone from Source */
+						tr.find(o.optionPrototype),
+						/* Append to Destination */
+						tr.find(o.optionTarget)
+					);
+				});
+			
+		}
 	}
 	
 	function addFieldOptions () {
@@ -122,12 +135,14 @@ jQuery(function ($) {
 		}
 	}
 	
-	function cloneFieldOptions(tr, o) {
+	function cloneFieldOptions (tr, o) {
 		var klass = 'has-field-options';
 		if (tr.hasClass(klass)) return;
 		/* Clone and insert */
 		tr.addClass(klass);
-		var clone = $(o.rowPrototype).clone(true).insertAfter(tr);
+		var clone = $(o.rowPrototype).clone().insertAfter(tr);
+		/* Restore event handlers */
+		setupOptionPopulation(clone);
 	}
 	
 	function removeFieldOptions (tr, o) {

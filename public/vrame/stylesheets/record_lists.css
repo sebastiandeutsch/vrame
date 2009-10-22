@@ -1,0 +1,104 @@
+/** 
+ * Record lists
+ *
+ *
+ */
+
+/** 
+ * @subsection Container with border
+ *
+ *
+ */
+
+.table-container {
+	margin-bottom: 15px;
+	border: 1px solid #e7e7e7;
+	padding: 1px;
+}
+
+/** 
+ * @section Table
+ *
+ * 
+ */
+
+.record-list {
+	width: 100%;
+	margin-bottom: 15px;
+}
+
+.record-list thead th {
+	color: #aaa;
+	background-color: #575757;
+	padding: 3px 5px 3px 5px;
+	font-weight:bold;
+	font: bold 11px Arial;
+	border-bottom: 2px solid #3c3c3c;
+}
+
+.record-list tbody td {
+	color:#000;
+	padding: 3px 5px 3px 5px;
+}
+
+/** 
+ * @subsection Options column
+ *
+ *
+ */
+
+.record-list .options {
+	font-size: 13px;
+	width: 180px;
+}
+
+.record-list .options a {
+	margin-right: 13px;
+	background-repeat: no-repeat;
+	background-position: left center;
+	white-space: nowrap;
+}
+
+.record-list a.edit {
+	background-image: url(/vrame/images/admin/edit.png)
+}
+
+.record-list a.delete {
+	background-image: url(/vrame/images/admin/delete.png)
+}
+
+.record-list  a.add {
+	background-image: url(/vrame/images/admin/add.png)
+}
+
+.record-list a.list {
+	display: block;
+	margin-bottom: 5px;
+	background-image: url(/vrame/images/admin/magnifier.png)
+}
+
+.record-list a.send_preview {
+	background-image: url(/vrame/images/admin/email_go.png)
+}
+
+.record-list a.send_to_all {
+	background-image: url(/vrame/images/admin/group_go.png)
+}
+
+.record-list a.time {
+	background-image: url(/vrame/images/admin/time.png)
+}
+
+/** 
+ * @subsection List pagination
+ *
+ *
+ */
+
+.pagination-container {
+	width:100%;
+	overflow:hidden;
+	margin-top:3px;
+	height:18px;
+	text-align:right;
+}

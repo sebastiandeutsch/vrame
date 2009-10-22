@@ -1,0 +1,188 @@
+/** 
+ * Content-View
+ *
+ *
+ */
+
+/** 
+ * @section Container
+ *
+ *
+ */
+
+.content-view {
+	background-color:#f7f7f7;
+}
+
+/** 
+ * @section Category list
+ *
+ *
+ */
+
+.content-view .categories {
+	width:33%;
+	float:left;
+}
+
+.content-view .categories ul {
+	border-bottom:1px dotted transparent;
+}
+
+.content-view .categories > ul {
+	margin-top:0;
+	background:#fff;
+}
+
+.content-view .categories li.last {
+	border-bottom:0;
+	padding-bottom:0;
+}
+
+/** 
+ * @subsection Active category
+ *
+ *
+ */
+
+.content-view .categories div.active {
+
+	-moz-border-radius: 15px 0 0 15px;
+	-webkit-border-top-left-radius: 15px;
+	-webkit-border-bottom-left-radius: 15px;
+	background-color:#f7f7f7;
+}
+
+/** 
+ * @subsection Category Nesting
+ *
+ *
+ */
+
+.content-view .categories div.level-0 {
+	margin-left:0px;
+}
+
+.content-view .categories div.level-1 {
+	margin-left:10px;
+}
+
+.content-view .categories div.level-2 {
+	margin-left:20px;
+}
+
+.content-view .categories div.level-3 {
+	margin-left:30px;
+}
+
+.content-view .categories div.level-4 {
+	margin-left:40px;
+}
+
+.content-view .categories div.level-5 {
+	margin-left:50px;
+}
+
+.content-view .categories div.level-6 {
+	margin-left:60px;
+}
+
+/** 
+ * @subsection Single Category
+ *
+ *
+ */
+
+div.category .column {
+	float:left;
+	margin:10px 10px 10px 10px;
+}
+
+div.category .title {
+	width:140px;
+	padding:0 0 3px 0;
+}
+
+div.category .options {
+	float:right;
+	display:none;
+}
+
+div.category .options img {
+	margin-right:3px;
+}
+
+div.category .order {
+	float:right;
+	display:none;
+}
+
+div.category:hover .options {
+	float:right;
+	display:block;
+}
+
+div.category:hover .order {
+	float:right;
+	display:block;
+}
+
+/** 
+ * @section Item (Document) List
+ *
+ *
+ */
+
+.content-view .items {
+	width:67%;
+	float:left;
+}
+
+.content-view .items ul {
+	border-top:1px dotted #d7d7d7;
+}
+
+.content-view .items ul li {
+	background-color:#f7f7f7;
+	border-bottom:1px dotted #d7d7d7;
+}
+
+/** 
+ * @subsection Single Item (Document)
+ *
+ *
+ */
+
+li.document .column {
+	float:left;
+	margin:10px 10px 10px 10px;
+}
+
+li.document .title {
+	width: 300px;
+}
+
+li.document .title a {
+	color: #000;
+	text-decoration: none;
+}
+
+li.document .slug {
+	width: 140px;
+}
+
+li.document .image {
+	width:100px;
+	float: left;
+	margin:0;
+	padding:0;
+	line-height:0.1;
+}
+
+li.document .options {
+	float:right;
+}
+
+li.document .options img {
+	margin-right:3px;
+}

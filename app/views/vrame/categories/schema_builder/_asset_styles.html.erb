@@ -4,13 +4,13 @@
 	
 		<h3>Grafik-Größen</h3>
 		
-		<p>Die Schlüssel müssen gültige Ruby-Variablenname sein, die Größen gültige <a href="http://www.imagemagick.org/script/command-line-processing.php#geometry">ImageMagick-Formate</a>.</p>
+		<p>Die Schlüssel müssen gültige Ruby-Variablenname sein (z.B. <code>sidebar_thumb</code>), die Größen gültige <a href="http://www.imagemagick.org/script/command-line-processing.php#geometry">ImageMagick-Formate</a> (z.B. <code>150x100</code>).</p>
 		
 		<ul class="clearfix">
 		<% 3.times do %>
 		<li>
-			<p><label><span>Schlüssel:</span> <input type="text" name="fields[][asset_styles][]" placeholder="z.B. sidebar_thumb"></label></p>
-			<p><label><span>Größe:</span>     <input type="text" name="fields[][asset_styles][]" placeholder="z.B. 150x100"></label></p>
+			<p><label><span>Schlüssel:</span> <input type="text" name="fields[][asset_styles][]"></label></p>
+			<p><label><span>Größe:</span> <input type="text" name="fields[][asset_styles][]"></label></p>
 		</li>
 		<% end %>
 		</ul>
