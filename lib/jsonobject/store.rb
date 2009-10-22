@@ -64,13 +64,12 @@ module JsonObject
       field = @schema.field_for(name)
       name, value = normalize_access_to_object(name, value)
 
-      field.set_value_in_store(value, store)
+      field.set_value_in_store(value, self)
     end
     
     def normalize_access_to_object(name,value)
       if name =~ /(.*)_json$/
         name = $1
-      else
         value = JSON.parse(value)
       end
       [name, value]

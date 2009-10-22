@@ -8,7 +8,7 @@ describe Document, :type => :model do
       "fields" => [
         { "uid" => "1", "name" => "some_string",      "type" => "String"     },
         { "uid" => "2", "name" => "some_text",        "type" => "Text"       },
-        {               "name" => "some_file",        "type" => "File"       }
+        {               "name" => "some_asset",       "type" => "Asset"      }
       ]
     }.freeze
     
@@ -31,8 +31,7 @@ describe Document, :type => :model do
     
     @document.meta.some_string.should == "Hello, I'm a value for a field called some_string!"
     @document.meta.some_text.should   == "Hello, I'm a value for a field called some_text!"
-    
-    @document.meta.some_file.should be_an(Asset)
+    @document.meta.some_asset.should be_nil
   end
   
 end

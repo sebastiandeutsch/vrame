@@ -25,7 +25,7 @@ module JsonObject
         if mapped_class_for_type
           if type_descends_from_active_record_base?
             value = value.id
-          else
+          elsif value.is_a? Hash
             value.update('json_class', type)
           end
         end
