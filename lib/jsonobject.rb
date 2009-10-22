@@ -3,6 +3,8 @@ require 'jsonobject/helper'
 require 'jsonobject/serializable'
 require 'jsonobject/schema'
 require 'jsonobject/store'
+require 'jsonobject/type'
+require 'jsonobject/types'
 
 module JsonObject # @TODO rename JsonObjectExtension, this is not an object!
   class << self
