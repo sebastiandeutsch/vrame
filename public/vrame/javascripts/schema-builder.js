@@ -1,8 +1,8 @@
-/* New Field and Slug Generator */
+/* New Field, Slug Generator, Field Options */
 
 jQuery(function ($) {
 	
-	$('#schema-builder').bind('schemaFieldAdded', setupSlugGenerator);
+	/* New Field */
 	
 	$('#add-schema-field').populateRow(
 		/* Clone from Source*/
@@ -11,13 +11,20 @@ jQuery(function ($) {
 		'#schema-builder tbody',
 		{
 			removeParentSelector : 'tr',
-			add : schemaFieldAdded
+			add : function (tr) {
+				//console.log('schema builder: field added');
+				/* Setup event handling on clone*/
+				setupSlugGenerator(tr);
+				tr.find('select.type').change(controlFieldOptions);
+			},
+			remove : function (tr) {
+				//console.log('schema builder: field removed');
+				removeFieldOptions(tr);
+			}
 		}
 	);
 	
-	function schemaFieldAdded () {
-		$('#schema-builder').trigger('schemaFieldAdded');
-	}
+	/* Slug Generation */
 	
 	function sluggify (string) {
 		return string
@@ -49,26 +56,8 @@ jQuery(function ($) {
 			.blur(slugGenerator);
 	}
 	
-});
-
-/* Required Field */
-
-jQuery(function ($) {
+	/* Field Options */
 	
-	$('#schema-builder label.required').click(toogleRequiredField);
-	
-	function toogleRequiredField (e) {
-		var label = $(this),
-			checked = label.find('input').attr('checked') ? '1' : '0';
-		label.closest('td').find('input.required-field').val(checked);
-	}
-	
-});
-
-/* Options */
-
-jQuery(function ($) {
-
 	var fieldTypeBehavior = {
 		'File' : {
 			rowPrototype    : '#asset-styles-prototype tr',
@@ -98,30 +87,6 @@ jQuery(function ($) {
 	hasFieldOptions = 'has-field-options';
 	
 	$('#schema-builder select.type').change(controlFieldOptions);
-	setupOptionPopulation();
-	
-	function setupOptionPopulation () {
-		for (var key in fieldTypeBehavior) {
-			var o = fieldTypeBehavior[key];
-			if (!o.optionButton) continue;
-			$(o.optionButton)
-				/* Don't treat a button twice, set and check a flag */
-				.filter(function () {
-					return !$(this).data('populateOption');
-				})
-				.data('populateOption', o)
-				/* Setup event handling */
-				.click(populateOption);
-		}
-	}
-	
-	function populateOption () {
-		var button = $(this),
-			o = button.data('populateOption'),
-			tr = button.closest('tr'),
-			target = tr.find(o.optionTarget);
-		tr.find(o.optionPrototype).clone().appendTo(target);
-	}
 	
 	function controlFieldOptions () {
 		var select = $(this),
@@ -152,13 +117,53 @@ jQuery(function ($) {
 			tr.after(clone);
 		}
 		tr.addClass(hasFieldOptions);
-		/* Restore event handlers */
+		/* Setup event handling on clone*/
 		setupOptionPopulation();
 	}
 	
 	function removeFieldOptions (tr) {
 		//console.log('removeFieldOptions', tr);
 		tr.removeClass(hasFieldOptions).next('.field-options').remove();
+	}
+	
+	/* Field Options Population */
+	
+	setupOptionPopulation();
+	
+	function setupOptionPopulation () {
+		for (var key in fieldTypeBehavior) {
+			var o = fieldTypeBehavior[key];
+			if (!o.optionButton) continue;
+			$(o.optionButton)
+				/* Don't treat a button twice, set and check a flag */
+				.filter(function () {
+					return !$(this).data('populateOption');
+				})
+				.data('populateOption', o)
+				/* Setup event handling */
+				.click(populateOption);
+		}
+	}
+	
+	function populateOption () {
+		var button = $(this),
+			o = button.data('populateOption'),
+			tr = button.closest('tr'),
+			target = tr.find(o.optionTarget);
+		tr.find(o.optionPrototype).clone().appendTo(target);
+	}
+});
+
+/* Required Field */
+
+jQuery(function ($) {
+	
+	$('#schema-builder label.required').click(toogleRequiredField);
+	
+	function toogleRequiredField (e) {
+		var label = $(this),
+			checked = label.find('input').attr('checked') ? '1' : '0';
+		label.closest('td').find('input.required-field').val(checked);
 	}
 	
 });
