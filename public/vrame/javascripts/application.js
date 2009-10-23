@@ -1,30 +1,43 @@
 (function () {
 	
-	var ap = Array.prototype, fp = Function.prototype;
+	var ap = Array.prototype,
+		fp = Function.prototype;
 	
 	function convert (obj, sliceStart) {
 		return ap.slice.apply(obj, sliceStart);
 	};
 	
-	fp.curry = function f_Function_prototype_curry () {
-		if (arguments.length === 0) {
-			return this;
-		}
-		var method = this, args = Array.convert(arguments);
-		return function f_curried_function () {
-			return method.apply(this, args.concat(Array.convert(arguments)));
-		};
-	};
+	if (!fp.curry) {
+		fp.curry = f_Function_prototype_curry;
+	}
 	
 	if (!fp.bind) {
-		fp.bind = function f_Function_prototype_bind (context) {
-			if (arguments.length === 0) {
-				return this;
-			}
-			var method = this, args = Array.convert(arguments, 1);
-			return function f_bound_function () {
-				return method.apply(context, args.concat(Array.convert(arguments)));
-			};
+		fp.bind = f_Function_prototype_bind;
+	}
+	
+	function f_Function_prototype_curry () {
+		if (arguments.length == 0) {
+			return this;
+		}
+		var method = this,
+			bindArgs = convert(arguments);
+		return function f_curried_function () {
+			var mergedArgs = bindArgs.concat( convert(arguments) );
+			return method.apply(this, mergedArgs);
+		};
+	}
+	
+	function f_Function_prototype_bind (context) {
+		var length = arguments.length,
+			method = this,
+			bindArgs;
+		if (length == 0) {
+			return this;
+		}
+		bindArgs = length > 1 ? convert(arguments, 1) : [];
+		return function f_bound_function () {
+			var mergedArgs = bindArgs.concat( convert(arguments) );
+			return method.apply(context, mergedArgs);
 		};
 	}
 	
