@@ -12,7 +12,7 @@ module JsonObject
 
     def initialize(hash, options = {})
       @options = EmbeddedSchema.default_options.merge(options)
-      assign(hash)
+      load_hash_from(hash)
     end
     
     def field_for(name)
@@ -34,7 +34,7 @@ module JsonObject
       @@default_options ||= { :allowed_types  => {} }
     end
     
-    def assign(hash)
+    def load_hash_from(hash)
       super(hash)
       initialize_fields
     end

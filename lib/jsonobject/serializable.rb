@@ -3,9 +3,9 @@ module JsonObject
     def initialize_serialization
       # Decode JSON string from database into object
       if @instance.query_attribute(column_name)
-        assign(ActiveSupport::JSON.decode(@instance.read_attribute(column_name)))
+        load_hash_from(ActiveSupport::JSON.decode(@instance.read_attribute(column_name)))
       else
-        assign(@instance.read_attribute(@name) || {})
+        load_hash_from(@instance.read_attribute(@name) || {})
       end
       
       # Encode object into JSON string for database
@@ -15,7 +15,7 @@ module JsonObject
     end
     
     # Decode hash into object
-    def assign(hash)
+    def load_hash_from(hash)
       @hash = hash.dup
       @hash.default = Hash.new
     end

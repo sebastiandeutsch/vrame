@@ -48,7 +48,7 @@ module JsonObject
       }
     end
     
-    def assign(hash)      
+    def load_hash_from(hash)      
       super(hash)
       initialize_schema
     end

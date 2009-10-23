@@ -24,7 +24,7 @@ module JsonObject # @TODO rename JsonObjectExtension, this is not an object!
       end
       
       define_method "#{name}=" do |hash|
-        json_schema_for(name).assign(hash)
+        json_schema_for(name).load_from_hash(hash)
       end
     end
     
@@ -38,7 +38,7 @@ module JsonObject # @TODO rename JsonObjectExtension, this is not an object!
       end
       
       define_method "#{name}=" do |hash|
-        json_store_for(name).assign(hash)
+        json_store_for(name).load_from_hash(hash)
       end
     end
     
