@@ -102,7 +102,7 @@ module VrameHelper
   end
   
   def type_select_tag(name, value = nil)
-    select_tag(name, options_for_select(["String", "Text", "Datetime", "Bool", "File", "Collection"], value))
+    select_tag(name, options_for_select(Category::TYPES, value))
   end
   
   # Current controller and action as body classes, namespaced with vc/va

@@ -59,7 +59,7 @@ jQuery(function ($) {
 	/* Field Options */
 	
 	var fieldTypeBehavior = {
-		'File' : {
+		'Asset' : {
 			rowPrototype    : '#asset-styles-prototype tr',
 			optionButton    : 'tr.asset-styles a.add-asset-style',
 			optionPrototype : 'li:first',

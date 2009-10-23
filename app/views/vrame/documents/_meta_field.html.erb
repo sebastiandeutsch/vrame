@@ -29,21 +29,19 @@
 		
 		<input type="text" name="<%= name %>" id="<%= id %>" value="<%= value %>" class="datepicker" />
 		
-	<% when "File" %>
+	<% when "Asset" %>
 		
 		<%= render :partial => 'vrame/shared/file_upload', :locals => {
-			:type => "file",
-			:parent => document,
 			:asset => value,
+			:parent => document,
 			:field_name => name
 		} %>
 		
 	<% when "Collection" %>
 		
 		<%= render :partial => 'vrame/shared/file_upload', :locals => {
-			:type => "file",
-			:parent => document,
 			:collection => value,
+			:parent => document,
 			:field_name => name
 		} %>
 		
