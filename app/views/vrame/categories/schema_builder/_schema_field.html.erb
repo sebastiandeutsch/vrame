@@ -43,8 +43,8 @@
 <%# Field options %>
 <% if field_set %>
 	<% if field.type == 'Asset' or field.type == 'Collection' %>
-		<%= render :partial => 'vrame/categories/schema_builder/asset_styles' %>
+		<%= render :partial => 'vrame/categories/schema_builder/asset_styles', :locals => { :field => field } %>
 	<% elsif field.type == 'Select' or field.type == 'Multiselect' %>
-		<%= render :partial => 'vrame/categories/schema_builder/select_options', :locals => { :type => field.type } %>
+		<%= render :partial => 'vrame/categories/schema_builder/select_options', :locals => { :field => field, :type => field.type } %>
 	<% end %>
 <% end %>
