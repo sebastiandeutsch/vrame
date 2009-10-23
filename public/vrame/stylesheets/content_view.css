@@ -11,7 +11,8 @@
  */
 
 .content-view {
-	background-color:#f7f7f7;
+	line-height: 20px;
+	background-color: #fafafa;
 }
 
 .content-view a {
@@ -38,9 +39,10 @@
  */
 
 .content-view .categories div.active {
-	-moz-border-radius: 10px 0 0 10px;
-	-webkit-border-radius: 10px 0 0 10px;
-	background-color: #f0f0ff;
+	border-radius: 15px 0 0 15px;
+	-moz-border-radius: 15px 0 0 15px;
+	-webkit-border-radius: 15px 0 0 15px;
+	background-color: #efefff;
 }
 
 .content-view .categories .active a {
@@ -55,12 +57,8 @@
  *
  */
 
-.content-view .category {
-	line-height: 20px;
-}
-
 .content-view .category:hover {
-	background-color: #fafafe;
+	background-color: #f8f8ff;
 }
 
 .content-view .category a {
@@ -92,7 +90,9 @@
 .content-view .category .order {
 	float: right;
 	margin-right: 10px;
-	opacity: 0.2;
+	opacity: 0.15;
+	-moz-opacity: 0.15;
+	-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(opacity=15)';
 }
 
 .content-view .category .options a,
@@ -110,6 +110,8 @@
 .content-view .category:hover .options,
 .content-view .category:hover .order {
 	opacity: 1;
+	filter: none;
+	-ms-filter: 'none';
 }
 
 /** 
@@ -130,27 +132,27 @@
  */
 
 .content-view .categories .level-1 .title a {
-	padding-left: 10px;
+	padding-left: 15px;
 }
 
 .content-view .categories .level-2 .title a {
-	padding-left: 20px;
-}
-
-.content-view .categories .level-3 .title a {
 	padding-left: 30px;
 }
 
+.content-view .categories .level-3 .title a {
+	padding-left: 45px;
+}
+
 .content-view .categories .level-4 .title a {
-	padding-left: 40px;
+	padding-left: 60px;
 }
 
 .content-view .categories .level-5 .title a {
-	padding-left: 50px;
+	padding-left: 65px;
 }
 
 .content-view .categories .level-6 .title a {
-	padding-left: 60px;
+	padding-left: 80px;
 }
 
 /** 
@@ -160,17 +162,16 @@
  */
 
 .content-view .items {
-	width:67%;
-	float:left;
+	float: left;
+	width: 67%;
 }
 
 .content-view .items ul {
-	border-top:1px dotted #d7d7d7;
+	border-top: 1px dotted #d7d7d7;
 }
 
 .content-view .items li {
-	background-color:#f7f7f7;
-	border-bottom:1px dotted #d7d7d7;
+	border-bottom: 1px dotted #d7d7d7;
 }
 
 /** 
@@ -184,6 +185,10 @@
 	padding: 7px 0;
 }
 
+.content-view .document:hover {
+	background: #f7f7ff;
+}
+
 .content-view .document .column {
 	float: left;
 }
@@ -193,7 +198,7 @@
 }
 
 .content-view .document .title a {
-	padding-left: 10px;
+	padding-left: 15px;
 	padding-right: 10px;
 	color: #000;
 }
@@ -212,12 +217,18 @@
 
 .content-view .document .options {
 	float: right;
+	margin-right: 15px;
 }
 
 .content-view .document .options a {
 	float: left;
 	padding-left: 3px;
 	padding-right: 3px;
+}
+
+.content-view .document .add-document {
+	float: none;
+	padding: 10px;
 }
 
 .content-view .document .add-document a {
