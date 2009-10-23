@@ -4,3 +4,4 @@ module JsonObject
 end
 
 require 'jsonobject/types/string'
+require 'jsonobject/types/select'

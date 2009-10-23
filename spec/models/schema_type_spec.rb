@@ -5,7 +5,7 @@ describe "A basic", JsonObject::Type, "object" do
     @new_type = JsonObject::Type.new
   end
   
-  %w(name description title required uid).each do |attribute|
+  %w(name description title uid).each do |attribute|
     it "should have a #{attribute} field" do
       @new_type.should respond_to(attribute)
       @new_type.should respond_to("#{attribute}=")
@@ -46,6 +46,13 @@ describe "A basic", JsonObject::Type, "object" do
     revived = JSON.parse(json)
     revived.should be_instance_of(JsonObject::Type)
     revived.uid.should eql @new_type.uid
+  end
+  
+  it "should convert the 'required' field to a Ruby boolean" do
+    [true, 1, "1", "true"].each do |val|
+      @new_type.required = val
+      @new_type.required.should eql(true)
+    end
   end
 
   describe "with validations" do
@@ -98,15 +105,43 @@ describe "A basic", JsonObject::Type, "object" do
   end
   
   describe "that has been subclassed" do
-    it "should execute the validate method in subclasses and respect their additions to the error object"
-
-    it "should prevent illegal configuration of types" do
-      pending("Implemented by concrete types")
+    it "should execute the validate method in subclasses" do
+      @new_type.should_receive(:validate)
+      @new_type.valid?
     end
   end
   
 end
 
-describe JsonObject::Types::String do
+describe JsonObject::Types::Select do
+  before :each do
+    @new_select = JsonObject::Types::Select.new
+  end
+  
+  it "should have an options attribute" do
+    @new_select.should respond_to(:options)
+  end
+
+  it "should remove empty options" do
+    @new_select.options = ["Bla", "Blubb", "", nil]
+    @new_select.options.should have(2).options
+  end
+  
+  it "should strip options" do
+    @new_select.options = ["Bla  ", "  Blubb", "  Blipp  "]
+    @new_select.options[0].should eql("Bla")
+    @new_select.options[1].should eql("Blubb")
+    @new_select.options[2].should eql("Blipp")
+  end
+  
+  it "should not be valid with less that 2 options" do
+    @new_select.name = "Blub"
+    @new_select.options = ["Bla", "Blubb"]
+    @new_select.should be_valid
+    @new_select.options = ["Bla"]
+    @new_select.should_not be_valid
+    @new_select.options = []
+    @new_select.should_not be_valid
+  end
   
 end

@@ -47,6 +47,10 @@ module JsonObject
         @name = JsonObject::Helper.dehumanize(n)
       end
       
+      def required=(r)
+        @required = [true, "true", 1, "1"].include?(r)
+      end
+      
       def to_json
         hash = {}
         self.instance_variables.each do |attr|
@@ -72,6 +76,7 @@ module JsonObject
         @errors << [:name, "darf nicht leer sein"] if name.blank?
         @errors << [:name, "darf kein reserviertes Wort sein"] if RESERVED_KEYWORDS.include?(name)
         @errors << [:name, "darf nicht mit einer Zahl beginnen"] if name =~ /^\d/
+        validate if self.respond_to?(:validate)
       end
     end
 end
