@@ -38,6 +38,15 @@ module JsonObject
         @errors.empty?
       end
       
+      def title=(t)
+        @title = t
+        self.name = t if name.blank?
+      end
+      
+      def name=(n)
+        @name = JsonObject::Helper.dehumanize(n)
+      end
+      
       def to_json
         hash = {}
         self.instance_variables.each do |attr|
@@ -56,12 +65,13 @@ module JsonObject
         end
         type
       end
-    
+      
     private
     
       def validate_base
-        @errors << [:name, "Darf nicht leer sein"] if name.blank?
-        @errors << [:name, "Darf kein reserviertes Wort sein"] if RESERVED_KEYWORDS.include?(name)
+        @errors << [:name, "darf nicht leer sein"] if name.blank?
+        @errors << [:name, "darf kein reserviertes Wort sein"] if RESERVED_KEYWORDS.include?(name)
+        @errors << [:name, "darf nicht mit einer Zahl beginnen"] if name =~ /^\d/
       end
     end
 end
