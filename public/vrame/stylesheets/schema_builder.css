@@ -1,0 +1,59 @@
+/** 
+ * @subsection Category schema builder
+ *
+ *
+ */
+
+ #schema-builder {
+	
+}
+
+#schema-builder td {
+	padding: 20px 25px 0 0;
+	vertical-align: top;
+}
+
+#schema-builder th {
+	font-weight: bold;
+	background-color: #f0f0f0;
+	padding: 8px 5px;
+}
+
+#schema-builder th:first-child,
+#schema-builder td:first-child {
+	padding-left: 10px;
+}
+
+#schema-builder p {
+	margin-bottom: 5px;
+}
+
+#schema-builder .title-name label {
+	float: left;
+	width: 70px;
+}
+
+#schema-builder .title,
+#schema-builder .name,
+#schema-builder .description {
+	width: 220px;
+	font-family: Helvetica,Arial,sans-serif;
+	font-size: 12px;
+}
+
+#schema-builder .description {
+	margin: 0;
+	height: 46px;
+}
+
+#schema-builder label.required {
+	float: none;
+}
+
+#schema-builder td.required input {
+	margin: 0;
+}
+
+#add-schema-item {
+	display: inline-block;
+}

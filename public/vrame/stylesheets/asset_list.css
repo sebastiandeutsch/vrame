@@ -1,0 +1,85 @@
+/** 
+ * @section Asset Lists
+ *
+ *
+ */
+
+.asset-list {
+	margin: 15px 0;
+	overflow: hidden;
+}
+
+.asset-list li {
+	float: left;
+	position: relative;
+	border-radius: 4px;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	margin: 0 10px 10px 0;
+	padding: 5px;
+	width: 295px;
+	background-color: #fff;
+}
+
+.asset-list p {
+	margin: 0;
+	font-size: 12px;
+}
+
+.asset-list .image-wrapper {
+	float: left;
+	margin: 0;
+	cursor: pointer;
+	width: 100px;
+	height: 140px;
+}
+
+.asset-list img {
+	display: block;
+	margin: auto;
+}
+
+.asset-list .beside-image {
+	padding-left: 10px;
+	overflow: hidden;
+}
+
+.asset-list label {}
+
+.asset-list textarea {
+	padding: 2px;
+	width: 178px;
+	height: 50px;
+	font-family: arial,sans-serif;
+	font-size: 13px;
+}
+
+.asset-list .filename {
+	height: 19px;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.asset-list .filesize {}
+
+.asset-list .delete {
+	float: right;
+}
+
+/** 
+ * @subsection Image Preview
+ *
+ *
+ */
+
+#asset-fullview {
+	position: absolute;
+	top: 0;
+	left: -9999px;
+	z-index: 100;
+	cursor: pointer;
+	border: 1px solid #888;
+	box-shadow: 1px 1px 5px white;
+	-moz-box-shadow: 1px 1px 5px white;
+	-webkit-box-shadow: 1px 1px 5px white;
+}

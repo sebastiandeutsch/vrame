@@ -2,12 +2,12 @@
 	<% documents.each do |document| %>
 		<li id="document-<%=h document.id %>" class="document clearfix">
 			<div class="column title">
-				<span>
+				<!-- <span> -->
 					<%= link_to h(document.title), [:edit, :vrame, document] %>
-				</span>
+				<!-- </span> -->
 			</div>
 
-			<div class="image">
+			<div class="column image">
 				<% if document.meta and document.meta.schema.has_attribute?(:image) %>
 					<img src="<%= document.meta.image.file.url(:vrame_backend) %>" />
 				<% elsif document.meta and document.meta.schema.has_attribute?(:bild) %>
@@ -34,7 +34,7 @@
 	<% end %>
 	<% if category != nil and documents.size == 0 %>
 		<li class="document clearfix">
-			<div class="column">
+			<div class="column add-document">
 				Die Kategorie "<%=h category.title %>" enthält noch keine Dokumente. Wollen Sie ein <%= link_to "Dokument hinzufügen", category.backend_url.empty? ? [:new, :vrame, category, :document] : category.backend_url_path + '/new' %>?
 			</div>
 		</li>

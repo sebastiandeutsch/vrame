@@ -1,0 +1,37 @@
+/** 
+ * Sortable lists
+ *
+ *
+ */
+
+/** 
+ * @section Sortable grid
+ *
+ *
+ */
+
+ul.sortable-grid li {
+	float:left;
+	width:100px;
+	height:50px;
+	border:1px solid #d7d7d7;
+	padding:1px;
+	background: #e7e7e7;
+	margin:0 5px 5px 0;	
+}
+
+/** 
+ * @section Sortable hacks
+ *
+ *
+ */
+
+*[draggable=true] {
+  -moz-user-select:none;
+  -khtml-user-drag: element;
+  cursor: move;
+}
+
+*:-khtml-drag {
+  background-color: rgba(200,200,200, 0.5) !important;
+}

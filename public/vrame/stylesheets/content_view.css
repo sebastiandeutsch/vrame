@@ -1,0 +1,226 @@
+/** 
+ * Content-View
+ *
+ *
+ */
+
+/** 
+ * @section Container
+ *
+ *
+ */
+
+.content-view {
+	background-color:#f7f7f7;
+}
+
+.content-view a {
+	text-decoration: none;
+}
+
+/** 
+ * @section Category list
+ *
+ *
+ */
+
+.content-view .categories {
+	width:33%;
+	float:left;
+	background-color: #fff;
+}
+
+
+/** 
+ * @section Active category
+ *
+ *
+ */
+
+.content-view .categories div.active {
+	-moz-border-radius: 10px 0 0 10px;
+	-webkit-border-radius: 10px 0 0 10px;
+	background-color: #f0f0ff;
+}
+
+.content-view .categories .active a {
+	color: #000;
+	font-weight: bold;
+	xoutline: 0 none;
+}
+
+/** 
+ * @section Single Category
+ *
+ *
+ */
+
+.content-view .category {
+	line-height: 20px;
+}
+
+.content-view .category:hover {
+	background-color: #fafafe;
+}
+
+.content-view .category a {
+	display: block;
+	padding: 7px 0;
+}
+
+/** 
+ * @section Category title
+ *
+ *
+ */
+
+.content-view .category .title {
+	overflow: hidden; /* BFC, don't overlap with floats */
+}
+
+ .content-view .category .title a {
+	padding: 7px 10px;
+}
+
+/** 
+ * @section Category controls (options + order)
+ *
+ *
+ */
+
+.content-view .category .options,
+.content-view .category .order {
+	float: right;
+	margin-right: 10px;
+	opacity: 0.2;
+}
+
+.content-view .category .options a,
+.content-view .category .order a {
+	float: left;
+}
+
+.content-view .category .options img,
+.content-view .category .order img {
+	vertical-align: middle;
+}
+
+.content-view .categories .active .options,
+.content-view .categories .active .order,
+.content-view .category:hover .options,
+.content-view .category:hover .order {
+	opacity: 1;
+}
+
+/** 
+ * @subsection Category options
+ *
+ *
+ */
+
+.content-view .category .options a {
+	padding-left: 3px;
+	padding-right: 3px;
+}
+
+/** 
+ * @subsection Category Nesting
+ *
+ *
+ */
+
+.content-view .categories .level-1 .title a {
+	padding-left: 10px;
+}
+
+.content-view .categories .level-2 .title a {
+	padding-left: 20px;
+}
+
+.content-view .categories .level-3 .title a {
+	padding-left: 30px;
+}
+
+.content-view .categories .level-4 .title a {
+	padding-left: 40px;
+}
+
+.content-view .categories .level-5 .title a {
+	padding-left: 50px;
+}
+
+.content-view .categories .level-6 .title a {
+	padding-left: 60px;
+}
+
+/** 
+ * @section Item (Document) List
+ *
+ *
+ */
+
+.content-view .items {
+	width:67%;
+	float:left;
+}
+
+.content-view .items ul {
+	border-top:1px dotted #d7d7d7;
+}
+
+.content-view .items li {
+	background-color:#f7f7f7;
+	border-bottom:1px dotted #d7d7d7;
+}
+
+/** 
+ * @subsection Single Item (Document)
+ *
+ *
+ */
+
+.content-view .document a {
+	display: block;
+	padding: 7px 0;
+}
+
+.content-view .document .column {
+	float: left;
+}
+
+.content-view .document .title {
+	width: 300px;
+}
+
+.content-view .document .title a {
+	padding-left: 10px;
+	padding-right: 10px;
+	color: #000;
+}
+
+.content-view .document .slug {
+	width: 140px;
+}
+
+.content-view .document .image {
+	width: 100px;
+}
+
+.content-view .document .image img {
+	display: block;
+}
+
+.content-view .document .options {
+	float: right;
+}
+
+.content-view .document .options a {
+	float: left;
+	padding-left: 3px;
+	padding-right: 3px;
+}
+
+.content-view .document .add-document a {
+	display: inline;
+	padding: 0;
+}
