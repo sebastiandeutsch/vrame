@@ -145,3 +145,7 @@ describe JsonObject::Types::Select do
   end
   
 end
+
+describe "A document" do
+  it "should be invalid if a required field is missing"
+end

@@ -4,4 +4,11 @@ module JsonObject
 end
 
 require 'jsonobject/types/string'
+require 'jsonobject/types/text'
 require 'jsonobject/types/select'
+require 'jsonobject/types/multiselect'
+require 'jsonobject/types/datetime'
+require 'jsonobject/types/bool'
+require 'jsonobject/types/asset'
+require 'jsonobject/types/collection'
+require 'jsonobject/types/placemark'
