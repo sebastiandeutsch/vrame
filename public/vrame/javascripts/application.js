@@ -1,3 +1,35 @@
+(function () {
+	
+	var ap = Array.prototype, fp = Function.prototype;
+	
+	function convert (obj, sliceStart) {
+		return ap.slice.apply(obj, sliceStart);
+	};
+	
+	fp.curry = function f_Function_prototype_curry () {
+		if (arguments.length === 0) {
+			return this;
+		}
+		var method = this, args = Array.convert(arguments);
+		return function f_curried_function () {
+			return method.apply(this, args.concat(Array.convert(arguments)));
+		};
+	};
+	
+	if (!fp.bind) {
+		fp.bind = function f_Function_prototype_bind (context) {
+			if (arguments.length === 0) {
+				return this;
+			}
+			var method = this, args = Array.convert(arguments, 1);
+			return function f_bound_function () {
+				return method.apply(context, args.concat(Array.convert(arguments)));
+			};
+		};
+	}
+	
+})();
+
 jQuery(function($) {
 	
 	/* Main Navigation */

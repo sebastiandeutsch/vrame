@@ -94,59 +94,71 @@ jQuery(function ($) {
 			optionPrototype : 'li:first',
 			optionTarget    : 'ul:first'
 		}
-	};
+	},
+	hasFieldOptions = 'has-field-options';
 	
-	$('#schema-builder select.type').change(addFieldOptions);
+	$('#schema-builder select.type').change(controlFieldOptions);
 	setupOptionPopulation();
 	
-	function setupOptionPopulation (tr) {
+	function setupOptionPopulation () {
 		for (var key in fieldTypeBehavior) {
-			var o = fieldTypeBehavior[key], buttons;
+			var o = fieldTypeBehavior[key];
 			if (!o.optionButton) continue;
-			buttons = $(o.optionButton)
+			$(o.optionButton)
 				/* Don't treat a button twice, set and check a flag */
 				.filter(function () {
-					return !$(this).data('populateRow');
+					return !$(this).data('populateOption');
 				})
-				.data('populateRow', true)
-				/* It's complicated because populateRow doesn't support relative sources/destinations atm */
-				.each(function () {
-					var button = $(this),
-						tr = tr || button.closest('tr');
-					/* Setup event handling */
-					button.populateRow(
-						/* Clone from Source */
-						tr.find(o.optionPrototype),
-						/* Append to Destination */
-						tr.find(o.optionTarget)
-					);
-				});
-			
+				.data('populateOption', o)
+				/* Setup event handling */
+				.click(populateOption);
 		}
 	}
 	
-	function addFieldOptions () {
-		var o = fieldTypeBehavior[this.value],
+	function populateOption () {
+		var button = $(this),
+			o = button.data('populateOption'),
+			tr = button.closest('tr'),
+			target = tr.find(o.optionTarget);
+		tr.find(o.optionPrototype).clone().appendTo(target);
+	}
+	
+	function controlFieldOptions () {
+		var select = $(this),
+			type = select.val(),
+			o = fieldTypeBehavior[type],
 			tr = $(this).closest('tr');
-		if (o && o.rowPrototype) {
-			cloneFieldOptions(tr, o);
+		
+		//console.log('new type:', type);
+		if (o) {
+			//console.log('this type has FO');
+			insertFieldOptions(tr, o);
 		} else {
-			removeFieldOptions(tr, o);
+			//console.log('this type doesn\'t have FO');
+			removeFieldOptions(tr);
 		}
 	}
 	
-	function cloneFieldOptions (tr, o) {
-		var klass = 'has-field-options';
-		if (tr.hasClass(klass)) return;
+	function insertFieldOptions (tr, o) {
+		//console.log('insertFieldOptions', tr, o);
 		/* Clone and insert */
-		tr.addClass(klass);
-		var clone = $(o.rowPrototype).clone().insertAfter(tr);
+		var clone = $(o.rowPrototype).clone(),
+			existingFieldOptions = tr.next('tr.field-options');
+		if (existingFieldOptions.length) {
+			//console.log('replace existing FO');
+			existingFieldOptions.replaceWith(clone);
+		} else {
+			//console.log('insert FO');
+			tr.after(clone);
+		}
+		tr.addClass(hasFieldOptions);
 		/* Restore event handlers */
-		setupOptionPopulation(clone);
+		setupOptionPopulation();
 	}
 	
-	function removeFieldOptions (tr, o) {
-		tr.removeClass('has-field-options').next('.field-options').remove();
+	function removeFieldOptions (tr) {
+		//console.log('removeFieldOptions', tr);
+		tr.removeClass(hasFieldOptions).next('.field-options').remove();
 	}
 	
 });
