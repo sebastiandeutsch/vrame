@@ -23,12 +23,12 @@
 			
 			<div class="column options">
 				<% if document.published %>
-					<%= link_to '<img src="/vrame/images/admin/led-green.png" border="0" alt="Verstecken" title="Verstecken" />', [:unpublish, :vrame, document] %>
+					<%= link_to '<img src="/vrame/images/admin/led-green.png" alt="Verstecken" title="Verstecken" />', [:unpublish, :vrame, document] %>
 				<% else %>
-					<%= link_to '<img src="/vrame/images/admin/led-red.png" border="0" alt="Veröffentlichen" title="Veröffentlichen" />', [:publish, :vrame, document] %>
+					<%= link_to '<img src="/vrame/images/admin/led-red.png" alt="Veröffentlichen" title="Veröffentlichen" />', [:publish, :vrame, document] %>
 				<% end %>
-				<%= link_to '<img src="/vrame/images/admin/edit.png" border="0" alt="Editieren" title="Editieren" />', [:edit, :vrame, document] %>
-				<%= link_to '<img src="/vrame/images/admin/delete.png" border="0" alt="Löschen" title="Löschen" />', [:vrame, document], :method => :delete, :confirm => 'Wirklich löschen?' %>
+				<%= link_to '<img src="/vrame/images/admin/edit.png" alt="Editieren" title="Editieren" />', [:edit, :vrame, document] %>
+				<%= link_to '<img src="/vrame/images/admin/delete.png" alt="Löschen" title="Löschen" />', [:vrame, document], :method => :delete, :confirm => 'Wirklich löschen?' %>
 			</div>
 		</li>
 	<% end %>

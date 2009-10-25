@@ -19,6 +19,10 @@
 	text-decoration: none;
 }
 
+.content-view a img {
+	border: 0 none;
+}
+
 /** 
  * @section Category list
  *
@@ -31,6 +35,9 @@
 	background-color: #fff;
 }
 
+.content-view .categories a:hover {
+	color: #555;
+}
 
 /** 
  * @section Active category
