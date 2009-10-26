@@ -51,14 +51,14 @@ module JsonObject
         @required = [true, "true", 1, "1"].include?(r)
       end
       
-      def to_json
+      def to_json(*args)
         hash = {}
         self.instance_variables.each do |attr|
           next if UNSERIALIZABLE_PROPERTIES.include?(attr)
           hash[attr[1..-1]] = self.instance_variable_get(attr)
         end
         hash[:json_class] = self.class.name
-        hash.to_json
+        hash.to_json(*args)
       end
       
       def self.json_create(object)
