@@ -22,7 +22,7 @@ input.asset-id, input.collection-id {
  *
  */
 
-#upload-button {
+.upload-button {
 	width: 70px;
 	height: 32px;
 }
@@ -33,15 +33,15 @@ input.asset-id, input.collection-id {
  *
  */
 
-#upload-queue {
+.upload-queue {
 	margin: 10px 0;
-	width: 50%;
+	width: 450px;
 	max-height: 200px;
 	overflow-x: hidden;
 	overflow-y: auto;
 }
 
-#upload-queue li {
+.upload-queue li {
 	margin-bottom: 0;
 }
 
@@ -50,7 +50,7 @@ input.asset-id, input.collection-id {
 }
 
 .progressContainer {
-	border-bottom: 1px dotted #e0e0e0;
+	border-bottom: 1px dotted #d0d0d0;
 	margin-bottom: 0;
 	overflow: hidden;
 }
