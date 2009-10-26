@@ -98,6 +98,11 @@ describe "A basic", JsonObject::Type, "object" do
       @new_type.should_not be_valid
     end
     
+    it "should be connected to its schems" do
+      # for checking duplicate names we need to know all the other fields
+      # also, for setting a different name, we need to change the type's key in the hash
+    end
+    
     it "should refuse duplicate names" do
       pending("Implemented later, type needs to be integrated with Schema")
     end
@@ -146,6 +151,89 @@ describe JsonObject::Types::Select do
   
 end
 
-describe "A document" do
-  it "should be invalid if a required field is missing"
-end
+# describe "A", JsonObject::Schema do
+#   before :each do
+#     @mock_instance = mock("ActiveRecord Instance",
+#       :query_attribute => false,
+#       :read_attribute => nil,
+#       :class => mock("ActiveRecord Class",
+#         :before_save => nil ))
+#     @options = {
+#       :allowed_types => [
+#         JsonObject::Types::Select,
+#         JsonObject::Types::MultiSelect,
+#         JsonObject::Types::Text,
+#         JsonObject::Types::String]}
+#     @schema = JsonObject::Schema.new('testschema', @mock_instance, @options)
+#   end
+#   
+#   it "should store the field's options in JSON" do
+#     @schema.load_from_hash("fields" => [{
+#             "name"  => "asdf",
+#             "title" => "asdf",
+#             "type"  => "JsonObject::Types::String",
+#             "description" => "oahnz zwoah gsuffe1",
+#             "required"    => "0"
+#         },
+#         {
+#             "name" =>"neu",
+#             "title" =>"neu",
+#             "type" =>"JsonObject::Types::Text",
+#             "description" =>"oahnz zwoah gsuffe2",
+#             "required" =>"0"
+#         },
+#         {
+#             "name" =>"eins",
+#             "title" =>"eins",
+#             "type" =>"JsonObject::Types::Datetime",
+#             "description" =>"",
+#             "required" =>"0"
+#         },
+#         {
+#            "name" =>"fuenf",
+#            "options" =>["a", "b", "c", ""],
+#            "title" =>"fünf",
+#            "type" =>"JsonObject::Types::Select",
+#            "description" =>"",
+#            "required" =>"0"
+#          })
+#   end
+#   
+# end
+# 
+# describe "A", JsonObject::Store do
+#   
+#   before :each do
+#     @mock_instance = mock("ActiveRecord Instance",
+#       :query_attribute => false,
+#       :read_attribute => nil,
+#       :class => mock("ActiveRecord Class",
+#         :before_save => nil ))
+#     @options = {
+#       :allowed_types => [
+#         JsonObject::Types::Select,
+#         JsonObject::Types::MultiSelect,
+#         JsonObject::Types::Text,
+#         JsonObject::Types::String]}
+#     @store = JsonObject::Store.new('teststore', @mock_instance, @options)
+#   end
+#   
+#   describe "storing" do
+#     it "should accept a value in the ruby type" do
+#       
+#     end
+#     it "should store the type in a primitive or JSON-native format"
+#   end
+#   
+#   describe "opening" do
+#     it "should return a value in the ruby type if the field is accessed by name"
+#   end
+#   
+#   it "should validate the data against the schema"
+#   it "should be invalid if a required field is missing"
+# end
+# 
+# #TODO: Move to Document Spec
+# describe "A document" do
+#   it "should be invalid if the Meta store is invalid"
+# end
