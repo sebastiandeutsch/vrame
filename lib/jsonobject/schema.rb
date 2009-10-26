@@ -5,20 +5,55 @@ module JsonObject
   class UnknownAssociationError < ActiveRecord::ActiveRecordError
   end
   
-  class EmbeddedSchema
+  class Schema
     include Serializable
     
     attr_reader :fields, :mappings
 
-    def initialize(hash, options = {})
-      @options = EmbeddedSchema.default_options.merge(options)
-      load_hash_from(hash)
+    def initialize(options = {})
+      @options = Schema.default_options.merge(options)
+      @fields = []
+    end
+    
+    def update(array)
+      updated_uids = []
+      for field_hash in array
+        field_hash = field_hash.dup
+        klass = field_hash.delete("type").constantize #TODO Security check, only constantize safe classes
+        field_is_new = field_hash['uid'].blank?
+        if field_is_new
+          field = klass.new(field_hash)
+          updated_uids << field.uid
+          @fields << field
+        else
+          updated_uids << field_hash['uid']
+          field = field_by_uid(field_hash.delete('uid'))
+          field.update_attributes(field_hash)
+        end
+      end
+      
+      remove_fields_by_uids(updated_uids)
+    end
+    
+    def remove_fields_by_uids(uids)
+      @fields.reject! {|field| !uids.include?(field.uid)}
+    end
+    
+    def to_json(*args)
+      { :json_class => "JsonObject::Schema",
+        :fields     => @fields }.to_json(*args)
     end
     
     def field_for(name)
-      @fields.fetch(name)
-    rescue IndexError
-      raise UnknownSchemaAttributeError.new("Attribute named '#{name}' not in store schema")
+      field = @fields.find{|f| f.name == name}
+      raise UnknownSchemaAttributeError.new("Attribute named '#{name}' not in store schema") if field.nil?
+      field
+    end
+    
+    def field_by_uid(uid)
+      field = @fields.find{|f| f.uid == uid}
+      raise UnknownSchemaAttributeError.new("Attribute with UID '#{uid}' not in store schema") if field.nil?
+      field 
     end
     
     def has_attribute?(name)
@@ -34,11 +69,6 @@ module JsonObject
       @@default_options ||= { :allowed_types  => {} }
     end
     
-    def load_hash_from(hash)
-      super(hash)
-      initialize_fields
-    end
-    
     def class_for_type(t)
       t.constantize if @options[:allowed_types].include? t
     end
@@ -48,26 +78,10 @@ module JsonObject
     def initialize_fields
       @fields = {}
       if @hash['fields'].is_a? Array
-        @hash['fields'].each do |field|
-          @fields[field['name']] = Schema::Field.new(field, self)
-        end
+        @hash['fields'].each { |type| @fields[type.name] = type }
       end
     end
     
   end
-  
-  class Schema < EmbeddedSchema
-    def initialize(name, instance, options)
-      @name     = name
-      @instance = instance
-      @options  = options
-      
-      initialize_serialization
-      
-      super(@hash, options)
-    end
-  end
+
 end
-
-require 'jsonobject/schema/field'
-

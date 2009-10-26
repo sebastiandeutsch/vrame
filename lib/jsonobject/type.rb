@@ -22,9 +22,10 @@ module JsonObject
 
       attr_accessor :name, :description, :title, :required, :uid
       
-      def initialize
-        self.uid = generate_uid
-        
+      def initialize(params={})
+        update_attributes(params)
+        self.uid = generate_uid if self.uid.blank?
+        self.name = self.title if self.name.blank? && !self.title.blank?
       end
       
       def generate_uid
@@ -64,14 +65,18 @@ module JsonObject
       def self.json_create(object)
         type = self.allocate
         object.delete("json_class")
-        object.each do |key, value|
-          type.instance_variable_set("@#{key}", value)
-        end
+        type.update_attributes(object)
         type
       end
       
+      def update_attributes(hash)
+        hash.each do |key, value|
+          self.instance_variable_set("@#{key}", value)
+        end
+      end
+      
     private
-    
+      
       def validate_base
         @errors << [:name, "darf nicht leer sein"] if name.blank?
         @errors << [:name, "darf kein reserviertes Wort sein"] if RESERVED_KEYWORDS.include?(name)
