@@ -50,9 +50,10 @@
 
 .content-view .category {
 	border-right: 1px solid #d5d5ff;
-	border-radius:			15px 0 0 15px;
-	-moz-border-radius:		15px 0 0 15px;
-	-webkit-border-radius:	15px 0 0 15px;
+	-moz-border-radius: 15px 0 0 15px;
+	-webkit-border-top-left-radius: 15px;
+	-webkit-border-bottom-left-radius: 15px;
+	border-radius: 15px 0 0 15px;
 }
 
 .content-view .category:hover {
