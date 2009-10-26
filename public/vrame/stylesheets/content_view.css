@@ -12,7 +12,10 @@
 
 .content-view {
 	line-height: 20px;
-	background-color: #fafafa;
+	background-color: #f5f5fc;
+	border-width: 1px;
+	border-style: none solid none none;
+	border-color: #d5d5ff;
 }
 
 .content-view a {
@@ -40,29 +43,14 @@
 }
 
 /** 
- * @section Active category
- *
- *
- */
-
-.content-view .categories div.active {
-	border-radius: 15px 0 0 15px;
-	-moz-border-radius: 15px 0 0 15px;
-	-webkit-border-radius: 15px 0 0 15px;
-	background-color: #efefff;
-}
-
-.content-view .categories .active a {
-	color: #000;
-	font-weight: bold;
-	xoutline: 0 none;
-}
-
-/** 
  * @section Single Category
  *
  *
  */
+
+.content-view .category {
+	border-right: 1px solid #d5d5ff;
+}
 
 .content-view .category:hover {
 	background-color: #f8f8ff;
@@ -70,7 +58,29 @@
 
 .content-view .category a {
 	display: block;
-	padding: 7px 0;
+	padding: 6px 0;
+}
+
+/** 
+ * @section Active category
+ *
+ *
+ */
+
+.content-view .categories .active-category { /* Pimp my specificity to override :hover */
+	border-style: solid none solid solid;
+	border-color: #d5d5ff;
+	border-width: 1px;
+	border-radius: 15px 0 0 15px;
+	-moz-border-radius: 15px 0 0 15px;
+	-webkit-border-radius: 15px 0 0 15px;
+	background-color: #f5f5fc;
+}
+
+.content-view .categories .active-category a { /* Pimp my specificity to override :hover */
+	color: #000;
+	font-weight: bold;
+	padding: 5px 0;
 }
 
 /** 
@@ -84,7 +94,8 @@
 }
 
  .content-view .category .title a {
-	padding: 7px 10px;
+	padding-left: 10px;
+	padding-right: 10px;
 }
 
 /** 
@@ -112,8 +123,8 @@
 	vertical-align: middle;
 }
 
-.content-view .categories .active .options,
-.content-view .categories .active .order,
+.content-view .active-category .options,
+.content-view .active-category .order,
 .content-view .category:hover .options,
 .content-view .category:hover .order {
 	opacity: 1;
@@ -171,14 +182,25 @@
 .content-view .items {
 	float: left;
 	width: 67%;
+	border-width: 1px;
+	border-style: solid none none;
+	border-color: #d5d5ff;
 }
 
-.content-view .items ul {
-	border-top: 1px dotted #d7d7d7;
-}
+.content-view .items ul {}
 
 .content-view .items li {
 	border-bottom: 1px dotted #d7d7d7;
+}
+
+.content-view .items .add-document {
+	float: none;
+	padding: 10px;
+}
+
+.content-view .items .add-document a {
+	display: inline;
+	padding: 0;
 }
 
 /** 
@@ -189,11 +211,11 @@
 
 .content-view .document a {
 	display: block;
-	padding: 7px 0;
+	padding: 6px 0;
 }
 
 .content-view .document:hover {
-	background: #f7f7ff;
+	background: #f9f9ff;
 }
 
 .content-view .document .column {
@@ -231,14 +253,4 @@
 	float: left;
 	padding-left: 3px;
 	padding-right: 3px;
-}
-
-.content-view .document .add-document {
-	float: none;
-	padding: 10px;
-}
-
-.content-view .document .add-document a {
-	display: inline;
-	padding: 0;
 }

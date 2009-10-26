@@ -42,16 +42,28 @@ jQuery(function($) {
 /* Category view */
 
 jQuery(function($) {
-	$('.category-button').click(function() {
-		var categoryId = $(this).attr('rel');
+	
+	var activeCategory = null,
+		activeCategoryClass = 'active-category';
+	
+	$('.content-view .category-button').click(categoryClick);
+	
+	function categoryClick (e) {
+		e.preventDefault();
 		
-		$('.categories ul li div').removeClass('active');
-		$('#category-' + categoryId).addClass('active');
+		var link = $(this),
+			activeCategory = link.closest('.category'),
+			activeCategoryId = activeCategory.attr('data-category-id');
 		
-		$(document).scrollTo( {top:'0px', left:'0px'}, 200 );
+		/* Set active category */
+		$('.content-view .' + activeCategoryClass).removeClass(activeCategoryClass);
+		activeCategory.addClass(activeCategoryClass);
+		
+		/* Load documents */
+		$(document).scrollTo({ top: 0, left: 0 }, 200);
 		$('#ajax-loading-bar').fadeIn('fast');
 		$.ajax({
-			url: '/vrame/categories/' + categoryId + '/documents/?tab_id=' + window.name,
+			url: '/vrame/categories/' + activeCategoryId + '/documents/?tab_id=' + window.name,
 			cache: false,
 			success: function(html) {
 				$('#items').html(html);
@@ -61,9 +73,7 @@ jQuery(function($) {
 				console.log(msg);
 			}
 		});
-		
-		return false;
-	});
+	}
 });
 
 /* Asset list behavior */
