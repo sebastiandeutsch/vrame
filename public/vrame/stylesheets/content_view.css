@@ -50,6 +50,9 @@
 
 .content-view .category {
 	border-right: 1px solid #d5d5ff;
+	border-radius:			15px 0 0 15px;
+	-moz-border-radius:		15px 0 0 15px;
+	-webkit-border-radius:	15px 0 0 15px;
 }
 
 .content-view .category:hover {
@@ -71,9 +74,6 @@
 	border-style: solid none solid solid;
 	border-color: #d5d5ff;
 	border-width: 1px;
-	border-radius: 15px 0 0 15px;
-	-moz-border-radius: 15px 0 0 15px;
-	-webkit-border-radius: 15px 0 0 15px;
 	background-color: #f5f5fc;
 }
 

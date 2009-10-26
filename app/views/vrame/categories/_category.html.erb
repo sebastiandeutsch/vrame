@@ -1,0 +1,34 @@
+<div
+	data-category-id="<%= category.id.to_s %>"
+	class="category clearfix level-<%= level.to_s %> <% if @active_category.id == category.id %>active-category<% end %>">
+	
+	<div class="column order">
+		<%= link_to '<img src="/vrame/images/admin/arrow_up.png" alt="Weiter nach oben" />', [:order_up, :vrame, category] %>
+		<%= link_to '<img src="/vrame/images/admin/arrow_down.png" alt="Weiter nach unten" />', [:order_down, :vrame, category] %>
+	</div>
+	
+	<div class="column options">
+		<% if category.published %>
+			<%= link_to '<img src="/vrame/images/admin/led-green.png" alt="Verstecken" title="Verstecken" />', [:unpublish, :vrame, category] %>
+		<% else %>
+			<%= link_to '<img src="/vrame/images/admin/led-red.png" alt="Veröffentlichen" title="Veröffentlichen" />', [:publish, :vrame, category] %>
+		<% end %>
+		<%= link_to '<img src="/vrame/images/admin/edit.png" alt="Editieren" title="Editieren" />', [:edit, :vrame, category] %>
+		<%= link_to '<img src="/vrame/images/admin/delete.png" alt="Löschen" title="Löschen" />', [:vrame, category], :method => :delete, :confirm => 'Wirklich löschen?' %>
+		<%= link_to '<img src="/vrame/images/admin/page_add.png" alt="Dokument hinzufügen" title="Dokument hinzufügen" />',
+			category.backend_url.empty? ? [:new, :vrame, category, :document] : category.backend_url_path + '/new'
+		%>
+		<%= link_to '<img src="/vrame/images/admin/magnifier.png" alt="Vorschau" title="Vorschau" />',
+			category.url.empty? ? category : "/#{category.url}"
+		%>
+	</div>
+
+	<div class="column title">
+		<% if category.backend_url.empty? %>
+			<%= link_to h(category_title(category)), category, :class => "category-button" %>
+		<% else %>
+			<%= link_to h(category_title(category)), category.backend_url_path, :class => 'backend-url' %>
+		<% end %>
+	</div>
+
+</div><!-- /.category -->
