@@ -78,6 +78,30 @@ describe JsonObject::Schema do
       end
     end
   end
+
+  describe "when loading" do
+    before :each do 
+      @schema = JsonObject::Schema.new
+      @schema.update(@schema_params)
+      @json = @schema.to_json
+      @loaded_schema = JSON.parse(@json)
+    end
+    
+    it "should provide a json_create method" do
+      JsonObject::Schema.should respond_to(:json_create)
+    end
+    
+    it "should instantiate a schema and its types recursively" do
+      @loaded_schema.should be_instance_of(JsonObject::Schema)
+      @loaded_schema.fields.should have(4).fields
+      @loaded_schema.field_for('asdf').should be_instance_of(JsonObject::Types::String)
+    end
+    
+    it "should recreate its options through the set_options method" do
+      @loaded_schema.set_options(:allowed_types => [JsonObject::Types::String])
+      @loaded_schema.instance_variable_get(:@options)[:allowed_types].should have(1).element
+    end
+  end
   
   describe "when adding a field to a category" do
     before :each do

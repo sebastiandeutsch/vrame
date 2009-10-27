@@ -29,14 +29,15 @@ class Category < ActiveRecord::Base
   
   def self.allowed_schema_types
     @@allowed_schema_types ||= [
-      'Asset',
-      'Collection',
-      
-      'String',
-      'Text',
-      'Date',
-      'Time',
-      'DateTime'
+      'JsonObject::Types::Asset',
+      'JsonObject::Types::Collection',
+      'JsonObject::Types::String',
+      'JsonObject::Types::Text',
+      'JsonObject::Types::Date',
+      'JsonObject::Types::Time',
+      'JsonObject::Types::DateTime',
+      'JsonObject::Types::Select',
+      'JsonObject::Types::Multiselect'
     ]
   end
   

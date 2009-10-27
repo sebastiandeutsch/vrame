@@ -8,11 +8,15 @@ module JsonObject
   class Schema
     include Serializable
     
-    attr_reader :fields, :mappings
+    attr_reader :fields
 
     def initialize(options = {})
-      @options = Schema.default_options.merge(options)
+      set_options(options)
       @fields = []
+    end
+    
+    def set_options(options = {})
+      @options = Schema.default_options.merge(options)
     end
     
     def update(array)
@@ -44,6 +48,12 @@ module JsonObject
         :fields     => @fields }.to_json(*args)
     end
     
+    def self.json_create(object)
+      schema = self.allocate
+      schema.instance_variable_set(:@fields, object['fields'])
+      schema
+    end
+    
     def field_for(name)
       field = @fields.find{|f| f.name == name}
       raise UnknownSchemaAttributeError.new("Attribute named '#{name}' not in store schema") if field.nil?
@@ -66,7 +76,17 @@ module JsonObject
     end
     
     def self.default_options
-      @@default_options ||= { :allowed_types  => {} }
+      @@default_options ||= { :allowed_types  => [
+        'JsonObject::Types::Asset',
+        'JsonObject::Types::Collection',
+        'JsonObject::Types::String',
+        'JsonObject::Types::Text',
+        'JsonObject::Types::Date',
+        'JsonObject::Types::Time',
+        'JsonObject::Types::DateTime',
+        'JsonObject::Types::Select',
+        'JsonObject::Types::Multiselect'
+      ]}
     end
     
     def class_for_type(t)
