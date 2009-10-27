@@ -21,6 +21,7 @@ module JsonObject
       UNSERIALIZABLE_PROPERTIES = ['@errors']
 
       attr_accessor :name, :description, :title, :required, :uid
+      attr_reader   :errors
       
       def initialize(params={})
         update_attributes(params)
@@ -36,6 +37,7 @@ module JsonObject
       def valid?
         @errors = []
         validate_base
+        validate if self.respond_to?(:validate)
         @errors.empty?
       end
       
@@ -74,14 +76,26 @@ module JsonObject
           self.instance_variable_set("@#{key}", value)
         end
       end
+
+      def value_valid?(v)
+        @value_errors = []
+        validate_value_base(v)
+        validate_value(v) if self.respond_to?(:validate_value)
+        @value_errors.empty?
+      end
+      
+      attr_reader :value_errors
       
     private
+      
+      def validate_value_base(v)
+        @value_errors << ["is required and can not be blank"] if v.blank? && required
+      end
       
       def validate_base
         @errors << [:name, "darf nicht leer sein"] if name.blank?
         @errors << [:name, "darf kein reserviertes Wort sein"] if RESERVED_KEYWORDS.include?(name)
         @errors << [:name, "darf nicht mit einer Zahl beginnen"] if name =~ /^\d/
-        validate if self.respond_to?(:validate)
       end
     end
 end

@@ -13,6 +13,10 @@ module JsonObject
           @errors << [:options, "müssen mindestens zwei Elemente enthalten"]
         end
       end
+      
+      def validate_value(value)
+        @value_errors << "'#{value}' is not included in the list of valid options" unless options.include?(value)
+      end
     end
   end
 end

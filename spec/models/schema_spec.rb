@@ -38,6 +38,30 @@ describe JsonObject::Schema do
     JsonObject::Schema.new.should respond_to(:update)
   end
   
+  describe "when validating with 'valid?" do
+    before :each do
+      @schema = JsonObject::Schema.new
+      @schema.update(@schema_params)
+    end
+    
+    it "should validate all the types" do
+      @schema.fields[0].should_receive(:valid?)
+      @schema.valid?
+    end
+    
+    it "should validate that no duplicate names are used" do
+      @schema.should be_valid
+      @schema.fields[1].name = "asdf"
+      @schema.should_not be_valid
+    end
+
+    it "should validate that no duplicate uids are used" do
+      @schema.should be_valid
+      @schema.fields[1].uid = @schema.fields[0].uid
+      @schema.should_not be_valid
+    end
+  end
+  
   describe "when creating a category" do
     before :each do
       @schema = JsonObject::Schema.new

@@ -8,7 +8,7 @@ module JsonObject
   class Schema
     include Serializable
     
-    attr_reader :fields
+    attr_reader :fields, :errors
 
     def initialize(options = {})
       set_options(options)
@@ -66,12 +66,24 @@ module JsonObject
       field 
     end
     
-    def has_attribute?(name)
-      name = name.to_sym
-      @fields.include?(name)
+    def valid?
+      @errors = []
+      names   = []
+      uids    = []
+
+      # validate fields
+      fields.each do |field|
+        @errors << [field.name, [:name, "is already in use"]] if names.include?(field.name)
+        @errors << [field.name, [:uid,  "is already in use"]] if uids.include?(field.uid)
+        names   << field.name
+        uids    << field.uid
+        @errors << [field.name, field.errors] unless field.valid?
+      end
+      
+      @errors.empty?
     end
     
-    def each(&block)
+    def each_field(&block)
       @fields.each(block)
     end
     
