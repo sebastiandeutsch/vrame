@@ -50,6 +50,12 @@ describe JsonObject::Store do
       @store.article.should  eql("Yay")
     end
     
+    it "should allow storing json in _json methods" do
+      @store.headline_json = '{"a":1, "b":2}'
+      @store.headline['a'].should eql(1)
+      @store.headline['b'].should eql(2)
+    end
+    
     it "should disallow writing of attributes not defined in the schema" do
       lambda{@store.blargl = "Whoopeedoopee"}.should raise_error(JsonObject::UnknownSchemaAttributeError)
     end

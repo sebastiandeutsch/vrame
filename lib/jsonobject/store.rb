@@ -75,9 +75,9 @@ module JsonObject
     end
     
     def write_value(name, value)
-      field = @schema.field_for(name)
       name, value = normalize_access_to_object(name, value)
-      @values[field.uid] = value
+      field = @schema.field_for(name)
+      @values[field.uid] = field.value_from_param(value)
     end
     
     def normalize_access_to_object(name,value)

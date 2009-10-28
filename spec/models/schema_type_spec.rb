@@ -98,6 +98,11 @@ describe "A basic", JsonObject::Type, "object" do
       @new_type.should_not be_valid
     end
     
+    it "should not allow _json at the end of the name" do
+      @new_type.name = "blubb_json"
+      @new_type.should_not be_valid
+    end
+    
   end
   
   describe "that has been subclassed" do

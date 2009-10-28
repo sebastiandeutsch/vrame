@@ -94,6 +94,7 @@ module JsonObject
       
       def validate_base
         @errors << [:name, "darf nicht leer sein"] if name.blank?
+        @errors << [:name, "darf nicht auf _json enden"] if name =~ /_json$/
         @errors << [:name, "darf kein reserviertes Wort sein"] if RESERVED_KEYWORDS.include?(name)
         @errors << [:name, "darf nicht mit einer Zahl beginnen"] if name =~ /^\d/
       end
