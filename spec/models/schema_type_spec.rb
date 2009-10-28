@@ -148,3 +148,39 @@ describe JsonObject::Types::Select do
   it "should be possible to allow blank"
   
 end
+
+describe JsonObject::Types::MultiSelect do
+  before :each do
+    @new_multiselect = JsonObject::Types::MultiSelect.new(:options => ['a', 'b', 'c'])
+  end
+  
+  it "should properly validate subsets" do
+    @new_multiselect.value_valid?([]).should be_true
+    @new_multiselect.value_valid?(['a', 'b']).should be_true
+    @new_multiselect.value_valid?(['a', 'b', 'c']).should be_true
+
+    @new_multiselect.value_valid?(['d']).should_not be_true
+    @new_multiselect.value_valid?(['a', 'd']).should_not be_true
+  end
+end
+
+describe JsonObject::Types::Bool do
+  before :each do
+    @new_bool = JsonObject::Types::Bool.new(:name => 'checkbox')
+    @schema = JsonObject::Schema.new
+    @schema.fields << @new_bool
+    @store = JsonObject::Store.new(:schema => @schema)
+  end
+  
+  it "should convert boolish values to true or false" do
+    [true, "true", 1, "1"].each do |v|
+      @store.checkbox = v
+      @store.checkbox.should be_true
+    end
+    [false, "bla", nil, "0", 0].each do |v|
+      @store.checkbox = v
+      @store.checkbox.should be_false
+    end
+  end
+end
+
