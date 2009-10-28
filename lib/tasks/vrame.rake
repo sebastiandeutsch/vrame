@@ -14,7 +14,7 @@ namespace :vrame do
 
     if User.find_by_email('vrame@9elements.com') == nil
       puts "Create admin user vrame"
-      u = User.create!( :email => 'vrame@9elements.com', :password => 'vrame', :password_confirmation => 'vrame' )
+      u = User.create!( :email => 'vrame@9elements.com', :password => 'vrame', :password_confirmation => 'vrame', :admin => true )
     end
 
   end
