@@ -24,7 +24,11 @@ module JsonObject # @TODO rename JsonObjectExtension, this is not an object!
       end
       
       define_method "#{name}=" do |hash|
-        json_schema_for(name).load_from_hash(hash)
+        json_schema_for(name).update(hash)
+      end
+      
+      before_save do |instance|
+        instance["#{name}_json"] = instance.json_schema_for(name).to_json
       end
     end
     
@@ -38,7 +42,11 @@ module JsonObject # @TODO rename JsonObjectExtension, this is not an object!
       end
       
       define_method "#{name}=" do |hash|
-        json_store_for(name).load_from_hash(hash)
+        json_store_for(name).update(hash)
+      end
+
+      before_save do |instance|
+        instance["#{name}_json"] = instance.json_store_for(name).to_json
       end
     end
     
@@ -58,14 +66,40 @@ module JsonObject # @TODO rename JsonObjectExtension, this is not an object!
   end
   
   module InstanceMethods
-    def json_schema_for(name)
+    
+    def json_schemas
       @json_schemas ||= {}
-      @json_schemas[name] ||= Schema.new(name, self, self.class.json_schema_options[name])
+    end
+    
+    def json_stores
+      @json_stores ||= {}
+    end
+    
+    def json_schema_for(name)
+      json_schemas[name] ||= initialize_schema(name, self.class.json_schema_options[name])
     end
     
     def json_store_for(name)
-      @json_stores ||= {}
-      @json_stores[name] ||= Store.new(name, self, self.class.json_store_options[name])
+      json_stores[name] ||= initialize_store(name, self.class.json_store_options[name][:schema])
+    end
+  
+  private
+    
+    def initialize_schema(name, options)
+      json   = self["#{name}_json"]
+      Schema.load_from_json_with_options(json, options)
+    end
+
+    def initialize_store(name, schema_path)
+     json  = self["#{name}_json"]
+     schema = schema_from_path(schema_path)
+     Store.load_from_json_with_schema(json, schema)
+    end
+     
+    def schema_from_path(schema_path)
+      schema_path = [schema_path].flatten
+      schema = schema_path.inject(self) { |current, attr| current.send(attr) }
+      schema or raise JsonObject::SchemaNotFound, "Schema_path #{schema_path.join('.')} does not lead to a schema"
     end
   end
 end

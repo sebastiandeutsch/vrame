@@ -6,62 +6,54 @@ describe Category, :type => :model do
     @title              = "JsonObjectTesting"
     @without_meta_title = "JsonObjectTestingWithoutTitle"
     
-    @store_hash_with_schema = {
-      "schema" => {
-        "fields" => [
-          # Simple values
-          { "uid" => "1", "name" => "some_string",      "type" => "String"     },
-          { "uid" => "2", "name" => "some_text",        "type" => "Text"       },
-          
-          # Mapped ActiveRecord pointers
-          {               "name" => "some_asset",       "type" => "Asset"       },
-          {               "name" => "some_collection",  "type" => "Collection" },
-          
-          # More of the above
-          { "uid" => "3", "name" => "another_text",     "type" => "Text"       },
-          {               "name" => "yet_another_text", "type" => "Text"       },
-          {               "name" => "another_asset",    "type" => "Asset"      },          
-          
-          # Mapped/serialized object values
-          {               "name" => "some_date",        "type" => "Date"       },
-          {               "name" => "some_time",        "type" => "Time"       },
-          {               "name" => "some_datetime",    "type" => "DateTime"   },
-          
-          # Field without name but with title
-          { "uid" => "4", "title" => "Some Title",      "type" => "String"     }
-        ]
-      },
+    @schema_fields = [
+      # Simple values
+      { "name" => "some_string",      "type" => "JsonObject::Types::String"     },
+      { "name" => "some_text",        "type" => "JsonObject::Types::Text"       },
       
-      "values" => {
-        "1" => "Hello, I'm a value for a field called some_string!",
-        "2" => "Hello, I'm a value for a field called some_text!",
-        "3" => "Hello, I'm a value for a field called another_text!",
-        "4" => "Hello, I should be accesible via an attribute altough i only had a title defined!"
-      }
-    }.freeze
+      # # Mapped ActiveRecord pointers
+      # {               "name" => "some_asset",       "type" => "JsonObject::Types::Asset"      },
+      # {               "name" => "some_collection",  "type" => "JsonObject::Types::Collection" },
+      # 
+      # # More of the above
+      # { "uid" => "3", "name" => "another_text",     "type" => "JsonObject::Types::Text"       },
+      # {               "name" => "yet_another_text", "type" => "JsonObject::Types::Text"       },
+      # {               "name" => "another_asset",    "type" => "JsonObject::Types::Asset"      },          
+      # 
+      # # Mapped/serialized object values
+      # {               "name" => "some_date",        "type" => "JsonObject::Types::Date"       },
+      # {               "name" => "some_time",        "type" => "JsonObject::Types::Time"       },
+      # {               "name" => "some_datetime",    "type" => "JsonObject::Types::DateTime"   },
+      
+      # Field without name but with title
+      { "title" => "Some Title",      "type" => "JsonObject::Types::String"     }
+    ]
   end
   
   before(:each) do
-    @category              = Category.new(:title => @title, :meta => @store_hash_with_schema)
-    @category_without_meta = Category.new(:title => @without_meta_title)
+    @category = Category.new(:title => @title, :schema => @schema_fields)
   end
   
   it "should satisfy meta attribute object identity" do
-    @category.meta.should              equal(@category.meta)
-    @category_without_meta.meta.should equal(@category_without_meta.meta)
+    @category.schema.should equal(@category.schema)
   end
   
   it "should serialize the meta object via JSON" do
     @category.save
     
-    saved_meta_json = Category.find_by_title(@title).meta.to_json
-    fixed_meta_json = @store_hash_with_schema.to_json
-    
-    saved_meta_json.should == fixed_meta_json
-    
-    @category.save
+    @category = Category.find_by_title(@title)
+    @category.schema.should be_instance_of JsonObject::Schema
+    @category.schema.should have(@schema_fields.length).fields
+    @category.schema.fields[0].name.should eql('some_string')
+    @category.schema.fields[1].name.should eql('some_text')
   end
+  
+  describe "meta" do
+    before :each do
+      pending("Store crap")
+    end
 
+  
   it "should have a meta attribute with readable attribtues" do
     @category.meta.some_string.should  == "Hello, I'm a value for a field called some_string!"
     @category.meta.some_text.should    == "Hello, I'm a value for a field called some_text!"
@@ -142,4 +134,5 @@ describe Category, :type => :model do
     @category.meta.some_title.should == "Hello, I should be accesible via an attribute altough i only had a title defined!"
   end
   
+  end
 end

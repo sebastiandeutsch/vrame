@@ -27,22 +27,9 @@ class Category < ActiveRecord::Base
   named_scope :published, :conditions => '`categories`.`published` = 1'
   named_scope :in_navigation, :conditions => '`categories`.`hide_in_nav` IS NULL OR `categories`.`hide_in_nav` != 1'
   
-  def self.allowed_schema_types
-    @@allowed_schema_types ||= [
-      'JsonObject::Types::Asset',
-      'JsonObject::Types::Collection',
-      'JsonObject::Types::String',
-      'JsonObject::Types::Text',
-      'JsonObject::Types::Date',
-      'JsonObject::Types::Time',
-      'JsonObject::Types::DateTime',
-      'JsonObject::Types::Select',
-      'JsonObject::Types::Multiselect'
-    ]
-  end
-  
-  has_json_schema :schema, :allowed_types => self.allowed_schema_types
-  has_json_store  :meta,   :allowed_types => self.allowed_schema_types
+  has_json_schema :schema
+  # has_json_schema :eigenschema
+  # has_json_store  :meta, :schema => :eigenschema
   
   Public_attributes = %w(id title url meta_keywords meta_description meta_title parent_id language_id updated_at created_at)
   
