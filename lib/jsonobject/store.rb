@@ -52,7 +52,7 @@ module JsonObject
     
     def self.json_create(object)
       store = self.allocate
-      store.instance_variable_set(:@values, object.values)
+      store.instance_variable_set(:@values, object['values'])
       store
     end
     
