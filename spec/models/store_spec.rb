@@ -33,7 +33,7 @@ describe JsonObject::Store do
     store = JsonObject::Store.new(:schema => JsonObject::Schema.new)
     store.schema.should be_instance_of(JsonObject::Schema)    
   end
-
+  
   describe "with a schema" do
     before :each do
       @schema = JsonObject::Schema.new
@@ -63,6 +63,19 @@ describe JsonObject::Store do
     
     it "should return nil when accessing an unset attribute" do
       @store.headline.should be_nil
+    end
+    
+    it "should have an update method" do
+      @store.should respond_to(:update)
+      
+      @store.update(@schema.fields[0].uid => "Uberschrift",
+                    @schema.fields[1].uid => "Artikeltext")
+      @store.headline.should eql("Uberschrift")
+      @store.article.should eql("Artikeltext")
+    end
+
+    it "should throw an error if updating invalid uids" do
+      lambda{@store.update("asdasdasd" => "Uberschrift")}.should raise_error(JsonObject::UnknownSchemaAttributeError)
     end
     
     it "should validate itself by validating the types" do

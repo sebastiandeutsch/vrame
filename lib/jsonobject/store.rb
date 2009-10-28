@@ -21,6 +21,13 @@ module JsonObject
       @schema
     end
     
+    def update(hash)
+      hash.each_pair do |uid, value|
+        field = @schema.field_by_uid(uid)
+        @values[field.uid] = value
+      end
+    end
+    
     def valid?
       @errors = []
       @schema.fields.each do |field|
