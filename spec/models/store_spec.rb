@@ -9,24 +9,21 @@ describe JsonObject::Store do
   # Serializer kann dann Fields (schema) und Values (store) kombinieren
   
   it "should have a 'schema' accessor" do
-    JsonObject::Store.new.should respond_to(:schema)
+    JsonObject::Store.new(:schema => JsonObject::Schema.new).should respond_to(:schema)
   end
+
+  it "should generate a blank Store if json_deserialization fails"
+
   
-  # it "it should have schema_location accessors" do
-  #   JsonObject::Store.new.should respond_to(:schema_location)
-  #   JsonObject::Store.new.should respond_to(:schema_location=)
-  # end
-  # 
-  # it "should be let the schema be set through the schema_location writer"
+  it "should not allow initialization without a Schema" do
+    lambda{JsonObject::Store.new}.should raise_error(JsonObject::SchemaNotFoundError)
+    lambda{JsonObject::Store.new(:schema => JsonObject::Schema.new)}.should_not raise_error(JsonObject::SchemaNotFoundError)
+  end
   
   it "the schema accessor should throw an exception if the schema can't be found" do
-    lambda{JsonObject::Store.new.schema}.should raise_error(JsonObject::SchemaNotFoundError)
-  end
-  
-  it "should let the schema be set through the schema accessor" do
-    store = JsonObject::Store.new
-    store.schema = JsonObject::Schema.new
-    store.schema.should be_instance_of(JsonObject::Schema)
+    store = JsonObject::Store.new(:schema => JsonObject::Schema.new)
+    store.instance_variable_set(:@schema, nil)
+    lambda{store.schema}.should raise_error(JsonObject::SchemaNotFoundError)
   end
   
   it "should let the schema be set through the schema option in the constructor" do
@@ -103,13 +100,29 @@ describe JsonObject::Store do
       @schema.fields << JsonObject::Types::String.new(:title => "Headline", :required => true)
       @schema.fields << JsonObject::Types::Text.new(:title => "Article")
       @store  = JsonObject::Store.new(:schema => @schema)
+      @store.headline = "aaa"
+      @store.article  = "bbb"
       
-      @re_store = JSON.parse(@store.to_json)
-      @re_store.schema = @schema
+      @re_store = JsonObject::Store.load_from_json_with_schema(@store.to_json, @schema)
       @re_store.should be_instance_of(JsonObject::Store)
       @re_store.schema.field_for('headline').should be_instance_of(JsonObject::Types::String)
       @re_store.schema.fields[1].name.should eql('article')
+      @re_store.headline.should eql('aaa')
+      @re_store.article.should eql('bbb')
     end
+
+    it "should not allow deserialization without a Schema" do
+      @schema = JsonObject::Schema.new
+      @schema.fields << JsonObject::Types::String.new(:title => "Headline", :required => true)
+      @schema.fields << JsonObject::Types::Text.new(:title => "Article")
+      @store  = JsonObject::Store.new(:schema => @schema)
+      @store.headline = "aaa"
+      @store.article  = "bbb"
+      
+      lambda{JsonObject::Store.load_from_json_with_schema(@store.to_json)}.should raise_error(ArgumentError)
+      lambda{JsonObject::Store.load_from_json_with_schema(@store.to_json, nil)}.should raise_error(JsonObject::SchemaNotFoundError)
+    end
+
   end
 
 end

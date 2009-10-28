@@ -9,11 +9,20 @@ module JsonObject
     
     def initialize(options = {})
       @values = {}
-      self.schema = options[:schema] if options[:schema]
+      @schema = options[:schema] if options[:schema]
+      raise SchemaNotFoundError, "Can't initialize a Store without a schema" unless schema.is_a? Schema
     end
     
-    def schema=(s)
-      @schema = s
+    def self.load_from_json_with_schema(json, schema)
+      raise SchemaNotFoundError, "Can't initialize a Store without a schema" unless schema.is_a?(Schema)
+
+      store = JSON.parse(json)
+      if store.is_a? Store
+        store.instance_variable_set(:@schema, schema)
+      else
+        store = self.new(:schema => schema)
+      end
+      store
     end
     
     def schema
