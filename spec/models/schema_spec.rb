@@ -34,6 +34,8 @@ describe JsonObject::Schema do
                }.freeze].freeze
   end
   
+  it "should generate a blank Schema if json_deserialization fails"
+  
   it "should provide a update method that accepts the params hash" do
     JsonObject::Schema.new.should respond_to(:update)
   end
@@ -108,7 +110,7 @@ describe JsonObject::Schema do
       @schema = JsonObject::Schema.new
       @schema.update(@schema_params)
       @json = @schema.to_json
-      @loaded_schema = JSON.parse(@json)
+      @loaded_schema = JsonObject::Schema.load_from_json_with_options(@json)
     end
     
     it "should provide a json_create method" do
@@ -122,7 +124,7 @@ describe JsonObject::Schema do
     end
     
     it "should recreate its options through the set_options method" do
-      @loaded_schema.set_options(:allowed_types => [JsonObject::Types::String])
+      @loaded_schema = JsonObject::Schema.load_from_json_with_options(@json, :allowed_types => [JsonObject::Types::String])
       @loaded_schema.instance_variable_get(:@options)[:allowed_types].should have(1).element
     end
   end

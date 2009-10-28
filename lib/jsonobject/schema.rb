@@ -11,12 +11,20 @@ module JsonObject
     attr_reader :fields, :errors
 
     def initialize(options = {})
-      set_options(options)
+      @options = Schema.default_options.merge(options)
       @fields = []
     end
     
-    def set_options(options = {})
-      @options = Schema.default_options.merge(options)
+    def self.load_from_json_with_options(json, options = {})
+      return Schema.new(options) if json.blank?
+      
+      schema = JSON.parse(json)
+      if schema.is_a? Schema
+        schema.instance_variable_set(:@options, Schema.default_options.merge(options))
+      else
+        schema = Schema.new(options)
+      end
+      schema
     end
     
     def update(array)
