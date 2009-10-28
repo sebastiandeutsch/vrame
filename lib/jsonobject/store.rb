@@ -16,6 +16,8 @@ module JsonObject
     def self.load_from_json_with_schema(json, schema)
       raise SchemaNotFoundError, "Can't initialize a Store without a schema" unless schema.is_a?(Schema)
 
+      return self.new(:schema => schema) if json.blank?
+      
       store = JSON.parse(json)
       if store.is_a? Store
         store.instance_variable_set(:@schema, schema)
