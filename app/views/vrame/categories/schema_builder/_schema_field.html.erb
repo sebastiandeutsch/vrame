@@ -5,29 +5,29 @@
 
 <td class="type">
 	<% if field_set %>
-		<input type="hidden" name="category[fields][][uid]" value="<%= h(field.uid) %>">
+		<input type="hidden" name="category[schema][][uid]" value="<%= h(field.uid) %>">
 	<% end %>
-	<select name="category[fields][][type]" class="type""><%= options_for_select(Category::TYPES, field_set ? field.type : '') %></select>
+	<select name="category[schema][][type]" class="type"><%= options_for_select(Category::TYPES, field_set ? field.type : '') %></select>
 </td>
 
 <td class="title-name">
 	<p>
 		<label>Titel:</label>
-		<input type="text" name="category[fields][][title]" class="title" placeholder="Titel" value="<%= h(field.title) if field_set %>" />
+		<input type="text" name="category[schema][][title]" class="title" placeholder="Titel" value="<%= h(field.title) if field_set %>" />
 	</p>
 	<p>
 		<label>Schlüssel:</label>
-		<input type="text" name="category[fields][][name]" class="name" placeholder="Interner Schlüssel" value="<%= h(field.name) if field_set %>" />
+		<input type="text" name="category[schema][][name]" class="name" placeholder="Interner Schlüssel" value="<%= h(field.name) if field_set %>" />
 	</p>
 </td>
 
 <td class="description">
-	<textarea name="category[fields][][description]" class="description" placeholder="Beschreibung"><%= h(field.description) if field_set %></textarea>
+	<textarea name="category[schema][][description]" class="description" placeholder="Beschreibung"><%= h(field.description) if field_set %></textarea>
 </td>
 
 <td class="required">
 	<% field_required = (field_set and field.required == '1') %>
-	<input type="hidden" name="category[fields][][required]" value="<%= field_required ? 1 : 0 %>" class="required-field" /> 
+	<input type="hidden" name="category[schema][][required]" value="<%= field_required ? 1 : 0 %>" class="required-field" /> 
 	<label class="required">
 		<input type="checkbox" <%= 'checked="checked"' if field_required %> />
 		erforderlich?

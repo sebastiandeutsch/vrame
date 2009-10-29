@@ -8,7 +8,7 @@
 		<% options = defined?(field) ? field.options : Array.new(4) %>
 		<% for option in options %>
 			<% option ||= '' %>
-			<li><input type="text" name="category[fields][][options][]" value="<%=h option %>" /></li>
+			<li><input type="text" name="category[schema][][options][]" value="<%=h option %>" /></li>
 		<% end %>
 		</ul>
 		

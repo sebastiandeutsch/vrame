@@ -9,7 +9,7 @@
 	</tr>
 </thead>
 <tbody>
-<% category.schema.each do |field| %>
+<% category.schema.fields.each do |field| %>
 	<%= render :partial => 'vrame/categories/schema_builder/schema_field', :locals => { :field => field } %></li>
 <% end %>
 </tbody>
