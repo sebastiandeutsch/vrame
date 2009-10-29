@@ -77,8 +77,14 @@ module JsonObject
         end
       end
       
+      # Convert the content of the param to the values that gets stored in the JSON Store
       def value_from_param(param)
         param
+      end
+      
+      # Convert the value stored in the JSON Store to a Ruby object
+      def object_from_value(val)
+        val
       end
 
       def value_valid?(v)
