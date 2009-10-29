@@ -29,8 +29,10 @@ describe "A basic", JsonObject::Type, "object" do
   it "should serialize all instance variables not explicitly excluded" do
     @new_type.instance_variable_set(:@dfalkm, "whoohoo")
     @new_type.instance_variable_set(:@errors, "rarrr")
+    @new_type.instance_variable_set(:@value_errors, "oooo")
     @new_type.to_json.should match(/whoohoo/)
     @new_type.to_json.should_not match(/rarrr/)
+    @new_type.to_json.should_not match(/oooo/)
   end
   
   it "should not serialize the errors instance variable" do

@@ -18,7 +18,7 @@ module JsonObject
     #     Type.deserialize(primitivobjekt) => Ruby Object
     class Type
       RESERVED_KEYWORDS = Object.new.methods
-      UNSERIALIZABLE_PROPERTIES = ['@errors']
+      UNSERIALIZABLE_PROPERTIES = ['@errors', '@value_errors']
 
       attr_accessor :name, :description, :title, :required, :uid
       attr_reader   :errors
