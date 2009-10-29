@@ -1,5 +1,29 @@
-Vrame Bugs
-==========
+TODO
+==============================================================================
 
-Category Formular. Dokument Felder hinzufügen (2x), dann einmal löschen. Beide Zeilen verschwinden, es sollte nur eine Zeile verschwinden.
-Bild upload wirft undefined. (erst seit der neusten VRAME Version)
+Flexitypes
+----------
+
+- Implement editors for all types in the document editor
+  - Select       (+spec)
+  - Multiselect  (+spec)
+  - String       (half done, spec)
+  - Text         (half done, spec)
+  - Bool         (half done, spec)
+  - Placemark    (half done, spec)
+  - Asset        (half done, spec)
+  - Collection   (half done, spec)
+- Use the value/param conversion in the store
+	where applicable
+- provide #human_name for JsonObject::Type and subclasses
+- Utilize JsonObject::Store validations in Document validation and the
+  document form
+- Utilize JsonObject::Schema validations in Categorys validation and the
+  document form
+- Document all classes, methods and modules (doc)
+  with example on how to use them
+- Complete the specs (check for coverage, implement pending)
+
+I18n
+------------------------------------------------------------------------------
+- Migrate JsonObject strings to I18n
