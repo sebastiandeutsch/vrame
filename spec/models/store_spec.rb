@@ -50,6 +50,11 @@ describe JsonObject::Store do
       @store.article.should  eql("Yay")
     end
     
+    it "should support the subscript operator to read and write properties" do
+      @store['headline'] = "Yay"
+      @store['headline'].should eql("Yay")
+    end
+    
     it "should allow storing json in _json methods" do
       @store.headline_json = '{"a":1, "b":2}'
       @store.headline['a'].should eql(1)

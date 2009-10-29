@@ -78,6 +78,11 @@ describe JsonObject::Schema do
       @schema.field_for("fuenf").should be_instance_of(JsonObject::Types::Select)
     end
     
+    it "should provide the subscript operator" do
+      @schema.update(@schema_params)
+      @schema['asdf'].should equal(@schema.field_for('asdf'))
+    end
+    
     it "should provide has_field? information" do
       @schema.update(@schema_params)
       @schema.should have_field("asdf")

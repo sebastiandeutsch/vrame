@@ -68,6 +68,10 @@ module JsonObject
       field
     end
     
+    def [](name)
+      field_for(name)
+    end
+    
     def has_field?(name)
       !!@fields.find{|f| f.name == name}
     end

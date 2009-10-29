@@ -56,6 +56,14 @@ module JsonObject
       end
     end
     
+    def [](name)
+      read_value(name)
+    end
+    
+    def []=(name, value)
+      write_value(name.to_s, value)
+    end
+    
     def to_json(*args)
       {:json_class => self.class.name,
        :values     => @values}.to_json(*args)
