@@ -186,3 +186,9 @@ describe JsonObject::Types::Bool do
   end
 end
 
+describe JsonObject::Types::Asset do
+  it "should provide an accessor for styles" do
+    JsonObject::Types::Asset.new.should respond_to(:styles)
+  end
+end
+
