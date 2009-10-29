@@ -1,35 +1,34 @@
-<% field_set = defined?(field) %>
-<% class_name = (field_set and %w(Asset Collection Select MultiSelect).include?(field.type) ? ' has-field-options' : '') %>
+<% field = nil unless defined?(field) %>
+<% class_name = (field and field.class.name =~ /JsonObject::Types::(Asset|Collection|Select|MultiSelect)$/ ? ' has-field-options' : '') %>
 
 <tr class="schema-field<%= class_name %>">
 
 <td class="type">
-	<% if field_set %>
+	<% if field %>
 		<input type="hidden" name="category[schema][][uid]" value="<%= h(field.uid) %>">
 	<% end %>
-	<select name="category[schema][][type]" class="type"><%= options_for_select(Category::TYPES, field_set ? field.type : '') %></select>
+	<select name="category[schema][][type]" class="type"><%= options_for_select(Category::TYPES_FOR_SELECT, :selected => field.class.name) %></select>
 </td>
 
 <td class="title-name">
 	<p>
 		<label>Titel:</label>
-		<input type="text" name="category[schema][][title]" class="title" placeholder="Titel" value="<%= h(field.title) if field_set %>" />
+		<input type="text" name="category[schema][][title]" class="title" placeholder="Titel" value="<%= h(field.try(:title)) %>" />
 	</p>
 	<p>
 		<label>Schlüssel:</label>
-		<input type="text" name="category[schema][][name]" class="name" placeholder="Interner Schlüssel" value="<%= h(field.name) if field_set %>" />
+		<input type="text" name="category[schema][][name]" class="name" placeholder="Interner Schlüssel" value="<%= h(field.try(:name)) %>" />
 	</p>
 </td>
 
 <td class="description">
-	<textarea name="category[schema][][description]" class="description" placeholder="Beschreibung"><%= h(field.description) if field_set %></textarea>
+	<textarea name="category[schema][][description]" class="description" placeholder="Beschreibung"><%= h(field.try(:description)) %></textarea>
 </td>
 
 <td class="required">
-	<% field_required = (field_set and field.required == '1') %>
-	<input type="hidden" name="category[schema][][required]" value="<%= field_required ? 1 : 0 %>" class="required-field" /> 
+	<input type="hidden" name="category[schema][][required]" value="<%= field.try(:required) %>" class="required-field" /> 
 	<label class="required">
-		<input type="checkbox" <%= 'checked="checked"' if field_required %> />
+		<input type="checkbox" <%= 'checked="checked"' if field.try(:required) %> />
 		erforderlich?
 	</label>
 </td>
@@ -41,10 +40,8 @@
 </tr>
 
 <%# Field options %>
-<% if field_set %>
-	<% if field.type == 'Asset' or field.type == 'Collection' %>
-		<%= render :partial => 'vrame/categories/schema_builder/asset_styles', :locals => { :field => field } %>
-	<% elsif field.type == 'Select' or field.type == 'MultiSelect' %>
-		<%= render :partial => 'vrame/categories/schema_builder/select_options', :locals => { :field => field, :type => field.type } %>
-	<% end %>
+<% if field.is_a?(JsonObject::Types::Asset) || field.is_a?(JsonObject::Types::Collection) %>
+	<%= render :partial => 'vrame/categories/schema_builder/asset_styles', :locals => { :field => field } %>
+<% elsif field.is_a?(JsonObject::Types::Select) || field.is_a?(JsonObject::Types::MultiSelect) %>
+	<%= render :partial => 'vrame/categories/schema_builder/select_options', :locals => { :field => field } %>
 <% end %>

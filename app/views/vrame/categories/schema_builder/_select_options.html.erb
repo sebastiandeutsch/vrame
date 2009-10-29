@@ -1,12 +1,13 @@
-<tr class="field-options <%= 'multi' if type == 'MultiSelect' %>select-fields">
+<% field = nil unless defined?(field) %>
+
+<tr class="field-options <%= 'multi' if field.is_a?(JsonObject::Types::MultiSelect) %>select-fields">
 	<td></td>
 	<td colspan="4">
 		
-		<h3>Felder für  <%= type == 'MultiSelect' ? 'Mehrfachauswahl' : 'Auswahl' %></h3>
+		<h3>Felder für <%= field.is_a?(JsonObject::Types::MultiSelect) ? 'Mehrfachauswahl' : 'Auswahl' %></h3>
 		
 		<ul>
-		<% options = defined?(field) ? field.options : Array.new(4) %>
-		<% for option in options %>
+		<% for option in (field.try(:options) || Array.new(4)) %>
 			<% option ||= '' %>
 			<li><input type="text" name="category[schema][][options][]" value="<%=h option %>" /></li>
 		<% end %>

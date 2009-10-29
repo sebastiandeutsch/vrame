@@ -1,5 +1,6 @@
 class Category < ActiveRecord::Base
-  TYPES = ["String", "Text", "Datetime", "Bool", "Asset", "Collection", "Placemark", "Select", "MultiSelect"]
+  TYPES = JsonObject::Types.constants.map {|x| "JsonObject::Types::" + x}
+  TYPES_FOR_SELECT = TYPES.map {|t| [t[/\w+$/], t]}
   
   has_many :documents, :order => :position
   has_many :collections, :dependent => :destroy, :as => :collectionable

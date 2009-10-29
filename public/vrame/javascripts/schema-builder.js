@@ -59,25 +59,25 @@ jQuery(function ($) {
 	/* Field Options */
 	
 	var fieldTypeBehavior = {
-		'Asset' : {
+		'JsonObject::Types::Asset' : {
 			rowPrototype    : '#asset-styles-prototype tr',
 			optionButton    : 'tr.asset-styles a.add-asset-style',
 			optionPrototype : 'li:first',
 			optionTarget    : 'ul:first'
 		},
-		'Collection' : {
+		'JsonObject::Types::Collection' : {
 			rowPrototype    : '#asset-styles-prototype tr',
 			optionButton    : 'tr.asset-styles a.add-asset-style',
 			optionPrototype : 'li:first',
 			optionTarget    : 'ul:first'
 		},
-		'Select' : {
+		'JsonObject::Types::Select' : {
 			rowPrototype    : '#select-options-prototype tr',
 			optionButton    : 'tr.select-fields a.add-select-field',
 			optionPrototype : 'li:first',
 			optionTarget    : 'ul:first'
 		},
-		'MultiSelect' : {
+		'JsonObject::Types::MultiSelect' : {
 			rowPrototype    : '#multiselect-options-prototype tr',
 			optionButton    : 'tr.multiselect-fields a.add-select-field',
 			optionPrototype : 'li:first',
