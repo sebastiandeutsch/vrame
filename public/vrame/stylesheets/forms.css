@@ -76,10 +76,6 @@ input[type="password"]:focus {
 	border-color: #777;
 	outline: none;
 	
-	transform: scale(1.015);
-	-webkit-transform: scale(1.015);
-	-moz-transform: scale(1.015);
-	
 	box-shadow: 1px 1px 5px #A0A0FF;
 	-moz-box-shadow: 1px 1px 5px #A0A0FF;
 	-webkit-box-shadow: 1px 1px 5px #A0A0FF;
