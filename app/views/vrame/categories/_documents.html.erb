@@ -8,9 +8,9 @@
 			</div>
 
 			<div class="image">
-				<% if document.meta and document.meta.schema.has_attribute?(:image) %>
+				<% if document.meta and document.meta.schema.has_field?(:image) %>
 					<img src="<%= document.meta.image.file.url(:vrame_backend) %>" />
-				<% elsif document.meta and document.meta.schema.has_attribute?(:bild) %>
+				<% elsif document.meta and document.meta.schema.has_field?(:bild) %>
 					<img src="<%= document.meta.bild.file.url(:vrame_backend) %>" />
 				<% else %>
 					&nbsp;

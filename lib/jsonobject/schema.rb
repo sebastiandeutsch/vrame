@@ -68,6 +68,10 @@ module JsonObject
       field
     end
     
+    def has_field?(name)
+      !!@fields.find{|f| f.name == name}
+    end
+    
     def field_by_uid(uid)
       field = @fields.find{|f| f.uid == uid}
       raise UnknownSchemaAttributeError.new("Attribute with UID '#{uid}' not in store schema") if field.nil?
