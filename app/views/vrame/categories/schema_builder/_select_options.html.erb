@@ -1,8 +1,8 @@
-<tr class="field-options <%= 'multi' if type == 'Multiselect' %>select-fields">
+<tr class="field-options <%= 'multi' if type == 'MultiSelect' %>select-fields">
 	<td></td>
 	<td colspan="4">
 		
-		<h3>Felder für  <%= type == 'Multiselect' ? 'Mehrfachauswahl' : 'Auswahl' %></h3>
+		<h3>Felder für  <%= type == 'MultiSelect' ? 'Mehrfachauswahl' : 'Auswahl' %></h3>
 		
 		<ul>
 		<% options = defined?(field) ? field.options : Array.new(4) %>

@@ -77,7 +77,7 @@ jQuery(function ($) {
 			optionPrototype : 'li:first',
 			optionTarget    : 'ul:first'
 		},
-		'Multiselect' : {
+		'MultiSelect' : {
 			rowPrototype    : '#multiselect-options-prototype tr',
 			optionButton    : 'tr.multiselect-fields a.add-select-field',
 			optionPrototype : 'li:first',

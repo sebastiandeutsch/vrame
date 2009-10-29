@@ -1,5 +1,5 @@
 <% field_set = defined?(field) %>
-<% class_name = (field_set and %w(Asset Collection Select Multiselect).include?(field.type) ? ' has-field-options' : '') %>
+<% class_name = (field_set and %w(Asset Collection Select MultiSelect).include?(field.type) ? ' has-field-options' : '') %>
 
 <tr class="schema-field<%= class_name %>">
 
@@ -44,7 +44,7 @@
 <% if field_set %>
 	<% if field.type == 'Asset' or field.type == 'Collection' %>
 		<%= render :partial => 'vrame/categories/schema_builder/asset_styles', :locals => { :field => field } %>
-	<% elsif field.type == 'Select' or field.type == 'Multiselect' %>
+	<% elsif field.type == 'Select' or field.type == 'MultiSelect' %>
 		<%= render :partial => 'vrame/categories/schema_builder/select_options', :locals => { :field => field, :type => field.type } %>
 	<% end %>
 <% end %>
