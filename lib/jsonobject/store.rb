@@ -49,10 +49,10 @@ module JsonObject
     
     def method_missing(name, value=nil)
       name = name.to_s
-      unless name[-1,1] == '='
-        read_value(name)
+      if name[-1,1] == '='
+        write_value(name.chop, value)        
       else
-        write_value(name.chop, value)
+        read_value(name)
       end
     end
     
