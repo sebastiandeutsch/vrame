@@ -1,10 +1,10 @@
 <% name  = "document[meta[values[#{field.uid}]]]" %>
-<% id    = "document-meta-#{field.uid}" %>
-<% value = document.meta.send(field.name) %>
+<% uid   = "document-meta-#{field.uid}" %>
+<% value = document.meta[field.name] %>
 
 <li class="meta-field clearfix">
 	
-	<label for="<%= id %>"><%= h field.title %></label>
+	<label for="<%= uid %>"><%= h field.title %></label>
 	
 	<% unless field.description.blank? %>
 		<p class="meta-field-description"><%=h field.description %></p>
@@ -12,24 +12,38 @@
 	
 	<div class="input-container">
 	
-	<% case field.type when "String" %>
+	<% case field when JsonObject::Types::String %>
 		
-		<input type="text" name="<%= name %>" id="<%= id %>" value="<%= h value %>" />
+		<input type="text" name="<%= name %>" id="<%= uid %>" value="<%= h value %>" />
 		
-	<% when "Text" %>
+	<% when JsonObject::Types::Text %>
 		
-		<textarea name="<%= name %>" id="<%= id %>" class="rte-zone"><%= value %></textarea>
+		<textarea name="<%= name %>" id="<%= uid %>" class="rte-zone"><%= value %></textarea>
 		
-	<% when "Bool" %>
-		
+	<% when JsonObject::Types::Bool %>
+		<%
+=begin
+		%>
 		<input type="hidden"   name="<%= name %>" value="0" />
-		<input type="checkbox" name="<%= name %>" id="<%= id %>" <% 'checked="checked"' if value == '1' %> />
+		<input type="checkbox" name="<%= name %>" id="<%= uid %>" <% 'checked="checked"' if value == '1' %> />
+		<%
+=end
+		%>
+		<%= check_box_tag name, '1', value, :id => uid %>
 		
-	<% when "Datetime" %>
+	<% when JsonObject::Types::Datetime %>
 		
-		<input type="text" name="<%= name %>" id="<%= id %>" value="<%= value %>" class="datepicker" />
+		<input type="text" name="<%= name %>" id="<%= uid %>" value="<%= value %>" class="datepicker" />
 		
-	<% when "Asset" %>
+	<% when JsonObject::Types::Select %>
+	
+	Select not implemented
+	
+	<% when JsonObject::Types::MultiSelect %>
+	
+  MultiSelect not implemented
+
+	<% when JsonObject::Types::Asset %>
 		
 		<%= render :partial => 'vrame/shared/file_upload', :locals => {
 			:asset => value,
@@ -37,7 +51,7 @@
 			:field_name => name
 		} %>
 		
-	<% when "Collection" %>
+	<% when JsonObject::Types::Collection %>
 		
 		<%= render :partial => 'vrame/shared/file_upload', :locals => {
 			:collection => value,
@@ -45,13 +59,13 @@
 			:field_name => name
 		} %>
 		
-	<% when "Placemark" %>
+	<% when JsonObject::Types::Placemark %>
 
 		<%= render :partial => 'vrame/shared/placemark', :locals => {
-			:field_id => id,
-			:parent => document,
+			:field_id   => uid,
+			:parent     => document,
 			:field_name => name,
-			:value => value
+			:value      => value
 		} %>
 
 	<% end # case %>
