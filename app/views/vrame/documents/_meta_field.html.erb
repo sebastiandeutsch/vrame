@@ -20,15 +20,8 @@
 		<textarea name="<%= name %>" id="<%= uid %>" class="rte-zone"><%= value %></textarea>
 		
 	<% when JsonObject::Types::Bool %>
-		<%
-=begin
-		%>
-		<input type="hidden"   name="<%= name %>" value="0" />
-		<input type="checkbox" name="<%= name %>" id="<%= uid %>" <% 'checked="checked"' if value == '1' %> />
-		<%
-=end
-		%>
-		<%= check_box_tag name, '1', value, :id => uid %>
+		
+		<%= check_box_tag name, '1', value, :id => uid %> Aktivieren
 		
 	<% when JsonObject::Types::Datetime %>
 		
@@ -36,7 +29,7 @@
 		
 	<% when JsonObject::Types::Select %>
 	
-	Select not implemented
+		<%= render :partial => 'vrame/shared/selectSelect not implemented
 	
 	<% when JsonObject::Types::MultiSelect %>
 	
@@ -45,17 +38,17 @@
 	<% when JsonObject::Types::Asset %>
 		
 		<%= render :partial => 'vrame/shared/file_upload', :locals => {
+			:field_name => name,
 			:asset => value,
-			:parent => document,
-			:field_name => name
+			:parent => document
 		} %>
 		
 	<% when JsonObject::Types::Collection %>
 		
 		<%= render :partial => 'vrame/shared/file_upload', :locals => {
+			:field_name => name,
 			:collection => value,
-			:parent => document,
-			:field_name => name
+			:parent => document
 		} %>
 		
 	<% when JsonObject::Types::Placemark %>
