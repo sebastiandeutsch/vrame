@@ -1,9 +1,10 @@
-<% name  = "document[meta[#{field.uid}]]" %>
-<% uid   = "document-meta-#{field.uid}" %>
-<% value = document.meta[field.name] %>
+<% field_name  = "document[meta[#{field.uid}]]" %>
+<% field_id    = "document-meta-#{field.uid}" %>
+<% value       = document.meta[field.name] %>
+
 <li class="meta-field clearfix">
 	
-	<label for="<%= uid %>"><%= h field.title %></label>
+	<h3><label for="<%= field_id %>"><%= h field.title %></label></h3>
 	
 	<% unless field.description.blank? %>
 		<p class="meta-field-description"><%=h field.description %></p>
@@ -13,23 +14,26 @@
 	
 	<% case field when JsonObject::Types::String %>
 		
-		<input type="text" name="<%= name %>" id="<%= uid %>" value="<%= h value %>" />
+		<input type="text" name="<%= field_name %>" id="<%= field_id %>" value="<%= h value %>" />
 		
 	<% when JsonObject::Types::Text %>
 		
-		<textarea name="<%= name %>" id="<%= uid %>" class="rte-zone"><%= value %></textarea>
+		<textarea name="<%= field_name %>" id="<%= field_id %>" class="rte-zone"><%= value %></textarea>
 		
 	<% when JsonObject::Types::Bool %>
 		
-		<%= check_box_tag name, '1', value, :id => uid %> Aktivieren
+		<label><%= check_box_tag field_name, '1', value, :id => field_id %> Aktivieren</label>
 		
 	<% when JsonObject::Types::Datetime %>
 		
-		<input type="text" name="<%= name %>" id="<%= uid %>" value="<%= value %>" class="datepicker" />
+		<input type="text" name="<%= field_name %>" id="<%= field_id %>" value="<%= value %>" class="datepicker" />
 		
 	<% when JsonObject::Types::Select %>
 	
-		<%= render :partial => 'vrame/shared/selectSelect not implemented
+		<%= render :partial => 'vrame/shared/select_options', :locals => {
+			:field => field,
+			:field_name => field_name
+		} %>
 	
 	<% when JsonObject::Types::MultiSelect %>
 	
@@ -38,7 +42,7 @@
 	<% when JsonObject::Types::Asset %>
 		
 		<%= render :partial => 'vrame/shared/file_upload', :locals => {
-			:field_name => name,
+			:field_name => field_name,
 			:asset => value,
 			:parent => document
 		} %>
@@ -46,7 +50,7 @@
 	<% when JsonObject::Types::Collection %>
 		
 		<%= render :partial => 'vrame/shared/file_upload', :locals => {
-			:field_name => name,
+			:field_name => field_name,
 			:collection => value,
 			:parent => document
 		} %>
@@ -54,13 +58,13 @@
 	<% when JsonObject::Types::Placemark %>
 
 		<%= render :partial => 'vrame/shared/placemark', :locals => {
-			:field_id   => uid,
+			:field_name => field_name,
+			:field_id   => field_id,
 			:parent     => document,
-			:field_name => name,
 			:value      => value
 		} %>
 
 	<% end # case %>
 	
 	</div><!-- /.input-container -->
-</li><!-- /li.clearfix -->
+</li><!-- /li.meta-field -->

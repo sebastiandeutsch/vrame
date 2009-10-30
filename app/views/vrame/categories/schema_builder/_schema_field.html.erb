@@ -13,16 +13,16 @@
 <td class="title-name">
 	<p>
 		<label>Titel:</label>
-		<input type="text" name="category[schema][][title]" class="title" placeholder="Titel" value="<%= h(field.try(:title)) %>" />
+		<input type="text" name="category[schema][][title]" class="title" value="<%= h(field.try(:title)) %>" />
 	</p>
 	<p>
 		<label>Schlüssel:</label>
-		<input type="text" name="category[schema][][name]" class="name" placeholder="Interner Schlüssel" value="<%= h(field.try(:name)) %>" />
+		<input type="text" name="category[schema][][name]" class="name" value="<%= h(field.try(:name)) %>" />
 	</p>
 </td>
 
 <td class="description">
-	<textarea name="category[schema][][description]" class="description" placeholder="Beschreibung"><%= h(field.try(:description)) %></textarea>
+	<textarea name="category[schema][][description]" class="description"><%= h(field.try(:description)) %></textarea>
 </td>
 
 <td class="required">

@@ -4,10 +4,22 @@
  *
  */
 
+/** 
+ * @subsection Labels
+ *
+ *
+ */
+
 label {
 	display: block;
 	color: #777;
 }
+
+/** 
+ * @subsection Fieldsets
+ *
+ *
+ */
 
 form fieldset {
 	background: #e8e8e8;
@@ -18,19 +30,30 @@ form fieldset {
 	margin-bottom: 15px;
 }
 
-form fieldset ol li {
-	margin-bottom: 10px;
-}
-
+/*
 form fieldset div {
 	margin-bottom: 10px;
 }
+*/
+
+/** 
+ * @subsection Headings
+ *
+ *
+ */
 
 form h3 {
 	margin-bottom: 15px;
 	font-size: 1.25em;
 }
 
+/** 
+ * @subsection Lists and Paragraphs
+ *
+ *
+ */
+
+form li,
 form p {
 	margin-bottom: 10px;
 }
@@ -55,9 +78,21 @@ form li.separator {
 	border:1px solid #aaa;
 }
 
+/** 
+ * @subsection Form errors
+ *
+ *
+ */
+
 form em {
 	color:#f00;
 }
+
+/** 
+ * @subsection Form field styling
+ *
+ *
+ */
 
 textarea,
 input[type="text"],
@@ -76,15 +111,21 @@ input[type="password"]:focus {
 	border-color: #777;
 	outline: none;
 	
-	box-shadow: 1px 1px 5px #A0A0FF;
-	-moz-box-shadow: 1px 1px 5px #A0A0FF;
-	-webkit-box-shadow: 1px 1px 5px #A0A0FF;
+	box-shadow: 1px 1px 6px #A0A0F5;
+	-moz-box-shadow: 1px 1px 6px #A0A0F5;
+	-webkit-box-shadow: 1px 1px 6px #A0A0F5;
 }
 
 input[type="text"],
 input[type="password"] {
 	width: 350px;
 	padding: 4px;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+	margin: 0;
+	vertical-align: middle;
 }
 
 textarea {

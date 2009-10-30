@@ -38,7 +38,10 @@ end %>
 	<ol class="upload-queue"></ol>
 	
 	<%# ****** Collection sorting %>
-	<% if defined?(collection) and not collection.new_record? %>
+	<% if defined?(collection) %>
+		<p>Collection: <%=h collection.inspect %></p>
+	<% end %>
+	<% if false and defined?(collection) and not collection.new_record? %>
 		<p id="rearrange-collection"><%= link_to "Assets sortieren", rearrange_vrame_collection_path(collection), :class => 'smaller button invert' %></p>
 	<% end %>
 	

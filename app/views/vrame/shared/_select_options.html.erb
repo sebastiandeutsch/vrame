@@ -1,0 +1,10 @@
+<ol class="select-options">
+<% field.options.each do |option| %>
+	<li>
+		<label>
+			<input type="<%= field.is_a?(JsonObject::Types::MultiSelect) ? 'checkbox' : 'radio' %>" name="<%= field_name %>" value="<%=h option %>" />
+			<%=h option %>
+		</label>
+	</li>
+<% end %>
+</ol>
