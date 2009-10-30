@@ -15,7 +15,7 @@ class Vrame::DocumentsController < Vrame::VrameController
       
     @document = @category.documents.build
     
-    @breadcrumbs = [{ :title => 'Kategorien', :url => vrame_categories_path }]
+    @breadcrumbs = [{ :title => 'Kategorien', :url => vrame_categories_path }] # @TODO This belongs in a helper
     @category.ancestors.reverse.push(@category).each { |a| @breadcrumbs << { :title => a.title, :url => vrame_category_path(a) } }
   end
   
@@ -29,6 +29,7 @@ class Vrame::DocumentsController < Vrame::VrameController
       redirect_to vrame_categories_path + "#document-#{@document.to_param}"
     else
       flash[:error] = 'Dokument konnte nicht angelegt werden'
+      @breadcrumbs = [{ :title => 'Kategorien', :url => vrame_categories_path }]
       render :action => :new
     end
   end
