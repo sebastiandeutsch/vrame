@@ -1,5 +1,3 @@
-/* New Field, Slug Generator, Field Options */
-
 jQuery(function ($) {
 	
 	/* New Field */
@@ -11,20 +9,49 @@ jQuery(function ($) {
 		'#schema-builder tbody',
 		{
 			removeParentSelector : 'tr',
-			add : function (tr) {
-				//console.log('schema builder: field added');
-				/* Setup event handling on clone*/
-				setupSlugGenerator(tr);
-				tr.find('select.type').change(controlFieldOptions);
-			},
-			remove : function (tr) {
-				//console.log('schema builder: field removed');
-				removeFieldOptions(tr);
-			}
+			add : fieldAdded,
+			remove : fieldRemoved
 		}
 	);
 	
+	/* Field addition and deletion */
+	
+	function fieldAdded (tr) {
+		//console.log('schema builder: field added', tr);
+		
+		/* Setup event handling on clone */
+		setupSlugGenerator(tr);
+		
+		/* Get the selected type for the new field */
+		var internalFieldType = setFieldType(tr);
+		
+		/* Add corresponding field options */
+		addFieldOptions(tr, internalFieldType);
+	}
+	
+	function fieldRemoved (tr) {
+		//console.log('schema builder: field removed');
+		removeFieldOptions(tr);
+	}
+	
 	/* Slug Generation */
+	
+	function setupSlugGenerator (clone) {
+		clone
+			.find('input.title')
+			.keydown(slugGenerator)
+			.keyup(slugGenerator)
+			.focus(slugGenerator)
+			.blur(slugGenerator);
+	}
+	
+	function slugGenerator () {
+		var input = $(this),
+			title = input.val(),
+			slug = sluggify(title);
+		
+		input.closest('td').find('input.name').val(slug);
+	}
 	
 	function sluggify (string) {
 		return string
@@ -39,89 +66,75 @@ jQuery(function ($) {
 			.replace(/^_+|_+$/g, '');
 	}
 	
-	function slugGenerator () {
-		var input = $(this),
-			title = input.val(),
-			slug = sluggify(title);
+	/* Field Type */
+	
+	function setFieldType (tr) {
+		var select = $('#add-schema-field-type').get(0),
+			selectedOption = select.options[select.selectedIndex],
+			visibleFieldType = selectedOption.innerHTML,
+			internalFieldType = selectedOption.value;
 		
-		input.closest('td').find('input.name').val(slug);
+		/* Set the type accordingly */
+		tr.find('input.internal-field-type').val(internalFieldType);
+		tr.find('p.visible-field-type').html(visibleFieldType);
+		
+		return internalFieldType;
 	}
 	
-	function setupSlugGenerator (clone) {
-		clone
-			.find('input.title')
-			.keydown(slugGenerator)
-			.keyup(slugGenerator)
-			.focus(slugGenerator)
-			.blur(slugGenerator);
-	}
-	
-	/* Field Options */
+	/* Field Options, Field Options Population */
 	
 	var fieldTypeBehavior = {
 		'JsonObject::Types::Asset' : {
 			rowPrototype    : '#asset-styles-prototype tr',
-			optionButton    : 'tr.asset-styles a.add-asset-style',
+			optionButton    : 'a.add-asset-style',
 			optionPrototype : 'li:first',
 			optionTarget    : 'ul:first'
 		},
 		'JsonObject::Types::Collection' : {
 			rowPrototype    : '#asset-styles-prototype tr',
-			optionButton    : 'tr.asset-styles a.add-asset-style',
+			optionButton    : 'a.add-asset-style',
 			optionPrototype : 'li:first',
 			optionTarget    : 'ul:first'
 		},
 		'JsonObject::Types::Select' : {
 			rowPrototype    : '#select-options-prototype tr',
-			optionButton    : 'tr.select-fields a.add-select-field',
+			optionButton    : 'a.add-select-field',
 			optionPrototype : 'li:first',
 			optionTarget    : 'ul:first'
 		},
 		'JsonObject::Types::MultiSelect' : {
 			rowPrototype    : '#multiselect-options-prototype tr',
-			optionButton    : 'tr.multiselect-fields a.add-select-field',
+			optionButton    : 'a.add-select-field',
 			optionPrototype : 'li:first',
 			optionTarget    : 'ul:first'
 		}
 	},
 	hasFieldOptions = 'has-field-options';
 	
-	$('#schema-builder select.type').change(controlFieldOptions);
+	/* Field options addition and deletion */
 	
-	function controlFieldOptions () {
-		var select = $(this),
-			type = select.val(),
-			o = fieldTypeBehavior[type],
-			tr = $(this).closest('tr');
+	function addFieldOptions (tr, internalFieldType) {
+		//console.log('addFieldOptions', internalFieldType, 'for', tr, ', type options:');
+		var o = fieldTypeBehavior[internalFieldType];
 		
-		//console.log('new type:', type);
-		if (o) {
-			//console.log('this type has FO');
-			insertFieldOptions(tr, o);
-		} else {
-			//console.log('this type doesn\'t have FO');
-			removeFieldOptions(tr);
+		if (!o) {
+			//console.log('this type doesn\'t have field options. :-/');
+			return;
 		}
-	}
-	
-	function insertFieldOptions (tr, o) {
-		//console.log('insertFieldOptions', tr, o);
-		/* Clone and insert */
-		var clone = $(o.rowPrototype).clone(),
-			existingFieldOptions = tr.next('tr.field-options');
-		if (existingFieldOptions.length) {
-			//console.log('replace existing FO');
-			existingFieldOptions.replaceWith(clone);
-		} else {
-			//console.log('insert FO');
-			tr.after(clone);
-		}
+		//console.log('this type has field options! =)', o);
+		
+		/* Add has-field-options class */
 		tr.addClass(hasFieldOptions);
-		/* Setup event handling on clone*/
-		setupOptionPopulation();
+		
+		/* Clone and insert the field options */
+		var clone = $(o.rowPrototype).clone().insertAfter(tr);
+		
+		/* Setup event handling on the clone*/
+		setupOptionPopulation(clone);
+		
 	}
 	
-	function removeFieldOptions (tr) {
+	function removeFieldOptions (tr, o) {
 		//console.log('removeFieldOptions', tr);
 		tr.removeClass(hasFieldOptions).next('.field-options').remove();
 	}
@@ -130,28 +143,39 @@ jQuery(function ($) {
 	
 	setupOptionPopulation();
 	
-	function setupOptionPopulation () {
+	function setupOptionPopulation (tr) {
+		//console.log('setupOptionPopulation', tr);
+		var schemaBuilderPrototypes = $('#schema-builder-prototypes');
+		/* Collect buttons */
+		
 		for (var key in fieldTypeBehavior) {
 			var o = fieldTypeBehavior[key];
 			if (!o.optionButton) continue;
-			$(o.optionButton)
+			var container = tr || schemaBuilderPrototypes,
+				buttons = container.find(o.optionButton);
+			//console.log(container, o.optionButton, '>', buttons);
+			buttons
 				/* Don't treat a button twice, set and check a flag */
 				.filter(function () {
 					return !$(this).data('populateOption');
 				})
+				/* Attach the options to the button */
 				.data('populateOption', o)
 				/* Setup event handling */
 				.click(populateOption);
 		}
+		
 	}
 	
 	function populateOption () {
+		//console.log('populateOption');
 		var button = $(this),
 			o = button.data('populateOption'),
 			tr = button.closest('tr'),
 			target = tr.find(o.optionTarget);
 		tr.find(o.optionPrototype).clone().appendTo(target);
 	}
+	
 });
 
 /* Required Field */

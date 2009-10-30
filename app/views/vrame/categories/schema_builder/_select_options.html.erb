@@ -1,10 +1,11 @@
 <% field = nil unless defined?(field) %>
+<% is_multi = field.is_a?(JsonObject::Types::MultiSelect) %>
 
-<tr class="field-options <%= 'multi' if field.is_a?(JsonObject::Types::MultiSelect) %>select-fields">
+<tr class="field-options <%= 'multi' if is_multi %>select-fields">
 	<td></td>
 	<td colspan="4">
 		
-		<h3>Felder für <%= field.is_a?(JsonObject::Types::MultiSelect) ? 'Mehrfachauswahl' : 'Auswahl' %></h3>
+		<h3>Optionen für <%= is_multi ? 'Mehrfachauswahl' : 'Auswahl' %></h3>
 		
 		<ul>
 		<% for option in (field.try(:options) || Array.new(4)) %>
@@ -13,7 +14,7 @@
 		<% end %>
 		</ul>
 		
-		<p><a href="javascript:void(0)" class="smaller button invert add-select-field">Feld hinzufügen</a></p>
+		<p><a href="javascript:void(0)" class="smaller button invert add-select-field">Option hinzufügen</a></p>
 		
 	</td>
 </tr>

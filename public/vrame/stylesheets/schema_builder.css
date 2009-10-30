@@ -4,14 +4,6 @@
  *
  */
 
-#add-schema-item {
-	display: inline-block;
-}
-
-#schema-builder-prototypes {
-	xdisplay: none;
-}
-
 /** 
  * @subsection Table cells
  *
@@ -34,9 +26,6 @@
 #schema-builder td:first-child {
 	padding-left: 10px;
 }
-#schema-builder tr:last-child td {
-	border-bottom-style: none;
-}
 
 /** 
  * @subsection Column widths
@@ -45,7 +34,7 @@
  */
 
 #schema-builder td.type {
-	width: 100px;
+	width: 70px;
 }
 
 #schema-builder td.title-name {
@@ -60,7 +49,7 @@
 	width: 90px;
 }
 
-#schema-builder td.remove {
+#schema-builder td.actions {
 	width: 70px;
 }
 
@@ -84,10 +73,6 @@
  *
  *
  */
-
- #schema-builder select.type {
-	width: 100%;
-}
 
 #schema-builder input.title,
 #schema-builder input.name,
@@ -162,9 +147,6 @@
  * 
  */
 
-#schema-builder tr.asset-styles td {
-	padding-bottom: 0;
-}
 
 /**
  * @subsection Select options
@@ -175,4 +157,31 @@
 #schema-builder tr.multiselect-options ul {
 	list-style-type: decimal;
 	list-style-position: inside;
+}
+
+/** 
+ * @subsection Add a new field
+ *
+ *
+ */
+
+#schema-builder-add-field {
+	margin-top: 20px;
+	height: 25px;
+}
+
+#schema-builder-add-field p {
+	float: left;
+	margin-right: 15px;
+}
+
+/** 
+ * @subsection Prototypes for fields and field options
+ *
+ *
+ */
+
+#schema-builder-prototypes {
+	xdisplay: none;
+	opacity: 0.3;
 }

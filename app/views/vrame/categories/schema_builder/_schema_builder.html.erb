@@ -1,11 +1,11 @@
 <table id="schema-builder">
 <thead>
 	<tr>
-		<th>Typ</th>
-		<th>Name / Interner Schlüssel</th>
-		<th>Beschreibung</th>
-		<th>Erforderlich</th>
-		<th>Aktionen</th>
+		<th class="type">Typ</th>
+		<th class="title-name">Name / Interner Schlüssel</th>
+		<th class="description">Beschreibung</th>
+		<th class="required">Erforderlich</th>
+		<th class="actions">Aktionen</th>
 	</tr>
 </thead>
 <tbody>
@@ -15,7 +15,18 @@
 </tbody>
 </table>
 
-<p><a id="add-schema-field" href="#" class="button invert">Weiteres Feld hinzufügen</a></p>
+<div id="schema-builder-add-field">
+
+	<p>
+		<label>
+			Feldtyp:
+			<select name="category[schema][][type]" id="add-schema-field-type"><%= options_for_select(Category::TYPES_FOR_SELECT) %></select>
+		</label>
+	</p>
+
+	<p><a href="javascript:void()" id="add-schema-field" class="button invert">Feld hinzufügen</a></p>
+
+</div>
 
 <%# Populate Row Prototypes %>
 <% content_for :schema_builder_after_form do %>
