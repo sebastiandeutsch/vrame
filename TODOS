@@ -5,13 +5,14 @@ Flexitypes
 ----------
 
 - Schema update constantize security check
+- Field_by_uid rename to field_for_uid
 
 - Implement editors for all types in the document editor
   - Select       (+spec)
   - Multiselect  (+spec)
-  - String       (half done, spec)
-  - Text         (half done, spec)
-  - Bool         (half done, spec)
+  - String       (works, spec missing)
+  - Text         (works, spec missing)
+  - Bool         (works, spec missing)
   - Placemark    (half done, spec)
   - Asset        (half done, spec)
   - Collection   (half done, spec)

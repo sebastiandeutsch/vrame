@@ -50,9 +50,16 @@ describe "A basic", JsonObject::Type, "object" do
     revived.uid.should eql @new_type.uid
   end
   
-  it "should convert the 'required' field to a Ruby boolean" do
+  it "should convert the 'required' field to a Ruby boolean on assignment" do
     [true, 1, "1", "true"].each do |val|
       @new_type.required = val
+      @new_type.required.should eql(true)
+    end
+  end
+
+  it "should convert the 'required' field to a Ruby boolean on assignment" do
+    [true, 1, "1", "true"].each do |val|
+      @new_type.update_attributes(:required => val)
       @new_type.required.should eql(true)
     end
   end
