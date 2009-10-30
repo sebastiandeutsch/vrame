@@ -47,6 +47,7 @@ module JsonObject
       remove_fields_by_uids(updated_uids)
     end
     
+    # Remove all fields with uids that are not in the submitted list
     def remove_fields_by_uids(uids)
       @fields.reject! {|field| !uids.include?(field.uid)}
     end

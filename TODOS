@@ -13,7 +13,7 @@ Flexitypes
   - String       (works, spec missing)
   - Text         (works, spec missing)
   - Bool         (works, spec missing)
-  - Placemark    (half done, spec)
+  - Placemark    (works, spec missing)
   - Asset        (half done, spec)
   - Collection   (half done, spec)
 - provide #human_name for JsonObject::Type and subclasses
@@ -23,7 +23,9 @@ Flexitypes
   document form
 - Document all classes, methods and modules (doc)
   with example on how to use them
+- Ordering of the types in the category editor
 - Complete the specs (check for coverage, implement pending)
+  - How can custom types override type behavior
 
 I18n
 ------------------------------------------------------------------------------
