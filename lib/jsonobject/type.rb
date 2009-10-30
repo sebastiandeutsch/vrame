@@ -31,7 +31,8 @@ module JsonObject
       
       def generate_uid
         # @TODO Only works with MySQL
-        ActiveRecord::Base.connection.select_value("SELECT UUID();")
+        # rand to prevent mysql caching
+        ActiveRecord::Base.connection.select_value(%Q(SELECT UUID() as "#{rand}"))
       end
       
       def valid?

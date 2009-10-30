@@ -89,17 +89,47 @@ describe JsonObject::Schema do
       @schema.should_not have_field("asdfasdasd")
     end
     
-    it "should create new uids in the types" do
-      @schema.update([{
-                   "name"  => "asdf",
-                   "title" => "asdf",
-                   "type"  => "JsonObject::Types::String",
-                   "description" => "oahnz zwoah gsuffe1",
-                   "required"    => "0"
-                 }])
-      @schema.field_for("asdf").uid.should_not be_blank
-      @schema.field_for("asdf").uid.should match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)
+    describe "uuids" do
+      before :each do
+        @schema.update([{
+                     "name"  => "asdf",
+                     "title" => "asdf",
+                     "type"  => "JsonObject::Types::String",
+                     "description" => "oahnz zwoah gsuffe1",
+                     "required"    => "0"
+                   },
+                   {
+                      "name"  => "asdf2",
+                      "title" => "asdf2",
+                      "type"  => "JsonObject::Types::String",
+                      "description" => "oahnz zwoah gsuffe2",
+                      "required"    => "0"
+                  }])
+      end
+      
+      it "should create new uids in the types" do
+        @schema.field_for("asdf").uid.should_not be_blank
+        @schema.field_for("asdf").uid.should match(/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/)
+      end
+
+      it "should create unique uuids" do
+        @schema['asdf'].uid.should_not eql(@schema['asdf2'].uid)
+      end
+      
+      it "should recreate unique uuids when serializing and restoring from the database" do
+        uid1 = @schema['asdf'].uid
+        uid2 = @schema['asdf2'].uid
+        schema_json = @schema.to_json
+        schema_json.should match(uid1)
+        schema_json.should match(uid2)
+        
+        re_schema = JSON.parse(schema_json)
+        @schema['asdf'].uid.should eql(uid1)
+        @schema['asdf2'].uid.should eql(uid2)
+      end
+      
     end
+    
     
     describe "and saving it" do
       it "should be converted to json and do this recursively with the types" do
