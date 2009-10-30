@@ -1,7 +1,6 @@
-<% name  = "document[meta[values[#{field.uid}]]]" %>
+<% name  = "document[meta[#{field.uid}]]" %>
 <% uid   = "document-meta-#{field.uid}" %>
 <% value = document.meta[field.name] %>
-
 <li class="meta-field clearfix">
 	
 	<label for="<%= uid %>"><%= h field.title %></label>

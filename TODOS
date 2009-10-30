@@ -4,6 +4,8 @@ TODO
 Flexitypes
 ----------
 
+- Schema update constantize security check
+
 - Implement editors for all types in the document editor
   - Select       (+spec)
   - Multiselect  (+spec)
@@ -27,3 +29,7 @@ Flexitypes
 I18n
 ------------------------------------------------------------------------------
 - Migrate JsonObject strings to I18n
+
+Fixes
+------------------------------------------------------------------------------
+- Breadcrumbs belong in a helper, not in the controller
