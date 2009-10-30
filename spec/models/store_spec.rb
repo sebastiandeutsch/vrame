@@ -81,6 +81,22 @@ describe JsonObject::Store do
       @store.headline.should eql("Uberschrift")
       @store.article.should eql("Artikeltext")
     end
+    
+    it "should accept json in the update_method" do
+      @store.update(@schema.fields[0].uid + "_json" => '{"bla" : "blubb"}')
+      @store.headline.should eql("bla" => "blubb")
+    end
+    
+    it "should convert values through value_from_param" do
+      @schema.fields[0].should_receive(:value_from_param).with('aaaa').and_return('bbbb')
+      @store.update(@schema.fields[0].uid => 'aaaa')
+      
+      @schema.fields[0].should_receive(:object_from_value).with('bbbb').and_return('cccc')
+      @store.headline.should eql('cccc')
+
+      @schema.fields[0].should_receive(:object_from_value).with('bbbb').and_return('dddd')
+      @store['headline'].should eql('dddd')
+    end
 
     it "should throw an error if updating invalid uids" do
       lambda{@store.update("asdasdasd" => "Uberschrift")}.should raise_error(JsonObject::UnknownSchemaAttributeError)

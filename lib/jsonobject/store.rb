@@ -34,8 +34,7 @@ module JsonObject
     
     def update(hash)
       hash.each_pair do |uid, value|
-        field = @schema.field_by_uid(uid)
-        @values[field.uid] = value
+        write_value_by_uid(uid, value)
       end
     end
     
@@ -79,12 +78,18 @@ module JsonObject
     
     def read_value(name)
       field = @schema.field_for(name)
-      @values[field.uid]
+      field.object_from_value(@values[field.uid])
     end
     
     def write_value(name, value)
       name, value = normalize_access_to_object(name, value)
       field = @schema.field_for(name)
+      @values[field.uid] = field.value_from_param(value)
+    end
+    
+    def write_value_by_uid(uid, value)
+      uid, value = normalize_access_to_object(uid, value)
+      field = @schema.field_by_uid(uid)
       @values[field.uid] = field.value_from_param(value)
     end
     

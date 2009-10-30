@@ -15,8 +15,6 @@ Flexitypes
   - Placemark    (half done, spec)
   - Asset        (half done, spec)
   - Collection   (half done, spec)
-- Use the value/param conversion in the store
-	where applicable
 - provide #human_name for JsonObject::Type and subclasses
 - Utilize JsonObject::Store validations in Document validation and the
   document form
