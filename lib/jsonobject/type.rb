@@ -76,6 +76,7 @@ module JsonObject
         hash.each do |key, value|
           self.instance_variable_set("@#{key}", value)
         end
+        self.required = @required
       end
       
       # Convert the content of the param to the values that gets stored in the JSON Store
