@@ -182,8 +182,7 @@ Upload.prototype.handlers = {
 		
 		/* Evaluate JSON response */
 		response = eval('(' + serverResponse + ')');
-		
-		//console.log('response', response);
+		console.log('response', response);
 		
 		/* Update asset id form field(s) (if any) */
 		//console.log('new asset id:', response.id);

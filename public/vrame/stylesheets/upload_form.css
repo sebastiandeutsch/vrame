@@ -11,7 +11,7 @@
  */
 
 input.asset-id, input.collection-id {
-	display: none;
+	xdisplay: none;
 	width: 45px;
 	vertical-align: top;
 }
