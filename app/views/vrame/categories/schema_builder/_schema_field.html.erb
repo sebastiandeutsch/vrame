@@ -1,5 +1,6 @@
 <% field = nil unless defined?(field) %>
-<% class_name = (field and field.class.name =~ /JsonObject::Types::(Asset|Collection|Select|MultiSelect)$/ ? ' has-field-options' : '') %>
+<% visible_type = field ? /([a-zA-z]+)$/.match(field.class.name)[1] : '' %>
+<% class_name = (field and %w(Asset Collection Select MultiSelect).include?(visible_type) ? ' has-field-options' : '') %>
 
 <tr class="schema-field<%= class_name %>">
 
@@ -8,7 +9,7 @@
 		<input type="hidden" name="category[schema][][uid]" value="<%=h field.uid %>" />
 	<% end %>
 	<input type="hidden" name="category[schema][][type]" value="<%=h field.class.name if field %>" class="internal-field-type" />
-	<p class="visible-field-type"><%=h field.class.name if field %></p>
+	<p class="visible-field-type"><%=h visible_type %></p>
 </td>
 
 <td class="title-name">
