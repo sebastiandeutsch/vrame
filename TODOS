@@ -18,6 +18,7 @@ Flexitypes
     - Remove AR associations
     - Implement Paperclip Processor that respects the options from the store
   - Collection   (half done, spec)
+- Purge unused values from document when deleting fields from the schema
 - provide #human_name for JsonObject::Type and subclasses
 - Utilize JsonObject::Store validations in Document validation and the
   document form
@@ -26,6 +27,7 @@ Flexitypes
 - Document all classes, methods and modules (doc)
   with example on how to use them
 - Ordering of the types in the category editor
+- Put default file styles in the form, so they're not duplicated
 - Complete the specs (check for coverage, implement pending)
   - How can custom types override type behavior
 
