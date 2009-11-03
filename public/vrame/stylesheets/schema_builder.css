@@ -182,6 +182,8 @@
  */
 
 #schema-builder-prototypes {
-	xdisplay: none;
+	display: none;
+	/*
 	opacity: 0.3;
+	*/
 }
