@@ -40,8 +40,15 @@ function Upload (containerEl) {
 		assetIdInput                : c.find('input.asset-id'),
 		
 		/* Form field(s) for the new collection id (jQuery collection) */
-		collectionIdInput           : c.find('input.collection-id')
-		
+		collectionIdInput           : c.find('input.collection-id'),
+
+		// Information needed for the asset controller to determine the correct styles 
+		schema                      : {
+																	class:     c.attr('data-schema-class'),
+																	id:        c.attr('data-schema-id'),
+																	attribute: c.attr('data-schema-attr'),
+																	uid:       c.attr('data-schema-uid')
+																	}
 	};
 	
 	//console.log('new Upload', o);
@@ -73,11 +80,15 @@ function Upload (containerEl) {
 
 		/* POST parameters with authentication and relation ids */
 		post_params : {
-			user_credentials : o.token,
-			upload_type      : o.uploadType,
-			parent_id        : o.parentId,
-			parent_type      : o.parentType,
-			collection_id    : o.collectionId
+			'user_credentials'  : o.token,
+			'upload_type'       : o.uploadType,
+			'parent_id'         : o.parentId,
+			'parent_type'       : o.parentType,
+			'collection_id'     : o.collectionId,
+			'schema[class]'     : o.schema.class,
+			'schema[id]'        : o.schema.id,
+			'schema[attribute]' : o.schema.attribute,
+			'schema[uid]'       : o.schema.uid
 		},
 
 		/* Pass our settings */

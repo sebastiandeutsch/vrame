@@ -43,6 +43,7 @@
 		
 		<%= render :partial => 'vrame/shared/file_upload', :locals => {
 			:field_name => field_name,
+			:uid => field.uid,
 			:asset => value,
 			:parent => document
 		} %>

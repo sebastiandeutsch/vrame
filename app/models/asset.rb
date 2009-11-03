@@ -6,6 +6,8 @@ class Asset < ActiveRecord::Base
   belongs_to :user
   belongs_to :assetable, :polymorphic => true
   
+  attr_accessor :vrame_styles
+  
   has_attached_file :file,
     :path => ":rails_root/public/system/assets/:class/:id/:style.:extension",
     :url  =>                   "/system/assets/:class/:id/:style.:extension"
@@ -14,22 +16,12 @@ class Asset < ActiveRecord::Base
     file.url
   end
   
-  def self.create_from_file(file)
-    # Basic attributes
-    attributes = {
-      :file => file,
-      :user => @current_user
-    }
-    
-    # Is the file an image?
+  def self.factory(attributes)
+    file = attributes[:file]
     filename = file.respond_to?(:original_filename) ? file.original_filename : file.basename
     is_image = Paperclip::Attachment.is_image?(filename)
-    
-    # Create an Image instance or a generic Asset
     klass = is_image ? Image : Asset
-    
-    # Create asset record and return it
-    klass.create(attributes)
+    klass.create(:file => file, :user => attributes[:user], :vrame_styles => attributes[:vrame_styles])
   end
   
   def initialize_collection(collection_id = nil, parent_type = nil, parent_id = nil)

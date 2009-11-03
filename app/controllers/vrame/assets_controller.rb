@@ -23,7 +23,13 @@ class Vrame::AssetsController < Vrame::VrameController
   # no new action
   
   def create
-    @asset = Asset.create_from_file(params[:Filedata])
+    #TODO Gucken ob vorhanden und eingaben absichern
+    params[:vrame_styles] = JsonObject::Types::Asset.styles_for(params[:schema])
+    params[:file] = params.delete(:Filedata) if params[:Filedata]
+    params[:user] = @current_user
+    
+    @asset = Asset.factory(params)
+    
     
     # Build response hash
     response = { :id => @asset.id }
