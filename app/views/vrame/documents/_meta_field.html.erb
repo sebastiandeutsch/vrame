@@ -37,8 +37,11 @@
 	
 	<% when JsonObject::Types::MultiSelect %>
 	
-  MultiSelect not implemented
-
+		<%= render :partial => 'vrame/shared/select_options', :locals => {
+			:field => field,
+			:field_name => field_name
+		} %>
+	
 	<% when JsonObject::Types::Asset %>
 		
 		<%= render :partial => 'vrame/shared/file_upload', :locals => {
