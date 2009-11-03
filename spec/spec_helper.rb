@@ -12,7 +12,7 @@ Spork.prefork do
   Spec::Runner.configure do |config|
     config.use_transactional_fixtures = true
     config.use_instantiated_fixtures  = false
-    config.fixture_path = RAILS_ROOT + '/spec/fixtures/'
+    config.fixture_path = File.join(File.dirname(__FILE__), 'fixtures/')
   end
   
 end
