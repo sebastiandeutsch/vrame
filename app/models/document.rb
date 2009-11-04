@@ -32,13 +32,13 @@ class Document < ActiveRecord::Base
     meta_hash = {}
     
     if meta
-      meta.schema.each do |item|
-        value = meta.send(item.name)
+      meta.schema.fields.each do |field|
+        value = meta.send(field.name)
         
         # @TODO: Move into model
         value = value.serialize if value.class.respond_to?(:serialize)
         
-        meta_hash[item.name] = value
+        meta_hash[field.name] = value
       end
     end
     
