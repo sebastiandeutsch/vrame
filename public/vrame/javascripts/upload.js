@@ -102,7 +102,7 @@ function Upload (containerEl) {
 		upload_progress_handler         : handlers.uploadProgress,
 		upload_error_handler            : handlers.uploadError,
 		upload_success_handler          : handlers.uploadSuccess,
-		upload_complete_handle          : handlers.uploadComplete,
+		upload_complete_handler         : handlers.uploadComplete,
 		queue_complete_handler          : handlers.queueComplete
 
 		/* Debugging */
