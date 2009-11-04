@@ -11,8 +11,11 @@ Flexitypes
 - Make it so that pics with custom styles are deleted upon destroy.
   Either
     - Store all styles in the asset
+    - Store path to schema field in the asset
     - Perform wildcard deletion
+- SWFUpload File Size limit aufheben oder im flexitype speichern
 
+- Spec InvalidSchemaPathError
 - Schema update constantize security check
 - Purge unused values from document when deleting fields from the schema
 - Asset/Collection Refactoring

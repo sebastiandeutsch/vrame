@@ -92,5 +92,8 @@ describe Document do
       @document.meta.some_title = "Hello, I should be accesible via an attribute altough i only had a title defined!"
       @document.meta.some_title.should eql("Hello, I should be accesible via an attribute altough i only had a title defined!")
     end
+    
+    it "should raise an InvalidSchemaError on declaration if the schema_path is invalid"
+    it "should raise an InvalidSchemaError on access if the schema_path is invalid"
   end
 end

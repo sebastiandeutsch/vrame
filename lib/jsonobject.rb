@@ -6,6 +6,11 @@ require 'jsonobject/type'
 require 'jsonobject/types'
 
 module JsonObject # @TODO rename JsonObjectExtension, this is not an object!
+  
+  class InvalidSchemaPath < RuntimeError
+    #TODO More descriptive
+  end
+  
   class << self
     def included base
       base.extend(ClassMethods)
@@ -33,6 +38,8 @@ module JsonObject # @TODO rename JsonObjectExtension, this is not an object!
     
     def has_json_store(name, options = {})
       include InstanceMethods
+      
+      raise InvalidSchemaPath unless options.has_key?(:schema)
       
       json_store_options[name] = options
       
@@ -97,6 +104,7 @@ module JsonObject # @TODO rename JsonObjectExtension, this is not an object!
      
     def schema_from_path(schema_path)
       schema_path = [schema_path].flatten
+      raise InvalidSchemaPath if schema_path.compact.empty?
       schema = schema_path.inject(self) { |current, attr| current.send(attr) }
       schema or raise JsonObject::SchemaNotFound, "Schema_path #{schema_path.join('.')} does not lead to a schema"
     end
