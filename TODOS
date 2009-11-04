@@ -4,21 +4,20 @@ TODO
 Flexitypes
 ----------
 
-- Schema update constantize security check
-- Field_by_uid rename to field_for_uid
+- Security for uploading assets
+- Ensure the proper transmission of styles for assets
+  - Sane behavior in case of error
+- Ensure pics with custom styles are delivered
+- Make it so that pics with custom styles are deleted upon destroy.
+  Either
+    - Store all styles in the asset
+    - Perform wildcard deletion
 
-- Implement editors for all types in the document editor
-  - Select       (+spec)
-  - Multiselect  (+spec)
-  - String       (works, spec missing)
-  - Text         (works, spec missing)
-  - Bool         (works, spec missing)
-  - Placemark    (works, spec missing)
-  - Asset        (half done, spec)
-    - Remove AR associations
-    - Implement Paperclip Processor that respects the options from the store
-  - Collection   (half done, spec)
+- Schema update constantize security check
 - Purge unused values from document when deleting fields from the schema
+- Asset/Collection Refactoring
+  - Remove AR associations
+  - Remove the Collection AR Model, do it all in JSON
 - provide #human_name for JsonObject::Type and subclasses
 - Utilize JsonObject::Store validations in Document validation and the
   document form
@@ -26,6 +25,7 @@ Flexitypes
   document form
 - Document all classes, methods and modules (doc)
   with example on how to use them
+- Field_by_uid rename to field_for_uid
 - Ordering of the types in the category editor
 - Put default file styles in the form, so they're not duplicated
 - Complete the specs (check for coverage, implement pending)

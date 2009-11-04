@@ -56,4 +56,9 @@ describe Asset do
     @asset.file.styles['zwoa'][:geometry].should eql('200x')
     @asset.file.styles['droa'][:geometry].should eql('300x')
   end
+  
+  it "should delete the custom styles files when destroyed"
+  
+  it "should generate the correct urls for the custom styles"
+  
 end
