@@ -6,8 +6,6 @@ module JsonObject
   end
   
   class Schema
-    include Serializable
-    
     attr_reader :fields, :errors
 
     def initialize(options = {})

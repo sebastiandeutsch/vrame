@@ -1,6 +1,5 @@
 require 'ostruct'
 require 'jsonobject/helper'
-require 'jsonobject/serializable'
 require 'jsonobject/schema'
 require 'jsonobject/store'
 require 'jsonobject/type'

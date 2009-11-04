@@ -3,8 +3,6 @@ module JsonObject
   end
 
   class Store
-    include Serializable
-    
     attr_reader :errors
     
     def initialize(options = {})
