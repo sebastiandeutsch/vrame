@@ -25,24 +25,16 @@ class Asset < ActiveRecord::Base
   end
   
   def initialize_collection(collection_id = nil, parent_type = nil, parent_id = nil)
-    # Find collection by collection_id or create new one
     @collection = Collection.find_or_create_by_id(collection_id) do |collection|
-      # New collection
-      
-      # Set up user relation
-      collection.user_id = @current_user.id
-      
-      # Set up collection owner
-      if parent_id and parent_type
+      collection.user = self.user      
+      if parent_id && parent_type
         collection.collectionable_id   = parent_id
         collection.collectionable_type = parent_type
       end
     end
 
-    # Add asset to collection
     @collection.assets << self
-    
-    # Return the collection
+
     @collection
   end
   
