@@ -1,65 +1,70 @@
 <ul id="ui-sortable">
-	<% documents.each do |document| %>
-		<li id="document-<%=h document.id %>" class="document clearfix">
-			<div class="column title">
-				<!-- <span> -->
-					<%= link_to h(document.title), [:edit, :vrame, document] %>
-				<!-- </span> -->
-			</div>
-
-			<div class="column image">
-				<% if document.meta and document.meta.schema.has_attribute?(:image) %>
-					<img src="<%= document.meta.image.file.url(:vrame_backend) %>" />
-				<% elsif document.meta and document.meta.schema.has_attribute?(:bild) %>
-					<img src="<%= document.meta.bild.file.url(:vrame_backend) %>" />
-				<% else %>
-					&nbsp;
-				<% end %>
-			</div>
-
-			<div class="column slug" title="Numerische ID: <%=h document.id %>">
-				<%= link_to h(document.to_param), document %>
-			</div>
-			
-			<div class="column options">
-				<% if document.published %>
-					<%= link_to '<img src="/vrame/images/admin/led-green.png" alt="Verstecken" title="Verstecken" />', [:unpublish, :vrame, document] %>
-				<% else %>
-					<%= link_to '<img src="/vrame/images/admin/led-red.png" alt="Veröffentlichen" title="Veröffentlichen" />', [:publish, :vrame, document] %>
-				<% end %>
-				<%= link_to '<img src="/vrame/images/admin/edit.png" alt="Editieren" title="Editieren" />', [:edit, :vrame, document] %>
-				<%= link_to '<img src="/vrame/images/admin/delete.png" alt="Löschen" title="Löschen" />', [:vrame, document], :method => :delete, :confirm => 'Wirklich löschen?' %>
-			</div>
-		</li>
+<% documents.each do |document| %>
+	
+	<% image = nil %>
+	<% %w(image bild photo foto).each do |field_name| %>
+		<% next unless document.meta.schema.has_attribute?(field_name) %>
+		<% field = document.meta.send(field_name) %>
+		<% if field.file.file? %>
+			<% image = image_tag(field.file.url(:vrame_backend), :alt => '') %>
+			<% break %>
+		<% end %>
 	<% end %>
-	<% if category != nil and documents.size == 0 %>
-		<li class="document clearfix">
-			<div class="column add-document">
-				Die Kategorie "<%=h category.title %>" enthält noch keine Dokumente. Wollen Sie ein <%= link_to "Dokument hinzufügen", category.backend_url.empty? ? [:new, :vrame, category, :document] : category.backend_url_path + '/new' %>?
-			</div>
-		</li>
-	<% end %>
+		
+	<li id="document-<%=h document.id %>" class="document clearfix">
+		
+		<div class="column title <%= 'long-title' unless image %>">
+			<%= link_to h(document.title), [:edit, :vrame, document], :title => 'Editieren' %>
+		</div>
+		
+		<% if image %>
+			<div class="column image"><%= image %></div>
+		<% end %>
+		
+		<div class="column slug">
+			<%= link_to h(document.to_param), [:edit, :vrame, document], :title => 'Editieren' %>
+		</div>
+		
+		<div class="column options">
+			<% if document.published %>
+				<%= link_to '<img src="/vrame/images/admin/led-green.png" alt="Verstecken" title="Verstecken" />', [:unpublish, :vrame, document] %>
+			<% else %>
+				<%= link_to '<img src="/vrame/images/admin/led-red.png" alt="Veröffentlichen" title="Veröffentlichen" />', [:publish, :vrame, document] %>
+			<% end %>
+			<%= link_to '<img src="/vrame/images/admin/edit.png" alt="Editieren" title="Editieren" />', [:edit, :vrame, document] %>
+			<%= link_to '<img src="/vrame/images/admin/delete.png" alt="Löschen" title="Löschen" />', [:vrame, document], :method => :delete, :confirm => 'Wirklich löschen?' %>
+			<%= link_to '<img src="/vrame/images/admin/magnifier.png" alt="Vorschau" title="Vorschau" />', document %>
+		</div>
+	</li>
+<% end %>
+<% if category != nil and documents.size == 0 %>
+	<li class="document clearfix">
+		<div class="column add-document">
+			Die Kategorie "<%=h category.title %>" enthält noch keine Dokumente. Wollen Sie ein <%= link_to "Dokument hinzufügen", category.backend_url.empty? ? [:new, :vrame, category, :document] : category.backend_url_path + '/new' %>?
+		</div>
+	</li>
+<% end %>
 </ul>
 
 <% if documents.first %>
 	<script type="text/javascript">
-		jQuery(function($) {
-			$("#ui-sortable").sortable({
-				update: function(event, ui) {
-					var data = $("#ui-sortable").sortable('serialize');
-					
-					$('#ajax-loading-bar').fadeIn('fast');
-					$.ajax({
-						type: "POST",
-						url: "/vrame/categories/<%=h documents.first.category.id %>/sort",
-						processData: false,
-						data: data + '&authenticity_token=' + encodeURIComponent('<%= form_authenticity_token if protect_against_forgery? %>'),
-						success: function(msg) {
-							$('#ajax-loading-bar').stop().fadeOut('fast');
-						}
-					});
+	jQuery(function($) {
+		$("#ui-sortable").sortable({
+			update: update
+		});
+		function update (event, ui) {
+			var data = $("#ui-sortable").sortable('serialize');
+			$('#ajax-loading-bar').fadeIn('fast');
+			$.ajax({
+				type: "POST",
+				url: "/vrame/categories/<%=h documents.first.category.id %>/sort",
+				processData: false,
+				data: data + '&authenticity_token=' + encodeURIComponent('<%= form_authenticity_token if protect_against_forgery? %>'),
+				success: function(msg) {
+					$('#ajax-loading-bar').stop().fadeOut('fast');
 				}
 			});
-		});
-	</script>
+		}
+	});
+</script>
 <% end %>
