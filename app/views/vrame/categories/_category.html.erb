@@ -1,10 +1,10 @@
 <div
-	data-category-id="<%= category.id.to_s %>"
-	class="category clearfix level-<%= level.to_s %> <% if @active_category.id == category.id %>active-category<% end %>">
+	data-category-id="<%= category.to_param %>"
+	class="category clearfix level-<%= level.to_s %> <%= 'active-category' if @active_category.id == category.id %>">
 	
 	<div class="column order">
-		<%= link_to '<img src="/vrame/images/admin/arrow_up.png" alt="Weiter nach oben" />', [:order_up, :vrame, category] %>
-		<%= link_to '<img src="/vrame/images/admin/arrow_down.png" alt="Weiter nach unten" />', [:order_down, :vrame, category] %>
+		<%= link_to '<img src="/vrame/images/admin/arrow_up.png" alt="Nach oben verschieben" title="Nach oben verschieben" />', [:order_up, :vrame, category] %>
+		<%= link_to '<img src="/vrame/images/admin/arrow_down.png" alt="Nach unten verschieben" title="Navh unten verschieben" />', [:order_down, :vrame, category] %>
 	</div>
 	
 	<div class="column options">
