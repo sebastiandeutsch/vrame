@@ -39,7 +39,7 @@ module JsonObject
     end
     
     def has_attribute?(name)
-      name = name.to_sym
+      name = name.to_s
       @name_field_map.include?(name)
     end
     
