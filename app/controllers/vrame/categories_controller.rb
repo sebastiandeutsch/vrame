@@ -4,11 +4,12 @@ class Vrame::CategoriesController < Vrame::VrameController
     @categories = Category.roots
     
     if params[:category_id]
-      @active_category = Category.find_by_id(params[:category_id])
+      @active_category = Category.find(params[:category_id])
       @documents = @active_category.documents
     else
       if session["last_tab_id"]
-        @active_category = Category.find_by_id(session["#{session["last_tab_id"]}_category_id"])
+        logger.info(session.inspect);
+        @active_category = Category.find(session["#{session["last_tab_id"]}_category_id"])
         @documents = @active_category.documents
       else
         if @categories.first
@@ -20,8 +21,6 @@ class Vrame::CategoriesController < Vrame::VrameController
         end 
       end
     end
-        
-    render :show
   end
   
   def sort
@@ -36,18 +35,6 @@ class Vrame::CategoriesController < Vrame::VrameController
     end
     
     render :text => 'ok'
-  end
-  
-  def show
-    per_page = params[:per_page] || 50
-    
-    @category = Category.find(params[:id])
-    @documents = @category.documents
-    
-    @categories = @category.children.paginate :page => params[:page], :per_page => per_page
-    
-    @breadcrumbs = [{ :title => 'Kategorien', :url => vrame_categories_path }]
-    @category.ancestors.reverse.each { |a| @breadcrumbs << { :title => a.title, :url => vrame_category_path(a) } }
   end
   
   def new
