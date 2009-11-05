@@ -10,6 +10,10 @@ class Asset < ActiveRecord::Base
     :path => ":rails_root/public/system/assets/:class/:id/:style.:extension",
     :url  =>                   "/system/assets/:class/:id/:style.:extension"
   
+  has_attached_file :posterframe,
+    :path => ":rails_root/public/system/assets/:class/:id/:style.:extension",
+    :url  =>                   "/system/assets/:class/:id/:style.:extension"
+  
   def serialize
     file.url
   end
