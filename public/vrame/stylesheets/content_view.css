@@ -227,6 +227,10 @@
 	width: 300px;
 }
 
+.content-view .document .long-title {
+	width: 410px;
+}
+
 .content-view .document .title a {
 	padding-left: 15px;
 	padding-right: 10px;
@@ -238,7 +242,7 @@
 }
 
 .content-view .document .image {
-	width: 100px;
+	width: 110px;
 }
 
 .content-view .document .image img {
