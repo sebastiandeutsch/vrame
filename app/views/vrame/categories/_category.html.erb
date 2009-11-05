@@ -25,9 +25,9 @@
 
 	<div class="column title">
 		<% if category.backend_url.empty? %>
-			<%= link_to h(category_title(category)), category, :class => "category-button" %>
+			<%= link_to category_title(category), category, :class => "category-button" %>
 		<% else %>
-			<%= link_to h(category_title(category)), category.backend_url_path, :class => 'backend-url' %>
+			<%= link_to category_title(category), category.backend_url_path, :class => 'backend-url' %>
 		<% end %>
 	</div>
 

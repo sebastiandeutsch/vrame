@@ -52,9 +52,9 @@ end # module ActionView
 module VrameHelper
   def category_title(category)
     if category.documents_count > 0
-      "#{category.title} (#{category.documents_count})"
+      "<span class='plain-title'>#{h(category.title)}</span> <span class='documents_count'>(#{category.documents_count})</span>"
     else
-      category.title
+      "<span class='plain-title'>#{h(category.title)}</span>"
     end
   end
   

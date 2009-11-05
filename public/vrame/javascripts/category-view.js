@@ -11,6 +11,7 @@ jQuery(function($) {
 		e.preventDefault();
 		
 		var link = $(this),
+			activeCategoryName = link.find('span.plain-title').text(),
 			activeCategory = link.closest('.category'),
 			activeCategoryId = activeCategory.attr('data-category-id');
 		
@@ -30,15 +31,16 @@ jQuery(function($) {
 			}
 		});
 		
-		updateButtons(activeCategoryId);
+		updateControls(activeCategoryName, activeCategoryId);
 	}
 	
 	function documentsLoaded (html) {
-		$('#content-view #items').html(html);
+		$('.content-view #items').html(html);
 		$('#ajax-loading-bar').stop().fadeOut('fast');
 	}
 	
-	function updateButtons (activeCategoryId) {
+	function updateControls (activeCategoryName, activeCategoryId) {
+		$('#active-category-name').text('/ ' + activeCategoryName);
 		/* Update button targets */
 		$('#active-category-edit')        .attr('href', '/vrame/categories/' + activeCategoryId + '/edit');
 		$('#active-category-new-document').attr('href', '/vrame/categories/' + activeCategoryId + '/documents/new');
