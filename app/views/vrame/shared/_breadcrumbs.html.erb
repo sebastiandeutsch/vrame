@@ -1,4 +1,5 @@
 <div class="breadcrumbs">
+	<%# @TODO this one does not work when vrame is empty or you have a fail when create a new category %>
     <%- for breadcrumb in breadcrumbs -%>
     <%= link_to breadcrumb[:title], breadcrumb[:url] %> &raquo;
     <%- end -%>
