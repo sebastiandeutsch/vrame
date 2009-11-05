@@ -134,7 +134,7 @@ Upload.prototype.handlers = {
 				break;
 				
 			default :
-				errorMessage = 'Unhandled Error';
+				errorMessage = 'Unknown Error';
 			
 		} /* End switch */
 		
@@ -317,7 +317,7 @@ function FileProgress (file, target) {
 	instance.progressStatus = progressStatus;
 	
 	instance.height = wrapper.offsetHeight;
-	instance.setStatus(Math.floor(file.size / 1024) + 'kb');
+	instance.setStatus(Math.floor(file.size / 1024) + ' KB');
 }
 
 FileProgress.prototype = {
@@ -350,7 +350,7 @@ FileProgress.prototype = {
 	},
 
 	setStatus : function (status) {
-		this.progressStatus.innerHTML = status;
+		this.progressStatus.text(status);
 	},
 
 	/* Fades out and clips away the FileProgress box. */
