@@ -337,14 +337,13 @@ FileProgress.prototype = {
 
 	setError : function (errorMessage) {
 		this.progressElement.attr('className', 'progressContainer progressError');
-		this.setStatus(errorMessage || 'Error');
+		this.setStatus(errorMessage);
 		this.progressBar.css('width', '');
-		this.disappear(5000);
 	},
 
 	setCancelled : function () {
 		this.progressElement.attr('className', 'progressContainer progressCancelled');
-		this.setStatus(errorMessage || 'Cancelled');
+		this.setStatus('Cancelled');
 		this.progressBar.css('width', '');
 		this.disappear(2000);
 	},
