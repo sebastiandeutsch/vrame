@@ -2,7 +2,7 @@
 	<h2>Asset <%=h @asset.id %> editieren</h2>
 </div>
 
-<% form_for :asset, @asset, :url => { :action => "update" }, :html => { :multipart => true }  do |f| %>
+<% form_for :asset, @asset, :url => { :action => "update" }, :html => { :method => :put, :multipart => true }  do |f| %>
 	
 	<fieldset>
 		<ul>
@@ -23,6 +23,19 @@
 			<li>
 				<%= f.label :file, "Neue Datei hochladen" %>
 				<%= f.file_field :file %>
+			</li>
+		</ul>
+	</fieldset>
+
+	<fieldset>
+		<h3>Posterframe</h3>
+		<ul>
+			<li class="filename">Dateiname: <%=h @asset.posterframe.original_filename %></li>
+			<li class="filesize">Dateigröße: <%=h number_to_human_size(@asset.posterframe.size) %></li>
+			<li class="image"><%= image_tag @asset.posterframe.url(:original), :alt => "" %></li>
+			<li>
+				<%= f.label :posterframe, "Neues Posterframe hochladen" %>
+				<%= f.file_field :posterframe %>
 			</li>
 		</ul>
 	</fieldset>
