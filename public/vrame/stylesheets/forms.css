@@ -9,6 +9,10 @@ label {
 	color: #777;
 }
 
+label.inline {
+	display: inline;
+}
+
 form fieldset {
 	background: #e8e8e8;
 	border-radius: 4px;
