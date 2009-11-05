@@ -1,5 +1,4 @@
-class Collection < ActiveRecord::Base
-  
+class Collection < ActiveRecord::Base  
   belongs_to :collectionable, :polymorphic => true
   
   has_many :assets, :order => "position", :dependent => :destroy, :as => :assetable
