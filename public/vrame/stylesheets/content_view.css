@@ -49,7 +49,9 @@
  */
 
 .content-view .category {
-	border-right: 1px solid #d5d5ff;
+	border-width: 1px;
+	border-style: none solid none none;
+	border-color: #d5d5ff;
 	-moz-border-radius: 15px 0 0 15px;
 	-webkit-border-top-left-radius: 15px;
 	-webkit-border-bottom-left-radius: 15px;
@@ -73,14 +75,13 @@
 
 .content-view .categories .active-category { /* Pimp my specificity to override :hover */
 	border-style: solid none solid solid;
-	border-color: #d5d5ff;
-	border-width: 1px;
 	background-color: #f5f5fc;
 }
 
 .content-view .categories .active-category a { /* Pimp my specificity to override :hover */
 	color: #000;
 	font-weight: bold;
+	/* Reduce height by two pixels so the total height remains the same */
 	padding: 5px 0;
 }
 
@@ -129,7 +130,6 @@
 .content-view .category:hover .options,
 .content-view .category:hover .order {
 	opacity: 1;
-	filter: none;
 	-ms-filter: 'none';
 }
 

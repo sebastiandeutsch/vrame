@@ -21,3 +21,21 @@
 .content-view .document a {
 	zoom: 1;
 }
+
+#nav li {
+	display: inline;
+}
+
+.content-view .categories li {
+	display: inline;
+}
+
+.content-view .category .title {
+	zoom: 1; /* don't overlap with floats */
+}
+
+.button,
+input.submit,
+button {
+	zoom: 1;
+}
