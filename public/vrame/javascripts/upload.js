@@ -95,32 +95,34 @@ function Upload (containerEl) {
 		queue_complete_handler          : handlers.queueComplete
 
 		/* Debugging */
-		//,debug : true
+		,debug : true
 	});
 }
 
 Upload.prototype.handlers = {
 	
 	fileQueued : function (file) {
-		//console.log('fileQueued', file.name);
+		//console.log('fileQueued', file, file.name);
 		var queue = this.customSettings.queue;
 		queue.show();
 		new FileProgress(file, queue);
 	},
 	
 	fileQueueError : function (file, errorCode, fileNumberLimit) {
-		//console.log('fileQueueError file:', file, 'errorCode:', errorCode, 'fileNumberLimit:', fileNumberLimit);
+		//console.log('fileQueueError file:', file, ' errorCode:', errorCode, ' fileNumberLimit:', fileNumberLimit);
 		
-		if (errorCode === SWFUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED) {
-			alert('You have attempted to queue too many files.\n' + (fileNumberLimit === 0 ? 'You have reached the upload limit.' : 'You may select ' + (fileNumberLimit > 1 ? 'up to ' + fileNumberLimit + ' files.' : 'one file.')));
-			return;
-		}
-		
-		var progress = new FileProgress(file, this.customSettings.queue),
-			errorMessage = '';
+		var errorMessage = '';
 		
 		switch (errorCode) {
-		
+			
+			case SWFUpload.QUEUE_ERROR.QUEUE_LIMIT_EXCEEDED :
+				alert(
+					'You have attempted to queue too many files.\n' +
+					(fileNumberLimit === 0 ? 'You have reached the upload limit.' : 'You may select ') +
+					(fileNumberLimit > 1 ? 'up to ' + fileNumberLimit + ' files.' : 'one file.')
+				);
+				return;
+			
 			case SWFUpload.QUEUE_ERROR.FILE_EXCEEDS_SIZE_LIMIT :
 				errorMessage = 'File is too big';
 				break;
@@ -138,6 +140,7 @@ Upload.prototype.handlers = {
 			
 		} /* End switch */
 		
+		var progress = new FileProgress(file, this.customSettings.queue);
 		progress.setError(errorMessage);
 		this.debug('Error ' + errorCode + ': ' + errorMessage + ', File name: ' + file.name + ', File size: ' + file.size + ', Limit: ' + fileNumberLimit);
 	},
@@ -155,6 +158,7 @@ Upload.prototype.handlers = {
 		
 		var progress = new FileProgress(file, this.customSettings.queue);
 		progress.setProgress(0);
+		
 		/* No file validation, accept all files */
 		return true;
 	},
@@ -212,7 +216,11 @@ Upload.prototype.handlers = {
 	},
 	
 	uploadError : function (file, errorCode, message) {
-		var progress = new FileProgress(file, this.customSettings.queue);
+		//console.log('uploadError', file, errorCode, message);
+		if (!file) return;
+		
+		/*
+		var errorMessage = '';
 		
 		switch (errorCode) {
 			
@@ -252,11 +260,14 @@ Upload.prototype.handlers = {
 			default :
 				errorMessage = 'Unhandled Error';
 				
-		} /* End switch */
+		}
 		
-		//console.log('uploadError', errorMessage, message);
-		progress.setError(errorMessage);
-		this.debug('Error ' + errorCode + ': ' + errorMessage + ', File name: ' + file.name + ', File size: ' + file.size + ', Message: ' + message);
+		console.log('uploadError errorMessage:', errorMessage);
+		*/
+		
+		var progress = new FileProgress(file, this.customSettings.queue);
+		progress.setError(message);
+		this.debug('Error ' + errorCode + ': ' + message + ', File name: ' + file.name + ', File size: ' + file.size);
 	},
 
 	uploadComplete : function (file) {
@@ -270,7 +281,7 @@ Upload.prototype.handlers = {
 	},
 
 	queueComplete : function () {
-		//console.log('uploadComplete this:', this, 'arguments:', arguments);
+		//console.log('uploadComplete this:', this, ' arguments:', arguments);
 	}
 
 } /* end Upload.prototype.handlers */
@@ -336,6 +347,7 @@ FileProgress.prototype = {
 	},
 
 	setError : function (errorMessage) {
+		//console.log('setError', errorMessage);
 		this.progressElement.attr('className', 'progressContainer progressError');
 		this.setStatus(errorMessage);
 		this.progressBar.css('width', '');
