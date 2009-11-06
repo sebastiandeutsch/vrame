@@ -156,6 +156,8 @@ describe JsonObject::Types::Select do
   
   it "should be possible to allow blank"
   
+  it "should remove invalid options in the value"
+  
 end
 
 describe JsonObject::Types::MultiSelect do

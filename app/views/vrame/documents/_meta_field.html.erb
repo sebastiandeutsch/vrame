@@ -29,17 +29,18 @@
 		<input type="text" name="<%= field_name %>" id="<%= field_id %>" value="<%= value %>" class="datepicker" />
 		
 	<% when JsonObject::Types::Select %>
-	
 		<%= render :partial => 'vrame/shared/select_options', :locals => {
 			:field => field,
-			:field_name => field_name
+			:field_name => field_name,
+			:value => value
 		} %>
 	
 	<% when JsonObject::Types::MultiSelect %>
 	
 		<%= render :partial => 'vrame/shared/select_options', :locals => {
 			:field => field,
-			:field_name => field_name
+			:field_name => field_name,
+			:value => value
 		} %>
 	
 	<% when JsonObject::Types::Asset %>
