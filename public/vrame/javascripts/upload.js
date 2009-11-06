@@ -95,7 +95,7 @@ function Upload (containerEl) {
 		queue_complete_handler          : handlers.queueComplete
 
 		/* Debugging */
-		,debug : true
+		//,debug : true
 	});
 }
 
