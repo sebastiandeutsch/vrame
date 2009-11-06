@@ -90,6 +90,12 @@ jQuery(function ($) {
 			optionPrototype : 'li:first',
 			optionTarget    : 'ul:first'
 		},
+		'JsonObject::Types::Video' : {
+			rowPrototype    : '#asset-styles-prototype tr',
+			optionButton    : 'a.add-asset-style',
+			optionPrototype : 'li:first',
+			optionTarget    : 'ul:first'
+		},
 		'JsonObject::Types::Collection' : {
 			rowPrototype    : '#asset-styles-prototype tr',
 			optionButton    : 'a.add-asset-style',

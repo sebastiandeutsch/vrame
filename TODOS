@@ -4,6 +4,11 @@ TODO
 Flexitypes
 ----------
 
+
+- Video Type
+  - Model
+  - Forms
+
 - Security for uploading assets
 - Ensure the proper transmission of styles for assets
   - Sane behavior in case of error
