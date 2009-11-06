@@ -18,13 +18,6 @@
   * @see     
   */
 
-@import url(/stylesheets/ie/ie.css);
+@import url(/vrame/stylesheets/ie/ie.css);
 
-#nav {
-	float: left;
-}
-
-.content-view .document a {
-	zoom: 1;
-}
 
