@@ -7,6 +7,14 @@ class Asset < ActiveRecord::Base
   belongs_to :assetable, :polymorphic => true
   
   attr_accessor :vrame_styles
+
+  DEFAULT_STYLES = {
+    :vrame_backend        => "100x50",
+    :thumbnail            => "100x140",
+    :thumbnail_square     => "100x100#",
+    :full                 => "300x250",
+    :bg_thumb             => "392x272"
+  }
   
   has_attached_file :file,
     :path => ":rails_root/public/system/assets/:class/:id/:style.:extension",
@@ -16,23 +24,12 @@ class Asset < ActiveRecord::Base
     :path => ":rails_root/public/system/assets/:class/:id/posterframe_:style.:extension",
     :url  =>                   "/system/assets/:class/:id/posterframe_:style.:extension",
     :styles => lambda { |attachment|
-      # @TODO 
-      # create configuration
-      # which is controlable from env.rb
-      # with mere hook
-      {
-        :menucarddesign_thumb => "85x57#",
-        :qbus_large           => ["x506", :jpg],
-        :qbus_medium          => ["294x166#", :jpg],
-        :qbus_thumb           => ["x124", :jpg],
-        :qbus_backend         => ["x57", :jpg],
-        :vrame_backend      => "100x50",
-        :thumbnail          => "100x140",
-        :thumbnail_square   => "100x100#",
-        :full               => "300x250",
-        :bg_thumb           => "392x272"
-      }
-    }
+                  returning(HashWithIndifferentAccess.new) do |styles|
+                    styles.merge!(attachment.instance.vrame_styles) if attachment.instance.vrame_styles.is_a? Hash
+                    styles.merge!(Vrame.configuration.posterframe_styles)
+                    styles.merge!(Asset::DEFAULT_STYLES)
+                  end
+                }
     
   def serialize
     file.url

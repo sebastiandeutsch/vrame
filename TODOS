@@ -4,6 +4,11 @@ TODO
 Flexitypes
 ----------
 
+- Posterframe
+  - Editieren vom File in neuem Fenster
+  - "Zurück" in Assets sollte richtig zurück, nicht zur Asset-Liste, sondern
+    zum Dokument
+
 - Security for uploading assets
 - Ensure the proper transmission of styles for assets
   - Sane behavior in case of error
