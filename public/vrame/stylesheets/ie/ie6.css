@@ -19,3 +19,7 @@
   */
 
 @import url(/stylesheets/ie/ie.css);
+
+#nav {
+	float: left;
+}
