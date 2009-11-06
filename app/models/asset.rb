@@ -1,4 +1,4 @@
-require 'paperclip_images'
+require 'paperclip_filetypes'
 
 class Asset < ActiveRecord::Base
   acts_as_list :scope => :assetable

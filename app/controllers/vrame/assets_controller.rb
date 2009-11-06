@@ -1,4 +1,4 @@
-require 'paperclip_images'
+require 'paperclip_filetypes'
 
 class Vrame::AssetsController < Vrame::VrameController
   
