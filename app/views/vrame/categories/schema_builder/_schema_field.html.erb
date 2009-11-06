@@ -1,6 +1,6 @@
 <% field = nil unless defined?(field) %>
 <% visible_type = field ? /([a-zA-z]+)$/.match(field.class.name)[1] : '' %>
-<% class_name = (field and %w(Asset Video Collection Select MultiSelect).include?(visible_type) ? ' has-field-options' : '') %>
+<% class_name = (field and %w(Asset Collection Select MultiSelect).include?(visible_type) ? ' has-field-options' : '') %>
 
 <tr class="schema-field<%= class_name %>">
 
@@ -42,7 +42,7 @@
 </tr>
 
 <%# Field options %>
-<% if field.is_a?(JsonObject::Types::Asset) || field.is_a?(JsonObject::Types::Collection) || field.is_a?(JsonObject::Types::Video) %>
+<% if field.is_a?(JsonObject::Types::Asset) || field.is_a?(JsonObject::Types::Collection) %>
 	<%= render :partial => 'vrame/categories/schema_builder/asset_styles', :locals => { :field => field } %>
 <% elsif field.is_a?(JsonObject::Types::Select) || field.is_a?(JsonObject::Types::MultiSelect) %>
 	<%= render :partial => 'vrame/categories/schema_builder/select_options', :locals => { :field => field } %>
