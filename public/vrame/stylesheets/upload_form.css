@@ -52,19 +52,24 @@ input.asset-id, input.collection-id {
 .progressContainer {
 	border-bottom: 1px dotted #d0d0d0;
 	margin-bottom: 0;
+	position: relative;
 	overflow: hidden;
 }
 
 .progressName {
 	display: block;
-	float: left;
+	position: absolute;
+	top: 0;
+	left: 0;
 	padding-left: 10px;
 	line-height: 1.6;
 }
 
 .progressStatus {
 	display: block;
-	float: right;
+	position: absolute;
+	top: 0;
+	right: 0;
 	padding-right: 10px;
 	line-height: 1.6;
 }

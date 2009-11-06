@@ -23,3 +23,8 @@
 #nav {
 	float: left;
 }
+
+.content-view .document a {
+	zoom: 1;
+}
+
