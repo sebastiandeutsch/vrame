@@ -22,7 +22,8 @@
 		
 	<% when JsonObject::Types::Bool %>
 		
-		<label><%= check_box_tag field_name, '1', value, :id => field_id %> Aktivieren</label>
+		<%= hidden_field_tag field_name, 0 %>
+		<%= check_box_tag field_name, '1', value, :id => field_id %> <%= label field_id, "Aktivieren" %>
 		
 	<% when JsonObject::Types::Datetime %>
 		
@@ -70,7 +71,7 @@
 			:value      => value
 		} %>
 
-	<% end # case %>
+	<% end %>
 	
 	</div><!-- /.input-container -->
 </li><!-- /li.meta-field -->
