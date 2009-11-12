@@ -15,7 +15,7 @@ ActionController::Routing::Routes.draw do |map|
     
     # Languages
     vrame.resources :languages
-    vrame.select_language '/select_language/:id',  :controller => 'vrame', :action => 'select_language'
+    vrame.switch_language '/switch_language/:id',  :controller => 'vrame', :action => 'switch_language'
     
     # Assets and Collections
     vrame.resources :assets
@@ -23,13 +23,14 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   # Frontend
+  map.switch_language     '/switch_language/:id',                        :controller => 'application', :action => 'switch_language'
   
   # Categories
   map.resources :categories, :only => [ :show ]
-  map.category_documents  '/categories/:category_id/documents',          :controller => 'documents',  :action => 'index'
-  map.category_documents  '/categories/:category_id/documents.:format',  :controller => 'documents',  :action => 'index'
-  map.category_categories '/categories/:category_id/categories',         :controller => 'categories', :action => 'index'
-  map.category_categories '/categories/:category_id/categories.:format', :controller => 'categories', :action => 'index'
+  map.category_documents  '/categories/:category_id/documents',          :controller => 'documents',   :action => 'index'
+  map.category_documents  '/categories/:category_id/documents.:format',  :controller => 'documents',   :action => 'index'
+  map.category_categories '/categories/:category_id/categories',         :controller => 'categories',  :action => 'index'
+  map.category_categories '/categories/:category_id/categories.:format', :controller => 'categories',  :action => 'index'
   
   # Documents
   map.resources :documents, :only => [ :show ]
