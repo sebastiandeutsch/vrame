@@ -81,7 +81,10 @@ jQuery(function($) {
 	function generateUUID () {
 		return +new Date;
 	}
-	window.name = generateUUID();
+	
+	if(!window.name) {
+		window.name = generateUUID();
+	}
 });
 
 /* Category view */
@@ -96,7 +99,7 @@ jQuery(function($) {
 		$(document).scrollTo( {top:'0px', left:'0px'}, 200 );
 		$('#ajax-loading-bar').fadeIn('fast');
 		$.ajax({
-			url: '/vrame/categories/' + categoryId + '/documents/?tab_id=' + window.name,
+			url: '/vrame/categories/' + categoryId + '/documents/',
 			cache: false,
 			success: function(html) {
 				$('#items').html(html);
