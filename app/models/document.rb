@@ -22,6 +22,7 @@ class Document < ActiveRecord::Base
     end
   }
   named_scope :published, :conditions => '`documents`.`published` = 1'
+  named_scope :by_language, lambda { |language| { :conditions => { :language_id => language.id } } }
   
   validates_presence_of :title
   
@@ -59,15 +60,18 @@ class Document < ActiveRecord::Base
 
   end
   
-  def self.search(keyword, options = { :page => 1, :per_page => 10 })
+  def self.search(keyword, options = { :page => 1, :per_page => 10, :language => nil })
     query_string = keyword.gsub(/\\/, '\&\&').gsub(/'/, "''").gsub('%', '\%').gsub('_', '\_')
-    sql = "select documents.* from documents where
-            (documents.title like '%#{query_string}%'
-            or documents.meta_json like '%#{query_string}%'
-            or documents.meta_title like '%#{query_string}%'
-            or documents.meta_keywords like '%#{query_string}%'
-            or documents.meta_description like '%#{query_string}%')
-            and searchable = 1"
+    
+    where = "(documents.title like '%#{query_string}%'
+    or documents.meta_json like '%#{query_string}%'
+    or documents.meta_title like '%#{query_string}%'
+    or documents.meta_keywords like '%#{query_string}%'
+    or documents.meta_description like '%#{query_string}%')
+    and searchable = 1"
+    where = "#{where} and document.language_id = #{language.id}" if not language.nil?
+    
+    sql = "select documents.* from documents where #{where}"
     self.paginate_by_sql sql, options
   end
   
