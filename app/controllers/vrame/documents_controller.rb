@@ -1,8 +1,7 @@
 class Vrame::DocumentsController < Vrame::VrameController
   
   def index
-    session["#{params[:tab_id]}_category_id"] = params[:category_id]
-    session["last_tab_id"] = params[:tab_id]
+    session["vrame_backend_#{current_language.id}_category_id"] = params[:category_id]
     
     @category = Category.find(params[:category_id])
     @documents = @category.documents
@@ -11,9 +10,9 @@ class Vrame::DocumentsController < Vrame::VrameController
   end
   
   def new
-    @category = Category.find(params[:category_id])
+    @category = Category.by_language(current_language).find(params[:category_id])
       
-    @document = @category.documents.build
+    @document = @category.documents.build(:language_id => current_language.id)
     
     @breadcrumbs = [{ :title => 'Kategorien', :url => vrame_categories_path }] # @TODO This belongs in a helper
     @category.ancestors.reverse.push(@category).each { |a| @breadcrumbs << { :title => a.title, :url => vrame_category_path(a) } }
