@@ -2,13 +2,13 @@
 	<div class="page-align">
 		<ul id="header-bar">
 			<li><%= link_to 'VRAME', vrame_root_path, :class => 'logo' %></li>
-		
+								
 			<%- if user -%>
 			<li>
 				<ul id="nav">
 					<li>
 						<%= link_to 'Kategorien', vrame_categories_path %>
-						<%= tree_ul(Category.roots) do |category|
+						<%= tree_ul(Category.by_language(current_language).roots) do |category|
 							link_to h(category.title),
 							category.backend_url.empty? ? "/vrame/categories/?category_id=#{category.id}" : category.backend_url_path,
 							:class => (category.children.empty? ? '' : 'top')
@@ -36,6 +36,17 @@
 			<li class="meta last"><%= link_to 'Log out', user_sessions_path, :method => 'delete' %></li>
 		
 			<li class="meta"><strong><%=h user.email %></strong></li>
+
+			<li class="meta">
+				<%= select("admin_current_language", "id", Language.all.map {|l| [ l.name, l.id ] }, :selected => current_language.id) %>
+				<script>
+					jQuery(function($) {
+						$('#admin_current_language_id').change(function() {
+							location.href = '/vrame/switch_language/' + $('#admin_current_language_id').val();
+						});
+					});
+				</script>
+			</li>
 		
 			<!-- <li class="meta"><a href="">User-Verwaltung</a></li> -->
 			<%- end -%>
