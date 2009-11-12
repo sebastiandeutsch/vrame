@@ -30,6 +30,15 @@ class Asset < ActiveRecord::Base
                     styles.merge!(Asset::DEFAULT_STYLES)
                   end
                 }
+
+  after_post_process :store_posterframe_dimensions
+
+  def store_posterframe_dimensions
+    return unless self.posterframe?
+    dim = Paperclip::Geometry.from_file(self.posterframe.queued_for_write[:original].path)
+    self.posterframe_width  = dim.width
+    self.posterframe_height = dim.height
+  end
     
   def serialize
     file.url
