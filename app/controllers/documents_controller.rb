@@ -4,7 +4,7 @@ class DocumentsController < ApplicationController
     if params[:category_id]
       # Show documents from given category
       
-      @category = Category.published.find(params[:category_id])
+      @category = category_by_language.published.find(params[:category_id])
       @documents = @category.documents.published
       
       # Emit documents with JSON store data mixed in
@@ -29,7 +29,7 @@ class DocumentsController < ApplicationController
   def show
     
     begin
-      @document = Document.published.find(params[:id])
+      @document = document_by_language.published.find(params[:id])
     rescue ActiveRecord::RecordNotFound
       raise ActiveRecord::RecordNotFound, "Couldn't find Document with ID=#{params[:id]}, maybe you need to publish it first"
     end
@@ -54,6 +54,6 @@ class DocumentsController < ApplicationController
   end
   
   def search
-    @documents = Document.search(params[:q], :page => params[:page], :per_page => 10)
+    @documents = Document.search(params[:q], language => current_language, :page => params[:page], :per_page => 10)
   end
 end
