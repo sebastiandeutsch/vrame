@@ -1,10 +1,9 @@
-class CategoriesController < ApplicationController
-  
+class CategoriesController < ApplicationController  
   def index
     if params[:category_id]
       # Show subcategories from given category
       
-      @category = Category.published.find(params[:category_id])
+      @category = category_by_language.published.find(params[:category_id])
       
       # Filter confidential and unwanted attributes
       @public_categories = @category.children.published.map(&:to_public_hash)
@@ -26,8 +25,8 @@ class CategoriesController < ApplicationController
   end
   
   def show
-    begin
-      @category = Category.published.find(params[:id])
+    begin      
+      @category = category_by_language.published.find(params[:id])
     rescue ActiveRecord::RecordNotFound
       raise ActiveRecord::RecordNotFound, "Couldn't find Category with ID=#{params[:id]}, maybe you need to publish it first"
     end
