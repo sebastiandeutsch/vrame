@@ -1,14 +1,14 @@
 class Vrame::CategoriesController < Vrame::VrameController
   
   def index
-    @categories = Category.roots
+    @categories = category_by_language.roots
     
     if params[:category_id]
-      @active_category = Category.find_by_id(params[:category_id])
+      @active_category = category_by_language.find(params[:category_id])
       @documents = @active_category.documents
     else
-      if session["last_tab_id"]
-        @active_category = Category.find_by_id(session["#{session["last_tab_id"]}_category_id"])
+      if session["vrame_backend_#{current_language.id}_category_id"]
+        @active_category = category_by_language.find_by_id(session["vrame_backend_#{current_language.id}_category_id"])
         @documents = @active_category.documents
       else
         if @categories.first
@@ -25,7 +25,7 @@ class Vrame::CategoriesController < Vrame::VrameController
   end
   
   def sort
-    @category = Category.find(params[:id])
+    @category = category_by_language.find(params[:id])
     
     params[:document].each_with_index do |id, i|
       document = Document.find_by_id(id)
@@ -41,7 +41,7 @@ class Vrame::CategoriesController < Vrame::VrameController
   def show
     per_page = params[:per_page] || 50
     
-    @category = Category.find(params[:id])
+    @category = category_by_language.find(params[:id])
     @documents = @category.documents
     
     @categories = @category.children.paginate :page => params[:page], :per_page => per_page
@@ -51,9 +51,9 @@ class Vrame::CategoriesController < Vrame::VrameController
   end
   
   def new
-    @category = Category.new
+    @category = current_language.categories.build
     if params[:category_id]
-      @category.parent = Category.find(params[:category_id])
+      @category.parent = category_by_language.find(params[:category_id])
     end
     
     @breadcrumbs = [{ :title => 'Kategorien', :url => vrame_categories_path }]
@@ -73,11 +73,11 @@ class Vrame::CategoriesController < Vrame::VrameController
  end
   
   def edit
-    @category = Category.find(params[:id])
+    @category = category_by_language.find(params[:id])
   end
   
   def update
-    @category = Category.find(params[:id])
+    @category = category_by_language.find(params[:id])
     
     if @category.update_attributes(params[:category])
       flash[:success] = 'Die Kategorie wurde aktualisiert'
@@ -89,7 +89,7 @@ class Vrame::CategoriesController < Vrame::VrameController
   end
   
   def destroy
-    @category = Category.find(params[:id])
+    @category = category_by_language.find(params[:id])
     if @category.destroy
       flash[:success] = 'Die Kategorie wurde gelöscht'
       redirect_to vrame_categories_path + (@category.parent ? "#category-#{@category.parent.to_param}" : "")
@@ -100,28 +100,28 @@ class Vrame::CategoriesController < Vrame::VrameController
   end  
   
   def order_up
-    @category = Category.find(params[:id])
+    @category = category_by_language.find(params[:id])
     @category.move_higher
     
     redirect_to vrame_categories_path + "#category-#{@category.to_param}"
   end
   
   def order_down
-    @category = Category.find(params[:id])
+    @category = category_by_language.find(params[:id])
     @category.move_lower
     
     redirect_to vrame_categories_path + "#category-#{@category.to_param}"
   end
   
   def publish
-    @category = Category.find(params[:id])
+    @category = category_by_language.find(params[:id])
     @category.publish
     
     redirect_to vrame_categories_path + "#category-#{@category.to_param}"
   end
   
   def unpublish
-    @category = Category.find(params[:id])
+    @category = category_by_language.find(params[:id])
     @category.unpublish
     
     redirect_to vrame_categories_path + "#category-#{@category.to_param}"
