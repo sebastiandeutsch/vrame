@@ -2,6 +2,7 @@
 
 load_paths.each do |path|
   ActiveSupport::Dependencies.load_once_paths.delete(path)
+  ActiveSupport::Dependencies.load_once_paths << File.join(File.dirname(__FILE__), "lib")
 end if config.environment == 'development'
 
 # Load JsonObject
