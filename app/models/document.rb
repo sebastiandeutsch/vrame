@@ -53,7 +53,7 @@ class Document < ActiveRecord::Base
     document_hash = attributes.reject { |key, _| !Public_attributes.include?(key) }
     
     # Set url
-    document_hash['url'] = to_param if document_hash['url'].empty?
+    document_hash['url'] = to_param if document_hash['url'].blank?
     
     # Mix in JSON store items
     document_hash.merge!(meta_hash)
