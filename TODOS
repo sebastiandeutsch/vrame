@@ -9,6 +9,9 @@ Flexitypes
   - "Zurück" in Assets sollte richtig zurück, nicht zur Asset-Liste, sondern
     zum Dokument
 
+- Store cleanup
+  - Auomatically remove values for keys not in schema when saving
+  - Provide function to convert from one schema to the other (using the slugs for mapping)
 - Security for uploading assets
 - Ensure the proper transmission of styles for assets
   - Sane behavior in case of error
@@ -47,3 +50,5 @@ Fixes
 ------------------------------------------------------------------------------
 - Breadcrumbs belong in a helper, not in the controller
 - bg_thumb style is project specific, remove it from vrame
+- When moving categories to another super-category, recalculate all positions
+  within the super-category
