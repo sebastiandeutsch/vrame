@@ -46,3 +46,4 @@ I18n
 Fixes
 ------------------------------------------------------------------------------
 - Breadcrumbs belong in a helper, not in the controller
+- bg_thumb style is project specific, remove it from vrame
