@@ -119,6 +119,18 @@ module JsonObject
     def class_for_type(t)
       t.constantize if @options[:allowed_types].include? t
     end
+    
+    # Return a copy of this schema, but with different uuids
+    #
+    # User this on the command line to duplicate Categories' schemas.
+    def copy
+      old_schema = self
+      new_schema = Schema.new
+      for field in old_schema.fields
+        new_schema.fields << field.copy
+      end
+      new_schema
+    end
 
   private
         

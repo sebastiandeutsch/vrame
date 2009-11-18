@@ -72,6 +72,13 @@ module JsonObject
         type
       end
       
+      # Return a copy of this type, but with a different uuid
+      def copy
+        new_type = JSON.parse(self.to_json)
+        new_type.uid = generate_uid
+        new_type
+      end
+      
       def update_attributes(hash)
         hash.each do |key, value|
           self.instance_variable_set("@#{key}", value)
