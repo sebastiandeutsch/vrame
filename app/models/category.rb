@@ -16,14 +16,9 @@ class Category < ActiveRecord::Base
   validates_presence_of :title
   
   named_scope :order_before, lambda {|position| { :conditions => ["position < ?", position], :limit => 1, :order => "position DESC" }}
-  named_scope :order_after, lambda {|position| { :conditions => ["position > ?", position], :limit => 1, :order => "position ASC" }}
-  named_scope :with_parent, lambda {|parent|
-    if parent.parent_id != nil 
-      {:conditions => ["parent_id = ?", parent.parent_id ]}
-    else
-      {:conditions => ["parent_id IS NULL"]}
-    end
-  }
+  named_scope :order_after,  lambda {|position| { :conditions => ["position > ?", position], :limit => 1, :order => "position ASC" }}
+  named_scope :by_position,  { :order => 'position ASC' }
+  named_scope :with_parent,  lambda {|parent|   {:conditions => ["parent_id = ?", parent.id ]} }
   named_scope :short_navigation, :conditions => { :short_navigation => 1 }
   named_scope :published, :conditions => '`categories`.`published` = 1'
   named_scope :in_navigation, :conditions => '`categories`.`hide_in_nav` IS NULL OR `categories`.`hide_in_nav` != 1'
