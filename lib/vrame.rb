@@ -45,6 +45,7 @@ module Vrame
 
         raise NoLanguageInDatabaseError, "You have to add a language to the database" if @current_language.nil?
         session[:vrame_frontend_language_id] = @current_language.id
+        I18n.locale = @current_language.iso2_code
         
         true
       end
@@ -52,7 +53,6 @@ module Vrame
       def switch_language
         @current_language = Language.find(params[:id])
         session[:vrame_frontend_language_id] = @current_language.id
-        
         redirect_to root_path
       end
 
