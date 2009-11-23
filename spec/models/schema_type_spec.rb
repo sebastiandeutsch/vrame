@@ -199,6 +199,17 @@ describe JsonObject::Types::Asset do
   it "should provide an accessor for styles" do
     JsonObject::Types::Asset.new.should respond_to(:styles)
   end
+  
+  it "should ignore styles with blank key or style" do
+    a = JsonObject::Types::Asset.new
+    a.styles = [{'key' => 'aaa', 'style' => '100x100'},
+                {'key' => '', '   style' => '400x400'},
+                {'key' => 'bbb', 'style' => '200x200'},
+                {'key' => 'ccc', 'style' => ''}]
+    a.styles.should have(2).styles
+    a.styles[0]['key'].should eql('aaa')
+    a.styles[1]['key'].should eql('bbb')
+  end
 end
 
 describe JsonObject::Types::Collection do
