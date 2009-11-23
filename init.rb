@@ -47,7 +47,8 @@ config.gem 'mini_magick',
 
 config.gem 'thoughtbot-paperclip',
   :lib => 'paperclip',
-  :source => 'http://gems.github.com'
+  :source => 'http://gems.github.com',
+  :version => '~>2.3.1'
 
 config.gem 'norman-friendly_id',
   :lib => 'friendly_id',
