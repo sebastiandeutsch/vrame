@@ -12,6 +12,7 @@ class Category < ActiveRecord::Base
   
   acts_as_tree :order => "position", :counter_cache => true
   acts_as_list :scope => :parent
+  before_save  :recalc_position_after_move 
   
   validates_presence_of :title
   
@@ -66,5 +67,11 @@ class Category < ActiveRecord::Base
   def unpublish
     self.published = false
     self.save
+  end
+
+private
+
+  def recalc_position_after_move
+    add_to_list_bottom if parent_id_changed?
   end
 end
