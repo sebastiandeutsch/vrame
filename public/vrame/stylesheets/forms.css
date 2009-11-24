@@ -15,6 +15,10 @@ label {
 	color: #777;
 }
 
+label.inline {
+	display: inline;
+}
+
 /** 
  * @subsection Fieldsets
  *
@@ -110,10 +114,9 @@ input[type="text"]:focus,
 input[type="password"]:focus {
 	border-color: #777;
 	outline: none;
-	
-	box-shadow: 1px 1px 6px #A0A0F5;
-	-moz-box-shadow: 1px 1px 6px #A0A0F5;
-	-webkit-box-shadow: 1px 1px 6px #A0A0F5;
+	box-shadow: 1px 1px 5px #A0A0FF;
+	-moz-box-shadow: 1px 1px 5px #A0A0FF;
+	-webkit-box-shadow: 1px 1px 5px #A0A0FF;
 }
 
 input[type="text"],

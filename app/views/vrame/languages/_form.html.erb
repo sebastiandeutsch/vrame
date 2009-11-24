@@ -9,7 +9,7 @@
 			<%= f.text_field :iso3_code %> <em><%= f.error_message_on :iso3_code %></em>
 		</li>
 		<li class="last">
-			<%= f.submit 'Speichern' %> oder <%= link_to '&raquo; zurück', admin_languages_path %>
+			<%= f.submit 'Speichern', :class => 'submit' %> oder <%= link_to '« zurück', admin_languages_path %>
 		</li>
 	</ul>
 <% end %>

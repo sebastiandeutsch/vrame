@@ -11,7 +11,19 @@
  */
 
 .content-view {
-	background-color:#f7f7f7;
+	line-height: 20px;
+	background-color: #f5f5fc;
+	border-width: 1px;
+	border-style: none solid none none;
+	border-color: #d5d5ff;
+}
+
+.content-view a {
+	text-decoration: none;
+}
+
+.content-view a img {
+	border: 0 none;
 }
 
 /** 
@@ -23,34 +35,113 @@
 .content-view .categories {
 	width:33%;
 	float:left;
+	background-color: #fff;
 }
 
-.content-view .categories ul {
-	border-bottom:1px dotted transparent;
-}
-
-.content-view .categories > ul {
-	margin-top:0;
-	background:#fff;
-}
-
-.content-view .categories li.last {
-	border-bottom:0;
-	padding-bottom:0;
+.content-view .categories a:hover {
+	color: #555;
 }
 
 /** 
- * @subsection Active category
+ * @section Single Category
  *
  *
  */
 
-.content-view .categories div.active {
-
+.content-view .category {
+	border-width: 1px;
+	border-style: none solid none none;
+	border-color: #d5d5ff;
 	-moz-border-radius: 15px 0 0 15px;
 	-webkit-border-top-left-radius: 15px;
 	-webkit-border-bottom-left-radius: 15px;
-	background-color:#f7f7f7;
+	border-radius: 15px 0 0 15px;
+}
+
+.content-view .category:hover {
+	background-color: #f8f8ff;
+}
+
+.content-view .category a {
+	display: block;
+	padding: 6px 0;
+}
+
+/** 
+ * @section Active category
+ *
+ *
+ */
+
+.content-view .categories .active-category { /* Pimp my specificity to override :hover */
+	border-style: solid none solid solid;
+	background-color: #f5f5fc;
+}
+
+.content-view .categories .active-category a { /* Pimp my specificity to override :hover */
+	color: #000;
+	font-weight: bold;
+	/* Reduce height by two pixels so the total height remains the same */
+	padding: 5px 0;
+}
+
+/** 
+ * @section Category title
+ *
+ *
+ */
+
+.content-view .category .title {
+	overflow: hidden; /* BFC, don't overlap with floats */
+}
+
+ .content-view .category .title a {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+/** 
+ * @section Category controls (options + order)
+ *
+ *
+ */
+
+.content-view .category .options,
+.content-view .category .order {
+	float: right;
+	margin-right: 10px;
+	opacity: 0.15;
+	-moz-opacity: 0.15;
+	-ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(opacity=15)';
+}
+
+.content-view .category .options a,
+.content-view .category .order a {
+	float: left;
+}
+
+.content-view .category .options img,
+.content-view .category .order img {
+	vertical-align: middle;
+}
+
+.content-view .active-category .options,
+.content-view .active-category .order,
+.content-view .category:hover .options,
+.content-view .category:hover .order {
+	opacity: 1;
+	-ms-filter: 'none';
+}
+
+/** 
+ * @subsection Category options
+ *
+ *
+ */
+
+.content-view .category .options a {
+	padding-left: 3px;
+	padding-right: 3px;
 }
 
 /** 
@@ -59,72 +150,28 @@
  *
  */
 
-.content-view .categories div.level-0 {
-	margin-left:0px;
+.content-view .categories .level-1 .title a {
+	padding-left: 15px;
 }
 
-.content-view .categories div.level-1 {
-	margin-left:10px;
+.content-view .categories .level-2 .title a {
+	padding-left: 30px;
 }
 
-.content-view .categories div.level-2 {
-	margin-left:20px;
+.content-view .categories .level-3 .title a {
+	padding-left: 45px;
 }
 
-.content-view .categories div.level-3 {
-	margin-left:30px;
+.content-view .categories .level-4 .title a {
+	padding-left: 60px;
 }
 
-.content-view .categories div.level-4 {
-	margin-left:40px;
+.content-view .categories .level-5 .title a {
+	padding-left: 65px;
 }
 
-.content-view .categories div.level-5 {
-	margin-left:50px;
-}
-
-.content-view .categories div.level-6 {
-	margin-left:60px;
-}
-
-/** 
- * @subsection Single Category
- *
- *
- */
-
-div.category .column {
-	float:left;
-	margin:10px 10px 10px 10px;
-}
-
-div.category .title {
-	width:140px;
-	padding:0 0 3px 0;
-}
-
-div.category .options {
-	float:right;
-	display:none;
-}
-
-div.category .options img {
-	margin-right:3px;
-}
-
-div.category .order {
-	float:right;
-	display:none;
-}
-
-div.category:hover .options {
-	float:right;
-	display:block;
-}
-
-div.category:hover .order {
-	float:right;
-	display:block;
+.content-view .categories .level-6 .title a {
+	padding-left: 80px;
 }
 
 /** 
@@ -134,17 +181,27 @@ div.category:hover .order {
  */
 
 .content-view .items {
-	width:67%;
-	float:left;
+	float: left;
+	width: 67%;
+	border-width: 1px;
+	border-style: solid none none;
+	border-color: #d5d5ff;
 }
 
-.content-view .items ul {
-	border-top:1px dotted #d7d7d7;
+.content-view .items ul {}
+
+.content-view .items li {
+	border-bottom: 1px dotted #d7d7d7;
 }
 
-.content-view .items ul li {
-	background-color:#f7f7f7;
-	border-bottom:1px dotted #d7d7d7;
+.content-view .items .add-document {
+	float: none;
+	padding: 10px;
+}
+
+.content-view .items .add-document a {
+	display: inline;
+	padding: 0;
 }
 
 /** 
@@ -153,36 +210,52 @@ div.category:hover .order {
  *
  */
 
-li.document .column {
-	float:left;
-	margin:10px 10px 10px 10px;
+.content-view .document a {
+	display: block;
+	padding: 6px 0;
 }
 
-li.document .title {
+.content-view .document:hover {
+	background: #f9f9ff;
+}
+
+.content-view .document .column {
+	float: left;
+}
+
+.content-view .document .title {
 	width: 300px;
 }
 
-li.document .title a {
-	color: #000;
-	text-decoration: none;
+.content-view .document .long-title {
+	width: 410px;
 }
 
-li.document .slug {
+.content-view .document .title a {
+	padding-left: 15px;
+	padding-right: 10px;
+	color: #000;
+}
+
+.content-view .document .slug {
 	width: 140px;
 }
 
-li.document .image {
-	width:100px;
+.content-view .document .image {
+	width: 110px;
+}
+
+.content-view .document .image img {
+	display: block;
+}
+
+.content-view .document .options {
+	float: right;
+	margin-right: 15px;
+}
+
+.content-view .document .options a {
 	float: left;
-	margin:0;
-	padding:0;
-	line-height:0.1;
-}
-
-li.document .options {
-	float:right;
-}
-
-li.document .options img {
-	margin-right:3px;
+	padding-left: 3px;
+	padding-right: 3px;
 }

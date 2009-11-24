@@ -25,10 +25,10 @@
 		/vrame/stylesheets/rte.css
 		/vrame/stylesheets/jquery-ui-1.7.1/smoothness/jquery-ui-1.7.1.css
 		/stylesheets/vrame_specific.css
-	), :cache => true %>
+	), :cache => 'vrame_all' %>
 	
-	<!--[if IE 6]><link rel="stylesheet" type="text/css" href="/vrame/stylesheets/admin/ie/ie6.css" /><![endif]-->
-	<!--[if IE 7]><link rel="stylesheet" type="text/css" href="/vrame/stylesheets/admin/ie/ie7.css" /><![endif]-->
+	<!--[if IE 6]><link rel="stylesheet" type="text/css" href="/vrame/stylesheets/ie/ie6.css" /><![endif]-->
+	<!--[if IE 7]><link rel="stylesheet" type="text/css" href="/vrame/stylesheets/ie/ie7.css" /><![endif]-->
 	
 	<%= javascript_include_tag %w(
 		/vrame/javascripts/jquery/jquery-1.3.2.min.js
@@ -39,14 +39,18 @@
 		/vrame/javascripts/jquery/jquery.rte.js
 		/vrame/javascripts/jquery/jquery.droppy.js
 		/vrame/javascripts/jquery/jquery.tipsy.js
+		/vrame/javascripts/jquery/jquery.placeholder.js
 		/vrame/javascripts/jquery/jquery.scrollTo-1.4.2-min.js
 		/vrame/javascripts/swfupload/swfupload.js
 		/vrame/javascripts/application.js
 		/vrame/javascripts/asset-list.js
 		/vrame/javascripts/upload.js
+		/vrame/javascripts/asset-list.js
+		/vrame/javascripts/category-view.js
 		/vrame/javascripts/placemarks.js
 		/vrame/javascripts/schema-builder.js
-	), :cache => true %>
+		/vrame/javascripts/unsaved-alert.js
+	), :cache => 'vrame_all' %>
 	
 	<script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
 </head>

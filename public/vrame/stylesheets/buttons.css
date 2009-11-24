@@ -1,5 +1,5 @@
 .button,
-input[type="submit"],
+input.submit,
 button {
 	border: 0;
 	border-radius: 4px;
@@ -15,7 +15,7 @@ button {
 }
 
 .button:hover,
-input[type="submit"]:hover,
+input.submit:hover,
 button:hover {
 	background: #555;
 }

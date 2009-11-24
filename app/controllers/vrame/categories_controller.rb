@@ -20,8 +20,6 @@ class Vrame::CategoriesController < Vrame::VrameController
         end 
       end
     end
-        
-    render :show
   end
   
   def sort
@@ -36,18 +34,6 @@ class Vrame::CategoriesController < Vrame::VrameController
     end
     
     render :text => 'ok'
-  end
-  
-  def show
-    per_page = params[:per_page] || 50
-    
-    @category = category_by_language.find(params[:id])
-    @documents = @category.documents
-    
-    @categories = @category.children.paginate :page => params[:page], :per_page => per_page
-    
-    @breadcrumbs = [{ :title => 'Kategorien', :url => vrame_categories_path }]
-    @category.ancestors.reverse.each { |a| @breadcrumbs << { :title => a.title, :url => vrame_category_path(a) } }
   end
   
   def new

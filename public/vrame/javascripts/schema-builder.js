@@ -189,5 +189,4 @@ jQuery(function ($) {
 			checked = label.find('input').attr('checked') ? '1' : '0';
 		label.closest('td').find('input.required-field').val(checked);
 	}
-	
 });

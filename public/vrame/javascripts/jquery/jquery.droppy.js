@@ -8,7 +8,8 @@ $.fn.droppy = function(options) {
   
   this.each(function() {
     
-    var root = this, zIndex = 1000;
+    var root = this,
+        zIndex = 1000;
     
     function getSubnav(ele) {
       if (ele.nodeName.toLowerCase() == 'li') {
@@ -27,33 +28,61 @@ $.fn.droppy = function(options) {
       }
     }
     
-    function hide() {
+    function hide(e) {
       var subnav = getSubnav(this);
       if (!subnav) return;
       $.data(subnav, 'cancelHide', false);
-      setTimeout(function() {
-        if (!$.data(subnav, 'cancelHide')) {
-          $(subnav).slideUp(options.speed);
-        }
-      }, 500);
+      setTimeout(function () {
+        doHide(subnav);
+      }, 600);
+    }
+    
+    function doHide (subnav) {
+      if (!$.data(subnav, 'cancelHide')) {
+        $(subnav).slideUp(options.speed);
+      }
     }
   
     function show() {
       var subnav = getSubnav(this);
       if (!subnav) return;
+      
       $.data(subnav, 'cancelHide', true);
-      $(subnav).css({zIndex: zIndex++}).slideDown(options.speed);
-      if (this.nodeName.toLowerCase() == 'ul') {
+      $(subnav)
+        .css({zIndex: zIndex++})
+        .slideDown(options.speed);
+      
+      var nodeName = this.nodeName.toLowerCase();
+      if (nodeName == 'ul') {
+        
         var li = getActuator(this);
         $(li).addClass('hover');
         $('> a', li).addClass('hover');
+      
+      } else if (nodeName == 'li') {
+      
+        /* Hide sibling subnavigations immediately */
+        $(this)
+          .siblings()
+          .each(function () {
+            var siblingSubnav = getSubnav(this);
+            if (siblingSubnav) {
+              siblingSubnav.style.display = 'none';
+            }
+          });
       }
     }
     
     $('ul, li', this).hover(show, hide);
     $('li', this).hover(
-      function() { $(this).addClass('hover'); $('> a', this).addClass('hover'); },
-      function() { $(this).removeClass('hover'); $('> a', this).removeClass('hover'); }
+      function() {
+        $(this).addClass('hover');
+        $('> a', this).addClass('hover');
+      },
+      function() {
+        $(this).removeClass('hover');
+        $('> a', this).removeClass('hover');
+      }
     );
     
   });
