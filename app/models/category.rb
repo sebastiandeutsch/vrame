@@ -26,8 +26,8 @@ class Category < ActiveRecord::Base
   named_scope :by_language, lambda { |language| { :conditions => { :language_id => language.id } } }
   
   has_json_schema :schema
-  # has_json_schema :eigenschema
-  # has_json_store  :meta, :schema => :eigenschema
+  has_json_schema :eigenschema
+  has_json_store  :meta, :schema => :eigenschema
   
   Public_attributes = %w(id title url meta_keywords meta_description meta_title parent_id language_id updated_at created_at)
   
