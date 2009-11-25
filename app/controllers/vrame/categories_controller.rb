@@ -1,5 +1,5 @@
 class Vrame::CategoriesController < Vrame::VrameController
-  
+
   def index
     @categories = category_by_language.roots
     
@@ -8,7 +8,7 @@ class Vrame::CategoriesController < Vrame::VrameController
       @documents = @active_category.documents
     else
       if session["vrame_backend_#{current_language.id}_category_id"]
-        @active_category = category_by_language.find_by_id(session["vrame_backend_#{current_language.id}_category_id"])
+        @active_category = category_by_language.find(session["vrame_backend_#{current_language.id}_category_id"])
         @documents = @active_category.documents
       else
         if @categories.first
