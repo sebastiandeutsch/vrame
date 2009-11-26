@@ -1,47 +1,47 @@
 <table id="schema-builder">
 <thead>
-	<tr>
-		<th class="type">Typ</th>
-		<th class="title-name">Name / Interner Schlüssel</th>
-		<th class="description">Beschreibung</th>
-		<th class="required">Erforderlich</th>
-		<th class="actions">Aktionen</th>
-	</tr>
+    <tr>
+        <th class="type">Typ</th>
+        <th class="title-name">Name / Interner Schlüssel</th>
+        <th class="description">Beschreibung</th>
+        <th class="required">Erforderlich</th>
+        <th class="actions">Aktionen</th>
+    </tr>
 </thead>
 <tbody>
 <% category.schema.fields.each do |field| %>
-	<%= render :partial => 'vrame/categories/schema_builder/schema_field', :locals => { :field => field } %></li>
+    <%= render :partial => 'vrame/categories/schema_builder/schema_field', :locals => { :field => field } %></li>
 <% end %>
 </tbody>
 </table>
 
 <div id="schema-builder-add-field">
 
-	<p>
-		<label>
-			Feldtyp:
-			<select id="add-schema-field-type"><%= options_for_select(Category::TYPES_FOR_SELECT) %></select>
-		</label>
-	</p>
+    <p>
+        <label>
+            Feldtyp:
+            <select id="add-schema-field-type"><%= options_for_select(Category::TYPES_FOR_SELECT) %></select>
+        </label>
+    </p>
 
-	<p><a href="javascript:void()" id="add-schema-field" class="button invert">Feld hinzufügen</a></p>
+    <p><a href="javascript:void()" id="add-schema-field" class="button invert">Feld hinzufügen</a></p>
 
 </div>
 
 <%# Populate Row Prototypes %>
 <% content_for :schema_builder_after_form do %>
-	<table id="schema-builder-prototypes">
-		<tbody id="schema-field-prototype">
-			<%= render :partial => 'vrame/categories/schema_builder/schema_field' %>
-		</tbody>
-		<tbody id="asset-styles-prototype">
-			<%= render :partial => 'vrame/categories/schema_builder/asset_styles' %>
-		</tbody>
-		<tbody id="select-options-prototype">
-			<%= render :partial => 'vrame/categories/schema_builder/select_options', :locals => { :type => 'Select' } %>
-		</tbody>
-		<tbody id="multiselect-options-prototype">
-			<%= render :partial => 'vrame/categories/schema_builder/select_options', :locals => { :type => 'MultiSelect' } %>
-		</tbody>
-	</table>
+    <table id="schema-builder-prototypes">
+        <tbody id="schema-field-prototype">
+            <%= render :partial => 'vrame/categories/schema_builder/schema_field' %>
+        </tbody>
+        <tbody id="asset-styles-prototype">
+            <%= render :partial => 'vrame/categories/schema_builder/asset_styles' %>
+        </tbody>
+        <tbody id="select-options-prototype">
+            <%= render :partial => 'vrame/categories/schema_builder/select_options', :locals => { :type => 'Select' } %>
+        </tbody>
+        <tbody id="multiselect-options-prototype">
+            <%= render :partial => 'vrame/categories/schema_builder/select_options', :locals => { :type => 'MultiSelect' } %>
+        </tbody>
+    </table>
 <% end %>

@@ -2,19 +2,19 @@
 <% is_multi = field.is_a?(JsonObject::Types::MultiSelect) %>
 
 <tr class="field-options <%= 'multi' if is_multi %>select-fields">
-	<td></td>
-	<td colspan="4">
-		
-		<h3>Optionen für <%= is_multi ? 'Mehrfachauswahl' : 'Auswahl' %></h3>
-		
-		<ul>
-		<% for option in (field.try(:options) || Array.new(4)) %>
-			<% option ||= '' %>
-			<li><input type="text" name="category[schema][][options][]" value="<%=h option %>" /></li>
-		<% end %>
-		</ul>
-		
-		<p><a href="javascript:void(0)" class="smaller button invert add-select-field">Option hinzufügen</a></p>
-		
-	</td>
+    <td></td>
+    <td colspan="4">
+        
+        <h3>Optionen für <%= is_multi ? 'Mehrfachauswahl' : 'Auswahl' %></h3>
+        
+        <ul>
+        <% for option in (field.try(:options) || Array.new(4)) %>
+            <% option ||= '' %>
+            <li><input type="text" name="category[schema][][options][]" value="<%=h option %>" /></li>
+        <% end %>
+        </ul>
+        
+        <p><a href="javascript:void(0)" class="smaller button invert add-select-field">Option hinzufügen</a></p>
+        
+    </td>
 </tr>

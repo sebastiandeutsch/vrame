@@ -1,36 +1,36 @@
 <% field = nil unless defined?(field) %>
 
 <tr class="field-options asset-styles">
-	<td></td>
-	<td colspan="4">
-	
-		<h3>Grafik-Größen</h3>
-		
-		<p>Die Schlüssel müssen gültige Ruby-Variablenname sein (z.B. <code>sidebar_thumb</code>), die Größen gültige <a href="http://www.imagemagick.org/script/command-line-processing.php#geometry">ImageMagick-Formate</a> (z.B. <code>150x100</code>).</p>
-		
-		<ul class="clearfix">
-		<% for style in (field.try(:styles) || Array.new(3)) %>
-			<% if style.is_a?(Hash) %>
-				<% key_s   = style['key'] %>
-				<% style_s = style['style'] %>
-			<% else %>
-				<% key_s = style_s = '' %>
-			<% end %>
-			
-			<li>
-				<p><label>
-					<span>Schlüssel:</span>
-					<input type="text" name="category[schema][][styles][][key]" value="<%=h key_s %>" />
-				</label></p>
-				<p><label>
-					<span>Größe:</span>
-					<input type="text" name="category[schema][][styles][][style]" value="<%=h style_s %>" />
-				</label></p>
-			</li>
-		<% end %>
-		</ul>
-		
-		<p><a href="javascript:void(0)" class="smaller button invert add-asset-style">Größe hinzufügen</a></p>
-		
-	</td>
+    <td></td>
+    <td colspan="4">
+    
+        <h3>Grafik-Größen</h3>
+        
+        <p>Die Schlüssel müssen gültige Ruby-Variablenname sein (z.B. <code>sidebar_thumb</code>), die Größen gültige <a href="http://www.imagemagick.org/script/command-line-processing.php#geometry">ImageMagick-Formate</a> (z.B. <code>150x100</code>).</p>
+        
+        <ul class="clearfix">
+        <% for style in (field.try(:styles) || Array.new(3)) %>
+            <% if style.is_a?(Hash) %>
+                <% key_s   = style['key'] %>
+                <% style_s = style['style'] %>
+            <% else %>
+                <% key_s = style_s = '' %>
+            <% end %>
+            
+            <li>
+                <p><label>
+                    <span>Schlüssel:</span>
+                    <input type="text" name="category[schema][][styles][][key]" value="<%=h key_s %>" />
+                </label></p>
+                <p><label>
+                    <span>Größe:</span>
+                    <input type="text" name="category[schema][][styles][][style]" value="<%=h style_s %>" />
+                </label></p>
+            </li>
+        <% end %>
+        </ul>
+        
+        <p><a href="javascript:void(0)" class="smaller button invert add-asset-style">Größe hinzufügen</a></p>
+        
+    </td>
 </tr>
