@@ -1,9 +1,9 @@
 <h2>Collection sortieren</h2>
 
-<% if collectionable = assetable.collectionable %>
+<% if @collection.collectionable %>
 	<p>
-		Collection vom <%=h collectionable.class %>
-		<%= link_to h(collectionable.title), [:edit, :vrame, collectionable] %>
+		Collection vom <%= @collection.collectionable.class %>
+		<%= link_to h(@collection.collectionable.title), [:edit, :vrame, @collection.collectionable] %>
 	</p>
 <% end %>
 
