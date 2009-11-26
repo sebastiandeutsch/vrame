@@ -2,10 +2,10 @@
 deutsch:
   id: 1
   name: Deutsch
-  iso3_code: deu
+  iso2_code: de
   published: true
 english:
   id: 2
   name: English
-  iso3_code: eng
+  iso2_code: en
   published: true
