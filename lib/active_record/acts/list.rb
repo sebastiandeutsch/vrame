@@ -31,7 +31,6 @@ module ActiveRecord
         #   Example: <tt>acts_as_list :scope => 'todo_list_id = #{todo_list_id} AND completed = 0'</tt>. You may
         #   also pass an array to define multiple scopes. Example: <tt>acts_as_list :scope => [:todo_list_id, :project_id]</tt>
         def acts_as_list(options = {})
-          debugger
           configuration = { :column => "position", :scope => "1 = 1" }
           configuration.update(options) if options.is_a?(Hash)
 
@@ -39,7 +38,8 @@ module ActiveRecord
           configuration[:scope] = [configuration[:scope]] unless configuration[:scope].is_a?(Array)
           configuration[:scope].each do |scope|
             if scope.is_a?(Symbol)
-              scope_condition_method += %(condition += ' AND ' + (#{scope.to_s}.nil? ? "#{scope.to_s} IS NULL" : "#{scope.to_s} = '\#{send(:#{scope.to_s})}'"); )
+              association_key = self.reflect_on_association(scope).primary_key_name
+              scope_condition_method += %(condition += ' AND ' + (#{scope}.nil? ? "#{association_key} IS NULL" : "#{association_key} = '\#{send(:#{association_key})}'"); )
               
               define_method "#{scope}=" do |value|
                 if new_record?
