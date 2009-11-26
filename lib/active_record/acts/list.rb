@@ -26,37 +26,29 @@ module ActiveRecord
         # Configuration options are:
         #
         # * +column+ - specifies the column name to use for keeping the position integer (default: +position+)
-        # * +scope+ - restricts what is to be considered a list. Given a symbol, it'll use that as the foreign key restriction. 
-        #   It's also possible to give it an entire string that is interpolated if you need a tighter scope than just a foreign key.
-        #   Example: <tt>acts_as_list :scope => 'todo_list_id = #{todo_list_id} AND completed = 0'</tt>. You may
-        #   also pass an array to define multiple scopes. Example: <tt>acts_as_list :scope => [:todo_list_id, :project_id]</tt>
+        # * +scope+ - restricts what is to be considered a list. Given a symbol, it'll attach <tt>_id</tt> 
+        #   (if it hasn't already been added) and use that as the foreign key restriction. It's also possible 
+        #   to give it an entire string that is interpolated if you need a tighter scope than just a foreign key.
+        #   Example: <tt>acts_as_list :scope => 'todo_list_id = #{todo_list_id} AND completed = 0'</tt>
         def acts_as_list(options = {})
           configuration = { :column => "position", :scope => "1 = 1" }
           configuration.update(options) if options.is_a?(Hash)
 
-          scope_condition_method = 'def scope_condition; condition = "1 = 1"; '
-          configuration[:scope] = [configuration[:scope]] unless configuration[:scope].is_a?(Array)
-          configuration[:scope].each do |scope|
-            if scope.is_a?(Symbol)
-              association_key = self.reflect_on_association(scope).primary_key_name
-              scope_condition_method += %(condition += ' AND ' + (#{scope}.nil? ? "#{association_key} IS NULL" : "#{association_key} = '\#{send(:#{association_key})}'"); )
-              
-              define_method "#{scope}=" do |value|
-                if new_record?
-                  super(value)
+          configuration[:scope] = "#{configuration[:scope]}_id".intern if configuration[:scope].is_a?(Symbol) && configuration[:scope].to_s !~ /_id$/
+
+          if configuration[:scope].is_a?(Symbol)
+            scope_condition_method = %(
+              def scope_condition
+                if #{configuration[:scope].to_s}.nil?
+                  "#{configuration[:scope].to_s} IS NULL"
                 else
-                  unless value.to_s == send(scope).to_s
-                    remove_from_list
-                    super(value)
-                    @scope_changed = true
-                  end
+                  "#{configuration[:scope].to_s} = \#{#{configuration[:scope].to_s}}"
                 end
               end
-            else
-              scope_condition_method += %(condition += " AND #{scope}"; )
-            end
+            )
+          else
+            scope_condition_method = "def scope_condition() \"#{configuration[:scope]}\" end"
           end
-          scope_condition_method += 'condition; end'
 
           class_eval <<-EOV
             include ActiveRecord::Acts::List::InstanceMethods
@@ -73,7 +65,6 @@ module ActiveRecord
 
             before_destroy :remove_from_list
             before_create  :add_to_list_bottom
-            before_save    :add_to_list_bottom_if_scope_changed
           EOV
         end
       end
@@ -90,21 +81,21 @@ module ActiveRecord
 
         # Swap positions with the next lower item, if one exists.
         def move_lower
-          lower = lower_item
-          return unless lower
+          return unless lower_item
+
           acts_as_list_class.transaction do
-            self.update_attribute(position_column, lower.send(position_column))
-            lower.decrement_position
+            lower_item.decrement_position
+            increment_position
           end
         end
 
         # Swap positions with the next higher item, if one exists.
         def move_higher
-          higher = higher_item
-          return unless higher
+          return unless higher_item
+
           acts_as_list_class.transaction do
-            self.update_attribute(position_column, higher.send(position_column))
-            higher.increment_position
+            higher_item.increment_position
+            decrement_position
           end
         end
 
@@ -190,10 +181,6 @@ module ActiveRecord
             self[position_column] = bottom_position_in_list.to_i + 1
           end
 
-          def add_to_list_bottom_if_scope_changed
-            add_to_list_bottom if scope_changed?
-          end
-
           # Overwrite this method to define the scope of the list changes
           def scope_condition() "1" end
 
@@ -208,7 +195,7 @@ module ActiveRecord
           def bottom_item(except = nil)
             conditions = scope_condition
             conditions = "#{conditions} AND #{self.class.primary_key} != #{except.id}" if except
-            acts_as_list_class.find(:first, :conditions => conditions, :order => "#{acts_as_list_class.table_name}.#{position_column} DESC")
+            acts_as_list_class.find(:first, :conditions => conditions, :order => "#{position_column} DESC")
           end
 
           # Forces item to assume the bottom position in the list.
@@ -262,10 +249,6 @@ module ActiveRecord
             remove_from_list
             increment_positions_on_lower_items(position)
             self.update_attribute(position_column, position)
-          end
-
-          def scope_changed?
-            !!@scope_changed && !new_record?
           end
       end 
     end
