@@ -26,10 +26,6 @@ rescue Exception => e
   raise "VRAME Bootstrap Error"
 end
 
-config.gem 'coupa-acts_as_list',
-  :lib => 'coupa-acts_as_list',
-  :source => 'http://gems.github.com'
-
 config.gem 'coupa-acts_as_tree',
   :lib => 'coupa-acts_as_tree',
   :source => 'http://gems.github.com'
@@ -55,6 +51,10 @@ config.gem 'norman-friendly_id',
   :source => 'http://gems.github.com'
     
 config.gem 'daemons'
+
+$:.unshift "#{File.dirname(__FILE__)}/lib"
+require 'active_record/acts/list'
+ActiveRecord::Base.class_eval { include ActiveRecord::Acts::List }
 
 config.to_prepare do
   # Use JSON gem as ActiveSupport::JSON backend
