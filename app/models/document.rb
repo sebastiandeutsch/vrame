@@ -2,6 +2,8 @@ class Document < ActiveRecord::Base
   
   has_many :collections, :dependent => :destroy, :as => :collectionable
   has_many :assets,      :dependent => :destroy, :as => :assetable, :order => "position"
+  belongs_to :category, :counter_cache => true
+  belongs_to :user
   
   acts_as_list :scope => :category
   
@@ -9,8 +11,6 @@ class Document < ActiveRecord::Base
   
   has_json_store :meta, :schema => [:category, :schema]
   
-  belongs_to :category, :counter_cache => true
-  belongs_to :user
   
   named_scope :order_before, lambda {|position| {:conditions => ["position < ?", position], :limit => 1, :order => "position DESC"}}
   named_scope :order_after, lambda {|position| {:conditions => ["position > ?", position], :limit => 1, :order => "position ASC"}}
