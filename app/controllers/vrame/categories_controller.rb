@@ -54,6 +54,7 @@ class Vrame::CategoriesController < Vrame::VrameController
       redirect_to vrame_categories_path + "#category-#{@category.to_param}"
     else
       flash[:error] = 'Dokument konnte nicht angelegt werden'
+      @breadcrumbs = [{ :title => 'Kategorien', :url => vrame_categories_path }]
       render :action => :new
     end
  end
