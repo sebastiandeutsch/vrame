@@ -3,6 +3,8 @@ class Category < ActiveRecord::Base
   TYPES_FOR_SELECT = TYPES.map {|t| [t[/\w+$/], t]}
   
   has_many :documents, :order => :position
+  belongs_to :parent,
+    :class_name => 'Category'
   has_many :collections, :dependent => :destroy, :as => :collectionable
   has_many :assets, :order => "position", :dependent => :destroy, :as => :assetable
   
