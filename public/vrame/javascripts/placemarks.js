@@ -141,8 +141,11 @@ GMap.update = function(field_id) {
 }
 
 GMap.initialize_placemark_divs = function(){
-  GMap.geocoder    = new google.maps.Geocoder();
-  GMap.deutschland = new google.maps.LatLng(51.1656910, 10.4515260);
+  try {
+    GMap.geocoder    = new google.maps.Geocoder();
+    GMap.deutschland = new google.maps.LatLng(51.1656910, 10.4515260);
+  } catch(e) {
+  }
   $("div.placemark").each(function(){
     this.gmap = new GMap(this)
   });
