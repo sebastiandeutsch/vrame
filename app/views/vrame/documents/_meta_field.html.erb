@@ -1,6 +1,6 @@
-<% field_name  = "document[meta[#{field.uid}]]" %>
-<% field_id    = "document-meta-#{field.uid}" %>
-<% value       = document.meta[field.name] %>
+<% field_name  = parent_name + "[meta[#{field.uid}]]" %>
+<% field_id    = parent_name + "-meta-#{field.uid}" %>
+<% value       = parent.meta[field.name] %>
 
 <li class="meta-field clearfix">
 	
@@ -50,7 +50,7 @@
 			:field_name => field_name,
 			:uid => field.uid,
 			:asset => value,
-			:parent => document
+			:parent => parent
 		} %>
 		
 	<% when JsonObject::Types::Collection %>
@@ -59,7 +59,7 @@
 			:field_name => field_name,
 			:uid => field.uid,
 			:collection => value,
-			:parent => document
+			:parent => parent
 		} %>
 		
 	<% when JsonObject::Types::Placemark %>
@@ -67,7 +67,7 @@
 		<%= render :partial => 'vrame/shared/placemark', :locals => {
 			:field_name => field_name,
 			:field_id   => field_id,
-			:parent     => document,
+			:parent     => parent,
 			:value      => value
 		} %>
 

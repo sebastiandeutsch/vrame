@@ -1,0 +1,18 @@
+<h2>Eigenschema der Kategorie</h2>
+
+<% form_for [:vrame, @category] do |f| %>
+    
+    <fieldset>
+        <%= render :partial => 'vrame/categories/schema_builder/schema_builder',
+                   :locals  => { :schema => @category.eigenschema, :schema_attribute => 'eigenschema' } %>
+    </fieldset>
+    
+    <ul>
+        <li class="last">
+            <%= f.submit 'Speichern', :class => 'submit' %> oder <%= link_to '« zurück', vrame_categories_path %>
+        </li>
+    </ul>
+    
+<% end %>
+
+<%= yield :schema_builder_after_form %>

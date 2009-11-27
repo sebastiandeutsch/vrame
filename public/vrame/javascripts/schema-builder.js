@@ -14,10 +14,17 @@ jQuery(function ($) {
     }
   );
   
+  $('#schema-builder tr').each(function () {
+    replaceFieldName($(this));
+  });
+  
   /* Field addition and deletion */
   
   function fieldAdded (tr) {
     //console.log('schema builder: field added', tr);
+    
+    /*  */
+    replaceFieldName(tr);
     
     /* Setup event handling on clone */
     setupSlugGenerator(tr);
@@ -32,6 +39,17 @@ jQuery(function ($) {
   function fieldRemoved (tr) {
     //console.log('schema builder: field removed');
     removeFieldOptions(tr);
+  }
+  
+  /*  */
+  function replaceFieldName(clone) {
+    var schema_attribute = clone.parents('table').attr('data-schema-attribute');
+    
+    clone.find('input, textarea, select').each(function () {
+      var field = $(this);
+      
+      field.attr('name', field.attr('name').replace(/\{schema_attribute\}/, schema_attribute));
+    });
   }
   
   /* Slug Generation */

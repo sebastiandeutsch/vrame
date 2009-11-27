@@ -29,7 +29,13 @@
     
     <fieldset>
         <h3>Dokument-Template</h3>
-        <%= render :partial => 'vrame/categories/schema_builder/schema_builder', :locals => { :category => category } %>
+        <%= render :partial => 'vrame/categories/schema_builder/schema_builder',
+                   :locals  => { :schema => category.schema, :schema_attribute => 'schema' } %>
+    </fieldset>
+    
+    <fieldset>
+        <%= link_to "Eigenschema editieren", edit_eigenschema_vrame_category_path(@category), :class => "button invert" %>
+        <%= link_to "Meta-Informationen editieren", edit_eigenvalues_vrame_category_path(@category), :class => "button invert" %>
     </fieldset>
     
     <fieldset>

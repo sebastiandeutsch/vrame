@@ -10,7 +10,7 @@
         <ul>
         <% for option in (field.try(:options) || Array.new(4)) %>
             <% option ||= '' %>
-            <li><input type="text" name="category[schema][][options][]" value="<%=h option %>" /></li>
+            <li><input type="text" name="category[{schema_attribute}][][options][]" value="<%=h option %>" /></li>
         <% end %>
         </ul>
         

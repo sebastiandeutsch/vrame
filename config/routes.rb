@@ -7,7 +7,7 @@ ActionController::Routing::Routes.draw do |map|
     vrame.root :controller => 'categories', :action => 'index'
     
     # Categories
-    vrame.resources :categories, :has_many => [ :documents ], :member => { :order_up => :get, :order_down => :get, :publish => :get, :unpublish => :get, :sort => :post }
+    vrame.resources :categories, :has_many => [ :documents ], :member => { :edit_eigenschema => :get, :edit_eigenvalues => :get, :order_up => :get, :order_down => :get, :publish => :get, :unpublish => :get, :sort => :post }
     vrame.resources :categories, :has_many => [ :categories ], :only => [ :new ]
     
     # Documents

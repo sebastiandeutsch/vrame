@@ -6,29 +6,29 @@
 
 <td class="type">
     <% if field %>
-        <input type="hidden" name="category[schema][][uid]" value="<%=h field.uid %>" />
+        <input type="hidden" name="category[{schema_attribute}][][uid]" value="<%=h field.uid %>" />
     <% end %>
-    <input type="hidden" name="category[schema][][type]" value="<%=h field.class.name if field %>" class="internal-field-type" />
+    <input type="hidden" name="category[{schema_attribute}][][type]" value="<%=h field.class.name if field %>" class="internal-field-type" />
     <p class="visible-field-type"><%=h visible_type %></p>
 </td>
 
 <td class="title-name">
     <p>
         <label>Titel:</label>
-        <input type="text" name="category[schema][][title]" class="title" value="<%= h(field.try(:title)) %>" />
+        <input type="text" name="category[{schema_attribute}][][title]" class="title" value="<%= h(field.try(:title)) %>" />
     </p>
     <p>
         <label>Schlüssel:</label>
-        <input type="text" name="category[schema][][name]" class="name" value="<%= h(field.try(:name)) %>" />
+        <input type="text" name="category[{schema_attribute}][][name]" class="name" value="<%= h(field.try(:name)) %>" />
     </p>
 </td>
 
 <td class="description">
-    <textarea name="category[schema][][description]" class="description"><%= h(field.try(:description)) %></textarea>
+    <textarea name="category[{schema_attribute}][][description]" class="description"><%= h(field.try(:description)) %></textarea>
 </td>
 
 <td class="required">
-    <input type="hidden" name="category[schema][][required]" value="<%= field.try(:required) %>" class="required-field" /> 
+    <input type="hidden" name="category[{schema_attribute}][][required]" value="<%= field.try(:required) %>" class="required-field" /> 
     <label class="required">
         <input type="checkbox" <%= 'checked="checked"' if field.try(:required) %> />
         erforderlich?

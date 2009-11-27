@@ -1,4 +1,4 @@
-<table id="schema-builder">
+<table id="schema-builder" data-schema-attribute="<%= schema_attribute %>">
 <thead>
     <tr>
         <th class="type">Typ</th>
@@ -9,8 +9,8 @@
     </tr>
 </thead>
 <tbody>
-<% category.schema.fields.each do |field| %>
-    <%= render :partial => 'vrame/categories/schema_builder/schema_field', :locals => { :field => field } %></li>
+<% schema.fields.each do |field| %>
+    <%= render :partial => 'vrame/categories/schema_builder/schema_field', :locals => { :field => field } %>
 <% end %>
 </tbody>
 </table>

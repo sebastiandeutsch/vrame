@@ -63,6 +63,14 @@ class Vrame::CategoriesController < Vrame::VrameController
     @category = category_by_language.find(params[:id])
   end
   
+  def edit_eigenschema
+    @category = category_by_language.find(params[:id])
+  end
+  
+  def edit_eigenvalues
+    @category = category_by_language.find(params[:id])
+  end
+  
   def update
     @category = category_by_language.find(params[:id])
     
