@@ -1,6 +1,8 @@
+task "db:migrate" => ["vrame:sync", "nine_auth_engine:sync"]
+
 namespace :vrame do
   desc "Bootstrap VRAME by creating an admin user and German and English as languages"
-  task :bootstrap => :environment do
+  task :bootstrap => [:environment, "vrame:sync", "nine_auth_engine:sync", "db:migrate" ] do
     
     if Language.find_by_iso2_code('de') == nil
       puts "Adding German language"
@@ -16,6 +18,10 @@ namespace :vrame do
       puts "Create admin user vrame"
       u = User.create!( :email => 'vrame@9elements.com', :password => 'vrame', :password_confirmation => 'vrame', :admin => true )
     end
+    
+    puts
+    puts "Open http://localhost:3000/vrame and login with vrame@9elements.com/vrame"
+    puts
 
   end
   

@@ -76,7 +76,7 @@ config.to_prepare do
   ApplicationController.helper(VrameHelper)
 end
 
-unless File.exist?(File.join(RAILS_ROOT, 'public', "vrame")) || ARGV[0] == "vrame:sync" || ARGV[0] == "gems:install"
+unless File.exist?(File.join(RAILS_ROOT, 'public', "vrame")) || ['vrame:sync', 'vrame:bootstrap', 'gems:install'].include?(ARGV[0])
   puts "\033[31m"
   puts "Please run rake vrame:sync before continuing"
   puts "\033[36m"
