@@ -4,23 +4,24 @@ namespace :vrame do
   desc "Bootstrap VRAME by creating an admin user and German and English as languages"
   task :bootstrap => [:environment, "vrame:sync", "nine_auth_engine:sync", "db:migrate" ] do
     
-    if Language.find_by_iso2_code('de') == nil
+    unless Language.find_by_iso2_code('de')
       puts "Adding German language"
       german = Language.create!( :name => 'Deutsch', :iso2_code => 'de', :published => true )
     end
   
-    if Language.find_by_iso2_code('en') == nil
+    unless Language.find_by_iso2_code('en')
       puts "Adding English language"
       english = Language.create!( :name => 'English', :iso2_code => 'en', :published => true )
     end
 
-    if User.find_by_email('vrame@9elements.com') == nil
-      puts "Create admin user vrame"
-      u = User.create!( :email => 'vrame@9elements.com', :password => 'vrame', :password_confirmation => 'vrame', :admin => true )
+    unless User.find_by_email('vrame@9elements.com')
+      puts "Creating admin user vrame"
+      u = User.create!( :email => 'vrame@example.com', :password => 'vrame', :password_confirmation => 'vrame', :admin => true )
     end
     
     puts
-    puts "Open http://localhost:3000/vrame and login with vrame@9elements.com/vrame"
+    puts "1) Start your server (e.g. via script/server)"
+    puts "2) Open http://localhost:3000/vrame and login with vrame@9elements.com/vrame"
     puts
 
   end
