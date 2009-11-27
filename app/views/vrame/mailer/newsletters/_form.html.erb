@@ -1,0 +1,48 @@
+<% form_for [:vrame, :mailer, newsletter] do |f| %>
+  
+  <fieldset>
+		<ul>
+			<li style="border-bottom: 0">
+				<%= f.text_field :title, :placeholder => 'Titel', :class => 'big' %> <em><%= f.error_message_on :title %></em>
+			</li>
+			
+			<li class="last">
+				<%= tooltip 'Verwendung des Titels', 'Erscheint als Titel der Newsletter-Email im Postfach des Empfängers. Wird auch für das Newsletter-Archiv verwendet.' %>
+			</li>
+		</ul>
+	</fieldset>
+	
+	<fieldset>
+	  <%= f.label :body, 'Newsletter-Inhalt' %>
+
+  	<div class="input-container">  	  
+  	  <%= f.text_area :body, :class => 'rte-zone' %>
+  	</div>
+  	
+  	<p><%= tooltip 'Platzhalter', 'Diese mit einem $-Zeichen beginnenden Wörter werden für jeden einzelnen Empfänger durch die jeweiligen persönlichen Daten ersetzt.' %></p>
+  	
+  	<ul>
+  	  <li>$ANREDE - Anrede (Herr/Frau)</li>
+	    <li>$VORNAME - Vorname des Empfängers</li>
+	    <li>$NACHNAME - Nachname des Empfängers</li>
+	    <li>$ABMELDUNG_URL - Direktlink zur Newsletter-Abmeldung des jeweiligen Empfängers</li>
+	  </ul>
+	</fieldset>
+  
+	<fieldset>
+	  <%= f.label :publish_on, 'Absendezeitpunkt' %>
+
+  	<div class="input-container">
+  	  <%= f.datetime_select :publish_on, :start_year => Date.today.year, :default => 3.days.from_now.midnight %>
+  	</div>
+  	
+  	<%= tooltip 'Information zum Absendezeitpunkt', 'Der Newsletter wird zum hier angegebenen Zeitpunkt an alle eingetragenen Abonnenten versendet. Der Versand kann nicht mehr rückgängig gemacht werden.' %>
+	</fieldset>
+	
+	<ul>
+		<li class="last">
+			<%= f.submit 'Speichern' %> oder <%= link_to '&laquo; zurück', vrame_mailer_newsletters_path %>
+		</li>
+	</ul>
+	
+<% end %>

@@ -1,0 +1,11 @@
+<p>Sehr geehrte<%= (@recipient.salutation == 'Herr') ? 'r' : '' %> <%= @recipient.salutation %> <%= @recipient.first_name %> <%= @recipient.last_name %>,</p>
+
+<p>Ihre E-Mail Adresse <%= @recipient.email %> wurde auf <a href="http://aoste.de/">Aoste.de</a> für den Erhalt dieses Newsletters eingetragen.</p>
+
+<p>Sollte dies zutreffen, so bestätigen Sie bitte die Newsletter-Anmeldung durch Klick auf den folgenden Link:</p>
+
+<p><%= link_to @recipient.confirm_url, @recipient.confirm_url %></p>
+
+<p>Mit freundlichen Grüßen,</p>
+
+<p>Das Aoste-Team</p>

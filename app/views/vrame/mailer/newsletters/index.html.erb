@@ -1,0 +1,27 @@
+<div class="subnavigation clearfix">
+	<div class="functions">
+	  <%= link_to "Abonnenten", vrame_mailer_subscriptions_path, :class => 'button' %>
+		<%= link_to "Newsletter verfassen", new_vrame_mailer_newsletter_path, :class => 'button' %>
+	</div>
+	
+	<h1>Newsletter</h1>
+</div>
+
+
+<div class="table-container">
+	<table class="list">
+		<thead>
+			<tr>
+				<th>Titel</th>
+				<th>Versandt?</th>
+				<th>Zeitpunkt</th>
+				<th>Funktionen</th>
+			</tr>
+		</thead>
+    <tbody>
+      <%= render @newsletters %>
+    </tbody>
+  </table>
+</div>
+
+<%= render :partial => 'vrame/shared/pagination', :locals => { :paginatable => @newsletters } %>

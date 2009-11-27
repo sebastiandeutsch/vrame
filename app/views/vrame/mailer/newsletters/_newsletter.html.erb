@@ -1,0 +1,22 @@
+<tr>
+  <td><%= link_to newsletter.title, edit_vrame_mailer_newsletter_path(newsletter) %></td>
+  <td>
+    <%- if newsletter.dispatched? -%>
+    Ja <%= tooltip 'Details', "An #{newsletter.recipients} Abonnenten versendet" %>
+    <%- else -%>
+    Nein
+    <%- end -%>
+  </td>
+  <td>
+    <%= I18n.l newsletter.publish_on.to_date, :format => :default %>
+    <%= I18n.l newsletter.publish_on, :format => :time %>
+  </td>
+  <td class="options">
+    <%= link_to 'Bearbeiten', edit_vrame_mailer_newsletter_path(newsletter), :class => 'edit' %>
+		<%= link_to 'Löschen', [:vrame, :mailer, newsletter], :method => :delete, :confirm => 'Wirklich löschen?', :class => 'delete' %>
+		<%= link_to 'Preview', preview_vrame_mailer_newsletter_path(newsletter), :class => 'send_preview tooltip', :title => "Vorschau-Funktion: Sendet \"#{newsletter.title}\" lediglich an den aktuell eingeloggten VRAME-Benutzer (<em>#{current_user.email}</em>)." %>
+	  <%- unless newsletter.dispatched? -%>
+		<%= link_to 'Jetzt versenden', schedule_vrame_mailer_newsletter_path(newsletter), :class => 'time', :method => 'post', :confirm => "Wollen Sie \"#{newsletter.title}\" an #{Subscription.activated.count} Abonnenten versenden? Der Versand eines Newsletters ist unwiderruflich!" %>
+		<%- end -%>
+  </td>
+</tr>

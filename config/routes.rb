@@ -20,6 +20,12 @@ ActionController::Routing::Routes.draw do |map|
     # Assets and Collections
     vrame.resources :assets
     vrame.resources :collections, :member => { :rearrange => :get, :sort => :post }
+
+    # Mailer
+    vrame.namespace(:mailer) do |mailer|
+      mailer.resources :subscriptions, :only => [ :index, :destroy ]
+      mailer.resources :newsletters, :member => { :preview => :get, :schedule => :post }
+    end
   end
 
   # Frontend
@@ -41,4 +47,6 @@ ActionController::Routing::Routes.draw do |map|
   # Assets
   map.download_asset '/assets/:id/download', :controller => 'assets', :action => 'download'
   
+  # Subscriptions
+  map.resources :subscriptions, :only => [ :create ], :member => { :confirm => :any, :unsubscribe => :any }
 end
