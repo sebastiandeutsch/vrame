@@ -2,14 +2,14 @@ namespace :vrame do
   desc "Bootstrap VRAME by creating an admin user and German and English as languages"
   task :bootstrap => :environment do
     
-    if Language.find_by_iso3_code('deu') == nil
+    if Language.find_by_iso2_code('de') == nil
       puts "Adding German language"
-      german = Language.create!( :name => 'Deutsch', :iso3_code => 'deu', :published => true )
+      german = Language.create!( :name => 'Deutsch', :iso2_code => 'de', :published => true )
     end
   
-    if Language.find_by_iso3_code('eng') == nil
+    if Language.find_by_iso2_code('en') == nil
       puts "Adding English language"
-      english = Language.create!( :name => 'English', :iso3_code => 'eng', :published => true )
+      english = Language.create!( :name => 'English', :iso2_code => 'en', :published => true )
     end
 
     if User.find_by_email('vrame@9elements.com') == nil
