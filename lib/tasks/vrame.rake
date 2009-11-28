@@ -21,7 +21,7 @@ namespace :vrame do
     
     puts
     puts "1) Start your server (e.g. via script/server)"
-    puts "2) Open http://localhost:3000/vrame and login with vrame@9elements.com/vrame"
+    puts "2) Open http://localhost:3000/vrame and login with user: vrame@example.com, password: vrame"
     puts
 
   end
