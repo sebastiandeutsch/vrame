@@ -39,14 +39,14 @@ The following versions are required for VRAME:
 Adding VRAME to your Rails App
 ------------------------------
 
-Currently a repository only
-No gem
-No version numbers yet
-But that's planned
+Currently VRAME is only available from the official github repository.
+The standard approach is to add VRAME and Nine Auth Engine as git submodules:
 
     cd your_rails_app
     git submodule add git://github.com/sebastiandeutsch/vrame.git vendor/plugins/vrame
     git submodule add git://github.com/sebastiandeutsch/nine_auth_engine.git vendor/plugins/nine_auth_engine
+
+There are plans to release VRAME as a gem when it has reachd a stable, more refined state.
 
 Initialize VRAME 
 ----------------
