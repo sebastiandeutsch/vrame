@@ -185,15 +185,5 @@ module JsonObject
       new_schema
     end
 
-  private
-        
-    def initialize_fields
-      @fields = {}
-      if @hash['fields'].is_a? Array
-        @hash['fields'].each { |type| @fields[type.name] = type }
-      end
-    end
-    
-  end
-
-end
+  end # Schema
+end # JsonObject
