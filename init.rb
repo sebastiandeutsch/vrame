@@ -62,6 +62,11 @@ config.to_prepare do
   # Include VrameHelper
   ApplicationController.helper(VrameHelper)
   
+  # Include Vrame::Base into ApplicationController
+  ApplicationController.class_eval do
+    include(Vrame::Base)
+  end
+  
   # Configure nine_auth_engine
   NineAuthEngine.configure do |config|
     config.after_signup_redirect = '/signin/'
