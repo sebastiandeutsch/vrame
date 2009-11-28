@@ -1,5 +1,5 @@
 module JsonObject
-  module Helper
+  module Helper # :nodoc:
     UMLAUTS = {"ä" => "ae",
                "ö" => "oe",
                "ü" => "ue",
