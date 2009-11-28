@@ -1,22 +1,24 @@
 <div class="subnavigation clearfix">
-	<% if @active_category %>
-		<div class="functions">
-			<%= link_to 'Neues Dokument', new_vrame_category_document_path(@active_category), :class => 'button', :id => 'active-category-new-document' %>
-			<%= link_to 'Neue Unterkategorie', new_vrame_category_category_path(@active_category), :class => 'button', :id => 'active-category-new-category' %>
-			<%= link_to 'Kategorie editieren', edit_vrame_category_path(@active_category), :class => 'button', :id => 'active-category-edit' %>
-		</div>
-	<% end %>
-	
-	<h2>Kategorie-Übersicht <span id="active-category-name"></span></h2>
+    <div class="functions">
+        <% if @active_category %>
+            <%= link_to 'Neues Dokument', new_vrame_category_document_path(@active_category), :class => 'button', :id => 'active-category-new-document' %>
+            <%= link_to 'Neue Unterkategorie', new_vrame_category_category_path(@active_category), :class => 'button', :id => 'active-category-new-category' %>
+            <%= link_to 'Kategorie editieren', edit_vrame_category_path(@active_category), :class => 'button', :id => 'active-category-edit' %>
+        <% else%>
+        <%= link_to 'Neue Kategorie', new_vrame_category_path, :class => 'button', :id => 'new-category' %>
+        <% end %>
+    </div>
+    
+    <h2>Kategorie-Übersicht <span id="active-category-name"></span></h2>
 </div>
 
 <div class="content-view clearfix" class="clearfix">
-	<div class="categories">
-		<% category_tree @categories do |category, level| %>
-			<%= render :partial => 'vrame/categories/category', :locals => { :category => category, :level => level } %>
-		<% end %>
-	</div>
-	<div id="items" class="items">
-		<%= render :partial => 'vrame/categories/documents', :locals => { :documents => @documents, :category => @active_category } %>
-	</div>
+    <div class="categories">
+        <% category_tree @categories do |category, level| %>
+            <%= render :partial => 'vrame/categories/category', :locals => { :category => category, :level => level } %>
+        <% end %>
+    </div>
+    <div id="items" class="items">
+        <%= render :partial => 'vrame/categories/documents', :locals => { :documents => @documents, :category => @active_category } %>
+    </div>
 </div>
