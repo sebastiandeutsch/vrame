@@ -29,8 +29,11 @@
 		<h3>Meta-Informationen</h3>
 		<ul id="meta-fields">
 		<% category.schema.fields.each do |field| %>
-			<%= render :partial => 'meta_field',
-			           :locals => { :parent => document, :parent_name => 'document', :field => field } %>
+			<%= render :partial => 'vrame/shared/meta_editor/meta_field', :locals => {
+				:parent => document,
+				:parent_name => 'document',
+				:field => field
+			} %>
 		<% end %>
 		</ul>
 	</fieldset>
