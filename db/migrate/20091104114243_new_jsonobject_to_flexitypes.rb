@@ -1,6 +1,8 @@
 class NewJsonobjectToFlexitypes < ActiveRecord::Migration
   def self.up
+    puts 'NewJsonobjectToFlexitypes'
     Category.all.each do |category|
+      puts "Migrating category '#{category.title}' (ID #{category.id})"
       json = JSON.parse(category.schema_json, :create_additions => false)
       next if json.has_key?('json_class')
       json['json_class'] = "JsonObject::Schema"
@@ -32,12 +34,18 @@ class NewJsonobjectToFlexitypes < ActiveRecord::Migration
     end
     
     Document.all.each do |document|
-      json = JSON.parse(document.meta_json, :create_additions => false)
-      next if json.has_key?('json_class')
-      json['json_class'] = "JsonObject::Store"
-      document.meta_json = json.to_json
-      document.save
+      puts "Migrating document '#{document.title}' (ID #{document.id})"
+      begin
+        json = JSON.parse(document.meta_json, :create_additions => false)
+        next if json.has_key?('json_class')
+        json['json_class'] = "JsonObject::Store"
+        document.meta_json = json.to_json
+        document.save
+      rescue
+        puts "Error in Document #{document.id} #{document.title}"
+      end
     end
+    
   end
 
   def self.down

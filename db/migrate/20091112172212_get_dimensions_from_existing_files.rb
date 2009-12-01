@@ -9,10 +9,13 @@ class GetDimensionsFromExistingFiles < ActiveRecord::Migration
         puts "  Posterframe: #{dim}"
       end
       if asset.file? && asset.file.is_image?
-        dim = Paperclip::Geometry.from_file(asset.file.path(:original))
-        asset.file_width  = dim.width
-        asset.file_height = dim.height
-        puts "  File: #{dim}"
+        filepath = asset.file.path(:original)
+        if File.exist?(filepath)
+          dim = Paperclip::Geometry.from_file(filepath)
+          asset.file_width  = dim.width
+          asset.file_height = dim.height
+          puts "  File: #{dim}"
+        end
       end
       asset.save
     end
