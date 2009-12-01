@@ -77,8 +77,8 @@
     </fieldset>
     
     <fieldset>
-        <h3>Templates</h3>
-        <ul id="templates">
+        <h3>Templates <a href="#templates" class="expandable button invert">▼</a></h3>
+        <ul id="templates" class="hide">
             <li>
                 <%= f.label :template, "Template:" %>
                 <%= f.text_field :template %>
@@ -93,8 +93,8 @@
     </fieldset>
     
     <fieldset>
-        <h3>URLs (eigene Controller)</h3>
-        <ul id="urls">
+        <h3>URLs (eigene Controller) <a href="#urls" class="expandable button invert">▼</a></h3>
+        <ul id="urls" class="hide">
             <li>
                 <%= f.label :document_template, "Dokumenten Template:" %>
                 <%= f.text_field :document_template %> <em><%= f.error_message_on :document_template %></em>

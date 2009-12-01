@@ -2,48 +2,60 @@
 <% visible_type = field ? /([a-zA-z]+)$/.match(field.class.name)[1] : '' %>
 <% class_name = (field and %w(Asset Collection Select MultiSelect).include?(visible_type) ? ' has-field-options' : '') %>
 
-<tr class="schema-field<%= class_name %>">
+<div class="schema-field clearfix<%= class_name %>">
 
-<td class="type">
-    <% if field %>
-        <input type="hidden" name="category[{schema_attribute}][][uid]" value="<%=h field.uid %>" />
-    <% end %>
-    <input type="hidden" name="category[{schema_attribute}][][type]" value="<%=h field.class.name if field %>" class="internal-field-type" />
-    <p class="visible-field-type"><%=h visible_type %></p>
-</td>
+<div class="main clearfix">
 
-<td class="title-name">
-    <p>
-        <label>Titel:</label>
-        <input type="text" name="category[{schema_attribute}][][title]" class="title" value="<%= h(field.try(:title)) %>" />
-    </p>
-    <p>
-        <label>Schlüssel:</label>
-        <input type="text" name="category[{schema_attribute}][][name]" class="name" value="<%= h(field.try(:name)) %>" />
-    </p>
-</td>
+	<div class="type">
+		<% if field %>
+			<input type="hidden" name="category[{schema_attribute}][][uid]" value="<%=h field.uid %>" />
+		<% end %>
+		<input type="hidden" name="category[{schema_attribute}][][type]" value="<%=h field.class.name if field %>" class="internal-field-type" />
+		<p class="visible-field-type"><%=h visible_type %></p>
+	</div><!-- /div.type -->
 
-<td class="description">
-    <textarea name="category[{schema_attribute}][][description]" class="description"><%= h(field.try(:description)) %></textarea>
-</td>
+	<div class="title">
+		<p>
+			<label>Feldtitel:</label>
+			<input type="text" name="category[{schema_attribute}][][title]" class="title" value="<%= h(field.try(:title)) %>" />
+		</p>
+	</div><!-- /div.title -->
 
-<td class="required">
-    <input type="hidden" name="category[{schema_attribute}][][required]" value="<%= field.try(:required) %>" class="required-field" /> 
-    <label class="required">
-        <input type="checkbox" <%= 'checked="checked"' if field.try(:required) %> />
-        erforderlich?
-    </label>
-</td>
+	<div class="actions">
+		<a href="#" class="smaller remove button invert">Entfernen</a>
+	</div><!-- /div.actions -->
 
-<td class="actions">
-    <a href="#" class="smaller remove button invert">Entfernen</a>
-</td>
+</div><!-- /div.main -->
 
-</tr>
+<p class="toggle-additional"><a href="javascript:void(0)">Weitere Optionen</a></p>
 
-<%# Field options %>
-<% if field.is_a?(JsonObject::Types::Asset) || field.is_a?(JsonObject::Types::Collection) %>
-    <%= render :partial => 'vrame/categories/schema_builder/asset_styles', :locals => { :field => field } %>
-<% elsif field.is_a?(JsonObject::Types::Select) || field.is_a?(JsonObject::Types::MultiSelect) %>
-    <%= render :partial => 'vrame/categories/schema_builder/select_options', :locals => { :field => field } %>
-<% end %>
+<div class="additional clearfix">
+
+	<p class="name">
+		<label>Interner Name:</label>
+		<input type="text" name="category[{schema_attribute}][][name]" class="name" value="<%= h(field.try(:name)) %>" />
+	</p>
+
+	<p class="description">
+		<label>Beschreibung:</label>
+		<textarea name="category[{schema_attribute}][][description]" class="description"><%= h(field.try(:description)) %></textarea>
+	</p>
+
+	<p class="required">
+		<input type="hidden" name="category[{schema_attribute}][][required]" value="<%= field.try(:required) %>" class="required-field" /> 
+		<label class="required">
+			<input type="checkbox" <%= 'checked="checked"' if field.try(:required) %> />
+			erforderlich (Feld muss ausgefüllt werden)
+		</label>
+	</p>
+
+	<%# Field options %>
+	<% if field.is_a?(JsonObject::Types::Asset) || field.is_a?(JsonObject::Types::Collection) %>
+		<%= render :partial => 'vrame/categories/schema_builder/asset_styles', :locals => { :field => field } %>
+	<% elsif field.is_a?(JsonObject::Types::Select) || field.is_a?(JsonObject::Types::MultiSelect) %>
+		<%= render :partial => 'vrame/categories/schema_builder/select_options', :locals => { :field => field } %>
+	<% end %>
+
+</div><!-- /div.additional -->
+
+</div><!-- /div.schema-field -->

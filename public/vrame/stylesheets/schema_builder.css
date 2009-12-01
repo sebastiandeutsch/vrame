@@ -5,67 +5,60 @@
  */
 
 /** 
- * @subsection Table cells
+ * @subsection Fields
  *
  *
  */
 
-#schema-builder th {
-	font-weight: bold;
-	background-color: #f0f0f0;
-	padding: 8px 5px;
-}
-
-#schema-builder td {
+#schema-builder .schema-field {
 	border-bottom: 1px solid #ccc;
-	padding: 10px 30px 10px 0;
-	vertical-align: top;
+	padding: 10px;
 }
-
-#schema-builder th:first-child,
-#schema-builder td:first-child {
-	padding-left: 10px;
-}
-
-/** 
- * @subsection Column widths
- *
- *
- */
-
-#schema-builder td.type {
-	width: 70px;
-}
-
-#schema-builder td.title-name {
-	width: 300px;
-}
-
-#schema-builder td.description {
-	width: 230px;
-}
-
-#schema-builder td.required {
-	width: 90px;
-}
-
-#schema-builder td.actions {
-	width: 70px;
-}
-
-/** 
- * @subsection Table cell content
- *
- *
- */
 
 #schema-builder p {
 	margin-bottom: 5px;
 }
 
-#schema-builder td.title-name label {
+/** 
+ * @subsection Main field options
+ *
+ *
+ */
+
+#schema-builder .type {
 	float: left;
-	width: 70px;
+	width: 80px;
+}
+
+#schema-builder .title {
+	float: left;
+	padding-right: 20px;
+}
+
+#schema-builder .actions {
+	float: left;
+}
+
+/** 
+ * @subsection Additional field options
+ *
+ *
+ */
+
+#schema-builder .toggle-additional {
+	margin: 5px 0 5px 80px;
+	font-size: 0.8em;
+}
+
+#schema-builder .additional {
+	margin-left: 80px;
+	xdisplay: none;
+}
+
+#schema-builder .name,
+#schema-builder .description,
+#schema-builder .required {
+	padding-top: 10px;
 }
 
 /** 
@@ -85,68 +78,38 @@
 	height: 46px;
 }
 
-/** 
- * @subsection Required column
- *
- *
- */
-
-#schema-builder label.required {
-	float: none;
-}
-
-#schema-builder td.required input {
-	margin: 0;
-}
-
 /**
  * @subsection Field options
  *
  * 
  */
  
-#schema-builder tr.has-field-options td {
-	border-bottom-style: none;
-	/* padding-bottom: 0; */
-}
-
-#schema-builder tr.field-options td {
-	padding-top: 0;
-}
-
-#schema-builder tr.field-options li {
+#schema-builder .field-options li {
 	float: left;
 	margin: 0 25px 10px 0;
 	padding: 0;
 	border: 0 none;
 }
 
-#schema-builder tr.field-options h3 {
+#schema-builder .field-options h3 {
 	margin: 0 0 5px;
 	font-size: 1.1em;
 }
 
-#schema-builder tr.field-options p {
+#schema-builder .field-options p {
 	margin-bottom: 5px;
 	clear: left;
 }
 
-#schema-builder tr.field-options label span {
+#schema-builder .field-options label span {
 	display: inline-block;
 	width: 90px;
 }
 
-#schema-builder tr.field-options input {
+#schema-builder .field-options input {
 	width: 115px;
 	font-size: 12px;
 }
-
-/**
- * @subsection Asset styles
- *
- * 
- */
-
 
 /**
  * @subsection Select options
@@ -154,7 +117,7 @@
  * 
  */
 
-#schema-builder tr.multiselect-options ul {
+#schema-builder .multiselect-options ul {
 	list-style-type: decimal;
 	list-style-position: inside;
 }
@@ -182,8 +145,8 @@
  */
 
 #schema-builder-prototypes {
-	display: none;
 	/*
-	opacity: 0.3;
+	display: none;
 	*/
+	opacity: 0.3;
 }
