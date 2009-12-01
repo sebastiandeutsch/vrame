@@ -40,12 +40,12 @@ jQuery(function ($) {
   }
   
   /* Insert schema attribute name into input names */
-  function replaceFieldNames(schema_builder) {
-    var schema_attribute = $(schema_builder).attr('data-schema-attribute');
+  function replaceFieldNames (schemaBuilderId) {
+    var schemaBuilder = $(schemaBuilderId);
+    var schemaAttribute = schemaBuilder.attr('data-schema-attribute');
     
-    $(schema_builder).find('input, textarea, select').each(function () {
-      var field = $(this);
-      field.attr('name', field.attr('name').replace(/\{schema_attribute\}/, schema_attribute));
+    schemaBuilder.find('input, textarea, select').each(function () {
+      this.name = this.name.replace(/\{schema_attribute\}/, schemaAttribute);
     });
   }
   
@@ -197,11 +197,12 @@ jQuery(function ($) {
 
 jQuery(function ($) {
   
-  $('#schema-builder label.required').click(toogleRequiredField);
+  $('#schema-builder label.required').live('click', toogleRequiredField);
   
   function toogleRequiredField (e) {
     var label = $(this),
       checked = label.find('input').attr('checked') ? '1' : '0';
     label.closest('td').find('input.required-field').val(checked);
   }
+  
 });
