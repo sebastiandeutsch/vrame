@@ -6,23 +6,19 @@
 
 <div class="main clearfix">
 
-	<div class="type">
-		<% if field %>
-			<input type="hidden" name="category[{schema_attribute}][][uid]" value="<%=h field.uid %>" />
-		<% end %>
-		<input type="hidden" name="category[{schema_attribute}][][type]" value="<%=h field.class.name if field %>" class="internal-field-type" />
-		<p class="visible-field-type"><%=h visible_type %></p>
-	</div><!-- /div.type -->
+	<% if field %>
+		<input type="hidden" name="category[{schema_attribute}][][uid]" value="<%=h field.uid %>" />
+	<% end %>
+	<input type="hidden" name="category[{schema_attribute}][][type]" value="<%=h field.class.name if field %>" class="internal-field-type" />
+	<p class="visible-field-type"><%=h visible_type %></p>
 
-	<div class="title">
-		<p>
-			<label>Feldtitel:</label>
-			<input type="text" name="category[{schema_attribute}][][title]" class="title" value="<%= h(field.try(:title)) %>" />
-		</p>
-	</div><!-- /div.title -->
+	<p class="title">
+		<label>Feldtitel:</label>
+		<input type="text" name="category[{schema_attribute}][][title]" class="title" value="<%= h(field.try(:title)) %>" />
+	</p><!-- /div.title -->
 
 	<div class="actions">
-		<a href="#" class="smaller remove button invert">Entfernen</a>
+		<a href="#" class="smaller remove button invert">Feld entfernen</a>
 	</div><!-- /div.actions -->
 
 </div><!-- /div.main -->
@@ -45,7 +41,7 @@
 		<input type="hidden" name="category[{schema_attribute}][][required]" value="<%= field.try(:required) %>" class="required-field" /> 
 		<label class="required">
 			<input type="checkbox" <%= 'checked="checked"' if field.try(:required) %> />
-			erforderlich (Feld muss ausgefüllt werden)
+			Feld muss ausgefüllt werden
 		</label>
 	</p>
 

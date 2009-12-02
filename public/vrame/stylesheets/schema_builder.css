@@ -10,6 +10,10 @@
  *
  */
 
+#schema-builder {
+	border-top: 1px solid #ccc;
+}
+
 #schema-builder .schema-field {
 	border-bottom: 1px solid #ccc;
 	padding: 10px;
@@ -25,17 +29,17 @@
  *
  */
 
-#schema-builder .type {
+#schema-builder .visible-field-type {
 	float: left;
 	width: 80px;
 }
 
-#schema-builder .title {
+#schema-builder p.title {
 	float: left;
 	padding-right: 20px;
 }
 
-#schema-builder .actions {
+#schema-builder p.actions {
 	float: left;
 }
 
@@ -55,9 +59,9 @@
 	xdisplay: none;
 }
 
-#schema-builder .name,
-#schema-builder .description,
-#schema-builder .required {
+#schema-builder p.name,
+#schema-builder p.description,
+#schema-builder p.required {
 	padding-top: 10px;
 }
 

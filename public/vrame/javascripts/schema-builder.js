@@ -107,7 +107,6 @@ jQuery(function ($) {
   
   /* Toggle additional field options */
   
-  
    $('#schema-builder .toggle-additional a').live('click', toggleAdditionalOptions);
    
    function toggleAdditionalOptions () {
@@ -160,7 +159,8 @@ jQuery(function ($) {
     field.addClass(hasFieldOptions);
     
     /* Clone and insert the field options */
-    var clone = $(o.rowPrototype).clone().insertAfter(field);
+    var target = field.find('div.additional');
+    var clone = $(o.rowPrototype).clone().appendTo(target);
     
     /* Setup event handling on the clone*/
     setupOptionPopulation(clone);
