@@ -7,7 +7,7 @@ class Image < Asset
     :styles => lambda { |attachment|
                   returning(HashWithIndifferentAccess.new) do |styles|
                     styles.merge!(attachment.instance.vrame_styles) if attachment.instance.vrame_styles.is_a? Hash
-                    styles.merge!(Vrame.configuration.image_styles)
+                    styles.merge!(Vrame.configuration.image_styles) if Vrame.configuration.image_styles.is_a? Hash
                     styles.merge!(Asset::DEFAULT_STYLES)
                   end
                 },
