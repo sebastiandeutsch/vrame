@@ -2,10 +2,10 @@
 <% documents.each do |document| %>
 	
 	<% image = nil %>
-	<% %w(image bild photo foto).each do |field_name| %>
+	<% %w(image bild photo foto thumbnail).each do |field_name| %>
 		<% next unless document.meta.schema.has_field?(field_name) %>
-		<% field = document.meta.send(field_name) %>
-		<% if field.file.file? %>
+		<% field = document.meta[field_name] %>
+		<% if field.is_a?(Asset) && field.file.file? && File.exist?(field.file.path) %>
 			<% image = image_tag(field.file.url(:vrame_backend), :alt => '') %>
 			<% break %>
 		<% end %>
