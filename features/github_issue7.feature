@@ -1,5 +1,5 @@
 @bugs
-Feature: Crashing when loading deprecated cookies
+Feature: Crashing when loading deprecated cookies 
   When I delete an active category
   as an administrator
   vrame should not crash
