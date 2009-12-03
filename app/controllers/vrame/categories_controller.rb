@@ -8,8 +8,14 @@ class Vrame::CategoriesController < Vrame::VrameController
       @documents = @active_category.documents
     else
       if session["vrame_backend_#{current_language.id}_category_id"]
-        @active_category = Category.by_language(current_language).find(session["vrame_backend_#{current_language.id}_category_id"])
-        @documents = @active_category.documents
+        begin
+          @active_category = Category.by_language(current_language).find(session["vrame_backend_#{current_language.id}_category_id"])
+          @documents = @active_category.documents
+        rescue
+          session["vrame_backend_#{current_language.id}_category_id"] = nil
+          @active_category = nil
+          @documents = []
+        end
       else
         if @categories.first
           @active_category = @categories.first

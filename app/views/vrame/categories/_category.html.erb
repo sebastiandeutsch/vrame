@@ -9,25 +9,27 @@
 	
 	<div class="column options">
 		<% if category.published %>
-			<%= link_to '<img src="/vrame/images/admin/led-green.png" alt="Verstecken" title="Verstecken" />', [:unpublish, :vrame, category] %>
+			<%= link_to '<img src="/vrame/images/admin/led-green.png" alt="Verstecken" title="Verstecken" />', [:unpublish, :vrame, category], :id => "unpublish-category-#{category.to_param}" %>
 		<% else %>
-			<%= link_to '<img src="/vrame/images/admin/led-red.png" alt="Veröffentlichen" title="Veröffentlichen" />', [:publish, :vrame, category] %>
+			<%= link_to '<img src="/vrame/images/admin/led-red.png" alt="Veröffentlichen" title="Veröffentlichen" />', [:publish, :vrame, category], :id => "publish-category-#{category.to_param}" %>
 		<% end %>
-		<%= link_to '<img src="/vrame/images/admin/edit.png" alt="Editieren" title="Editieren" />', [:edit, :vrame, category] %>
-		<%= link_to '<img src="/vrame/images/admin/delete.png" alt="Löschen" title="Löschen" />', [:vrame, category], :method => :delete, :confirm => 'Wirklich löschen?' %>
+		<%= link_to '<img src="/vrame/images/admin/edit.png" alt="Editieren" title="Editieren" />', [:edit, :vrame, category], :id => "edit-category-#{category.to_param}" %>
+		<%= link_to '<img src="/vrame/images/admin/delete.png" alt="Löschen" title="Löschen" />', [:vrame, category], :method => :delete, :confirm => 'Wirklich löschen?', :id => "delete-category-#{category.to_param}" %>
 		<%= link_to '<img src="/vrame/images/admin/page_add.png" alt="Dokument hinzufügen" title="Dokument hinzufügen" />',
-			category.backend_url.empty? ? [:new, :vrame, category, :document] : category.backend_url_path + '/new'
+			category.backend_url.empty? ? [:new, :vrame, category, :document] : category.backend_url_path + '/new',
+			:id => "add-document-to-category-#{category.to_param}"
 		%>
 		<%= link_to '<img src="/vrame/images/admin/magnifier.png" alt="Vorschau" title="Vorschau" />',
-			category.url.empty? ? category : "/#{category.url}"
+			category.url.empty? ? category : "/#{category.url}",
+			:id => "preview-category-#{category.to_param}"
 		%>
 	</div>
 
 	<div class="column title">
 		<% if category.backend_url.empty? %>
-			<%= link_to category_title(category), category, :class => "category-button" %>
+			<%= link_to category_title(category), category, :class => "category-button", :id => "select-category-#{category.to_param}" %>
 		<% else %>
-			<%= link_to category_title(category), category.backend_url_path, :class => 'backend-url' %>
+			<%= link_to category_title(category), category.backend_url_path, :class => 'backend-url', :id => "select-category-#{category.to_param}" %>
 		<% end %>
 	</div>
 
