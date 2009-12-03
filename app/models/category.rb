@@ -23,7 +23,7 @@ class Category < ActiveRecord::Base
   named_scope :by_position,  { :order => 'position ASC' }
   named_scope :with_parent,  lambda {|parent|   {:conditions => ["parent_id = ?", parent.id ]} }
   named_scope :short_navigation, :conditions => { :short_navigation => 1 }
-  named_scope :published, :conditions => '`categories`.`published` = 1'
+  named_scope :published, :conditions => ['`categories`.`published` = ?', true]
   named_scope :in_navigation, :conditions => '`categories`.`hide_in_nav` IS NULL OR `categories`.`hide_in_nav` != 1'
   named_scope :by_language, lambda { |language| { :conditions => { :language_id => language.id } } }
   

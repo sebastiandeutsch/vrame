@@ -5,5 +5,5 @@ class Language < ActiveRecord::Base
   validates_presence_of :name, :message => 'Das Feld darf nicht leer sein'
   validates_presence_of :iso2_code, :message => 'Das Feld darf nicht leer sein'
   
-  named_scope :published, { :conditions => ["published = '1'"] }
+  named_scope :published, { :conditions => ["published = ?", true] }
 end
