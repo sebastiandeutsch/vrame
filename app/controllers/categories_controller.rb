@@ -51,8 +51,12 @@ class CategoriesController < ApplicationController
       format.html do
         @documents = @category.documents.published
         @page_title = @category.title
-        unless @category.template.empty?
-          render :template => @category.template
+        unless @category.template.blank?
+          if @category.layout.blank?
+            render :template => @category.template
+          else
+            render :template => @category.template, :layout => @category.layout
+          end
         end
       end
       format.json do
