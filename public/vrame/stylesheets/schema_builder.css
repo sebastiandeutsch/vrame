@@ -29,18 +29,17 @@
  *
  */
 
+#schema-builder .left {
+	float: left;
+	width: 130px;
+}
+
 #schema-builder .visible-field-type {
-	float: left;
-	width: 80px;
+	font-weight: bold;
 }
 
-#schema-builder p.title {
-	float: left;
-	padding-right: 20px;
-}
-
-#schema-builder p.actions {
-	float: left;
+#schema-builder a.remove {
+	font-size: 0.85em;
 }
 
 /** 
@@ -49,20 +48,29 @@
  *
  */
 
+#schema-builder .toggle-additional,
+#schema-builder .additional {
+	margin-left: 130px;
+}
+
 #schema-builder .toggle-additional {
-	margin: 5px 0 5px 80px;
-	font-size: 0.8em;
+	margin-bottom: 0;
+}
+
+#schema-builder .toggle-additional a {
+	outline: none;
+	font-size: 0.85em;
 }
 
 #schema-builder .additional {
-	margin-left: 80px;
-	xdisplay: none;
+	display: none;
+	margin-top: 5px;
 }
 
 #schema-builder p.name,
 #schema-builder p.description,
 #schema-builder p.required {
-	padding-top: 10px;
+	
 }
 
 /** 
@@ -74,7 +82,11 @@
 #schema-builder input.title,
 #schema-builder input.name,
 #schema-builder textarea.description {
-	width: 220px;
+	width: 230px;
+}
+
+#schema-builder input.title {
+	font-size: 1.15em;
 }
 
 #schema-builder textarea.description {
@@ -96,7 +108,7 @@
 }
 
 #schema-builder .field-options h3 {
-	margin: 0 0 5px;
+	margin: 10px 0;
 	font-size: 1.1em;
 }
 
@@ -149,8 +161,5 @@
  */
 
 #schema-builder-prototypes {
-	/*
 	display: none;
-	*/
-	opacity: 0.3;
 }

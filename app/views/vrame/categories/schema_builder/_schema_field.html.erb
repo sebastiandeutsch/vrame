@@ -6,24 +6,28 @@
 
 <div class="main clearfix">
 
-	<% if field %>
-		<input type="hidden" name="category[{schema_attribute}][][uid]" value="<%=h field.uid %>" />
-	<% end %>
-	<input type="hidden" name="category[{schema_attribute}][][type]" value="<%=h field.class.name if field %>" class="internal-field-type" />
-	<p class="visible-field-type"><%=h visible_type %></p>
-
+	<div class="left">
+		
+		<% if field %>
+			<input type="hidden" name="category[{schema_attribute}][][uid]" value="<%=h field.uid %>" />
+		<% end %>
+		<input type="hidden" name="category[{schema_attribute}][][type]" value="<%=h field.class.name if field %>" class="internal-field-type" />
+		<p class="visible-field-type"><%=h visible_type %></p>
+		
+		<p class="actions">
+			<a href="#" class="smaller remove button invert">Feld entfernen</a>
+		</p><!-- /p.actions -->
+		
+	</div><!-- /div.left -->
+	
 	<p class="title">
 		<label>Feldtitel:</label>
 		<input type="text" name="category[{schema_attribute}][][title]" class="title" value="<%= h(field.try(:title)) %>" />
 	</p><!-- /div.title -->
 
-	<div class="actions">
-		<a href="#" class="smaller remove button invert">Feld entfernen</a>
-	</div><!-- /div.actions -->
-
 </div><!-- /div.main -->
 
-<p class="toggle-additional"><a href="javascript:void(0)">Weitere Optionen</a></p>
+<p class="toggle-additional"><a href="#" class="button invert smaller">► Optionen einblenden</a></p>
 
 <div class="additional clearfix">
 

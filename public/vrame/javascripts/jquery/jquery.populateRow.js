@@ -32,8 +32,10 @@ jQuery.fn.populateRow = function(source, dest, options) {
 		} else {
 			parent = removeButton.parent();
 		}
-		opts.remove(parent);
-		parent.remove();
+		var returnValue = opts.remove(parent);
+		if (returnValue === undefined || returnValue) {
+			parent.remove();
+		}
 	}
 	
 };

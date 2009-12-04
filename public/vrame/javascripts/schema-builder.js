@@ -32,8 +32,12 @@ jQuery(function ($) {
   }
   
   function fieldRemoved (field) {
-    //console.log('schema builder: field removed');
-    removeFieldOptions(field);
+    var shallRemove = confirm('Feld wirklich löschen?');
+    if (shallRemove) {
+        //console.log('schema builder: field removed');
+        removeFieldOptions(field);
+    }
+    return shallRemove;
   }
   
   /* ------------------------------------------------ */
@@ -47,6 +51,7 @@ jQuery(function ($) {
     var schemaAttribute = schemaBuilder.attr('data-schema-attribute');
     
     schemaBuilder.find('input, textarea, select').each(function () {
+console.log(this, this.name);
       this.name = this.name.replace(/\{schema_attribute\}/, schemaAttribute);
     });
   }
@@ -109,8 +114,16 @@ jQuery(function ($) {
   
    $('#schema-builder .toggle-additional a').live('click', toggleAdditionalOptions);
    
-   function toggleAdditionalOptions () {
-    $(this).closest('p').next().slideToggle('fast');
+   function toggleAdditionalOptions (e) {
+    e.preventDefault();
+    var aEl = $(this);
+    var text = aEl.text();
+    if (text.indexOf('einblenden') > -1) {
+        text = '\u25BC Optionen ausblenden';
+    } else {
+        text = '\u25BA Optionen einblenden';
+    }
+    aEl.text(text).closest('p').next().slideToggle('fast');
    }
   
   /* Field Options, Field Options Population */
