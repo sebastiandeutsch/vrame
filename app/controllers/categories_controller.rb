@@ -3,7 +3,7 @@ class CategoriesController < ApplicationController
     if params[:category_id]
       # Show subcategories from given category
       
-      @category = category_by_language.published.find(params[:category_id])
+      @category = Category.by_language(current_language).published.find(params[:category_id])
       
       # Filter confidential and unwanted attributes
       @public_categories = @category.children.published.map(&:to_public_hash)
@@ -26,7 +26,7 @@ class CategoriesController < ApplicationController
   
   def show
     begin      
-      @category = category_by_language.published.find(params[:id])
+      @category = Category.by_language(current_language).published.find(params[:id])
     rescue ActiveRecord::RecordNotFound
       raise ActiveRecord::RecordNotFound, "Couldn't find Category with ID=#{params[:id]}, maybe you need to publish it first"
     end
@@ -51,8 +51,12 @@ class CategoriesController < ApplicationController
       format.html do
         @documents = @category.documents.published
         @page_title = @category.title
-        unless @category.template.empty?
-          render :template => @category.template
+        unless @category.template.blank?
+          if @category.layout.blank?
+            render :template => @category.template
+          else
+            render :template => @category.template, :layout => @category.layout
+          end
         end
       end
       format.json do

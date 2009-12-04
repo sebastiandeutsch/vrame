@@ -2,10 +2,11 @@
     <div class="functions">
         <% if @active_category %>
             <%= link_to 'Neues Dokument', new_vrame_category_document_path(@active_category), :class => 'button', :id => 'active-category-new-document' %>
+        	<%= link_to 'Neue Kategorie', new_vrame_category_path, :class => 'button', :id => 'new-category' %>
             <%= link_to 'Neue Unterkategorie', new_vrame_category_category_path(@active_category), :class => 'button', :id => 'active-category-new-category' %>
             <%= link_to 'Kategorie editieren', edit_vrame_category_path(@active_category), :class => 'button', :id => 'active-category-edit' %>
         <% else%>
-        <%= link_to 'Neue Kategorie', new_vrame_category_path, :class => 'button', :id => 'new-category' %>
+        	<%= link_to 'Neue Kategorie', new_vrame_category_path, :class => 'button', :id => 'new-category' %>
         <% end %>
     </div>
     

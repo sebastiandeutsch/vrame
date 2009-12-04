@@ -54,14 +54,6 @@ module Vrame
         session[:vrame_frontend_language_id] = @current_language.id
         redirect_to root_path
       end
-
-      def category_by_language
-        Category.by_language(current_language)
-      end
-
-      def document_by_language
-        Document.by_language(current_language)
-      end
     end # /InstanceMethods
   end # /Base
   

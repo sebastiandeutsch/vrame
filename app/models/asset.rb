@@ -26,7 +26,7 @@ class Asset < ActiveRecord::Base
     :styles => lambda { |attachment|
                   returning(HashWithIndifferentAccess.new) do |styles|
                     styles.merge!(attachment.instance.vrame_styles) if attachment.instance.vrame_styles.is_a? Hash
-                    styles.merge!(Vrame.configuration.posterframe_styles)
+                    styles.merge!(Vrame.configuration.posterframe_styles) if Vrame.configuration.posterframe_styles.is_a? Hash
                     styles.merge!(Asset::DEFAULT_STYLES)
                   end
                 }
