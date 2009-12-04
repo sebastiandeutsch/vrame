@@ -6,7 +6,6 @@
                 <%= f.text_field :title, :placeholder => 'Titel', :class => 'big' %>
                 <em><%= f.error_message_on :title %></em>
             </li>
-            
             <li class="last">
                 <%= render :partial => 'vrame/shared/slug_field', :locals => { :sluggable => category } %>
             </li>
@@ -28,6 +27,21 @@
     </fieldset>
     
     <fieldset>
+        <h3>Sichtbarkeit</h3>
+        <ul id="visibility">
+            <li>
+                <strong><%= f.labelled_check_box :published, "Veröffentlicht" %></strong>
+            </li>
+            <li>
+                <%= f.labelled_check_box :hide_in_nav, "Im Menü verstecken (Frontend)" %>
+            </li>
+            <li class="last">
+                <%= f.labelled_check_box :short_navigation, "Zeige in Schnell-Navigation (Backend)" %>
+            </li>
+        </ul>
+    </fieldset>
+    
+    <fieldset>
         <h3>Dokument-Template</h3>
         <%= render :partial => 'vrame/categories/schema_builder/schema_builder',
                    :locals  => { :schema => category.schema, :schema_attribute => 'schema' } %>
@@ -41,8 +55,8 @@
     <% end%>
     
     <fieldset>
-        <h3>Meta-Tags</h3>
-        <ul id="meta-tags">
+        <h3>Meta-Tags <a href="#meta-tags" class="expandable button invert">▼</a></h3>
+        <ul id="meta-tags" class="hide">
             <li>
                 <%= f.label :meta_title, "Browser-Titel:" %>
                 <%= f.text_field :meta_title %>
@@ -62,21 +76,6 @@
     </fieldset>
     
     <fieldset>
-        <h3>Sichtbarkeit</h3>
-        <ul id="visibility">
-            <li>
-                <strong><%= f.labelled_check_box :published, "Veröffentlicht" %></strong>
-            </li>
-            <li>
-                <%= f.labelled_check_box :hide_in_nav, "Im Menü verstecken (Frontend)" %>
-            </li>
-            <li class="last">
-                <%= f.labelled_check_box :short_navigation, "Zeige in Schnell-Navigation (Backend)" %>
-            </li>
-        </ul>
-    </fieldset>
-    
-    <fieldset>
         <h3>Templates <a href="#templates" class="expandable button invert">▼</a></h3>
         <ul id="templates" class="hide">
             <li>
@@ -84,7 +83,7 @@
                 <%= f.text_field :template %>
                 <em><%= f.error_message_on :template %></em>
             </li>
-            <li>
+            <li class="last">
                 <%= f.label :layout, "Layout:" %>
                 <%= f.text_field :layout %>
                 <em><%= f.error_message_on :layout %></em>
@@ -96,11 +95,11 @@
         <h3>URLs (eigene Controller) <a href="#urls" class="expandable button invert">▼</a></h3>
         <ul id="urls" class="hide">
             <li>
-                <%= f.label :document_template, "Dokumenten Template:" %>
+                <%= f.label :document_template, "Dokumenten-Template:" %>
                 <%= f.text_field :document_template %> <em><%= f.error_message_on :document_template %></em>
             </li>
             <li>
-                <%= f.label :document_layout, "Dokumenten Layout:" %>
+                <%= f.label :document_layout, "Dokumenten-Layout:" %>
                 <%= f.text_field :document_layout %> <em><%= f.error_message_on :document_layout %></em>
             </li>
             <li>
