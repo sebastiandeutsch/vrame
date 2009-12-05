@@ -1,6 +1,6 @@
 <div
 	data-category-id="<%= category.to_param %>"
-	class="category clearfix level-<%= level.to_s %> <%= 'active-category' if @active_category.id == category.id %>">
+	class="category clearfix level-<%= level.to_s %> <%= 'active-category' if @active_category.try(:id) == category.id %>">
 	
 	<div class="column order">
 		<%= link_to '<img src="/vrame/images/admin/arrow_up.png" alt="Nach oben verschieben" title="Nach oben verschieben" />', [:order_up, :vrame, category] %>
