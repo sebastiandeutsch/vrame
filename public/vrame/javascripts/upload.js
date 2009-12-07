@@ -98,7 +98,8 @@ function Upload (containerEl) {
 		file_size_limit : 20 * 1024, /* That's 20 Megabytes */
 		file_types : '*.*', /* All file types */
 		file_types_description : 'Files',
-		file_upload_limit : o.uploadType == 'asset' ? 1 : 0, /* Single or multiple file upload */
+		file_upload_limit : 0,
+		file_queue_limit :  o.uploadType == 'asset' ? 1 : 0, /* Single or multiple file upload */
 
 		/* POST parameters with authentication and relation ids */
 		post_params : postParams,
@@ -230,8 +231,13 @@ Upload.prototype.handlers = {
 			/* Append item to asset list */
 			settings.assetList.append(response.asset_list_item);
 		} else {
-			/* Replace asset list items */
+			/* Replace asset list item */
 			settings.assetList.html(response.asset_list_item);
+		}
+		
+		/* Allow the user to upload a new file if it's a single upload field */
+		if (settings.uploadType == 'asset') {
+			this.setFileQueueLimit(1);
 		}
 		
 		//console.log('uploadSuccess ended', file.name);
