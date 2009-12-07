@@ -26,6 +26,12 @@
 	font-size: 12px;
 }
 
+/** 
+ * @subsection Image Column
+ *
+ *
+ */
+
 .asset-list .image-wrapper {
 	float: left;
 	margin: 0;
@@ -40,19 +46,15 @@
 }
 
 .asset-list .beside-image {
+	float: left;
 	padding-left: 10px;
-	overflow: hidden;
 }
 
-.asset-list label {}
-
-.asset-list textarea {
-	padding: 2px;
-	width: 178px;
-	height: 50px;
-	font-family: arial,sans-serif;
-	font-size: 13px;
-}
+/** 
+ * @subsection Info and form fields
+ *
+ *
+ */
 
 .asset-list .filename {
 	height: 19px;
@@ -62,8 +64,34 @@
 
 .asset-list .filesize {}
 
-.asset-list .delete {
+.asset-list p.title {
+	margin-bottom: 5px;
+}
+
+.asset-list p.title span {
+	display: block;
+}
+
+.asset-list textarea {
+	display: block;
+	margin: 0;
+	width: 178px;
+	height: 50px;
+	padding: 2px;
+	font-family: arial,sans-serif;
+	font-size: 13px;
+}
+
+/** 
+ * @subsection Control buttons
+ *
+ *
+ */
+
+.asset-list p.edit,
+.asset-list p.delete {
 	float: right;
+	margin-left: 10px;
 }
 
 /** 
