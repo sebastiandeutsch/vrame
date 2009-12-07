@@ -19,7 +19,7 @@ function Upload (containerEl) {
 		uploadType                  : c.attr('data-upload-type'),
 		
 		/* Current collection id, if already present */
-		collectionId                : c.attr('data-collection-id') || '',
+		collectionId                : c.attr('data-collection-id'),
 		
 		/* Parent object (asset/collection owner) type */
 		parentType                  : c.attr('data-parent-type'),
@@ -57,6 +57,28 @@ function Upload (containerEl) {
 	
 	var handlers = this.handlers;
 	
+	/* Some options are HTTP POST parameters */
+	var postParams = {
+		'user_credentials'  : o.token,
+		'upload_type'       : o.uploadType,
+		'parent_id'         : o.parentId,
+		'parent_type'       : o.parentType,
+		'collection_id'     : o.collectionId,
+		'schema[class]'     : o.schema.className,
+		'schema[id]'        : o.schema.id,
+		'schema[attribute]' : o.schema.attribute,
+		'schema[uid]'       : o.schema.uid
+	};
+	
+	/* Filter undefined properties */
+	var cleanPostParams = {};
+	for (var property in postParams) {
+		if (postParams.hasOwnProperty(property) && typeof postParams[property] != 'undefined') {
+			cleanPostParams[property] = postParams[property];
+		}
+	}
+	postParams = cleanPostParams;
+	
 	new SWFUpload({
 	
 		/* The Flash Movie */
@@ -73,28 +95,18 @@ function Upload (containerEl) {
 		//button_window_mode: SWFUpload.WINDOW_MODE.OPAQUE,
 		
 		/* File Upload Settings */
-		file_size_limit : 20 * 1024,
-		file_types : '*.*',
+		file_size_limit : 20 * 1024, /* That's 20 Megabytes */
+		file_types : '*.*', /* All file types */
 		file_types_description : 'Files',
-		file_upload_limit : o.uploadType == 'asset' ? 1 : 0,
+		file_upload_limit : o.uploadType == 'asset' ? 1 : 0, /* Single or multiple file upload */
 
 		/* POST parameters with authentication and relation ids */
-		post_params : {
-			'user_credentials'  : o.token,
-			'upload_type'       : o.uploadType,
-			'parent_id'         : o.parentId,
-			'parent_type'       : o.parentType,
-			'collection_id'     : o.collectionId,
-			'schema[class]'     : o.schema.className,
-			'schema[id]'        : o.schema.id,
-			'schema[attribute]' : o.schema.attribute,
-			'schema[uid]'       : o.schema.uid
-		},
+		post_params : postParams,
 
-		/* Pass our settings */
+		/* Pass our custom settings */
 		custom_settings : o,
 
-		/* Event handlers */
+		/* Register event handlers */
 		file_queued_handler             : handlers.fileQueued,
 		file_queue_error_handler        : handlers.fileQueueError,
 		file_dialog_complete_handler    : handlers.fileDialogComplete,
