@@ -3,79 +3,81 @@
 <% value       = parent.meta[field.name] %>
 
 <li class="meta-field clearfix">
-	
-	<h3><label for="<%= field_id %>"><%= h field.title %></label></h3>
-	
-	<% unless field.description.blank? %>
-		<p class="meta-field-description"><%=h field.description %></p>
-	<% end %>
-	
-	<div class="input-container">
-	
-	<% case field when JsonObject::Types::String %>
-		
-		<input type="text" name="<%= field_name %>" id="<%= field_id %>" value="<%= h value %>" />
-		
-	<% when JsonObject::Types::Text %>
-		
-		<textarea name="<%= field_name %>" id="<%= field_id %>" class="rte-zone"><%= value %></textarea>
-		
-	<% when JsonObject::Types::Bool %>
-		
-		<%= hidden_field_tag field_name, 0 %>
-		<label>
-			<%= check_box_tag field_name, '1', value %>
-			Aktivieren
-		</label>
-		
-	<% when JsonObject::Types::Datetime %>
-		
-		<input type="text" name="<%= field_name %>" id="<%= field_id %>" value="<%= value %>" class="datepicker" />
-		
-	<% when JsonObject::Types::Select %>
-		
-		<%= render :partial => 'vrame/shared/meta_editor/select_options', :locals => {
-			:field => field,
-			:field_name => field_name,
-			:value => value
-		} %>
-	
-	<% when JsonObject::Types::MultiSelect %>
-		
-		<%= render :partial => 'vrame/shared/meta_editor/select_options', :locals => {
-			:field => field,
-			:field_name => field_name,
-			:value => value
-		} %>
-	
-	<% when JsonObject::Types::Asset %>
-		
-		<%= render :partial => 'vrame/shared/meta_editor/file_upload', :locals => {
-			:field_name => field_name,
-			:uid => field.uid,
-			:asset => value,
-			:parent => parent
-		} %>
-		
-	<% when JsonObject::Types::Collection %>
-		
-		<%= render :partial => 'vrame/shared/meta_editor/file_upload', :locals => {
-			:field_name => field_name,
-			:uid => field.uid,
-			:collection => value,
-			:parent => parent
-		} %>
-		
-	<% when JsonObject::Types::Placemark %>
-		
-		<%= render :partial => 'vrame/shared/meta_editor/placemark', :locals => {
-			:field_name => field_name,
-			:field_id   => field_id,
-			:parent     => parent,
-			:value      => value
-		} %>
-		
-	<% end %>
-	
-	</div><!-- /.input-container -->
+    
+    <h3><label for="<%= field_id %>"><%= h field.title %></label></h3>
+    
+    <% unless field.description.blank? %>
+        <p class="meta-field-description"><%=h field.description %></p>
+    <% end %>
+    
+    <div class="input-container">
+    
+    <% case field when JsonObject::Types::String %>
+        
+        <input type="text" name="<%= field_name %>" id="<%= field_id %>" value="<%= h value %>" />
+        
+    <% when JsonObject::Types::Text %>
+        
+        <textarea name="<%= field_name %>" id="<%= field_id %>" class="rte-zone"><%= value %></textarea>
+        
+    <% when JsonObject::Types::Bool %>
+        
+        <%= hidden_field_tag field_name, 0 %>
+        <label>
+            <%= check_box_tag field_name, '1', value %>
+            Aktivieren
+        </label>
+        
+    <% when JsonObject::Types::Datetime %>
+        
+        <input type="text" name="<%= field_name %>" id="<%= field_id %>" value="<%= value %>" class="datepicker" />
+        
+    <% when JsonObject::Types::Select %>
+        
+        <%= render :partial => 'vrame/shared/meta_editor/select_options', :locals => {
+            :field => field,
+            :field_name => field_name,
+            :value => value
+        } %>
+    
+    <% when JsonObject::Types::MultiSelect %>
+        
+        <%= render :partial => 'vrame/shared/meta_editor/select_options', :locals => {
+            :field => field,
+            :field_name => field_name,
+            :value => value
+        } %>
+    
+    <% when JsonObject::Types::Asset %>
+        
+        <%= render :partial => 'vrame/shared/meta_editor/file_upload', :locals => {
+            :field_name => field_name,
+            :uid => field.uid,
+            :asset => value,
+            :parent => parent,
+            :schema_attribute => schema_attribute
+        } %>
+        
+    <% when JsonObject::Types::Collection %>
+        
+        <%= render :partial => 'vrame/shared/meta_editor/file_upload', :locals => {
+            :field_name => field_name,
+            :uid => field.uid,
+            :collection => value,
+            :parent => parent,
+            :schema_attribute => schema_attribute
+        } %>
+        
+    <% when JsonObject::Types::Placemark %>
+        
+        <%= render :partial => 'vrame/shared/meta_editor/placemark', :locals => {
+            :field_name => field_name,
+            :field_id   => field_id,
+            :parent     => parent,
+            :value      => value
+        } %>
+        
+    <% end %>
+    
+    </div><!-- /.input-container -->
 </li><!-- /li.meta-field -->

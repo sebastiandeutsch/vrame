@@ -1,54 +1,54 @@
 <% if defined?(asset) :
-	type = 'asset'
-	assets = [asset]
-	id = asset.try(:id)
+    type = 'asset'
+    assets = [asset]
+    id = asset.try(:id)
 elsif defined?(collection) :
-	type = 'collection'
-	assets = collection.is_a?(Collection) ? collection.assets : []
-	id = collection.try(:id)
+    type = 'collection'
+    assets = collection.is_a?(Collection) ? collection.assets : []
+    id = collection.try(:id)
 end %>
 
 <% parent_name = parent.class.to_s %>
 <% parent_name_lowercase = parent_name.downcase %>
 
 <div
-	class             = "file-upload"
-	data-upload-token = "<%= current_user.single_access_token %>"
-	data-parent-id    = "<%= parent.id %>"
-	data-parent-type  = "<%= parent_name %>"
-	data-upload-type  = "<%= type %>"
-	<% if defined?(uid)  %> <%# TODO Dirty Hack  %>
-		data-schema-class = "Category"
-		data-schema-id    = "<%= parent.is_a?(Category) ? parent.id : parent.category.id %>"
-		data-schema-attr  = "schema"
-		data-schema-uid   = "<%= uid %>"
-	<% end %>
-	<% if type == 'collection' and id -%>
-		data-collection-id = "<%= id %>"
-	<%- end %>
+    class             = "file-upload"
+    data-upload-token = "<%= current_user.single_access_token %>"
+    data-parent-id    = "<%= parent.id %>"
+    data-parent-type  = "<%= parent_name %>"
+    data-upload-type  = "<%= type %>"
+    <% if defined?(uid)  %> <%# TODO Dirty Hack  %>
+        data-schema-class = "Category"
+        data-schema-id    = "<%= parent.is_a?(Category) ? parent.id : parent.category.id %>"
+        data-schema-attr  = "<%= schema_attribute %>"
+        data-schema-uid   = "<%= uid %>"
+    <% end %>
+    <% if type == 'collection' and id -%>
+        data-collection-id = "<%= id %>"
+    <%- end %>
 >
-	
-	<%# ****** Field with child id (asset or collection)%>
-	<input type="text" name="<%= field_name %>" value="<%= id %>" class="<%= type %>-id" />
-	
-	<%# ****** Field to set up child-to-parent relation %>
-	<input type="text" name="<%=h parent_name_lowercase %>[<%= type %>_ids][]" value="<%= id %>" class="<%= type %>-id" />
-	
-	<%# ****** Placeholder element for Flash upload button %>
-	<% defined?(@upload_button_number) ? @upload_button_number += 1 : @upload_button_number = 1 %>
-	<p class="upload-button" id="upload-button-<%= @upload_button_number %>">
-		Bitte aktivieren Sie Flash für den Datei-Upload.
-	</p>
-	
-	<%# ****** Upload Queue %>
-	<ol class="upload-queue"></ol>
-	
-	<%# ****** Collection sorting %>
-	<% if type == 'collection' && id %>
-		<p id="rearrange-collection"><%= link_to "Assets sortieren", rearrange_vrame_collection_path(collection), :class => 'smaller button invert' %></p>
-	<% end %>
-	
-	<%# ****** Asset list %>
-	<%= render :partial => 'vrame/shared/asset_list', :locals => { :assets => assets } %>
-	
+    
+    <%# ****** Field with child id (asset or collection)%>
+    <input type="text" name="<%= field_name %>" value="<%= id %>" class="<%= type %>-id" />
+    
+    <%# ****** Field to set up child-to-parent relation %>
+    <input type="text" name="<%=h parent_name_lowercase %>[<%= type %>_ids][]" value="<%= id %>" class="<%= type %>-id" />
+    
+    <%# ****** Placeholder element for Flash upload button %>
+    <% defined?(@upload_button_number) ? @upload_button_number += 1 : @upload_button_number = 1 %>
+    <p class="upload-button" id="upload-button-<%= @upload_button_number %>">
+        Bitte aktivieren Sie Flash für den Datei-Upload.
+    </p>
+    
+    <%# ****** Upload Queue %>
+    <ol class="upload-queue"></ol>
+    
+    <%# ****** Collection sorting %>
+    <% if type == 'collection' && id %>
+        <p id="rearrange-collection"><%= link_to "Assets sortieren", rearrange_vrame_collection_path(collection), :class => 'smaller button invert' %></p>
+    <% end %>
+    
+    <%# ****** Asset list %>
+    <%= render :partial => 'vrame/shared/asset_list', :locals => { :assets => assets } %>
+    
 </div><!-- /.file-upload -->

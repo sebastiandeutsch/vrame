@@ -2,20 +2,21 @@
 
 <% form_for [:vrame, @category] do |f| %>
 
-	<fieldset>
-		<% @category.eigenschema.fields.each do |field| %>
-			<%= render :partial => 'vrame/shared/meta_editor/meta_field', :locals => {
-				:parent => @category,
-				:parent_name => 'category',
-				:field => field
-			} %>
-		<% end %>
-	</fieldset>
+    <fieldset>
+        <% @category.eigenschema.fields.each do |field| %>
+            <%= render :partial => 'vrame/shared/meta_editor/meta_field', :locals => {
+                :parent => @category,
+                :parent_name => 'category',
+                :field => field,
+                :schema_attribute => 'eigenschema'
+            } %>
+        <% end %>
+    </fieldset>
 
-	<ul>
-		<li class="last">
-			<%= f.submit 'Speichern', :class => 'submit' %> oder <%= link_to '« zurück', vrame_categories_path %>
-		</li>
-	</ul>
+    <ul>
+        <li class="last">
+            <%= f.submit 'Speichern', :class => 'submit' %> oder <%= link_to '« zurück', vrame_categories_path %>
+        </li>
+    </ul>
 
 <% end %>
