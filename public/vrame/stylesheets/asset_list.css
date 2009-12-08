@@ -47,6 +47,7 @@
 
 .asset-list .beside-image {
 	float: left;
+	width: 185px;
 	padding-left: 10px;
 }
 
