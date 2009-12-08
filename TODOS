@@ -50,5 +50,7 @@ Fixes
 ------------------------------------------------------------------------------
 - Breadcrumbs belong in a helper, not in the controller
 - bg_thumb style is project specific, remove it from vrame
-- When moving categories to another super-category, recalculate all positions
-  within the super-category
+- Replace acts_as_list and acts_as_tree with awesome_nested_set
+- Remove MySQL dependency
+- Specify JSON as a dependency
+- Make Vrame verify the correct version of the NineAuthEngine
