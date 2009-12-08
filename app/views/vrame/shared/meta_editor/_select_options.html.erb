@@ -5,10 +5,10 @@
 			<input
 				<% if field.is_a? JsonObject::Types::MultiSelect %>
 					type="checkbox"
-					<%= 'checked="checked"' if value.include?(option) %>
+					<%= 'checked="checked"' if value.is_a?(Array) && value.include?(option) %>
 				<% else %>
 					type="radio"
-					<%= 'checked="checked"' if value==option %>
+					<%= 'checked="checked"' if value == option %>
 				<% end %>
 				name="<%= field_name %>"
 				value="<%=h option %>">

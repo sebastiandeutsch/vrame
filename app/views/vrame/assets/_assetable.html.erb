@@ -1,11 +1,12 @@
 <% assetable = asset.assetable %>
+<% assetable_type = asset.assetable_type %>
 <% if assetable %>
-	<% if asset.assetable_type == 'Document' %>
+	<% if assetable_type == 'Document' %>
 		<p>
 			Dokument
 			<%= link_to assetable.title, [:edit, :vrame, assetable] %>
 		</p>
-	<% elsif asset.assetable_type == 'Collection' %>
+	<% elsif assetable_type == 'Collection' %>
 		<% collectionable = assetable.collectionable %>
 		<% if collectionable %>
 			<p>
@@ -16,7 +17,7 @@
 			<p>Collection ohne Zugehörigkeit</p>
 		<% end %>
 	<% else %>
-		<p><%= link_to "#{asset.title} #{asset.assetable_type}", "/vrame/assets/#{asset.id}" %></p>
+		<p><%= link_to "#{assetable_type}: #{assetable.try(:title)} ", "/vrame/assets/#{asset.id}" %></p>
 	<% end %>
 <% else %>
 	<p>möglicherwese verwaist (kein Verweis von Asset auf Assetable, ggf. nur umgekehrt)</p>

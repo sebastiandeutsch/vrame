@@ -21,7 +21,7 @@ class Document < ActiveRecord::Base
       {:conditions => ["category_id IS NULL"]}
     end
   }
-  named_scope :published, :conditions => '`documents`.`published` = 1'
+  named_scope :published, :conditions => ['`documents`.`published` = ?', true]
   named_scope :by_language, lambda { |language| { :conditions => { :language_id => language.id } } }
   
   validates_presence_of :title

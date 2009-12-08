@@ -19,7 +19,7 @@ end %>
 	data-upload-type  = "<%= type %>"
 	<% if defined?(uid)  %> <%# TODO Dirty Hack  %>
 		data-schema-class = "Category"
-		data-schema-id    = "<%= parent.category.id %>"
+		data-schema-id    = "<%= parent.is_a?(Category) ? parent.id : parent.category.id %>"
 		data-schema-attr  = "schema"
 		data-schema-uid   = "<%= uid %>"
 	<% end %>

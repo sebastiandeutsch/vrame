@@ -23,22 +23,26 @@
 	<% when JsonObject::Types::Bool %>
 		
 		<%= hidden_field_tag field_name, 0 %>
-		<%= check_box_tag field_name, '1', value, :id => field_id %> <%= label field_id, "Aktivieren" %>
+		<label>
+			<%= check_box_tag field_name, '1', value %>
+			Aktivieren
+		</label>
 		
 	<% when JsonObject::Types::Datetime %>
 		
 		<input type="text" name="<%= field_name %>" id="<%= field_id %>" value="<%= value %>" class="datepicker" />
 		
 	<% when JsonObject::Types::Select %>
-		<%= render :partial => 'vrame/shared/select_options', :locals => {
+		
+		<%= render :partial => 'vrame/shared/meta_editor/select_options', :locals => {
 			:field => field,
 			:field_name => field_name,
 			:value => value
 		} %>
 	
 	<% when JsonObject::Types::MultiSelect %>
-	
-		<%= render :partial => 'vrame/shared/select_options', :locals => {
+		
+		<%= render :partial => 'vrame/shared/meta_editor/select_options', :locals => {
 			:field => field,
 			:field_name => field_name,
 			:value => value
@@ -46,7 +50,7 @@
 	
 	<% when JsonObject::Types::Asset %>
 		
-		<%= render :partial => 'vrame/shared/file_upload', :locals => {
+		<%= render :partial => 'vrame/shared/meta_editor/file_upload', :locals => {
 			:field_name => field_name,
 			:uid => field.uid,
 			:asset => value,
@@ -55,7 +59,7 @@
 		
 	<% when JsonObject::Types::Collection %>
 		
-		<%= render :partial => 'vrame/shared/file_upload', :locals => {
+		<%= render :partial => 'vrame/shared/meta_editor/file_upload', :locals => {
 			:field_name => field_name,
 			:uid => field.uid,
 			:collection => value,
@@ -63,14 +67,14 @@
 		} %>
 		
 	<% when JsonObject::Types::Placemark %>
-
-		<%= render :partial => 'vrame/shared/placemark', :locals => {
+		
+		<%= render :partial => 'placemark', :locals => {
 			:field_name => field_name,
 			:field_id   => field_id,
 			:parent     => parent,
 			:value      => value
 		} %>
-
+		
 	<% end %>
 	
 	</div><!-- /.input-container -->
