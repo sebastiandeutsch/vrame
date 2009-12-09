@@ -36,7 +36,8 @@ jQuery(function ($) {
   };
   
   // Install handlers if we're on a page that is a 'new' or 'edit' form
-  if (!!document.body.className.match(/va_edit|va_new/)) {
+  if (!!document.body.className.match(/va_edit|va_new/) &&
+      !!document.body.className.match(/vc_vrame_categories|vc_vrame_documents/)) {
     $('input, textarea, select').change(onChangeHandler);
     $('form').submit(onSubmitHandler);
     window.onbeforeunload = onBeforeUnloadHandler;
