@@ -13,7 +13,7 @@
 
             <li class="last">
                 <%= f.label :parent_id, 'Eltern-Kategorie:' %>
-                <%= tree_select(:category, :parent_id, Category.roots, :id, :title, :include_blank => true) %>
+                <%= tree_select(:category, :parent_id, controller.category_by_language.roots, :id, :title, :include_blank => true) %>
             </li>
         </ul>
     </fieldset>
