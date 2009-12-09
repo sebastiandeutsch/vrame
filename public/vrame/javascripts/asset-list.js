@@ -47,7 +47,7 @@ jQuery(function ($) {
         var uploadContainer = deleteLink.closest('div.file-upload');
         var uploadType = uploadContainer.attr('data-upload-type');
         if (uploadType == 'asset') {
-            //vrame.unsavedChanges = true;
+            vrame.unsavedChanges = true;
             uploadContainer.find('input.asset-id').val('');
         }
         
