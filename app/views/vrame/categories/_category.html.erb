@@ -20,7 +20,7 @@
 			:id => "add-document-to-category-#{category.to_param}"
 		%>
 		<%= link_to '<img src="/vrame/images/admin/magnifier.png" alt="Vorschau" title="Vorschau" />',
-			category.url.empty? ? category : "/#{category.url}",
+      category.frontend_path,
 			:id => "preview-category-#{category.to_param}"
 		%>
 	</div>

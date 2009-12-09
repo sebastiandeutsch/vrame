@@ -37,6 +37,16 @@ class Category < ActiveRecord::Base
     '/vrame/' + backend_url
   end
   
+  def frontend_path
+    if self.url.blank?
+      self
+    elsif self.url =~ /^\//
+      self.url
+    else
+      "/#{self.url}"
+    end
+  end
+  
   def to_public_hash
     
     # Convert category to hash, only accept some attributes
