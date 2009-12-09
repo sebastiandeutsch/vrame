@@ -40,15 +40,15 @@ class DocumentsController < ApplicationController
     @public_document = @document.to_public_hash
     
     respond_to do |format|
+      format.html do
+        @page_title = @document.title
+        render(@document.render_options.blank? ? nil : @document.render_options)
+      end
       format.json do
         render :json => @public_document
       end
       format.xml do
         render :xml  => @public_document
-      end
-      format.html do
-        @page_title = @document.title
-        render(@document.render_options.blank? ? nil : @document.render_options)
       end
     end
   end
