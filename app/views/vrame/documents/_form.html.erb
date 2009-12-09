@@ -71,13 +71,9 @@
 				<%= f.label :url, "URL:" %>
 				<%= f.text_field :url %> <em><%= f.error_message_on :url %></em>
 			</li>
-			<li>
+			<li class="last">
 				<%= f.label :backend_url, "Backend-URL:" %>
 				<%= f.text_field :backend_url %> <em><%= f.error_message_on :backend_url %></em>
-			</li>
-			<li class="last">
-				<%= f.label :language_id, "Sprache:" %>
-				<%= collection_select :document, :language_id, Language.all, :id, :name %>
 			</li>
 		</ul>
 	</fieldset>

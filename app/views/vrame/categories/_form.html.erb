@@ -7,22 +7,13 @@
                 <em><%= f.error_message_on :title %></em>
             </li>
             
-            <li class="last">
+            <li>
                 <%= render :partial => 'vrame/shared/slug_field', :locals => { :sluggable => category } %>
             </li>
-        </ul>
-    </fieldset>
-    
-    <fieldset>
-        <h3>Zuordnung und Sprache</h3>
-        <ul id="parent-category-language">
-            <li>
+
+            <li class="last">
                 <%= f.label :parent_id, 'Eltern-Kategorie:' %>
                 <%= tree_select(:category, :parent_id, Category.roots, :id, :title, :include_blank => true) %>
-            </li>
-            <li class="last">
-                <%= f.label :language_id, "Sprache:" %>
-                <%= collection_select :category, :language_id, Language.all, :id, :name %>
             </li>
         </ul>
     </fieldset>
