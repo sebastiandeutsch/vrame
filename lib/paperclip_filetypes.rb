@@ -4,19 +4,19 @@ module Paperclip
     MovieFileExtensions = %w(flv m4v)
     
     def self.is_image? (filename)
-      ImageFileExtensions.include?(File.extname(filename)[1..-1])
+      ImageFileExtensions.include?(File.extname(filename)[1..-1].downcase)
     end
     
     def is_image? ()
-      ImageFileExtensions.include?(File.extname(original_filename)[1..-1])
+      ImageFileExtensions.include?(File.extname(original_filename)[1..-1].downcase)
     end
 
     def self.is_movie? (filename)
-      MovieFileExtensions.include?(File.extname(filename)[1..-1])
+      MovieFileExtensions.include?(File.extname(filename)[1..-1].downcase)
     end
     
     def is_movie? ()
-      MovieFileExtensions.include?(File.extname(original_filename)[1..-1])
+      MovieFileExtensions.include?(File.extname(original_filename)[1..-1].downcase)
     end
     
   end
