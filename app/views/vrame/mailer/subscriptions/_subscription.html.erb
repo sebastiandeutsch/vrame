@@ -1,8 +1,0 @@
-<tr>
-  <td><%= subscription.email %></td>
-  <td><%= subscription.full_name %></td>
-  <td><%= I18n.l subscription.created_at.to_date %></td>
-  <td class="options">
-    <%= link_to 'Entfernen', vrame_mailer_subscription_path(subscription), :method => 'delete', :class => 'delete', :confirm => 'Wirklich löschen?' %>
-  </td>
-</tr>

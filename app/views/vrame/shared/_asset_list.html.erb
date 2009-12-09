@@ -1,6 +1,0 @@
-<ol class="asset-list">
-<% for asset in assets %>
-	<% next if not (asset and asset.id) %>
-	<%= render :partial => 'vrame/shared/asset_list_item', :locals => { :asset => asset } %>
-<% end %>
-</ol>
